@@ -2,13 +2,11 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5f708e52-38eb-4751-85e6-a92dc99a51c8}</ProjectGuid>
-    <RootNamespace>png_editor</RootNamespace>
     <PackageCertificateKeyFile>TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <Import Project="../cpp.props" />
   <ItemGroup>
     <ClCompile Include="ViewModel\ViewAppState.cpp" />
-    <ClCompile Include="ViewModel\ViewModelBase.cpp" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
@@ -21,7 +19,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <ClInclude Include="ViewModel\ViewAppState.h" />
-    <ClInclude Include="ViewModel\ViewModelBase.h" />
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -21,7 +21,7 @@
     <MinimumVisualStudioVersion Condition=" '$(MinimumVisualStudioVersion)' == '' ">$(VsRelease).0</MinimumVisualStudioVersion>
     <PlatformToolset Condition=" '$(PlatformToolset)' == '' ">v$(VsRelease)0</PlatformToolset>
     <ProjectName Condition=" '$(ProjectName)' == '' ">$(MSBuildProjectName)</ProjectName>
-    <RootNamespace Condition=" '$(RootNamespace)' == '' ">$(RootNamespace)</RootNamespace>
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">$(ProjectName)</RootNamespace>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
 
     <!-- Output paths -->

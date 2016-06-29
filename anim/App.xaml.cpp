@@ -2,7 +2,7 @@
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
 
-png_editor::App::App()
+anim::App::App()
 {
 	this->InitializeComponent();
 
@@ -10,16 +10,16 @@ png_editor::App::App()
 	this->Resuming += ref new Windows::Foundation::EventHandler<Platform::Object ^>(this, &App::OnResuming);
 }
 
-png_editor::App::~App()
+anim::App::~App()
 {
 }
 
-png_editor::App ^png_editor::App::Current::get()
+anim::App ^anim::App::Current::get()
 {
-	return safe_cast<App ^>(Application::Current);
+	return safe_cast<App ^>(Windows::UI::Xaml::Application::Current);
 }
 
-void png_editor::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args)
+void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args)
 {
 	this->InitializeProcess();
 
@@ -49,15 +49,15 @@ void png_editor::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchAc
 	}
 }
 
-void png_editor::App::InitializeProcess()
+void anim::App::InitializeProcess()
 {
 }
 
-void png_editor::App::InitializeGlobals()
+void anim::App::InitializeGlobals()
 {
 }
 
-void png_editor::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
+void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 {
 	MainPage ^page = ref new MainPage();
 	window->Content = page;
@@ -65,10 +65,10 @@ void png_editor::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 	window->Activate();
 }
 
-void png_editor::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args)
+void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args)
 {
 }
 
-void png_editor::App::OnResuming(Platform::Object ^sender, Platform::Object ^arg)
+void anim::App::OnResuming(Platform::Object ^sender, Platform::Object ^arg)
 {
 }

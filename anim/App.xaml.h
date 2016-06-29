@@ -2,7 +2,7 @@
 
 #include "App.g.h"
 
-namespace png_editor
+namespace anim
 {
 	ref class App sealed
 	{

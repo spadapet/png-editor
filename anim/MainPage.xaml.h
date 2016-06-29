@@ -4,18 +4,22 @@
 
 class AppState;
 
-namespace png_editor
+namespace anim
 {
 	ref class ViewAppState;
 
 	public ref class MainPage sealed
 	{
 	internal:
-		MainPage(AppState *state);
+		MainPage(ViewAppState ^state);
 
 	public:
 		MainPage();
+		virtual ~MainPage();
 
 		property ViewAppState ^State { ViewAppState ^get(); }
+
+	private:
+		ViewAppState ^state;
 	};
 }

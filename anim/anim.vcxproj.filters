@@ -22,9 +22,6 @@
     <ClCompile Include="Model\AppState.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\ViewModelBase.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="ViewModel\ViewAppState.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
     <ClInclude Include="MainPage.xaml.h" />
     <ClInclude Include="Model\AppState.h">
       <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\ViewModelBase.h">
-      <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="ViewModel\ViewAppState.h">
       <Filter>ViewModel</Filter>
