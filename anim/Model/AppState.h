@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Event.h"
+
 namespace anim
 {
 	class AppState
@@ -7,6 +9,8 @@ namespace anim
 	public:
 		AppState();
 		~AppState();
+
+		ChangedEvent PropertyChanged;
 
 	private:
 	};

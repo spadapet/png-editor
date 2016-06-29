@@ -11,6 +11,9 @@
     <Filter Include="ViewModel">
       <UniqueIdentifier>{6ca5a358-d69a-490b-8959-80352c66492d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{924eee67-3bad-410f-91d5-32d128db9a5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="ViewModel\ViewAppState.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Event.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

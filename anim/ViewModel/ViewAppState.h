@@ -13,6 +13,9 @@ namespace anim
 		virtual ~ViewAppState();
 
 	private:
+		void ModelPropertyChanged(const char *name);
+
 		AppState *parent;
+		size_t modelChangedCookie;
 	};
 }

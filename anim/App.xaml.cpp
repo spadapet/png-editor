@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
+#include "ViewModel/ViewAppState.h"
 
 anim::App::App()
 {
@@ -59,7 +60,8 @@ void anim::App::InitializeGlobals()
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 {
-	MainPage ^page = ref new MainPage();
+	ViewAppState ^viewState = ref new ViewAppState(&state);
+	MainPage ^page = ref new MainPage(viewState);
 	window->Content = page;
 
 	window->Activate();

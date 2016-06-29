@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "App.g.h"
+#include "Model/AppState.h"
 
 namespace anim
 {
@@ -20,5 +21,7 @@ namespace anim
 
 		void OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^arg);
+
+		AppState state;
 	};
 }
