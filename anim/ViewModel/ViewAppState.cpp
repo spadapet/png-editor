@@ -4,9 +4,15 @@
 
 anim::ViewAppState::ViewAppState(AppState *parent)
 	: parent(parent)
+	, disposedCookie(NULL_EVENT_COOKIE)
 	, changedCookie(NULL_EVENT_COOKIE)
 {
 	assert(parent != nullptr);
+
+	this->disposedCookie = this->parent->Disposed.Add([this]()
+	{
+		this->parent = nullptr;
+	});
 
 	this->changedCookie = this->parent->PropertyChanged.Add([this](const char *name)
 	{
@@ -16,10 +22,19 @@ anim::ViewAppState::ViewAppState(AppState *parent)
 
 anim::ViewAppState::~ViewAppState()
 {
-	if (this->parent != nullptr && this->changedCookie != NULL_EVENT_COOKIE)
+	if (this->parent != nullptr)
 	{
-		this->parent->PropertyChanged.Remove(this->changedCookie);
-		this->changedCookie = NULL_EVENT_COOKIE;
+		if (this->changedCookie != NULL_EVENT_COOKIE)
+		{
+			this->parent->PropertyChanged.Remove(this->changedCookie);
+			this->changedCookie = NULL_EVENT_COOKIE;
+		}
+
+		if (this->disposedCookie != NULL_EVENT_COOKIE)
+		{
+			this->parent->Disposed.Remove(this->disposedCookie);
+			this->disposedCookie = NULL_EVENT_COOKIE;
+		}
 	}
 }
 

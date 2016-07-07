@@ -10,6 +10,7 @@ namespace anim
 		AppState();
 		~AppState();
 
+		SimpleEvent Disposed;
 		ChangedEvent PropertyChanged;
 
 	private:

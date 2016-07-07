@@ -6,6 +6,7 @@
   </PropertyGroup>
   <Import Project="../cpp.props" />
   <ItemGroup>
+    <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="ViewModel\ViewAppState.cpp" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Model\AppState.h" />

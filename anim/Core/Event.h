@@ -19,6 +19,21 @@ namespace anim
 		std::forward_list<FuncType> callbacks;
 	};
 
+	template<>
+	class Event<void>
+	{
+	public:
+		typedef std::function<void()> FuncType;
+
+		EventCookie Add(FuncType &&func);
+		void Remove(EventCookie cookie);
+		void Notify();
+
+	private:
+		std::forward_list<FuncType> callbacks;
+	};
+
+	typedef Event<void> SimpleEvent;
 	typedef Event<const char *> ChangedEvent;
 }
 

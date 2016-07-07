@@ -28,6 +28,9 @@
     <ClCompile Include="ViewModel\ViewAppState.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Event.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

@@ -7,4 +7,5 @@ anim::AppState::AppState()
 
 anim::AppState::~AppState()
 {
+	Disposed.Notify();
 }
