@@ -4,11 +4,11 @@
 
 anim::ViewAppState::ViewAppState(AppState *parent)
 	: parent(parent)
-	, modelChangedCookie(0)
+	, changedCookie(NULL_EVENT_COOKIE)
 {
 	assert(parent != nullptr);
 
-	this->modelChangedCookie = this->parent->PropertyChanged.Add([this](const char *name)
+	this->changedCookie = this->parent->PropertyChanged.Add([this](const char *name)
 	{
 		this->ModelPropertyChanged(name);
 	});
@@ -16,10 +16,10 @@ anim::ViewAppState::ViewAppState(AppState *parent)
 
 anim::ViewAppState::~ViewAppState()
 {
-	if (this->parent != nullptr && this->modelChangedCookie != 0)
+	if (this->parent != nullptr && this->changedCookie != NULL_EVENT_COOKIE)
 	{
-		this->parent->PropertyChanged.Remove(this->modelChangedCookie);
-		this->modelChangedCookie = 0;
+		this->parent->PropertyChanged.Remove(this->changedCookie);
+		this->changedCookie = NULL_EVENT_COOKIE;
 	}
 }
 

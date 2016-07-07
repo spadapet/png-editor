@@ -2,71 +2,51 @@
 
 namespace anim
 {
+	typedef void *EventCookie;
+	const EventCookie NULL_EVENT_COOKIE = nullptr;
+
 	template<typename... Args>
 	class Event
 	{
 	public:
-		Event();
-		~Event();
-
 		typedef std::function<void(Args...)> FuncType;
 
-		size_t Add(FuncType &&func);
-		void Remove(size_t cookie);
+		EventCookie Add(FuncType &&func);
+		void Remove(EventCookie cookie);
 		void Notify(Args... args);
 
 	private:
-		struct Entry
-		{
-			FuncType callback;
-
-			Entry(FuncType &&callback)
-				: callback(std::move(callback))
-			{
-			}
-		};
-
-		std::list<Entry> callbacks;
+		std::forward_list<FuncType> callbacks;
 	};
 
 	typedef Event<const char *> ChangedEvent;
 }
 
 template<typename... Args>
-anim::Event<Args...>::Event()
+anim::EventCookie anim::Event<Args...>::Add(FuncType &&func)
 {
+	return &*this->callbacks.emplace_after(this->callbacks.before_begin(), func);
 }
 
 template<typename... Args>
-anim::Event<Args...>::~Event()
+void anim::Event<Args...>::Remove(EventCookie cookie)
 {
-}
-
-template<typename... Args>
-size_t anim::Event<Args...>::Add(FuncType &&func)
-{
-	auto i = this->callbacks.emplace(this->callbacks.end(), std::move(func));
-	return (size_t)&*i;
-}
-
-template<typename... Args>
-void anim::Event<Args...>::Remove(size_t cookie)
-{
-	for (auto i = this->callbacks.begin(); i != this->callbacks.end(); i++)
-	{
-		if ((size_t)&*i == cookie)
-		{
-			this->callbacks.erase(i);
-			break;
-		}
-	}
+	*(FuncType *)cookie = FuncType();
 }
 
 template<typename... Args>
 void anim::Event<Args...>::Notify(Args... args)
 {
-	for (const Entry &entry : callbacks)
+	for (auto prev = this->callbacks.before_begin(), i = this->callbacks.begin(); i != this->callbacks.end(); prev = i++)
 	{
-		entry.callback(args...);
+		if (*i == nullptr)
+		{
+			this->callbacks.erase_after(prev);
+			i = prev;
+		}
+		else
+		{
+			(*i)(args...);
+		}
 	}
 }

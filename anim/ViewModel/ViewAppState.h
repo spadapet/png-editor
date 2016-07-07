@@ -16,6 +16,6 @@ namespace anim
 		void ModelPropertyChanged(const char *name);
 
 		AppState *parent;
-		size_t modelChangedCookie;
+		EventCookie changedCookie;
 	};
 }
