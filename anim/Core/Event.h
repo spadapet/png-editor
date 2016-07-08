@@ -12,7 +12,7 @@ namespace anim
 		typedef std::function<void(Args...)> FuncType;
 
 		EventCookie Add(FuncType &&func);
-		void Remove(EventCookie cookie);
+		void Remove(EventCookie &cookie);
 		void Notify(Args... args);
 
 	private:
@@ -26,7 +26,7 @@ namespace anim
 		typedef std::function<void()> FuncType;
 
 		EventCookie Add(FuncType &&func);
-		void Remove(EventCookie cookie);
+		void Remove(EventCookie &cookie);
 		void Notify();
 
 	private:
@@ -44,9 +44,13 @@ anim::EventCookie anim::Event<Args...>::Add(FuncType &&func)
 }
 
 template<typename... Args>
-void anim::Event<Args...>::Remove(EventCookie cookie)
+void anim::Event<Args...>::Remove(EventCookie &cookie)
 {
-	*(FuncType *)cookie = FuncType();
+	if (cookie != NULL_EVENT_COOKIE)
+	{
+		*(FuncType *)cookie = FuncType();
+		cookie = NULL_EVENT_COOKIE;
+	}
 }
 
 template<typename... Args>

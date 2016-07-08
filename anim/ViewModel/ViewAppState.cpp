@@ -4,17 +4,17 @@
 
 anim::ViewAppState::ViewAppState(AppState *parent)
 	: parent(parent)
-	, disposedCookie(NULL_EVENT_COOKIE)
-	, changedCookie(NULL_EVENT_COOKIE)
+	, parentDisposedCookie(NULL_EVENT_COOKIE)
+	, parentChangedCookie(NULL_EVENT_COOKIE)
 {
 	assert(parent != nullptr);
 
-	this->disposedCookie = this->parent->Disposed.Add([this]()
+	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
 	{
 		this->parent = nullptr;
 	});
 
-	this->changedCookie = this->parent->PropertyChanged.Add([this](const char *name)
+	this->parentChangedCookie = this->parent->PropertyChanged.Add([this](const char *name)
 	{
 		this->ModelPropertyChanged(name);
 	});
@@ -24,18 +24,14 @@ anim::ViewAppState::~ViewAppState()
 {
 	if (this->parent != nullptr)
 	{
-		if (this->changedCookie != NULL_EVENT_COOKIE)
-		{
-			this->parent->PropertyChanged.Remove(this->changedCookie);
-			this->changedCookie = NULL_EVENT_COOKIE;
-		}
-
-		if (this->disposedCookie != NULL_EVENT_COOKIE)
-		{
-			this->parent->Disposed.Remove(this->disposedCookie);
-			this->disposedCookie = NULL_EVENT_COOKIE;
-		}
+		this->parent->PropertyChanged.Remove(this->parentChangedCookie);
+		this->parent->Disposed.Remove(this->parentDisposedCookie);
 	}
+}
+
+void anim::ViewAppState::NotifyPropertyChanged(Platform::String ^name)
+{
+	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
 void anim::ViewAppState::ModelPropertyChanged(const char *name)

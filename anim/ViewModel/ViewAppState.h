@@ -4,7 +4,8 @@ namespace anim
 {
 	class AppState;
 
-	public ref class ViewAppState sealed
+	[Windows::Foundation::Metadata::WebHostHidden]
+	public ref class ViewAppState sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
 		ViewAppState(AppState *parent);
@@ -12,11 +13,14 @@ namespace anim
 	public:
 		virtual ~ViewAppState();
 
+		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
+
 	private:
+		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void ModelPropertyChanged(const char *name);
 
 		AppState *parent;
-		EventCookie disposedCookie;
-		EventCookie changedCookie;
+		EventCookie parentDisposedCookie;
+		EventCookie parentChangedCookie;
 	};
 }

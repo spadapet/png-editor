@@ -6,9 +6,13 @@ anim::EventCookie anim::Event<void>::Add(FuncType &&func)
 	return &*this->callbacks.emplace_after(this->callbacks.before_begin(), func);
 }
 
-void anim::Event<void>::Remove(EventCookie cookie)
+void anim::Event<void>::Remove(EventCookie &cookie)
 {
-	*(FuncType *)cookie = FuncType();
+	if (cookie != NULL_EVENT_COOKIE)
+	{
+		*(FuncType *)cookie = FuncType();
+		cookie = NULL_EVENT_COOKIE;
+	}
 }
 
 void anim::Event<void>::Notify()
