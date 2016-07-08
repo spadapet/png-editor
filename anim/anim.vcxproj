@@ -7,8 +7,10 @@
   <Import Project="../cpp.props" />
   <ItemGroup>
     <ClCompile Include="Core\Event.cpp" />
+    <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="ViewModel\ViewAppState.cpp" />
     <ClInclude Include="Core\Event.h" />
+    <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">

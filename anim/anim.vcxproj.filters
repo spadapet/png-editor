@@ -31,6 +31,9 @@
     <ClCompile Include="Core\Event.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\String.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -43,6 +46,9 @@
       <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="Core\Event.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\String.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
