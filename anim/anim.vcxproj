@@ -9,6 +9,7 @@
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="ViewModel\ViewAppState.cpp" />
+    <ClCompile Include="ViewModel\ViewProjectFolder.cpp" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppState.h" />
@@ -23,6 +24,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <ClInclude Include="ViewModel\ViewAppState.h" />
+    <ClInclude Include="ViewModel\ViewProjectFolder.h" />
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>

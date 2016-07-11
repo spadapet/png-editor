@@ -34,6 +34,9 @@
     <ClCompile Include="Core\String.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\ViewProjectFolder.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="Core\String.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ViewProjectFolder.h">
+      <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,8 @@ namespace anim
 
 		SimpleEvent Disposed;
 		ChangedEvent PropertyChanged;
+		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
+		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
 
