@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
-#include "MainPage.xaml.h"
-#include "ViewModel/ViewAppState.h"
+#include "UI/MainPage.xaml.h"
+#include "ViewModel/AppShellState.h"
 
 anim::App::App()
 {
@@ -18,6 +18,16 @@ anim::App::~App()
 anim::App ^anim::App::Current::get()
 {
 	return safe_cast<App ^>(Windows::UI::Xaml::Application::Current);
+}
+
+anim::AppState &anim::App::GetGlobalState()
+{
+	return this->state;
+}
+
+const anim::AppState &anim::App::GetGlobalState() const
+{
+	return this->state;
 }
 
 void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args)
@@ -60,10 +70,7 @@ void anim::App::InitializeGlobals()
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 {
-	ViewAppState ^viewState = ref new ViewAppState(&state);
-	MainPage ^page = ref new MainPage(viewState);
-	window->Content = page;
-
+	window->Content = ref new MainPage();
 	window->Activate();
 }
 

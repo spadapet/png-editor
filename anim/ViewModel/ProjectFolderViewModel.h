@@ -2,11 +2,11 @@
 
 namespace anim
 {
-	public ref class ViewProjectFolder sealed
+	public ref class ProjectFolderViewModel sealed
 	{
 	public:
-		ViewProjectFolder(Windows::Storage::StorageFolder ^folder);
-		virtual ~ViewProjectFolder();
+		ProjectFolderViewModel(Windows::Storage::StorageFolder ^folder);
+		virtual ~ProjectFolderViewModel();
 		void Dispose();
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }

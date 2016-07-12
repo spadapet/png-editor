@@ -8,8 +8,15 @@
   <ItemGroup>
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\String.cpp" />
-    <ClCompile Include="ViewModel\ViewAppState.cpp" />
-    <ClCompile Include="ViewModel\ViewProjectFolder.cpp" />
+    <ClCompile Include="UI\AppShell.xaml.cpp">
+      <DependentUpon>UI\AppShell.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="UI\MainPage.xaml.cpp">
+      <DependentUpon>UI\MainPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="ViewModel\MainPageState.cpp" />
+    <ClCompile Include="ViewModel\AppShellState.cpp" />
+    <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppState.h" />
@@ -17,26 +24,24 @@
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="MainPage.xaml.h">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </ClInclude>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <ClInclude Include="ViewModel\ViewAppState.h" />
-    <ClInclude Include="ViewModel\ViewProjectFolder.h" />
-    <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <ClInclude Include="UI\AppShell.xaml.h">
+      <DependentUpon>UI\AppShell.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="UI\MainPage.xaml.h">
+      <DependentUpon>UI\MainPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="ViewModel\MainPageState.h" />
+    <ClInclude Include="ViewModel\AppShellState.h" />
+    <ClInclude Include="ViewModel\ProjectFolderViewModel.h" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="TemporaryKey.pfx" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="MainPage.xaml.cpp">
-      <DependentUpon>MainPage.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Model\AppState.cpp" />
     <ClCompile Include="pch.cpp">
@@ -51,6 +56,15 @@
     <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\AppShell.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\MainPage.xaml" />
+    <Page Include="UI\Theme.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

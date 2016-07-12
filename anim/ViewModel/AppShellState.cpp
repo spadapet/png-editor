@@ -1,21 +1,22 @@
 #include "pch.h"
+#include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/ViewAppState.h"
-#include "ViewModel/ViewProjectFolder.h"
+#include "ViewModel/AppShellState.h"
+#include "ViewModel/ProjectFolderViewModel.h"
 
-anim::ViewAppState::ViewAppState(AppState *parent)
-	: parent(parent)
+anim::AppShellState::AppShellState()
+	: parent(&App::Current->GetGlobalState())
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
-	, projectFolders(ref new Platform::Collections::Vector<ViewProjectFolder ^>())
+	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
 	assert(parent != nullptr);
 
 	for (Windows::Storage::StorageFolder ^folder : parent->GetProjectFolders())
 	{
-		this->projectFolders->Append(ref new ViewProjectFolder(folder));
+		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
 	}
 
 	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
@@ -30,14 +31,14 @@ anim::ViewAppState::ViewAppState(AppState *parent)
 
 	this->projectFolderAddedCookie = this->parent->ProjectFolderAdded.Add([this](Windows::Storage::StorageFolder ^folder)
 	{
-		this->projectFolders->Append(ref new ViewProjectFolder(folder));
+		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
 	});
 
 	this->projectFolderRemovedCookie = this->parent->ProjectFolderRemoved.Add([this](Windows::Storage::StorageFolder ^folder)
 	{
 		for (unsigned int i = 0; i < this->projectFolders->Size; i++)
 		{
-			ViewProjectFolder ^projectFolder = this->projectFolders->GetAt(i);
+			ProjectFolderViewModel ^projectFolder = this->projectFolders->GetAt(i);
 			if (projectFolder->Folder == folder)
 			{
 				projectFolder->Dispose();
@@ -48,9 +49,9 @@ anim::ViewAppState::ViewAppState(AppState *parent)
 	});
 }
 
-anim::ViewAppState::~ViewAppState()
+anim::AppShellState::~AppShellState()
 {
-	for (ViewProjectFolder ^projectFolder : this->projectFolders)
+	for (ProjectFolderViewModel ^projectFolder : this->projectFolders)
 	{
 		projectFolder->Dispose();
 	}
@@ -64,16 +65,16 @@ anim::ViewAppState::~ViewAppState()
 	}
 }
 
-Windows::Foundation::Collections::IVector<anim::ViewProjectFolder ^> ^anim::ViewAppState::ProjectFolders::get()
+Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::AppShellState::ProjectFolders::get()
 {
 	return this->projectFolders;
 }
 
-void anim::ViewAppState::NotifyPropertyChanged(Platform::String ^name)
+void anim::AppShellState::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
-void anim::ViewAppState::ModelPropertyChanged(const char *name)
+void anim::AppShellState::ModelPropertyChanged(const char *name)
 {
 }

@@ -1,22 +1,21 @@
 #pragma once
 
-#include "ViewModel/ViewProjectFolder.h"
+#include "Core/Event.h"
+#include "ViewModel/ProjectFolderViewModel.h"
 
 namespace anim
 {
 	class AppState;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class ViewAppState sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class AppShellState sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
-	internal:
-		ViewAppState(AppState *parent);
-
 	public:
-		virtual ~ViewAppState();
+		AppShellState();
+		virtual ~AppShellState();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
-		property Windows::Foundation::Collections::IVector<ViewProjectFolder ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ViewProjectFolder ^> ^get(); }
+		property Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -28,6 +27,6 @@ namespace anim
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
 
-		Platform::Collections::Vector<ViewProjectFolder ^> ^projectFolders;
+		Platform::Collections::Vector<ProjectFolderViewModel ^> ^projectFolders;
 	};
 }

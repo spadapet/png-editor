@@ -14,19 +14,21 @@
     <Filter Include="Core">
       <UniqueIdentifier>{924eee67-3bad-410f-91d5-32d128db9a5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{1f682cf1-2648-429c-ba76-467f484e58d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Package">
+      <UniqueIdentifier>{7b3da740-bbaa-4c51-a897-78b48a25e224}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp" />
-    <ClCompile Include="MainPage.xaml.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Model\AppState.cpp">
       <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\ViewAppState.cpp">
-      <Filter>ViewModel</Filter>
     </ClCompile>
     <ClCompile Include="Core\Event.cpp">
       <Filter>Core</Filter>
@@ -34,19 +36,23 @@
     <ClCompile Include="Core\String.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\ViewProjectFolder.cpp">
+    <ClCompile Include="UI\AppShell.xaml.cpp" />
+    <ClCompile Include="UI\MainPage.xaml.cpp" />
+    <ClCompile Include="ViewModel\MainPageState.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\AppShellState.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h" />
-    <ClInclude Include="MainPage.xaml.h" />
     <ClInclude Include="Model\AppState.h">
       <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\ViewAppState.h">
-      <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="Core\Event.h">
       <Filter>Core</Filter>
@@ -54,7 +60,15 @@
     <ClInclude Include="Core\String.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\ViewProjectFolder.h">
+    <ClInclude Include="UI\AppShell.xaml.h" />
+    <ClInclude Include="UI\MainPage.xaml.h" />
+    <ClInclude Include="ViewModel\MainPageState.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\AppShellState.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectFolderViewModel.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -82,12 +96,24 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <Page Include="UI\MainPage.xaml">
+      <Filter>UI</Filter>
+    </Page>
+    <Page Include="UI\AppShell.xaml">
+      <Filter>UI</Filter>
+    </Page>
+    <Page Include="UI\Theme.xaml">
+      <Filter>UI</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainPage.xaml" />
+    <AppxManifest Include="Package.appxmanifest">
+      <Filter>Package</Filter>
+    </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TemporaryKey.pfx" />
+    <None Include="TemporaryKey.pfx">
+      <Filter>Package</Filter>
+    </None>
   </ItemGroup>
 </Project>

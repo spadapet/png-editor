@@ -14,6 +14,10 @@ namespace anim
 
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args) override;
 
+	internal:
+		AppState &GetGlobalState();
+		const AppState &GetGlobalState() const;
+
 	private:
 		void InitializeProcess();
 		void InitializeGlobals();
