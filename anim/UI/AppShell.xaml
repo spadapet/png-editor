@@ -6,5 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <TextBlock Foreground="White" Text="AppShell" />
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <ListBox x:Name="AppNavigationList" Width="40" ItemsSource="{x:Bind State.Panes}">
+        <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="local:AppPaneViewModel">
+                <TextBlock Text="{x:Bind Name}" />
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </Grid>

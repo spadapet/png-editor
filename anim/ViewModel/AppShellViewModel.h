@@ -6,15 +6,17 @@
 namespace anim
 {
 	class AppState;
+	ref class AppPaneViewModel;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class AppShellState sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class AppShellViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	public:
-		AppShellState();
-		virtual ~AppShellState();
+		AppShellViewModel();
+		virtual ~AppShellViewModel();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
+		property Windows::Foundation::Collections::IVector<AppPaneViewModel ^> ^Panes { Windows::Foundation::Collections::IVector<AppPaneViewModel ^> ^get(); }
 		property Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^get(); }
 
 	private:
@@ -27,6 +29,7 @@ namespace anim
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
 
+		Platform::Collections::Vector<AppPaneViewModel ^> ^panes;
 		Platform::Collections::Vector<ProjectFolderViewModel ^> ^projectFolders;
 	};
 }

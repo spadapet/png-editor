@@ -38,14 +38,20 @@
     </ClCompile>
     <ClCompile Include="UI\AppShell.xaml.cpp" />
     <ClCompile Include="UI\MainPage.xaml.cpp" />
-    <ClCompile Include="ViewModel\MainPageState.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\AppShellState.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp">
       <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\MainPageViewModel.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\AppShellViewModel.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\AppPaneViewModel.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\AppPane.cpp">
+      <Filter>Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,14 +68,20 @@
     </ClInclude>
     <ClInclude Include="UI\AppShell.xaml.h" />
     <ClInclude Include="UI\MainPage.xaml.h" />
-    <ClInclude Include="ViewModel\MainPageState.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\AppShellState.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="ViewModel\ProjectFolderViewModel.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\MainPageViewModel.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\AppShellViewModel.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\AppPaneViewModel.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\AppPane.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

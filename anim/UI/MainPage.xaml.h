@@ -6,7 +6,7 @@ class AppState;
 
 namespace anim
 {
-	ref class MainPageState;
+	ref class MainPageViewModel;
 
 	public ref class MainPage sealed
 	{
@@ -14,9 +14,9 @@ namespace anim
 		MainPage();
 		virtual ~MainPage();
 
-		property MainPageState ^State { MainPageState ^get(); }
+		property MainPageViewModel ^State { MainPageViewModel ^get(); }
 
 	private:
-		MainPageState ^state;
+		MainPageViewModel ^state;
 	};
 }

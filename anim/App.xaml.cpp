@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
 #include "UI/MainPage.xaml.h"
-#include "ViewModel/AppShellState.h"
+#include "ViewModel/AppShellViewModel.h"
 
 anim::App::App()
 {
@@ -66,6 +66,7 @@ void anim::App::InitializeProcess()
 
 void anim::App::InitializeGlobals()
 {
+	this->state.Initialize();
 }
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)

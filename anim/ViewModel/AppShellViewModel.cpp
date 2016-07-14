@@ -1,18 +1,23 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/AppShellState.h"
+#include "ViewModel/AppPaneViewModel.h"
+#include "ViewModel/AppShellViewModel.h"
 #include "ViewModel/ProjectFolderViewModel.h"
 
-anim::AppShellState::AppShellState()
+anim::AppShellViewModel::AppShellViewModel()
 	: parent(&App::Current->GetGlobalState())
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
+	, panes(ref new Platform::Collections::Vector<AppPaneViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
-	assert(parent != nullptr);
+	for (auto &pane : parent->GetPanes())
+	{
+		this->panes->Append(ref new AppPaneViewModel(pane.get()));
+	}
 
 	for (Windows::Storage::StorageFolder ^folder : parent->GetProjectFolders())
 	{
@@ -49,7 +54,7 @@ anim::AppShellState::AppShellState()
 	});
 }
 
-anim::AppShellState::~AppShellState()
+anim::AppShellViewModel::~AppShellViewModel()
 {
 	for (ProjectFolderViewModel ^projectFolder : this->projectFolders)
 	{
@@ -65,16 +70,21 @@ anim::AppShellState::~AppShellState()
 	}
 }
 
-Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::AppShellState::ProjectFolders::get()
+Windows::Foundation::Collections::IVector<anim::AppPaneViewModel ^> ^anim::AppShellViewModel::Panes::get()
+{
+	return this->panes;
+}
+
+Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::AppShellViewModel::ProjectFolders::get()
 {
 	return this->projectFolders;
 }
 
-void anim::AppShellState::NotifyPropertyChanged(Platform::String ^name)
+void anim::AppShellViewModel::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
-void anim::AppShellState::ModelPropertyChanged(const char *name)
+void anim::AppShellViewModel::ModelPropertyChanged(const char *name)
 {
 }
