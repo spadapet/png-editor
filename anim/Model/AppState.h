@@ -4,7 +4,7 @@
 
 namespace anim
 {
-	class AppPane;
+	class AppPaneInfo;
 
 	class AppState
 	{
@@ -18,11 +18,11 @@ namespace anim
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
 		void Initialize();
-		const std::vector<std::unique_ptr<AppPane>> &GetPanes() const;
+		const std::vector<std::unique_ptr<AppPaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
 
 	private:
-		std::vector<std::unique_ptr<AppPane>> panes;
+		std::vector<std::unique_ptr<AppPaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
 	};
 }

@@ -12,11 +12,11 @@ namespace anim
 
 	typedef std::function<Windows::UI::Xaml::UIElement ^(AppPaneType)> AppPaneUiFactory;
 
-	class AppPane
+	class AppPaneInfo
 	{
 	public:
-		AppPane(AppPaneType type, AppPaneUiFactory &&paneFactory);
-		~AppPane();
+		AppPaneInfo(AppPaneType type, AppPaneUiFactory &&paneFactory);
+		~AppPaneInfo();
 
 		SimpleEvent Disposed;
 		ChangedEvent PropertyChanged;

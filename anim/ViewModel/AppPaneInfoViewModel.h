@@ -5,17 +5,17 @@
 
 namespace anim
 {
-	class AppPane;
+	class AppPaneInfo;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class AppPaneViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class AppPaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		AppPaneViewModel(AppPane *parent);
+		AppPaneInfoViewModel(AppPaneInfo *parent);
 
 	public:
-		AppPaneViewModel();
-		virtual ~AppPaneViewModel();
+		AppPaneInfoViewModel();
+		virtual ~AppPaneInfoViewModel();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Platform::String ^Name { Platform::String ^get(); }
@@ -23,7 +23,7 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
-		AppPane *parent;
+		AppPaneInfo *parent;
 		EventCookie parentDisposedCookie;
 	};
 }

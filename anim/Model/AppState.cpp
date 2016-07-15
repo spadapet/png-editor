@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Model/AppPane.h"
+#include "Model/AppPaneInfo.h"
 #include "Model/AppState.h"
 
 anim::AppState::AppState()
@@ -13,14 +13,14 @@ anim::AppState::~AppState()
 
 void anim::AppState::Initialize()
 {
-	this->panes.emplace_back(std::make_unique<AppPane>(AppPaneType::Files,
+	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Files,
 		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
 		{
 			return nullptr;
 		}));
 }
 
-const std::vector<std::unique_ptr<anim::AppPane>> &anim::AppState::GetPanes() const
+const std::vector<std::unique_ptr<anim::AppPaneInfo>> &anim::AppState::GetPanes() const
 {
 	return this->panes;
 }

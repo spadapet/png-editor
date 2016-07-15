@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/AppPaneViewModel.h"
+#include "ViewModel/AppPaneInfoViewModel.h"
 #include "ViewModel/AppShellViewModel.h"
 #include "ViewModel/ProjectFolderViewModel.h"
 
@@ -11,12 +11,12 @@ anim::AppShellViewModel::AppShellViewModel()
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
-	, panes(ref new Platform::Collections::Vector<AppPaneViewModel ^>())
+	, panes(ref new Platform::Collections::Vector<AppPaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
 	for (auto &pane : parent->GetPanes())
 	{
-		this->panes->Append(ref new AppPaneViewModel(pane.get()));
+		this->panes->Append(ref new AppPaneInfoViewModel(pane.get()));
 	}
 
 	for (Windows::Storage::StorageFolder ^folder : parent->GetProjectFolders())
@@ -70,7 +70,7 @@ anim::AppShellViewModel::~AppShellViewModel()
 	}
 }
 
-Windows::Foundation::Collections::IVector<anim::AppPaneViewModel ^> ^anim::AppShellViewModel::Panes::get()
+Windows::Foundation::Collections::IVector<anim::AppPaneInfoViewModel ^> ^anim::AppShellViewModel::Panes::get()
 {
 	return this->panes;
 }

@@ -8,20 +8,20 @@
   <ItemGroup>
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\String.cpp" />
-    <ClCompile Include="Model\AppPane.cpp" />
+    <ClCompile Include="Model\AppPaneInfo.cpp" />
     <ClCompile Include="UI\AppShell.xaml.cpp">
       <DependentUpon>UI\AppShell.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="UI\MainPage.xaml.cpp">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="ViewModel\AppPaneViewModel.cpp" />
+    <ClCompile Include="ViewModel\AppPaneInfoViewModel.cpp" />
     <ClCompile Include="ViewModel\MainPageViewModel.cpp" />
     <ClCompile Include="ViewModel\AppShellViewModel.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\String.h" />
-    <ClInclude Include="Model\AppPane.h" />
+    <ClInclude Include="Model\AppPaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
@@ -36,7 +36,7 @@
     <ClInclude Include="UI\MainPage.xaml.h">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="ViewModel\AppPaneViewModel.h" />
+    <ClInclude Include="ViewModel\AppPaneInfoViewModel.h" />
     <ClInclude Include="ViewModel\MainPageViewModel.h" />
     <ClInclude Include="ViewModel\AppShellViewModel.h" />
     <ClInclude Include="ViewModel\ProjectFolderViewModel.h" />

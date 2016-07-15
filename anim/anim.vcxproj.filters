@@ -47,11 +47,11 @@
     <ClCompile Include="ViewModel\AppShellViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\AppPaneViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\AppPane.cpp">
+    <ClCompile Include="Model\AppPaneInfo.cpp">
       <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\AppPaneInfoViewModel.cpp">
+      <Filter>ViewModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +77,11 @@
     <ClInclude Include="ViewModel\AppShellViewModel.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\AppPaneViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\AppPane.h">
+    <ClInclude Include="Model\AppPaneInfo.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\AppPaneInfoViewModel.h">
+      <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

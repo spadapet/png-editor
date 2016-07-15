@@ -1,13 +1,13 @@
 #include "pch.h"
-#include "Model/AppPane.h"
-#include "ViewModel/AppPaneViewModel.h"
+#include "Model/AppPaneInfo.h"
+#include "ViewModel/AppPaneInfoViewModel.h"
 
-anim::AppPaneViewModel::AppPaneViewModel()
-	: AppPaneViewModel(nullptr)
+anim::AppPaneInfoViewModel::AppPaneInfoViewModel()
+	: AppPaneInfoViewModel(nullptr)
 {
 }
 
-anim::AppPaneViewModel::AppPaneViewModel(AppPane *parent)
+anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
 	: parent(parent)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 {
@@ -22,7 +22,7 @@ anim::AppPaneViewModel::AppPaneViewModel(AppPane *parent)
 	});
 }
 
-anim::AppPaneViewModel::~AppPaneViewModel()
+anim::AppPaneInfoViewModel::~AppPaneInfoViewModel()
 {
 	if (this->parent != nullptr)
 	{
@@ -30,12 +30,12 @@ anim::AppPaneViewModel::~AppPaneViewModel()
 	}
 }
 
-Platform::String ^anim::AppPaneViewModel::Name::get()
+Platform::String ^anim::AppPaneInfoViewModel::Name::get()
 {
 	return "Pane name";
 }
 
-void anim::AppPaneViewModel::NotifyPropertyChanged(Platform::String ^name)
+void anim::AppPaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }

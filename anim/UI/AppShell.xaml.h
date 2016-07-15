@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "UI/AppShell.g.h"
-#include "ViewModel/AppPaneViewModel.h"
+#include "ViewModel/AppPaneInfoViewModel.h"
 #include "ViewModel/AppShellViewModel.h"
 
 namespace anim
