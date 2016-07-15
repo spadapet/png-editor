@@ -27,6 +27,7 @@ anim::AppShellViewModel::AppShellViewModel()
 	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
 	{
 		this->parent = nullptr;
+		this->NotifyPropertyChanged();
 	});
 
 	this->parentChangedCookie = this->parent->PropertyChanged.Add([this](const char *name)

@@ -8,6 +8,6 @@
     mc:Ignorable="d"
     Background="{StaticResource MainBackgroundBrush}">
 
-    <ContentControl Name="MainContent" />
+    <ContentControl Name="MainContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
 
 </Grid>

@@ -6,4 +6,7 @@
     <Color x:Key="MainBackgroundColor">Black</Color>
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainBackgroundColor}" />
 
+    <Color x:Key="AppPaneListBackgroundColor">Gray</Color>
+    <SolidColorBrush x:Key="AppPaneListBackgroundBrush" Color="{StaticResource MainBackgroundColor}" />
+
 </ResourceDictionary>
