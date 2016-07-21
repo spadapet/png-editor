@@ -56,6 +56,9 @@
     <ClCompile Include="ViewModel\AppPaneInfoViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Resource.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="ViewModel\AppPaneInfoViewModel.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resource.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,5 +151,10 @@
     <None Include="TemporaryKey.pfx">
       <Filter>Package</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Resources.resw">
+      <Filter>Package</Filter>
+    </PRIResource>
   </ItemGroup>
 </Project>

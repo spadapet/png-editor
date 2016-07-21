@@ -7,6 +7,7 @@
   <Import Project="../cpp.props" />
   <ItemGroup>
     <ClCompile Include="Core\Event.cpp" />
+    <ClCompile Include="Core\Resource.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\AppPaneInfo.cpp" />
     <ClCompile Include="UI\AppShell.xaml.cpp">
@@ -20,6 +21,7 @@
     <ClCompile Include="ViewModel\AppShellViewModel.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Core\Event.h" />
+    <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppPaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
@@ -74,6 +76,9 @@
     <Page Include="UI\Theme.xaml">
       <DeploymentContent>true</DeploymentContent>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

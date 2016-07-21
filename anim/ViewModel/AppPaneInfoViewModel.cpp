@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/Resource.h"
 #include "Model/AppPaneInfo.h"
 #include "ViewModel/AppPaneInfoViewModel.h"
 
@@ -40,24 +41,31 @@ anim::AppPaneInfoViewModel::~AppPaneInfoViewModel()
 
 Platform::String ^anim::AppPaneInfoViewModel::Name::get()
 {
-	switch (parent != nullptr ? parent->GetType() : AppPaneType::None)
+	if (this->name == nullptr)
 	{
-	default:
-		assert(false);
-		return "<invalid>";
+		switch (parent != nullptr ? parent->GetType() : AppPaneType::None)
+		{
+		default:
+			assert(false);
+			this->name = "<invalid>";
 
-	case AppPaneType::None:
-		return "<none>";
+		case AppPaneType::None:
+			this->name = "<none>";
 
-	case AppPaneType::Files:
-		return "Files";
+		case AppPaneType::Files:
+			this->name = Resource::GetString("FilesPaneName");
+		}
 	}
+
+	return this->name;
 }
 
 Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 {
 	if (this->icon == nullptr)
 	{
+		Platform::String ^uri = nullptr;
+
 		switch (this->parent != nullptr ? this->parent->GetType() : AppPaneType::None)
 		{
 		default:
@@ -68,8 +76,13 @@ Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 			break;
 
 		case AppPaneType::Files:
+			uri = "ms-appx:///Assets/Icons/FileGroup.png";
+		}
+
+		if (uri != nullptr)
+		{
 			this->icon = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(
-				ref new Windows::Foundation::Uri("ms-appx:///Assets/Icons/FileGroup.png"));
+				ref new Windows::Foundation::Uri(uri));
 		}
 	}
 

@@ -28,6 +28,7 @@ namespace anim
 		AppPaneInfo *parent;
 		EventCookie parentDisposedCookie;
 		EventCookie parentChangedCookie;
+		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;
 	};
 }
