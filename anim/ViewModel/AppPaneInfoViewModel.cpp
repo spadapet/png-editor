@@ -56,18 +56,24 @@ Platform::String ^anim::AppPaneInfoViewModel::Name::get()
 
 Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 {
-	switch (parent != nullptr ? parent->GetType() : AppPaneType::None)
+	if (this->icon == nullptr)
 	{
-	default:
-		assert(false);
-		return nullptr;
+		switch (this->parent != nullptr ? this->parent->GetType() : AppPaneType::None)
+		{
+		default:
+			assert(false);
+			break;
 
-	case AppPaneType::None:
-		return nullptr;
+		case AppPaneType::None:
+			break;
 
-	case AppPaneType::Files:
-		return nullptr;
+		case AppPaneType::Files:
+			this->icon = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(
+				ref new Windows::Foundation::Uri("ms-appx:///Assets/Icons/FileGroup.png"));
+		}
 	}
+
+	return this->icon;
 }
 
 void anim::AppPaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)

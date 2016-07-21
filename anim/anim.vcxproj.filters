@@ -20,6 +20,9 @@
     <Filter Include="Package">
       <UniqueIdentifier>{7b3da740-bbaa-4c51-a897-78b48a25e224}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Icons">
+      <UniqueIdentifier>{f19314bf-d64a-40cc-9e6d-0dc657bd6f87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -105,6 +108,21 @@
     </Image>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Icons\FileGroup.scale-400.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\FileGroup.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\FileGroup.scale-150.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\FileGroup.scale-125.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\FileGroup.scale-100.png">
+      <Filter>Assets\Icons</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

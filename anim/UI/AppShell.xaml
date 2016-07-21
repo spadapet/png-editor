@@ -18,10 +18,11 @@
             <Setter Property="Margin" Value="0,5" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
         </Style>
         <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:AppPaneInfoViewModel">
-            <Button Style="{StaticResource AppPaneInfoButtonStyle}">
-                <Image Source="{x:Bind Icon}" />
+            <Button Style="{StaticResource AppPaneInfoButtonStyle}" ToolTipService.ToolTip="{x:Bind Name}">
+                <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
         <Style x:Key="AppPaneInfoStyle" TargetType="ItemsControl">

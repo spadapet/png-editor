@@ -53,6 +53,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\Icons\FileGroup.scale-100.png" />
+    <Image Include="Assets\Icons\FileGroup.scale-125.png" />
+    <Image Include="Assets\Icons\FileGroup.scale-150.png" />
+    <Image Include="Assets\Icons\FileGroup.scale-200.png" />
+    <Image Include="Assets\Icons\FileGroup.scale-400.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />
