@@ -20,6 +20,8 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Platform::String ^Name { Platform::String ^get(); }
 		property Windows::UI::Xaml::Media::ImageSource ^Icon { Windows::UI::Xaml::Media::ImageSource ^get(); }
+		property Windows::UI::Xaml::UIElement ^Pane { Windows::UI::Xaml::UIElement ^get(); }
+		property bool IsActive { bool get(); void set(bool value); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -30,5 +32,7 @@ namespace anim
 		EventCookie parentChangedCookie;
 		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;
+		Windows::UI::Xaml::UIElement ^pane;
+		bool active;
 	};
 }

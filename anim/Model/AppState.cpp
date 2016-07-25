@@ -1,8 +1,15 @@
 #include "pch.h"
 #include "Model/AppPaneInfo.h"
 #include "Model/AppState.h"
+#include "UI/FilesPane.xaml.h"
+
+static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::AppPaneType type) 
+{
+	return nullptr;
+}
 
 anim::AppState::AppState()
+	: nonePane(AppPaneType::None, &CreateNonePane)
 {
 }
 
@@ -16,7 +23,7 @@ void anim::AppState::Initialize()
 	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Files,
 		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		return nullptr;
+		return ref new FilesPane();
 	}));
 
 	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Color,
@@ -52,4 +59,9 @@ const std::vector<std::unique_ptr<anim::AppPaneInfo>> &anim::AppState::GetPanes(
 const std::vector<Windows::Storage::StorageFolder ^> &anim::AppState::GetProjectFolders() const
 {
 	return this->projectFolders;
+}
+
+anim::AppPaneInfo &anim::AppState::GetNonePane()
+{
+	return this->nonePane;
 }

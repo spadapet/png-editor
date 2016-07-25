@@ -195,6 +195,9 @@
     <Page Include="UI\Theme.xaml">
       <Filter>UI</Filter>
     </Page>
+    <Page Include="UI\FilesPane.xaml">
+      <Filter>UI</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

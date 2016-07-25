@@ -18,6 +18,7 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Windows::Foundation::Collections::IVector<AppPaneInfoViewModel ^> ^Panes { Windows::Foundation::Collections::IVector<AppPaneInfoViewModel ^> ^get(); }
 		property Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^get(); }
+		property AppPaneInfoViewModel ^ActivePane { AppPaneInfoViewModel ^get(); void set(AppPaneInfoViewModel ^value); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -29,6 +30,8 @@ namespace anim
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
 
+		AppPaneInfoViewModel ^nonePane;
+		AppPaneInfoViewModel ^activePane;
 		Platform::Collections::Vector<AppPaneInfoViewModel ^> ^panes;
 		Platform::Collections::Vector<ProjectFolderViewModel ^> ^projectFolders;
 	};

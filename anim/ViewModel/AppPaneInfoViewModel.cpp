@@ -12,6 +12,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
 	: parent(parent)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
+	, active(false)
 {
 	if (this->parent == nullptr)
 	{
@@ -105,7 +106,7 @@ Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 		case AppPaneType::Layers:
 			uri = "ms-appx:///Assets/Icons/Layers.png";
 			break;
-
+	
 		case AppPaneType::View:
 			uri = "ms-appx:///Assets/Icons/Zoom.png";
 			break;
@@ -123,6 +124,30 @@ Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 	}
 
 	return this->icon;
+}
+
+Windows::UI::Xaml::UIElement ^anim::AppPaneInfoViewModel::Pane::get()
+{
+	if (this->pane == nullptr && this->parent != nullptr)
+	{
+		this->pane = this->parent->CreatePane();
+	}
+
+	return this->pane;
+}
+
+bool anim::AppPaneInfoViewModel::IsActive::get()
+{
+	return this->active;
+}
+
+void anim::AppPaneInfoViewModel::IsActive::set(bool value)
+{
+	if (this->active != value)
+	{
+		this->active = value;
+		this->NotifyPropertyChanged("IsActive");
+	}
 }
 
 void anim::AppPaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)

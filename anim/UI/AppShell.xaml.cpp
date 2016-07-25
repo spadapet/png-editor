@@ -16,3 +16,8 @@ anim::AppShellViewModel ^anim::AppShell::State::get()
 {
 	return this->state;
 }
+
+
+void anim::AppShell::OnPaneButtonClick(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+}

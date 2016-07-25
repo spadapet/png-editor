@@ -7,8 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/> <!-- Pane icons -->
+        <ColumnDefinition Width="Auto"/> <!-- Pane UI -->
+        <ColumnDefinition Width="*" /> <!-- Editing area -->
     </Grid.ColumnDefinitions>
     <Grid.Resources>
         <Style x:Key="AppPaneInfoButtonStyle" TargetType="Button">
@@ -21,15 +22,23 @@
             <Setter Property="Background" Value="Transparent" />
         </Style>
         <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:AppPaneInfoViewModel">
-            <Button Style="{StaticResource AppPaneInfoButtonStyle}" ToolTipService.ToolTip="{x:Bind Name}">
+            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Click="OnPaneButtonClick" ToolTipService.ToolTip="{x:Bind Name}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
+        <ControlTemplate x:Key="AppPaneInfoTemplate" TargetType="ItemsControl">
+            <StackPanel Background="{TemplateBinding Background}">
+                <ItemsPresenter />
+            </StackPanel>
+        </ControlTemplate>
         <Style x:Key="AppPaneInfoStyle" TargetType="ItemsControl">
             <Setter Property="ItemTemplate" Value="{StaticResource AppPaneInfoItemTemplate}" />
+            <Setter Property="Template" Value="{StaticResource AppPaneInfoTemplate}" />
         </Style>
     </Grid.Resources>
-    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
-        <ItemsControl x:Name="AppPaneInfoList" ItemsSource="{x:Bind State.Panes}" Style="{StaticResource AppPaneInfoStyle}" />
+    <ItemsControl x:Name="AppPaneInfoList" Background="LightGray" ItemsSource="{x:Bind State.Panes}" Style="{StaticResource AppPaneInfoStyle}" />
+    <ContentControl Grid.Column="1" Background="White" Content="{x:Bind State.ActivePane.Pane}" />
+    <Grid Grid.Column="2" Background="DarkOliveGreen">
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Document content" Foreground="Black" />
     </Grid>
 </Grid>

@@ -14,10 +14,17 @@ anim::AppShellViewModel::AppShellViewModel()
 	, panes(ref new Platform::Collections::Vector<AppPaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
+	this->nonePane = ref new AppPaneInfoViewModel(&parent->GetNonePane());
+
 	for (auto &pane : parent->GetPanes())
 	{
 		this->panes->Append(ref new AppPaneInfoViewModel(pane.get()));
 	}
+
+	this->activePane = (this->panes->Size > 0)
+		? this->panes->GetAt(0)
+		: this->nonePane;
+	this->activePane->IsActive = true;
 
 	for (Windows::Storage::StorageFolder ^folder : parent->GetProjectFolders())
 	{
@@ -79,6 +86,27 @@ Windows::Foundation::Collections::IVector<anim::AppPaneInfoViewModel ^> ^anim::A
 Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::AppShellViewModel::ProjectFolders::get()
 {
 	return this->projectFolders;
+}
+
+anim::AppPaneInfoViewModel ^anim::AppShellViewModel::ActivePane::get()
+{
+	return this->activePane;
+}
+
+void anim::AppShellViewModel::ActivePane::set(AppPaneInfoViewModel ^value)
+{
+	if (value == nullptr)
+	{
+		value = this->nonePane;
+	}
+
+	if (this->activePane != value)
+	{
+		this->activePane->IsActive = false;
+		this->activePane = value;
+		this->activePane->IsActive = true;
+		this->NotifyPropertyChanged("ActivePane");
+	}
 }
 
 void anim::AppShellViewModel::NotifyPropertyChanged(Platform::String ^name)

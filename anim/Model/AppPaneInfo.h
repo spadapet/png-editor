@@ -26,6 +26,7 @@ namespace anim
 		ChangedEvent PropertyChanged;
 
 		AppPaneType GetType() const;
+		Windows::UI::Xaml::UIElement ^CreatePane() const;
 
 	private:
 		AppPaneType type;

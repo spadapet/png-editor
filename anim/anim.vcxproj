@@ -12,6 +12,9 @@
     <ClCompile Include="UI\AppShell.xaml.cpp">
       <DependentUpon>UI\AppShell.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="UI\FilesPane.xaml.cpp">
+      <DependentUpon>UI\FilesPane.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="UI\MainPage.xaml.cpp">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClCompile>
@@ -32,6 +35,9 @@
     </ApplicationDefinition>
     <ClInclude Include="UI\AppShell.xaml.h">
       <DependentUpon>UI\AppShell.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="UI\FilesPane.xaml.h">
+      <DependentUpon>UI\FilesPane.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="UI\MainPage.xaml.h">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
@@ -90,6 +96,7 @@
     <Page Include="UI\AppShell.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\FilesPane.xaml" />
     <Page Include="UI\MainPage.xaml" />
     <Page Include="UI\Theme.xaml">
       <DeploymentContent>true</DeploymentContent>

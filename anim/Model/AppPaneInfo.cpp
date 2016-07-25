@@ -16,3 +16,10 @@ anim::AppPaneType anim::AppPaneInfo::GetType() const
 {
 	return this->type;
 }
+
+Windows::UI::Xaml::UIElement ^anim::AppPaneInfo::CreatePane() const
+{
+	return this->paneFactory != nullptr
+		? this->paneFactory(this->type)
+		: nullptr;
+}

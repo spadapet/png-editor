@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Core/Event.h"
+#include "Model/AppPaneInfo.h"
 
 namespace anim
 {
-	class AppPaneInfo;
-
 	class AppState
 	{
 	public:
@@ -20,8 +19,10 @@ namespace anim
 		void Initialize();
 		const std::vector<std::unique_ptr<AppPaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
+		AppPaneInfo &GetNonePane();
 
 	private:
+		AppPaneInfo nonePane;
 		std::vector<std::unique_ptr<AppPaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
 	};
