@@ -46,3 +46,12 @@ Platform::String ^anim::ConvertString(const char *str, size_t len)
 		return ref new Platform::String(buf.data(), (unsigned int)newLen);
 	}
 }
+
+Platform::String ^anim::Resource::GetString(Platform::String ^id)
+{
+	Windows::ApplicationModel::Resources::ResourceLoader ^loader =
+		Windows::ApplicationModel::Resources::ResourceLoader::GetForCurrentView();
+
+	return loader->GetString(id);
+
+}

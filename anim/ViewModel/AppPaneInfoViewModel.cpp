@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Core/Resource.h"
+#include "Core/String.h"
 #include "Model/AppPaneInfo.h"
 #include "ViewModel/AppPaneInfoViewModel.h"
 
@@ -48,12 +48,31 @@ Platform::String ^anim::AppPaneInfoViewModel::Name::get()
 		default:
 			assert(false);
 			this->name = "<invalid>";
+			break;
 
 		case AppPaneType::None:
 			this->name = "<none>";
+			break;
 
 		case AppPaneType::Files:
 			this->name = Resource::GetString("FilesPaneName");
+			break;
+
+		case AppPaneType::Color:
+			this->name = Resource::GetString("ColorPaneName");
+			break;
+
+		case AppPaneType::Layers:
+			this->name = Resource::GetString("LayersPaneName");
+			break;
+
+		case AppPaneType::View:
+			this->name = Resource::GetString("ViewPaneName");
+			break;
+
+		case AppPaneType::Animation:
+			this->name = Resource::GetString("AnimationPaneName");
+			break;
 		}
 	}
 
@@ -77,6 +96,23 @@ Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 
 		case AppPaneType::Files:
 			uri = "ms-appx:///Assets/Icons/FileGroup.png";
+			break;
+
+		case AppPaneType::Color:
+			uri = "ms-appx:///Assets/Icons/ColorPalette.png";
+			break;
+
+		case AppPaneType::Layers:
+			uri = "ms-appx:///Assets/Icons/Layers.png";
+			break;
+
+		case AppPaneType::View:
+			uri = "ms-appx:///Assets/Icons/Zoom.png";
+			break;
+
+		case AppPaneType::Animation:
+			uri = "ms-appx:///Assets/Icons/Animation.png";
+			break;
 		}
 
 		if (uri != nullptr)

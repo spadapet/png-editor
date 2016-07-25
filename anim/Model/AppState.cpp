@@ -15,9 +15,33 @@ void anim::AppState::Initialize()
 {
 	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Files,
 		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
-		{
-			return nullptr;
-		}));
+	{
+		return nullptr;
+	}));
+
+	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Color,
+		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return nullptr;
+	}));
+
+	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Layers,
+		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return nullptr;
+	}));
+
+	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::View,
+		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return nullptr;
+	}));
+
+	this->panes.emplace_back(std::make_unique<AppPaneInfo>(AppPaneType::Animation,
+		[](AppPaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return nullptr;
+	}));
 }
 
 const std::vector<std::unique_ptr<anim::AppPaneInfo>> &anim::AppState::GetPanes() const

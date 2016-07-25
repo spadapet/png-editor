@@ -7,7 +7,6 @@
   <Import Project="../cpp.props" />
   <ItemGroup>
     <ClCompile Include="Core\Event.cpp" />
-    <ClCompile Include="Core\Resource.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\AppPaneInfo.cpp" />
     <ClCompile Include="UI\AppShell.xaml.cpp">
@@ -21,7 +20,6 @@
     <ClCompile Include="ViewModel\AppShellViewModel.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Core\Event.h" />
-    <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppPaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
@@ -55,11 +53,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\Icons\Animation.scale-100.png" />
+    <Image Include="Assets\Icons\Animation.scale-125.png" />
+    <Image Include="Assets\Icons\Animation.scale-150.png" />
+    <Image Include="Assets\Icons\Animation.scale-200.png" />
+    <Image Include="Assets\Icons\Animation.scale-400.png" />
+    <Image Include="Assets\Icons\ColorPalette.scale-100.png" />
+    <Image Include="Assets\Icons\ColorPalette.scale-125.png" />
+    <Image Include="Assets\Icons\ColorPalette.scale-150.png" />
+    <Image Include="Assets\Icons\ColorPalette.scale-200.png" />
+    <Image Include="Assets\Icons\ColorPalette.scale-400.png" />
     <Image Include="Assets\Icons\FileGroup.scale-100.png" />
     <Image Include="Assets\Icons\FileGroup.scale-125.png" />
     <Image Include="Assets\Icons\FileGroup.scale-150.png" />
     <Image Include="Assets\Icons\FileGroup.scale-200.png" />
     <Image Include="Assets\Icons\FileGroup.scale-400.png" />
+    <Image Include="Assets\Icons\Layers.scale-100.png" />
+    <Image Include="Assets\Icons\Layers.scale-125.png" />
+    <Image Include="Assets\Icons\Layers.scale-150.png" />
+    <Image Include="Assets\Icons\Layers.scale-200.png" />
+    <Image Include="Assets\Icons\Layers.scale-400.png" />
+    <Image Include="Assets\Icons\Zoom.scale-100.png" />
+    <Image Include="Assets\Icons\Zoom.scale-125.png" />
+    <Image Include="Assets\Icons\Zoom.scale-150.png" />
+    <Image Include="Assets\Icons\Zoom.scale-200.png" />
+    <Image Include="Assets\Icons\Zoom.scale-400.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />

@@ -8,6 +8,10 @@ namespace anim
 	{
 		None,
 		Files,
+		Color,
+		Layers,
+		View,
+		Animation,
 	};
 
 	typedef std::function<Windows::UI::Xaml::UIElement ^(AppPaneType)> AppPaneUiFactory;
