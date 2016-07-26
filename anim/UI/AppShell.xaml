@@ -12,6 +12,7 @@
         <ColumnDefinition Width="*" /> <!-- Editing area -->
     </Grid.ColumnDefinitions>
     <Grid.Resources>
+        <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="White" BrushFalse="Transparent" />
         <Style x:Key="AppPaneInfoButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="40" />
@@ -19,10 +20,9 @@
             <Setter Property="Margin" Value="0,5" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="Background" Value="Transparent" />
         </Style>
         <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:AppPaneInfoViewModel">
-            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Click="OnPaneButtonClick" ToolTipService.ToolTip="{x:Bind Name}">
+            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Click="OnPaneButtonClick" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
@@ -37,7 +37,7 @@
         </Style>
     </Grid.Resources>
     <ItemsControl x:Name="AppPaneInfoList" Background="LightGray" ItemsSource="{x:Bind State.Panes}" Style="{StaticResource AppPaneInfoStyle}" />
-    <ContentControl Grid.Column="1" Background="White" Content="{x:Bind State.ActivePane.Pane}" />
+    <ContentControl Grid.Column="1" Background="White" Content="{x:Bind State.ActivePane.Pane, Mode=OneWay}" />
     <Grid Grid.Column="2" Background="DarkOliveGreen">
         <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Document content" Foreground="Black" />
     </Grid>

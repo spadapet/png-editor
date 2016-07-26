@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Converters/BoolToBrushConverter.h"
 #include "UI/AppShell.g.h"
 #include "ViewModel/AppPaneInfoViewModel.h"
 #include "ViewModel/AppShellViewModel.h"

@@ -23,6 +23,9 @@
     <Filter Include="Assets\Icons">
       <UniqueIdentifier>{f19314bf-d64a-40cc-9e6d-0dc657bd6f87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Converters">
+      <UniqueIdentifier>{4af7f576-1752-4be0-8166-92ee0e81e0e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -56,6 +59,10 @@
     <ClCompile Include="ViewModel\AppPaneInfoViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="UI\FilesPane.xaml.cpp" />
+    <ClCompile Include="Converters\BoolToBrushConverter.cpp">
+      <Filter>Converters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -85,6 +92,10 @@
     </ClInclude>
     <ClInclude Include="ViewModel\AppPaneInfoViewModel.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\FilesPane.xaml.h" />
+    <ClInclude Include="Converters\BoolToBrushConverter.h">
+      <Filter>Converters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
