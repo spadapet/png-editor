@@ -14,11 +14,13 @@ anim::AppShellViewModel::AppShellViewModel()
 	, panes(ref new Platform::Collections::Vector<AppPaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
-	this->nonePane = ref new AppPaneInfoViewModel(&parent->GetNonePane());
+	Platform::WeakReference weakThis(this);
+
+	this->nonePane = ref new AppPaneInfoViewModel(&parent->GetNonePane(), this);
 
 	for (auto &pane : parent->GetPanes())
 	{
-		this->panes->Append(ref new AppPaneInfoViewModel(pane.get()));
+		this->panes->Append(ref new AppPaneInfoViewModel(pane.get(), this));
 	}
 
 	this->activePane = (this->panes->Size > 0)
@@ -31,32 +33,48 @@ anim::AppShellViewModel::AppShellViewModel()
 		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
 	}
 
-	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
+	this->parentDisposedCookie = this->parent->Disposed.Add([weakThis]()
 	{
-		this->parent = nullptr;
-		this->NotifyPropertyChanged();
-	});
-
-	this->parentChangedCookie = this->parent->PropertyChanged.Add([this](const char *name)
-	{
-		this->ModelPropertyChanged(name);
-	});
-
-	this->projectFolderAddedCookie = this->parent->ProjectFolderAdded.Add([this](Windows::Storage::StorageFolder ^folder)
-	{
-		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
-	});
-
-	this->projectFolderRemovedCookie = this->parent->ProjectFolderRemoved.Add([this](Windows::Storage::StorageFolder ^folder)
-	{
-		for (unsigned int i = 0; i < this->projectFolders->Size; i++)
+		auto owner = weakThis.Resolve<AppShellViewModel>();
+		if (owner != nullptr)
 		{
-			ProjectFolderViewModel ^projectFolder = this->projectFolders->GetAt(i);
-			if (projectFolder->Folder == folder)
+			owner->parent = nullptr;
+			owner->NotifyPropertyChanged();
+		}
+	});
+
+	this->parentChangedCookie = this->parent->PropertyChanged.Add([weakThis](const char *name)
+	{
+		auto owner = weakThis.Resolve<AppShellViewModel>();
+		if (owner != nullptr)
+		{
+			owner->ModelPropertyChanged(name);
+		}
+	});
+
+	this->projectFolderAddedCookie = this->parent->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	{
+		auto owner = weakThis.Resolve<AppShellViewModel>();
+		if (owner != nullptr)
+		{
+			owner->projectFolders->Append(ref new ProjectFolderViewModel(folder));
+		}
+	});
+
+	this->projectFolderRemovedCookie = this->parent->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	{
+		auto owner = weakThis.Resolve<AppShellViewModel>();
+		if (owner != nullptr)
+		{
+			for (unsigned int i = 0; i < owner->projectFolders->Size; i++)
 			{
-				projectFolder->Dispose();
-				this->projectFolders->RemoveAt(i);
-				break;
+				ProjectFolderViewModel ^projectFolder = owner->projectFolders->GetAt(i);
+				if (projectFolder->Folder == folder)
+				{
+					projectFolder->Destroy();
+					owner->projectFolders->RemoveAt(i);
+					break;
+				}
 			}
 		}
 	});
@@ -66,7 +84,7 @@ anim::AppShellViewModel::~AppShellViewModel()
 {
 	for (ProjectFolderViewModel ^projectFolder : this->projectFolders)
 	{
-		projectFolder->Dispose();
+		projectFolder->Destroy();
 	}
 
 	if (this->parent != nullptr)

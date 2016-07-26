@@ -8,11 +8,13 @@ namespace anim
 	class AppPaneInfo;
 	class AppState;
 
+	ref class AppShellViewModel;
+
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class AppPaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		AppPaneInfoViewModel(AppPaneInfo *parent);
+		AppPaneInfoViewModel(AppPaneInfo *parent, AppShellViewModel ^shellViewModel);
 
 	public:
 		AppPaneInfoViewModel();
@@ -22,6 +24,7 @@ namespace anim
 		property Platform::String ^Name { Platform::String ^get(); }
 		property Windows::UI::Xaml::Media::ImageSource ^Icon { Windows::UI::Xaml::Media::ImageSource ^get(); }
 		property Windows::UI::Xaml::UIElement ^Pane { Windows::UI::Xaml::UIElement ^get(); }
+		property Windows::UI::Xaml::Input::ICommand ^ToggleActiveCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 		property bool IsActive { bool get(); void set(bool value); }
 		property bool IsVisible { bool get(); }
 
@@ -29,6 +32,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
 		void ModelPropertyChanged(const char *name);
+		void ToggleActive();
 
 		AppState *appState;
 		AppPaneInfo *parent;
@@ -39,6 +43,8 @@ namespace anim
 		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;
 		Windows::UI::Xaml::UIElement ^pane;
+		Windows::UI::Xaml::Input::ICommand ^toggleActiveCommand;
+		Platform::WeakReference shellViewModel;
 		bool active;
 	};
 }

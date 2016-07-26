@@ -10,7 +10,7 @@ anim::ProjectFolderViewModel::~ProjectFolderViewModel()
 {
 }
 
-void anim::ProjectFolderViewModel::Dispose()
+void anim::ProjectFolderViewModel::Destroy()
 {
 }
 

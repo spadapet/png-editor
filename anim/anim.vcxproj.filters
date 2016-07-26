@@ -66,6 +66,9 @@
     <ClCompile Include="Converters\BoolToVisibleConverter.cpp">
       <Filter>Converters</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Command.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -102,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="Converters\BoolToVisibleConverter.h">
       <Filter>Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Command.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

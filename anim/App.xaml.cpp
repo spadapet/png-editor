@@ -46,14 +46,24 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::ClosedByUser:
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::Terminated:
 		{
-			auto initGlobals = concurrency::task<void>([this]()
+			Platform::WeakReference weakThis(this);
+
+			auto initGlobals = concurrency::task<void>([weakThis]()
 			{
-				this->InitializeGlobals();
+				App ^owner = weakThis.Resolve<App>();
+				if (owner != nullptr)
+				{
+					owner->InitializeGlobals();
+				}
 			});
 
-			initGlobals.then([this]()
+			initGlobals.then([weakThis]()
 			{
-				this->InitializeWindow(Windows::UI::Xaml::Window::Current);
+				App ^owner = weakThis.Resolve<App>();
+				if (owner != nullptr)
+				{
+					owner->InitializeWindow(Windows::UI::Xaml::Window::Current);
+				}
 			}, concurrency::task_continuation_context::use_current());
 		}
 		break;

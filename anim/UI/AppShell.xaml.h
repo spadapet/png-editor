@@ -19,8 +19,6 @@ namespace anim
 		property AppShellViewModel ^State { AppShellViewModel ^get(); }
 
 	private:
-		void OnPaneButtonClick(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
-
 		AppShellViewModel ^state;
 	};
 }

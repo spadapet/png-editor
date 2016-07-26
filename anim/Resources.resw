@@ -124,7 +124,7 @@
     <value>Color</value>
   </data>
   <data name="FilesPaneName" xml:space="preserve">
-    <value>Files</value>
+    <value>Explorer</value>
   </data>
   <data name="LayersPaneName" xml:space="preserve">
     <value>Layers</value>

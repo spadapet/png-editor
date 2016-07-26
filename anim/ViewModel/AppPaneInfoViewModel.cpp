@@ -1,49 +1,79 @@
 #include "pch.h"
 #include "App.xaml.h"
+#include "Core/Command.h"
 #include "Core/String.h"
 #include "Model/AppPaneInfo.h"
 #include "Model/AppState.h"
 #include "ViewModel/AppPaneInfoViewModel.h"
+#include "ViewModel/AppShellViewModel.h"
 
 anim::AppPaneInfoViewModel::AppPaneInfoViewModel()
-	: AppPaneInfoViewModel(nullptr)
+	: AppPaneInfoViewModel(nullptr, nullptr)
 {
 }
 
-anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
+anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellViewModel ^shellViewModel)
 	: parent(parent)
 	, appState(&App::Current->GetGlobalState())
 	, appStateDisposedCookie(NULL_EVENT_COOKIE)
 	, appStateChangedCookie(NULL_EVENT_COOKIE)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
+	, shellViewModel(shellViewModel)
 	, active(false)
 {
+	Platform::WeakReference weakThis(this);
+
 	if (this->parent == nullptr)
 	{
 		return;
 	}
 
-	this->appStateDisposedCookie = this->appState->Disposed.Add([this]()
+	this->appStateDisposedCookie = this->appState->Disposed.Add([weakThis]()
 	{
-		this->appState = nullptr;
-		this->NotifyPropertyChanged();
+		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		if (owner != nullptr)
+		{
+			owner->appState = nullptr;
+			owner->NotifyPropertyChanged();
+		}
 	});
 
-	this->appStateDisposedCookie = this->appState->PropertyChanged.Add([this](const char *name)
+	this->appStateDisposedCookie = this->appState->PropertyChanged.Add([weakThis](const char *name)
 	{
-		this->AppPropertyChanged(name);
+		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		if (owner != nullptr)
+		{
+			owner->AppPropertyChanged(name);
+		}
 	});
 
-	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
+	this->parentDisposedCookie = this->parent->Disposed.Add([weakThis]()
 	{
-		this->parent = nullptr;
-		this->NotifyPropertyChanged();
+		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		if (owner != nullptr)
+		{
+			owner->parent = nullptr;
+			owner->NotifyPropertyChanged();
+		}
 	});
 
-	this->parentChangedCookie = this->parent->PropertyChanged.Add([this](const char *name)
+	this->parentChangedCookie = this->parent->PropertyChanged.Add([weakThis](const char *name)
 	{
-		this->ModelPropertyChanged(name);
+		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		if (owner != nullptr)
+		{
+			owner->ModelPropertyChanged(name);
+		}
+	});
+
+	this->toggleActiveCommand = ref new Command([weakThis](Platform::Object ^)
+	{
+		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		if (owner != nullptr)
+		{
+			owner->ToggleActive();
+		}
 	});
 }
 
@@ -157,6 +187,11 @@ Windows::UI::Xaml::UIElement ^anim::AppPaneInfoViewModel::Pane::get()
 	return this->pane;
 }
 
+Windows::UI::Xaml::Input::ICommand ^anim::AppPaneInfoViewModel::ToggleActiveCommand::get()
+{
+	return this->toggleActiveCommand;
+}
+
 bool anim::AppPaneInfoViewModel::IsActive::get()
 {
 	return this->active;
@@ -211,4 +246,15 @@ void anim::AppPaneInfoViewModel::AppPropertyChanged(const char *name)
 
 void anim::AppPaneInfoViewModel::ModelPropertyChanged(const char *name)
 {
+}
+
+void anim::AppPaneInfoViewModel::ToggleActive()
+{
+	AppShellViewModel ^shellViewModel = this->shellViewModel.Resolve<AppShellViewModel>();
+	if (shellViewModel != nullptr)
+	{
+		shellViewModel->ActivePane = (shellViewModel->ActivePane != this)
+			? this
+			: nullptr;
+	}
 }

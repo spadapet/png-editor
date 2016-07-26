@@ -8,6 +8,7 @@
   <ItemGroup>
     <ClCompile Include="Converters\BoolToBrushConverter.cpp" />
     <ClCompile Include="Converters\BoolToVisibleConverter.cpp" />
+    <ClCompile Include="Core\Command.cpp" />
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\AppPaneInfo.cpp" />
@@ -26,6 +27,7 @@
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Converters\BoolToBrushConverter.h" />
     <ClInclude Include="Converters\BoolToVisibleConverter.h" />
+    <ClInclude Include="Core\Command.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\AppPaneInfo.h" />
