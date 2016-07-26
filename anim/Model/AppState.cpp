@@ -65,3 +65,8 @@ anim::AppPaneInfo &anim::AppState::GetNonePane()
 {
 	return this->nonePane;
 }
+
+anim::AppMode anim::AppState::GetMode() const
+{
+	return AppMode::None;
+}

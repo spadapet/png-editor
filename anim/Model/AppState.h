@@ -5,6 +5,12 @@
 
 namespace anim
 {
+	enum class AppMode
+	{
+		None,
+		Edit,
+	};
+
 	class AppState
 	{
 	public:
@@ -20,6 +26,7 @@ namespace anim
 		const std::vector<std::unique_ptr<AppPaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
 		AppPaneInfo &GetNonePane();
+		AppMode GetMode() const;
 
 	private:
 		AppPaneInfo nonePane;

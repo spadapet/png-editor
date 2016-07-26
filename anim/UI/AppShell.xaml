@@ -13,6 +13,7 @@
     </Grid.ColumnDefinitions>
     <Grid.Resources>
         <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="White" BrushFalse="Transparent" />
+        <local:BoolToVisibleConverter x:Key="BoolToVisible" />
         <Style x:Key="AppPaneInfoButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="40" />
@@ -22,7 +23,7 @@
             <Setter Property="BorderBrush" Value="Transparent" />
         </Style>
         <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:AppPaneInfoViewModel">
-            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Click="OnPaneButtonClick" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}">
+            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Click="OnPaneButtonClick" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}" Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>

@@ -1,6 +1,8 @@
 #include "pch.h"
+#include "App.xaml.h"
 #include "Core/String.h"
 #include "Model/AppPaneInfo.h"
+#include "Model/AppState.h"
 #include "ViewModel/AppPaneInfoViewModel.h"
 
 anim::AppPaneInfoViewModel::AppPaneInfoViewModel()
@@ -10,6 +12,9 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel()
 
 anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
 	: parent(parent)
+	, appState(&App::Current->GetGlobalState())
+	, appStateDisposedCookie(NULL_EVENT_COOKIE)
+	, appStateChangedCookie(NULL_EVENT_COOKIE)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, active(false)
@@ -18,6 +23,17 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
 	{
 		return;
 	}
+
+	this->appStateDisposedCookie = this->appState->Disposed.Add([this]()
+	{
+		this->appState = nullptr;
+		this->NotifyPropertyChanged();
+	});
+
+	this->appStateDisposedCookie = this->appState->PropertyChanged.Add([this](const char *name)
+	{
+		this->AppPropertyChanged(name);
+	});
 
 	this->parentDisposedCookie = this->parent->Disposed.Add([this]()
 	{
@@ -33,6 +49,11 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent)
 
 anim::AppPaneInfoViewModel::~AppPaneInfoViewModel()
 {
+	if (this->appState != nullptr)
+	{
+		this->appState->Disposed.Remove(this->appStateDisposedCookie);
+	}
+
 	if (this->parent != nullptr)
 	{
 		this->parent->Disposed.Remove(this->parentDisposedCookie);
@@ -150,16 +171,44 @@ void anim::AppPaneInfoViewModel::IsActive::set(bool value)
 	}
 }
 
+bool anim::AppPaneInfoViewModel::IsVisible::get()
+{
+	bool visible = false;
+
+	switch (this->parent != nullptr ? this->parent->GetType() : AppPaneType::None)
+	{
+	default:
+	case AppPaneType::None:
+		break;
+
+	case AppPaneType::Files:
+		visible = true;
+		break;
+
+	case AppPaneType::Color:
+	case AppPaneType::Layers:
+	case AppPaneType::View:
+	case AppPaneType::Animation:
+		visible = this->appState && (this->appState->GetMode() == AppMode::Edit);
+		break;
+	}
+
+	return visible;
+}
+
 void anim::AppPaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
+void anim::AppPaneInfoViewModel::AppPropertyChanged(const char *name)
+{
+	if (strcmp(name, "Mode") == 0)
+	{
+		this->NotifyPropertyChanged("IsVisible");
+	}
+}
+
 void anim::AppPaneInfoViewModel::ModelPropertyChanged(const char *name)
 {
-	if (strcmp(name, "Type") == 0)
-	{
-		this->NotifyPropertyChanged("Name");
-		this->NotifyPropertyChanged("Icon");
-	}
 }
