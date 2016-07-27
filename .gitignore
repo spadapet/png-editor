@@ -7,8 +7,10 @@ bin/
 obj/
 
 # files
+*.db
 *.ipch
 *.log
+*.opendb
 *.opensdf
 *.sdf
 *.suo
