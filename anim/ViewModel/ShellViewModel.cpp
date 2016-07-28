@@ -5,8 +5,8 @@
 #include "ViewModel/ProjectFolderViewModel.h"
 #include "ViewModel/ShellViewModel.h"
 
-anim::ShellViewModel::ShellViewModel()
-	: parent(App::GlobalState)
+anim::ShellViewModel::ShellViewModel(AppState *app)
+	: app(app)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
@@ -14,7 +14,7 @@ anim::ShellViewModel::ShellViewModel()
 	, panes(ref new Platform::Collections::Vector<PaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
-	if (this->parent == nullptr)
+	if (this->app == nullptr)
 	{
 		// Probably running in XAML desigher
 		return;
@@ -22,11 +22,11 @@ anim::ShellViewModel::ShellViewModel()
 
 	Platform::WeakReference weakThis(this);
 
-	this->nonePane = ref new PaneInfoViewModel(&parent->GetNonePane(), this);
+	this->nonePane = ref new PaneInfoViewModel(this->app, &app->GetNonePane(), this);
 
-	for (auto &pane : parent->GetPanes())
+	for (auto &pane : this->app->GetPanes())
 	{
-		this->panes->Append(ref new PaneInfoViewModel(pane.get(), this));
+		this->panes->Append(ref new PaneInfoViewModel(this->app, pane.get(), this));
 	}
 
 	this->activePane = (this->panes->Size > 0)
@@ -34,22 +34,22 @@ anim::ShellViewModel::ShellViewModel()
 		: this->nonePane;
 	this->activePane->IsActive = true;
 
-	for (Windows::Storage::StorageFolder ^folder : parent->GetProjectFolders())
+	for (Windows::Storage::StorageFolder ^folder : app->GetProjectFolders())
 	{
 		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
 	}
 
-	this->parentDisposedCookie = this->parent->Disposed.Add([weakThis]()
+	this->parentDisposedCookie = this->app->Disposed.Add([weakThis]()
 	{
 		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
 		{
-			owner->parent = nullptr;
+			owner->app = nullptr;
 			owner->NotifyPropertyChanged();
 		}
 	});
 
-	this->parentChangedCookie = this->parent->PropertyChanged.Add([weakThis](const char *name)
+	this->parentChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
 		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
@@ -58,7 +58,7 @@ anim::ShellViewModel::ShellViewModel()
 		}
 	});
 
-	this->projectFolderAddedCookie = this->parent->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	this->projectFolderAddedCookie = this->app->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
 		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
@@ -67,7 +67,7 @@ anim::ShellViewModel::ShellViewModel()
 		}
 	});
 
-	this->projectFolderRemovedCookie = this->parent->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	this->projectFolderRemovedCookie = this->app->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
 		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
@@ -93,12 +93,12 @@ anim::ShellViewModel::~ShellViewModel()
 		projectFolder->Destroy();
 	}
 
-	if (this->parent != nullptr)
+	if (this->app != nullptr)
 	{
-		this->parent->PropertyChanged.Remove(this->parentChangedCookie);
-		this->parent->Disposed.Remove(this->parentDisposedCookie);
-		this->parent->ProjectFolderAdded.Remove(this->projectFolderAddedCookie);
-		this->parent->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
+		this->app->PropertyChanged.Remove(this->parentChangedCookie);
+		this->app->Disposed.Remove(this->parentDisposedCookie);
+		this->app->ProjectFolderAdded.Remove(this->projectFolderAddedCookie);
+		this->app->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
 	}
 }
 

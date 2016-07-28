@@ -2,21 +2,25 @@
 
 #include "UI/MainPage.g.h"
 
-class AppState;
-
 namespace anim
 {
+	class AppState;
+	ref class AppShell;
 	ref class MainPageViewModel;
 
 	public ref class MainPage sealed
 	{
+	internal:
+		MainPage(AppState *app);
+
 	public:
-		MainPage();
 		virtual ~MainPage();
 
 		property MainPageViewModel ^State { MainPageViewModel ^get(); }
+		property Windows::UI::Xaml::UIElement ^Shell { Windows::UI::Xaml::UIElement ^get(); }
 
 	private:
 		MainPageViewModel ^state;
+		AppShell ^shell;
 	};
 }

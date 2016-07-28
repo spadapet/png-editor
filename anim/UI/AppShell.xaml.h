@@ -8,10 +8,14 @@
 
 namespace anim
 {
+	class AppState;
+
 	public ref class AppShell sealed
 	{
+	internal:
+		AppShell(AppState *app);
+
 	public:
-		AppShell();
 		virtual ~AppShell();
 
 		property ShellViewModel ^State { ShellViewModel ^get(); }

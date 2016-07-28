@@ -9,7 +9,13 @@
     FontSize="{StaticResource UiFontSize}">
 
     <Grid>
-        <local:AppShell />
+        <ContentControl Content="{x:Bind Shell}">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
     </Grid>
 
 </UserControl>

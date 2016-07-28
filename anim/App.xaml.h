@@ -9,14 +9,8 @@ namespace anim
 	{
 	public:
 		App();
-		virtual ~App();
-		static property App ^Current { App ^get(); }
 
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args) override;
-
-	internal:
-		static property AppState *GlobalState { AppState *get(); }
-		AppState &GetGlobalState();
 
 	private:
 		void InitializeProcess();

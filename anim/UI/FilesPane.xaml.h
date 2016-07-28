@@ -4,9 +4,15 @@
 
 namespace anim
 {
+	class AppState;
+	ref class ShellViewModel;
+
 	public ref class FilesPane sealed
 	{
-	public:
-		FilesPane();
+	internal:
+		FilesPane(AppState *app);
+
+	private:
+		AppState *app;
 	};
 }

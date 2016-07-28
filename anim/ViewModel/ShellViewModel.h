@@ -11,8 +11,10 @@ namespace anim
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class ShellViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
+	internal:
+		ShellViewModel(AppState *app);
+
 	public:
-		ShellViewModel();
 		virtual ~ShellViewModel();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -24,7 +26,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void ModelPropertyChanged(const char *name);
 
-		AppState *parent;
+		AppState *app;
 		EventCookie parentDisposedCookie;
 		EventCookie parentChangedCookie;
 		EventCookie projectFolderAddedCookie;

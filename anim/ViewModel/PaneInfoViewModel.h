@@ -14,7 +14,7 @@ namespace anim
 	public ref class PaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		PaneInfoViewModel(AppPaneInfo *parent, ShellViewModel ^shellViewModel);
+		PaneInfoViewModel(AppState *app, AppPaneInfo *pane, ShellViewModel ^shell);
 
 	public:
 		PaneInfoViewModel();
@@ -32,19 +32,18 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
 		void ModelPropertyChanged(const char *name);
-		void ToggleActive();
+		void ToggleActive(ShellViewModel ^shell);
 
-		AppState *appState;
-		AppPaneInfo *parent;
-		EventCookie appStateDisposedCookie;
-		EventCookie appStateChangedCookie;
-		EventCookie parentDisposedCookie;
-		EventCookie parentChangedCookie;
+		AppState *app;
+		AppPaneInfo *pane;
+		EventCookie appDisposedCookie;
+		EventCookie appChangedCookie;
+		EventCookie paneDisposedCookie;
+		EventCookie paneChangedCookie;
 		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;
-		Windows::UI::Xaml::UIElement ^pane;
+		Windows::UI::Xaml::UIElement ^paneUi;
 		Windows::UI::Xaml::Input::ICommand ^toggleActiveCommand;
-		Platform::WeakReference shellViewModel;
 		bool active;
 	};
 }

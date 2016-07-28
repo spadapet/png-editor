@@ -11,27 +11,6 @@ anim::App::App()
 	this->Resuming += ref new Windows::Foundation::EventHandler<Platform::Object ^>(this, &App::OnResuming);
 }
 
-anim::App::~App()
-{
-}
-
-anim::App ^anim::App::Current::get()
-{
-	// App will be null when running in XAML designer
-	return dynamic_cast<App ^>(Windows::UI::Xaml::Application::Current);
-}
-
-anim::AppState *anim::App::GlobalState::get()
-{
-	App ^app = App::Current;
-	return (app != nullptr) ? &app->GetGlobalState() : nullptr;
-}
-
-anim::AppState &anim::App::GetGlobalState()
-{
-	return this->state;
-}
-
 void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^args)
 {
 	this->InitializeProcess();
@@ -48,24 +27,14 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::ClosedByUser:
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::Terminated:
 		{
-			Platform::WeakReference weakThis(this);
-
-			auto initGlobals = concurrency::task<void>([weakThis]()
+			auto initGlobals = concurrency::task<void>([this]()
 			{
-				App ^owner = weakThis.Resolve<App>();
-				if (owner != nullptr)
-				{
-					owner->InitializeGlobals();
-				}
+				this->InitializeGlobals();
 			});
 
-			initGlobals.then([weakThis]()
+			initGlobals.then([this]()
 			{
-				App ^owner = weakThis.Resolve<App>();
-				if (owner != nullptr)
-				{
-					owner->InitializeWindow(Windows::UI::Xaml::Window::Current);
-				}
+				this->InitializeWindow(Windows::UI::Xaml::Window::Current);
 			}, concurrency::task_continuation_context::use_current());
 		}
 		break;
@@ -83,12 +52,20 @@ void anim::App::InitializeGlobals()
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 {
-	window->Content = ref new MainPage();
+	window->Content = ref new MainPage(&this->state);
 	window->Activate();
 }
 
 void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args)
 {
+	Windows::ApplicationModel::SuspendingDeferral ^deferral = args->SuspendingOperation->GetDeferral();
+
+	Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal,
+		ref new Windows::UI::Core::DispatchedHandler([this, deferral]()
+	{
+		this->state.Save();
+		deferral->Complete();
+	}));
 }
 
 void anim::App::OnResuming(Platform::Object ^sender, Platform::Object ^arg)

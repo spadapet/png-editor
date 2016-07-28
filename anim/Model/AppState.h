@@ -23,6 +23,7 @@ namespace anim
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
 		void Initialize();
+		void Save();
 		const std::vector<std::unique_ptr<AppPaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
 		AppPaneInfo &GetNonePane();
