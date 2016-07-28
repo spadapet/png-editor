@@ -7,6 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ContentControl Name="MainContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+    <ContentControl
+        Name="MainContent"
+        FontSize="{StaticResource UiFontSize}"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch">
+        <ContentControl.Content>
+            <local:AppShell />
+        </ContentControl.Content>
+    </ContentControl>
 
 </Grid>

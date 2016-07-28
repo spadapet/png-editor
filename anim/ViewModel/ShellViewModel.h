@@ -6,19 +6,19 @@
 namespace anim
 {
 	class AppState;
-	ref class AppPaneInfoViewModel;
+	ref class PaneInfoViewModel;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class AppShellViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class ShellViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	public:
-		AppShellViewModel();
-		virtual ~AppShellViewModel();
+		ShellViewModel();
+		virtual ~ShellViewModel();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
-		property Windows::Foundation::Collections::IVector<AppPaneInfoViewModel ^> ^Panes { Windows::Foundation::Collections::IVector<AppPaneInfoViewModel ^> ^get(); }
+		property Windows::Foundation::Collections::IVector<PaneInfoViewModel ^> ^Panes { Windows::Foundation::Collections::IVector<PaneInfoViewModel ^> ^get(); }
 		property Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ProjectFolderViewModel ^> ^get(); }
-		property AppPaneInfoViewModel ^ActivePane { AppPaneInfoViewModel ^get(); void set(AppPaneInfoViewModel ^value); }
+		property PaneInfoViewModel ^ActivePane { PaneInfoViewModel ^get(); void set(PaneInfoViewModel ^value); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -30,9 +30,9 @@ namespace anim
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
 
-		AppPaneInfoViewModel ^nonePane;
-		AppPaneInfoViewModel ^activePane;
-		Platform::Collections::Vector<AppPaneInfoViewModel ^> ^panes;
+		PaneInfoViewModel ^nonePane;
+		PaneInfoViewModel ^activePane;
+		Platform::Collections::Vector<PaneInfoViewModel ^> ^panes;
 		Platform::Collections::Vector<ProjectFolderViewModel ^> ^projectFolders;
 	};
 }

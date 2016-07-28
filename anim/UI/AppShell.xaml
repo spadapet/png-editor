@@ -14,48 +14,7 @@
     <Grid.Resources>
         <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource AppPaneBackgroundBrush}" BrushFalse="Transparent" />
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
-        <Style x:Key="AppPaneInfoButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="50" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,5" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid Background="Transparent">
-                            <Border Name="Background" Background="{TemplateBinding Background}" CornerRadius="5,0,0,5" Margin="2,0,0,0" BorderThickness="3,3,0,3" BorderBrush="{TemplateBinding Background}" />
-                            <ContentPresenter />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:AppPaneInfoViewModel">
+        <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:PaneInfoViewModel">
             <Button Style="{StaticResource AppPaneInfoButtonStyle}" Command="{x:Bind ToggleActiveCommand}" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}" Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>

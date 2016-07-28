@@ -1,26 +1,26 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/AppPaneInfoViewModel.h"
-#include "ViewModel/AppShellViewModel.h"
+#include "ViewModel/PaneInfoViewModel.h"
 #include "ViewModel/ProjectFolderViewModel.h"
+#include "ViewModel/ShellViewModel.h"
 
-anim::AppShellViewModel::AppShellViewModel()
+anim::ShellViewModel::ShellViewModel()
 	: parent(&App::Current->GetGlobalState())
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
-	, panes(ref new Platform::Collections::Vector<AppPaneInfoViewModel ^>())
+	, panes(ref new Platform::Collections::Vector<PaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
 	Platform::WeakReference weakThis(this);
 
-	this->nonePane = ref new AppPaneInfoViewModel(&parent->GetNonePane(), this);
+	this->nonePane = ref new PaneInfoViewModel(&parent->GetNonePane(), this);
 
 	for (auto &pane : parent->GetPanes())
 	{
-		this->panes->Append(ref new AppPaneInfoViewModel(pane.get(), this));
+		this->panes->Append(ref new PaneInfoViewModel(pane.get(), this));
 	}
 
 	this->activePane = (this->panes->Size > 0)
@@ -35,7 +35,7 @@ anim::AppShellViewModel::AppShellViewModel()
 
 	this->parentDisposedCookie = this->parent->Disposed.Add([weakThis]()
 	{
-		auto owner = weakThis.Resolve<AppShellViewModel>();
+		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
 		{
 			owner->parent = nullptr;
@@ -45,7 +45,7 @@ anim::AppShellViewModel::AppShellViewModel()
 
 	this->parentChangedCookie = this->parent->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<AppShellViewModel>();
+		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
 		{
 			owner->ModelPropertyChanged(name);
@@ -54,7 +54,7 @@ anim::AppShellViewModel::AppShellViewModel()
 
 	this->projectFolderAddedCookie = this->parent->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
-		auto owner = weakThis.Resolve<AppShellViewModel>();
+		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
 		{
 			owner->projectFolders->Append(ref new ProjectFolderViewModel(folder));
@@ -63,7 +63,7 @@ anim::AppShellViewModel::AppShellViewModel()
 
 	this->projectFolderRemovedCookie = this->parent->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
-		auto owner = weakThis.Resolve<AppShellViewModel>();
+		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
 		{
 			for (unsigned int i = 0; i < owner->projectFolders->Size; i++)
@@ -80,7 +80,7 @@ anim::AppShellViewModel::AppShellViewModel()
 	});
 }
 
-anim::AppShellViewModel::~AppShellViewModel()
+anim::ShellViewModel::~ShellViewModel()
 {
 	for (ProjectFolderViewModel ^projectFolder : this->projectFolders)
 	{
@@ -96,22 +96,22 @@ anim::AppShellViewModel::~AppShellViewModel()
 	}
 }
 
-Windows::Foundation::Collections::IVector<anim::AppPaneInfoViewModel ^> ^anim::AppShellViewModel::Panes::get()
+Windows::Foundation::Collections::IVector<anim::PaneInfoViewModel ^> ^anim::ShellViewModel::Panes::get()
 {
 	return this->panes;
 }
 
-Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::AppShellViewModel::ProjectFolders::get()
+Windows::Foundation::Collections::IVector<anim::ProjectFolderViewModel ^> ^anim::ShellViewModel::ProjectFolders::get()
 {
 	return this->projectFolders;
 }
 
-anim::AppPaneInfoViewModel ^anim::AppShellViewModel::ActivePane::get()
+anim::PaneInfoViewModel ^anim::ShellViewModel::ActivePane::get()
 {
 	return this->activePane;
 }
 
-void anim::AppShellViewModel::ActivePane::set(AppPaneInfoViewModel ^value)
+void anim::ShellViewModel::ActivePane::set(PaneInfoViewModel ^value)
 {
 	if (value == nullptr)
 	{
@@ -127,11 +127,11 @@ void anim::AppShellViewModel::ActivePane::set(AppPaneInfoViewModel ^value)
 	}
 }
 
-void anim::AppShellViewModel::NotifyPropertyChanged(Platform::String ^name)
+void anim::ShellViewModel::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
-void anim::AppShellViewModel::ModelPropertyChanged(const char *name)
+void anim::ShellViewModel::ModelPropertyChanged(const char *name)
 {
 }

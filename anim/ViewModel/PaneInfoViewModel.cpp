@@ -4,15 +4,15 @@
 #include "Core/String.h"
 #include "Model/AppPaneInfo.h"
 #include "Model/AppState.h"
-#include "ViewModel/AppPaneInfoViewModel.h"
-#include "ViewModel/AppShellViewModel.h"
+#include "ViewModel/PaneInfoViewModel.h"
+#include "ViewModel/ShellViewModel.h"
 
-anim::AppPaneInfoViewModel::AppPaneInfoViewModel()
-	: AppPaneInfoViewModel(nullptr, nullptr)
+anim::PaneInfoViewModel::PaneInfoViewModel()
+	: PaneInfoViewModel(nullptr, nullptr)
 {
 }
 
-anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellViewModel ^shellViewModel)
+anim::PaneInfoViewModel::PaneInfoViewModel(AppPaneInfo *parent, ShellViewModel ^shellViewModel)
 	: parent(parent)
 	, appState(&App::Current->GetGlobalState())
 	, appStateDisposedCookie(NULL_EVENT_COOKIE)
@@ -31,7 +31,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 
 	this->appStateDisposedCookie = this->appState->Disposed.Add([weakThis]()
 	{
-		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
 		{
 			owner->appState = nullptr;
@@ -41,7 +41,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 
 	this->appStateDisposedCookie = this->appState->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
@@ -50,7 +50,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 
 	this->parentDisposedCookie = this->parent->Disposed.Add([weakThis]()
 	{
-		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
 		{
 			owner->parent = nullptr;
@@ -60,7 +60,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 
 	this->parentChangedCookie = this->parent->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
 		{
 			owner->ModelPropertyChanged(name);
@@ -69,7 +69,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 
 	this->toggleActiveCommand = ref new Command([weakThis](Platform::Object ^)
 	{
-		auto owner = weakThis.Resolve<AppPaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
 		{
 			owner->ToggleActive();
@@ -77,7 +77,7 @@ anim::AppPaneInfoViewModel::AppPaneInfoViewModel(AppPaneInfo *parent, AppShellVi
 	});
 }
 
-anim::AppPaneInfoViewModel::~AppPaneInfoViewModel()
+anim::PaneInfoViewModel::~PaneInfoViewModel()
 {
 	if (this->appState != nullptr)
 	{
@@ -91,7 +91,7 @@ anim::AppPaneInfoViewModel::~AppPaneInfoViewModel()
 	}
 }
 
-Platform::String ^anim::AppPaneInfoViewModel::Name::get()
+Platform::String ^anim::PaneInfoViewModel::Name::get()
 {
 	if (this->name == nullptr)
 	{
@@ -131,7 +131,7 @@ Platform::String ^anim::AppPaneInfoViewModel::Name::get()
 	return this->name;
 }
 
-Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
+Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoViewModel::Icon::get()
 {
 	if (this->icon == nullptr)
 	{
@@ -177,7 +177,7 @@ Windows::UI::Xaml::Media::ImageSource ^anim::AppPaneInfoViewModel::Icon::get()
 	return this->icon;
 }
 
-Windows::UI::Xaml::UIElement ^anim::AppPaneInfoViewModel::Pane::get()
+Windows::UI::Xaml::UIElement ^anim::PaneInfoViewModel::Pane::get()
 {
 	if (this->pane == nullptr && this->parent != nullptr)
 	{
@@ -187,17 +187,17 @@ Windows::UI::Xaml::UIElement ^anim::AppPaneInfoViewModel::Pane::get()
 	return this->pane;
 }
 
-Windows::UI::Xaml::Input::ICommand ^anim::AppPaneInfoViewModel::ToggleActiveCommand::get()
+Windows::UI::Xaml::Input::ICommand ^anim::PaneInfoViewModel::ToggleActiveCommand::get()
 {
 	return this->toggleActiveCommand;
 }
 
-bool anim::AppPaneInfoViewModel::IsActive::get()
+bool anim::PaneInfoViewModel::IsActive::get()
 {
 	return this->active;
 }
 
-void anim::AppPaneInfoViewModel::IsActive::set(bool value)
+void anim::PaneInfoViewModel::IsActive::set(bool value)
 {
 	if (this->active != value)
 	{
@@ -206,7 +206,7 @@ void anim::AppPaneInfoViewModel::IsActive::set(bool value)
 	}
 }
 
-bool anim::AppPaneInfoViewModel::IsVisible::get()
+bool anim::PaneInfoViewModel::IsVisible::get()
 {
 	bool visible = false;
 
@@ -224,19 +224,23 @@ bool anim::AppPaneInfoViewModel::IsVisible::get()
 	case AppPaneType::Layers:
 	case AppPaneType::View:
 	case AppPaneType::Animation:
+#ifdef _DEBUG
+		visible = true;
+#else
 		visible = this->appState && (this->appState->GetMode() == AppMode::Edit);
+#endif
 		break;
 	}
 
 	return visible;
 }
 
-void anim::AppPaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)
+void anim::PaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
-void anim::AppPaneInfoViewModel::AppPropertyChanged(const char *name)
+void anim::PaneInfoViewModel::AppPropertyChanged(const char *name)
 {
 	if (strcmp(name, "Mode") == 0)
 	{
@@ -244,13 +248,13 @@ void anim::AppPaneInfoViewModel::AppPropertyChanged(const char *name)
 	}
 }
 
-void anim::AppPaneInfoViewModel::ModelPropertyChanged(const char *name)
+void anim::PaneInfoViewModel::ModelPropertyChanged(const char *name)
 {
 }
 
-void anim::AppPaneInfoViewModel::ToggleActive()
+void anim::PaneInfoViewModel::ToggleActive()
 {
-	AppShellViewModel ^shellViewModel = this->shellViewModel.Resolve<AppShellViewModel>();
+	ShellViewModel ^shellViewModel = this->shellViewModel.Resolve<ShellViewModel>();
 	if (shellViewModel != nullptr)
 	{
 		shellViewModel->ActivePane = (shellViewModel->ActivePane != this)

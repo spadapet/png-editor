@@ -8,17 +8,17 @@ namespace anim
 	class AppPaneInfo;
 	class AppState;
 
-	ref class AppShellViewModel;
+	ref class ShellViewModel;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class AppPaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class PaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		AppPaneInfoViewModel(AppPaneInfo *parent, AppShellViewModel ^shellViewModel);
+		PaneInfoViewModel(AppPaneInfo *parent, ShellViewModel ^shellViewModel);
 
 	public:
-		AppPaneInfoViewModel();
-		virtual ~AppPaneInfoViewModel();
+		PaneInfoViewModel();
+		virtual ~PaneInfoViewModel();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Platform::String ^Name { Platform::String ^get(); }

@@ -21,9 +21,9 @@
     <ClCompile Include="UI\MainPage.xaml.cpp">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="ViewModel\AppPaneInfoViewModel.cpp" />
+    <ClCompile Include="ViewModel\PaneInfoViewModel.cpp" />
     <ClCompile Include="ViewModel\MainPageViewModel.cpp" />
-    <ClCompile Include="ViewModel\AppShellViewModel.cpp" />
+    <ClCompile Include="ViewModel\ShellViewModel.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
     <ClInclude Include="Converters\BoolToBrushConverter.h" />
     <ClInclude Include="Converters\BoolToVisibleConverter.h" />
@@ -48,9 +48,9 @@
     <ClInclude Include="UI\MainPage.xaml.h">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="ViewModel\AppPaneInfoViewModel.h" />
+    <ClInclude Include="ViewModel\PaneInfoViewModel.h" />
     <ClInclude Include="ViewModel\MainPageViewModel.h" />
-    <ClInclude Include="ViewModel\AppShellViewModel.h" />
+    <ClInclude Include="ViewModel\ShellViewModel.h" />
     <ClInclude Include="ViewModel\ProjectFolderViewModel.h" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
