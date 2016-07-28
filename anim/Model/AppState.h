@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Event.h"
-#include "Model/AppPaneInfo.h"
+#include "Model/PaneInfo.h"
 
 namespace anim
 {
@@ -17,21 +17,21 @@ namespace anim
 		AppState();
 		~AppState();
 
-		SimpleEvent Disposed;
+		SimpleEvent Destroyed;
 		ChangedEvent PropertyChanged;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
 		void Initialize();
 		void Save();
-		const std::vector<std::unique_ptr<AppPaneInfo>> &GetPanes() const;
+		const std::vector<std::unique_ptr<PaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
-		AppPaneInfo &GetNonePane();
+		PaneInfo &GetNonePane();
 		AppMode GetMode() const;
 
 	private:
-		AppPaneInfo nonePane;
-		std::vector<std::unique_ptr<AppPaneInfo>> panes;
+		PaneInfo nonePane;
+		std::vector<std::unique_ptr<PaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
 	};
 }

@@ -50,9 +50,6 @@
     <ClCompile Include="ViewModel\MainPageViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
-    <ClCompile Include="Model\AppPaneInfo.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="UI\FilesPane.xaml.cpp" />
     <ClCompile Include="Converters\BoolToBrushConverter.cpp">
       <Filter>Converters</Filter>
@@ -68,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="ViewModel\ShellViewModel.cpp">
       <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\PaneInfo.cpp">
+      <Filter>Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +90,6 @@
     <ClInclude Include="ViewModel\MainPageViewModel.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
-    <ClInclude Include="Model\AppPaneInfo.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="UI\FilesPane.xaml.h" />
     <ClInclude Include="Converters\BoolToBrushConverter.h">
       <Filter>Converters</Filter>
@@ -108,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="ViewModel\ShellViewModel.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\PaneInfo.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

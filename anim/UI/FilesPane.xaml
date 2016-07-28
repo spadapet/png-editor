@@ -10,6 +10,6 @@
     d:DesignWidth="200">
 
     <StackPanel>
-        <TextBlock Text="Explorer" Style="{StaticResource AppPaneHeaderStyle}" />
+        <TextBlock Text="Explorer" Style="{StaticResource PaneHeaderStyle}" />
     </StackPanel>
 </Grid>

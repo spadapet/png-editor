@@ -12,16 +12,16 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
-        <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource AppPaneBackgroundBrush}" BrushFalse="Transparent" />
+        <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource PaneBackgroundBrush}" BrushFalse="Transparent" />
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
-        <DataTemplate x:Key="AppPaneInfoItemTemplate" x:DataType="local:PaneInfoViewModel">
-            <Button Style="{StaticResource AppPaneInfoButtonStyle}" Command="{x:Bind ToggleActiveCommand}" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}" Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
+        <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoViewModel">
+            <Button Style="{StaticResource PaneInfoButtonStyle}" Command="{x:Bind ToggleActiveCommand}" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}" Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
-        <Style x:Key="AppPaneInfoStyle" TargetType="ItemsControl">
-            <Setter Property="Background" Value="{StaticResource AppPaneListBackgroundBrush}" />
-            <Setter Property="ItemTemplate" Value="{StaticResource AppPaneInfoItemTemplate}" />
+        <Style x:Key="PaneInfoStyle" TargetType="ItemsControl">
+            <Setter Property="Background" Value="{StaticResource PaneListBackgroundBrush}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource PaneInfoItemTemplate}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ItemsControl">
@@ -33,7 +33,7 @@
             </Setter>
         </Style>
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
-            <Setter Property="Background" Value="{StaticResource AppPaneBackgroundBrush}" />
+            <Setter Property="Background" Value="{StaticResource PaneBackgroundBrush}" />
             <Setter Property="ContentTransitions">
                 <Setter.Value>
                     <TransitionCollection>
@@ -43,7 +43,7 @@
             </Setter>
         </Style>
     </Grid.Resources>
-    <ItemsControl ItemsSource="{x:Bind State.Panes}" Style="{StaticResource AppPaneInfoStyle}" />
+    <ItemsControl ItemsSource="{x:Bind State.Panes}" Style="{StaticResource PaneInfoStyle}" />
     <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{x:Bind State.ActivePane.Pane, Mode=OneWay}" />
     <Grid Grid.Column="2" Background="DarkOliveGreen" />
 </Grid>

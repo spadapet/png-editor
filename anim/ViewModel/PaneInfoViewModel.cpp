@@ -2,7 +2,7 @@
 #include "App.xaml.h"
 #include "Core/Command.h"
 #include "Core/String.h"
-#include "Model/AppPaneInfo.h"
+#include "Model/PaneInfo.h"
 #include "Model/AppState.h"
 #include "ViewModel/PaneInfoViewModel.h"
 #include "ViewModel/ShellViewModel.h"
@@ -12,7 +12,7 @@ anim::PaneInfoViewModel::PaneInfoViewModel()
 {
 }
 
-anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, AppPaneInfo *pane, ShellViewModel ^shell)
+anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellViewModel ^shell)
 	: app(app)
 	, pane(pane)
 	, appDisposedCookie(NULL_EVENT_COOKIE)
@@ -30,7 +30,7 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, AppPaneInfo *pane, She
 	Platform::WeakReference weakThis(this);
 	Platform::WeakReference weakShell(shell);
 
-	this->appDisposedCookie = this->app->Disposed.Add([weakThis]()
+	this->appDisposedCookie = this->app->Destroyed.Add([weakThis]()
 	{
 		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
@@ -49,7 +49,7 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, AppPaneInfo *pane, She
 		}
 	});
 
-	this->paneDisposedCookie = this->pane->Disposed.Add([weakThis]()
+	this->paneDisposedCookie = this->pane->Destroyed.Add([weakThis]()
 	{
 		auto owner = weakThis.Resolve<PaneInfoViewModel>();
 		if (owner != nullptr)
@@ -84,12 +84,12 @@ anim::PaneInfoViewModel::~PaneInfoViewModel()
 {
 	if (this->app != nullptr)
 	{
-		this->app->Disposed.Remove(this->appDisposedCookie);
+		this->app->Destroyed.Remove(this->appDisposedCookie);
 	}
 
 	if (this->pane != nullptr)
 	{
-		this->pane->Disposed.Remove(this->paneDisposedCookie);
+		this->pane->Destroyed.Remove(this->paneDisposedCookie);
 		this->pane->PropertyChanged.Remove(this->paneChangedCookie);
 	}
 }
@@ -98,34 +98,34 @@ Platform::String ^anim::PaneInfoViewModel::Name::get()
 {
 	if (this->name == nullptr)
 	{
-		switch (pane != nullptr ? pane->GetType() : AppPaneType::None)
+		switch (pane != nullptr ? pane->GetType() : PaneType::None)
 		{
 		default:
 			assert(false);
 			this->name = "<invalid>";
 			break;
 
-		case AppPaneType::None:
+		case PaneType::None:
 			this->name = "<none>";
 			break;
 
-		case AppPaneType::Files:
+		case PaneType::Files:
 			this->name = Resource::GetString("FilesPaneName");
 			break;
 
-		case AppPaneType::Color:
+		case PaneType::Color:
 			this->name = Resource::GetString("ColorPaneName");
 			break;
 
-		case AppPaneType::Layers:
+		case PaneType::Layers:
 			this->name = Resource::GetString("LayersPaneName");
 			break;
 
-		case AppPaneType::View:
+		case PaneType::View:
 			this->name = Resource::GetString("ViewPaneName");
 			break;
 
-		case AppPaneType::Animation:
+		case PaneType::Animation:
 			this->name = Resource::GetString("AnimationPaneName");
 			break;
 		}
@@ -140,32 +140,32 @@ Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoViewModel::Icon::get()
 	{
 		Platform::String ^uri = nullptr;
 
-		switch (this->pane != nullptr ? this->pane->GetType() : AppPaneType::None)
+		switch (this->pane != nullptr ? this->pane->GetType() : PaneType::None)
 		{
 		default:
 			assert(false);
 			break;
 
-		case AppPaneType::None:
+		case PaneType::None:
 			break;
 
-		case AppPaneType::Files:
+		case PaneType::Files:
 			uri = "ms-appx:///Assets/Icons/FileGroup.png";
 			break;
 
-		case AppPaneType::Color:
+		case PaneType::Color:
 			uri = "ms-appx:///Assets/Icons/ColorPalette.png";
 			break;
 
-		case AppPaneType::Layers:
+		case PaneType::Layers:
 			uri = "ms-appx:///Assets/Icons/Layers.png";
 			break;
 	
-		case AppPaneType::View:
+		case PaneType::View:
 			uri = "ms-appx:///Assets/Icons/Zoom.png";
 			break;
 
-		case AppPaneType::Animation:
+		case PaneType::Animation:
 			uri = "ms-appx:///Assets/Icons/Animation.png";
 			break;
 		}
@@ -213,20 +213,20 @@ bool anim::PaneInfoViewModel::IsVisible::get()
 {
 	bool visible = false;
 
-	switch (this->pane != nullptr ? this->pane->GetType() : AppPaneType::None)
+	switch (this->pane != nullptr ? this->pane->GetType() : PaneType::None)
 	{
 	default:
-	case AppPaneType::None:
+	case PaneType::None:
 		break;
 
-	case AppPaneType::Files:
+	case PaneType::Files:
 		visible = true;
 		break;
 
-	case AppPaneType::Color:
-	case AppPaneType::Layers:
-	case AppPaneType::View:
-	case AppPaneType::Animation:
+	case PaneType::Color:
+	case PaneType::Layers:
+	case PaneType::View:
+	case PaneType::Animation:
 #ifdef _DEBUG
 		visible = true;
 #else

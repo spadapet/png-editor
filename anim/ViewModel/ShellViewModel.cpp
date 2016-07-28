@@ -39,7 +39,7 @@ anim::ShellViewModel::ShellViewModel(AppState *app)
 		this->projectFolders->Append(ref new ProjectFolderViewModel(folder));
 	}
 
-	this->parentDisposedCookie = this->app->Disposed.Add([weakThis]()
+	this->parentDisposedCookie = this->app->Destroyed.Add([weakThis]()
 	{
 		auto owner = weakThis.Resolve<ShellViewModel>();
 		if (owner != nullptr)
@@ -96,7 +96,7 @@ anim::ShellViewModel::~ShellViewModel()
 	if (this->app != nullptr)
 	{
 		this->app->PropertyChanged.Remove(this->parentChangedCookie);
-		this->app->Disposed.Remove(this->parentDisposedCookie);
+		this->app->Destroyed.Remove(this->parentDisposedCookie);
 		this->app->ProjectFolderAdded.Remove(this->projectFolderAddedCookie);
 		this->app->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
 	}

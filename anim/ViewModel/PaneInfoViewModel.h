@@ -5,7 +5,7 @@
 
 namespace anim
 {
-	class AppPaneInfo;
+	class PaneInfo;
 	class AppState;
 
 	ref class ShellViewModel;
@@ -14,7 +14,7 @@ namespace anim
 	public ref class PaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		PaneInfoViewModel(AppState *app, AppPaneInfo *pane, ShellViewModel ^shell);
+		PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellViewModel ^shell);
 
 	public:
 		PaneInfoViewModel();
@@ -35,7 +35,7 @@ namespace anim
 		void ToggleActive(ShellViewModel ^shell);
 
 		AppState *app;
-		AppPaneInfo *pane;
+		PaneInfo *pane;
 		EventCookie appDisposedCookie;
 		EventCookie appChangedCookie;
 		EventCookie paneDisposedCookie;
