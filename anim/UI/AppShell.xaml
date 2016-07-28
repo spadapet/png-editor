@@ -7,9 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/> <!-- Pane icons -->
-        <ColumnDefinition Width="Auto"/> <!-- Pane UI -->
-        <ColumnDefinition Width="*" /> <!-- Editing area -->
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
         <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource AppPaneBackgroundBrush}" BrushFalse="Transparent" />
@@ -32,8 +32,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="PaneContentStyle" TargetType="ContentControl">
+            <Setter Property="Background" Value="{StaticResource AppPaneBackgroundBrush}" />
+            <Setter Property="ContentTransitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                        <PaneThemeTransition Edge="Left" />
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Grid.Resources>
     <ItemsControl ItemsSource="{x:Bind State.Panes}" Style="{StaticResource AppPaneInfoStyle}" />
-    <ContentControl Grid.Column="1" Background="{StaticResource AppPaneBackgroundBrush}" Content="{x:Bind State.ActivePane.Pane, Mode=OneWay}" />
+    <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{x:Bind State.ActivePane.Pane, Mode=OneWay}" />
     <Grid Grid.Column="2" Background="DarkOliveGreen" />
 </Grid>
