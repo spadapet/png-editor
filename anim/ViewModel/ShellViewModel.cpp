@@ -6,7 +6,7 @@
 #include "ViewModel/ShellViewModel.h"
 
 anim::ShellViewModel::ShellViewModel()
-	: parent(&App::Current->GetGlobalState())
+	: parent(App::GlobalState)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
 	, parentChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
@@ -14,6 +14,12 @@ anim::ShellViewModel::ShellViewModel()
 	, panes(ref new Platform::Collections::Vector<PaneInfoViewModel ^>())
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderViewModel ^>())
 {
+	if (this->parent == nullptr)
+	{
+		// Probably running in XAML desigher
+		return;
+	}
+
 	Platform::WeakReference weakThis(this);
 
 	this->nonePane = ref new PaneInfoViewModel(&parent->GetNonePane(), this);

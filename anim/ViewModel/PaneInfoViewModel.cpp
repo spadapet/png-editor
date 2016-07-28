@@ -14,7 +14,7 @@ anim::PaneInfoViewModel::PaneInfoViewModel()
 
 anim::PaneInfoViewModel::PaneInfoViewModel(AppPaneInfo *parent, ShellViewModel ^shellViewModel)
 	: parent(parent)
-	, appState(&App::Current->GetGlobalState())
+	, appState(App::GlobalState)
 	, appStateDisposedCookie(NULL_EVENT_COOKIE)
 	, appStateChangedCookie(NULL_EVENT_COOKIE)
 	, parentDisposedCookie(NULL_EVENT_COOKIE)
@@ -22,12 +22,13 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppPaneInfo *parent, ShellViewModel ^
 	, shellViewModel(shellViewModel)
 	, active(false)
 {
-	Platform::WeakReference weakThis(this);
-
-	if (this->parent == nullptr)
+	if (this->parent == nullptr || this->appState == nullptr)
 	{
+		// Probably running in XAML designer
 		return;
 	}
+
+	Platform::WeakReference weakThis(this);
 
 	this->appStateDisposedCookie = this->appState->Disposed.Add([weakThis]()
 	{

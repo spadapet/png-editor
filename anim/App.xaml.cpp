@@ -17,15 +17,17 @@ anim::App::~App()
 
 anim::App ^anim::App::Current::get()
 {
-	return safe_cast<App ^>(Windows::UI::Xaml::Application::Current);
+	// App will be null when running in XAML designer
+	return dynamic_cast<App ^>(Windows::UI::Xaml::Application::Current);
+}
+
+anim::AppState *anim::App::GlobalState::get()
+{
+	App ^app = App::Current;
+	return (app != nullptr) ? &app->GetGlobalState() : nullptr;
 }
 
 anim::AppState &anim::App::GetGlobalState()
-{
-	return this->state;
-}
-
-const anim::AppState &anim::App::GetGlobalState() const
 {
 	return this->state;
 }
