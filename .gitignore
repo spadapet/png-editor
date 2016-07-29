@@ -8,6 +8,8 @@ obj/
 
 # files
 *.db
+*.db-shm
+*.db-wal
 *.ipch
 *.log
 *.opendb
