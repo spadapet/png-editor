@@ -15,7 +15,6 @@ anim::AppState::AppState()
 
 anim::AppState::~AppState()
 {
-	this->Destroyed.Notify();
 }
 
 void anim::AppState::Initialize()

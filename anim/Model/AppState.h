@@ -17,7 +17,6 @@ namespace anim
 		AppState();
 		~AppState();
 
-		SimpleEvent Destroyed;
 		ChangedEvent PropertyChanged;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;

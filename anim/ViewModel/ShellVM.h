@@ -26,7 +26,6 @@ namespace anim
 
 		// App
 		AppState *app;
-		EventCookie appDestroyedCookie;
 		EventCookie appChangedCookie;
 
 		// Panes

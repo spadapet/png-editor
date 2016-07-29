@@ -9,7 +9,6 @@ anim::PaneInfo::PaneInfo(PaneType type, PaneUiFactory &&paneFactory)
 
 anim::PaneInfo::~PaneInfo()
 {
-	this->Destroyed.Notify();
 }
 
 anim::PaneType anim::PaneInfo::GetType() const

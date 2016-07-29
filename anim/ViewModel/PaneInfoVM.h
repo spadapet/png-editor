@@ -36,9 +36,7 @@ namespace anim
 
 		AppState *app;
 		PaneInfo *pane;
-		EventCookie appDestroyedCookie;
 		EventCookie appChangedCookie;
-		EventCookie paneDestroyedCookie;
 		EventCookie paneChangedCookie;
 		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;

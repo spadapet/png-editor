@@ -5,7 +5,6 @@
 
 anim::MainPageVM::MainPageVM(AppState *app)
 	: app(app)
-	, appDestroyedCookie(NULL_EVENT_COOKIE)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 {
 	if (this->app == nullptr)
@@ -15,16 +14,6 @@ anim::MainPageVM::MainPageVM(AppState *app)
 	}
 
 	Platform::WeakReference weakThis(this);
-
-	this->appDestroyedCookie = this->app->Destroyed.Add([weakThis]()
-	{
-		auto owner = weakThis.Resolve<MainPageVM>();
-		if (owner != nullptr)
-		{
-			owner->app = nullptr;
-			owner->NotifyPropertyChanged();
-		}
-	});
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
@@ -41,7 +30,6 @@ anim::MainPageVM::~MainPageVM()
 	if (this->app != nullptr)
 	{
 		this->app->PropertyChanged.Remove(this->appChangedCookie);
-		this->app->Destroyed.Remove(this->appDestroyedCookie);
 	}
 }
 

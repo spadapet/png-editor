@@ -6,7 +6,6 @@
 
 anim::ShellVM::ShellVM(AppState *app)
 	: app(app)
-	, appDestroyedCookie(NULL_EVENT_COOKIE)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, panes(ref new Platform::Collections::Vector<PaneInfoVM ^>())
 {
@@ -30,16 +29,6 @@ anim::ShellVM::ShellVM(AppState *app)
 		: this->nonePane;
 	this->activePane->IsActive = true;
 
-	this->appDestroyedCookie = this->app->Destroyed.Add([weakThis]()
-	{
-		auto owner = weakThis.Resolve<ShellVM>();
-		if (owner != nullptr)
-		{
-			owner->app = nullptr;
-			owner->NotifyPropertyChanged();
-		}
-	});
-
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
 		auto owner = weakThis.Resolve<ShellVM>();
@@ -55,7 +44,6 @@ anim::ShellVM::~ShellVM()
 	if (this->app != nullptr)
 	{
 		this->app->PropertyChanged.Remove(this->appChangedCookie);
-		this->app->Destroyed.Remove(this->appDestroyedCookie);
 	}
 }
 

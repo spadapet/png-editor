@@ -24,7 +24,6 @@ namespace anim
 		void AppPropertyChanged(const char *name);
 
 		AppState *app;
-		EventCookie appDestroyedCookie;
 		EventCookie appChangedCookie;
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;

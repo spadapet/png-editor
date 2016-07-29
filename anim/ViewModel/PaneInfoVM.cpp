@@ -15,9 +15,7 @@ anim::PaneInfoVM::PaneInfoVM()
 anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 	: app(app)
 	, pane(pane)
-	, appDestroyedCookie(NULL_EVENT_COOKIE)
 	, appChangedCookie(NULL_EVENT_COOKIE)
-	, paneDestroyedCookie(NULL_EVENT_COOKIE)
 	, paneChangedCookie(NULL_EVENT_COOKIE)
 	, active(false)
 {
@@ -30,32 +28,12 @@ anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 	Platform::WeakReference weakThis(this);
 	Platform::WeakReference weakShell(shell);
 
-	this->appDestroyedCookie = this->app->Destroyed.Add([weakThis]()
-	{
-		auto owner = weakThis.Resolve<PaneInfoVM>();
-		if (owner != nullptr)
-		{
-			owner->app = nullptr;
-			owner->NotifyPropertyChanged();
-		}
-	});
-
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
 		auto owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
-		}
-	});
-
-	this->paneDestroyedCookie = this->pane->Destroyed.Add([weakThis]()
-	{
-		auto owner = weakThis.Resolve<PaneInfoVM>();
-		if (owner != nullptr)
-		{
-			owner->pane = nullptr;
-			owner->NotifyPropertyChanged();
 		}
 	});
 
@@ -82,14 +60,8 @@ anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 
 anim::PaneInfoVM::~PaneInfoVM()
 {
-	if (this->app != nullptr)
-	{
-		this->app->Destroyed.Remove(this->appDestroyedCookie);
-	}
-
 	if (this->pane != nullptr)
 	{
-		this->pane->Destroyed.Remove(this->paneDestroyedCookie);
 		this->pane->PropertyChanged.Remove(this->paneChangedCookie);
 	}
 }
@@ -230,7 +202,7 @@ bool anim::PaneInfoVM::IsVisible::get()
 #ifdef _DEBUG
 		visible = true;
 #else
-		visible = this->appState && (this->appState->GetMode() == AppMode::Edit);
+		visible = this->app && (this->app->GetMode() == AppMode::Edit);
 #endif
 		break;
 	}

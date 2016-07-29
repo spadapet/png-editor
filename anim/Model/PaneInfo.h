@@ -24,7 +24,6 @@ namespace anim
 		PaneInfo(PaneType type, PaneUiFactory &&paneFactory);
 		~PaneInfo();
 
-		SimpleEvent Destroyed;
 		ChangedEvent PropertyChanged;
 
 		PaneType GetType() const;
