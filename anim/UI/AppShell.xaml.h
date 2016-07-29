@@ -3,8 +3,8 @@
 #include "Converters/BoolToBrushConverter.h"
 #include "Converters/BoolToVisibleConverter.h"
 #include "UI/AppShell.g.h"
-#include "ViewModel/PaneInfoViewModel.h"
-#include "ViewModel/ShellViewModel.h"
+#include "ViewModel/PaneInfoVM.h"
+#include "ViewModel/ShellVM.h"
 
 namespace anim
 {
@@ -18,9 +18,9 @@ namespace anim
 	public:
 		virtual ~AppShell();
 
-		property ShellViewModel ^State { ShellViewModel ^get(); }
+		property ShellVM ^State { ShellVM ^get(); }
 
 	private:
-		ShellViewModel ^state;
+		ShellVM ^state;
 	};
 }

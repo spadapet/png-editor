@@ -1,12 +1,12 @@
 ﻿#pragma once
 
 #include "UI/MainPage.g.h"
-#include "ViewModel/MainPageViewModel.h"
+#include "ViewModel/MainPageVM.h"
 
 namespace anim
 {
 	class AppState;
-	ref class MainPageViewModel;
+	ref class MainPageVM;
 
 	public ref class MainPage sealed
 	{
@@ -16,9 +16,9 @@ namespace anim
 	public:
 		virtual ~MainPage();
 
-		property MainPageViewModel ^State { MainPageViewModel ^get(); }
+		property MainPageVM ^State { MainPageVM ^get(); }
 
 	private:
-		MainPageViewModel ^state;
+		MainPageVM ^state;
 	};
 }

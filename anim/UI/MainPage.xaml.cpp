@@ -3,7 +3,7 @@
 #include "UI/MainPage.xaml.h"
 
 anim::MainPage::MainPage(AppState *app)
-	: state(ref new MainPageViewModel(app))
+	: state(ref new MainPageVM(app))
 {
 	this->InitializeComponent();
 }
@@ -12,7 +12,7 @@ anim::MainPage::~MainPage()
 {
 }
 
-anim::MainPageViewModel ^anim::MainPage::State::get()
+anim::MainPageVM ^anim::MainPage::State::get()
 {
 	return this->state;
 }

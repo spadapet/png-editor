@@ -3,7 +3,7 @@
 #include "UI/AppShell.xaml.h"
 
 anim::AppShell::AppShell(AppState *app)
-	: state(ref new ShellViewModel(app))
+	: state(ref new ShellVM(app))
 {
 	this->InitializeComponent();
 }
@@ -12,7 +12,7 @@ anim::AppShell::~AppShell()
 {
 }
 
-anim::ShellViewModel ^anim::AppShell::State::get()
+anim::ShellVM ^anim::AppShell::State::get()
 {
 	return this->state;
 }

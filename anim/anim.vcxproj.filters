@@ -44,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="UI\AppShell.xaml.cpp" />
     <ClCompile Include="UI\MainPage.xaml.cpp" />
-    <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\MainPageViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="UI\FilesPane.xaml.cpp" />
     <ClCompile Include="Converters\BoolToBrushConverter.cpp">
       <Filter>Converters</Filter>
@@ -60,14 +54,23 @@
     <ClCompile Include="Core\Command.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\PaneInfoViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\ShellViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="Model\PaneInfo.cpp">
       <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ShellVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\PaneInfoVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\MainPageVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ProjectFolderVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\FilesPaneVM.cpp">
+      <Filter>ViewModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,12 +87,6 @@
     </ClInclude>
     <ClInclude Include="UI\AppShell.xaml.h" />
     <ClInclude Include="UI\MainPage.xaml.h" />
-    <ClInclude Include="ViewModel\ProjectFolderViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\MainPageViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="UI\FilesPane.xaml.h" />
     <ClInclude Include="Converters\BoolToBrushConverter.h">
       <Filter>Converters</Filter>
@@ -100,14 +97,23 @@
     <ClInclude Include="Core\Command.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\PaneInfoViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\ShellViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="Model\PaneInfo.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ShellVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\PaneInfoVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\MainPageVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectFolderVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\FilesPaneVM.h">
+      <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

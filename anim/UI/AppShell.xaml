@@ -14,7 +14,7 @@
     <Grid.Resources>
         <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource PaneBackgroundBrush}" BrushFalse="Transparent" />
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
-        <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoViewModel">
+        <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoVM">
             <Button Style="{StaticResource PaneInfoButtonStyle}" Command="{x:Bind ToggleActiveCommand}" ToolTipService.ToolTip="{x:Bind Name}" Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}" Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>

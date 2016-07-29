@@ -4,20 +4,20 @@
 #include "Core/String.h"
 #include "Model/PaneInfo.h"
 #include "Model/AppState.h"
-#include "ViewModel/PaneInfoViewModel.h"
-#include "ViewModel/ShellViewModel.h"
+#include "ViewModel/PaneInfoVM.h"
+#include "ViewModel/ShellVM.h"
 
-anim::PaneInfoViewModel::PaneInfoViewModel()
-	: PaneInfoViewModel(nullptr, nullptr, nullptr)
+anim::PaneInfoVM::PaneInfoVM()
+	: PaneInfoVM(nullptr, nullptr, nullptr)
 {
 }
 
-anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellViewModel ^shell)
+anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 	: app(app)
 	, pane(pane)
-	, appDisposedCookie(NULL_EVENT_COOKIE)
+	, appDestroyedCookie(NULL_EVENT_COOKIE)
 	, appChangedCookie(NULL_EVENT_COOKIE)
-	, paneDisposedCookie(NULL_EVENT_COOKIE)
+	, paneDestroyedCookie(NULL_EVENT_COOKIE)
 	, paneChangedCookie(NULL_EVENT_COOKIE)
 	, active(false)
 {
@@ -30,9 +30,9 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellV
 	Platform::WeakReference weakThis(this);
 	Platform::WeakReference weakShell(shell);
 
-	this->appDisposedCookie = this->app->Destroyed.Add([weakThis]()
+	this->appDestroyedCookie = this->app->Destroyed.Add([weakThis]()
 	{
-		auto owner = weakThis.Resolve<PaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->app = nullptr;
@@ -40,18 +40,18 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellV
 		}
 	});
 
-	this->appDisposedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
+	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<PaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
 		}
 	});
 
-	this->paneDisposedCookie = this->pane->Destroyed.Add([weakThis]()
+	this->paneDestroyedCookie = this->pane->Destroyed.Add([weakThis]()
 	{
-		auto owner = weakThis.Resolve<PaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->pane = nullptr;
@@ -61,17 +61,17 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellV
 
 	this->paneChangedCookie = this->pane->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<PaneInfoViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
-			owner->ModelPropertyChanged(name);
+			owner->PanePropertyChanged(name);
 		}
 	});
 
 	this->toggleActiveCommand = ref new Command([weakThis, weakShell](Platform::Object ^)
 	{
-		auto owner = weakThis.Resolve<PaneInfoViewModel>();
-		auto shell = weakShell.Resolve<ShellViewModel>();
+		auto owner = weakThis.Resolve<PaneInfoVM>();
+		auto shell = weakShell.Resolve<ShellVM>();
 
 		if (owner != nullptr && shell != nullptr)
 		{
@@ -80,21 +80,21 @@ anim::PaneInfoViewModel::PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellV
 	});
 }
 
-anim::PaneInfoViewModel::~PaneInfoViewModel()
+anim::PaneInfoVM::~PaneInfoVM()
 {
 	if (this->app != nullptr)
 	{
-		this->app->Destroyed.Remove(this->appDisposedCookie);
+		this->app->Destroyed.Remove(this->appDestroyedCookie);
 	}
 
 	if (this->pane != nullptr)
 	{
-		this->pane->Destroyed.Remove(this->paneDisposedCookie);
+		this->pane->Destroyed.Remove(this->paneDestroyedCookie);
 		this->pane->PropertyChanged.Remove(this->paneChangedCookie);
 	}
 }
 
-Platform::String ^anim::PaneInfoViewModel::Name::get()
+Platform::String ^anim::PaneInfoVM::Name::get()
 {
 	if (this->name == nullptr)
 	{
@@ -134,7 +134,7 @@ Platform::String ^anim::PaneInfoViewModel::Name::get()
 	return this->name;
 }
 
-Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoViewModel::Icon::get()
+Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoVM::Icon::get()
 {
 	if (this->icon == nullptr)
 	{
@@ -180,7 +180,7 @@ Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoViewModel::Icon::get()
 	return this->icon;
 }
 
-Windows::UI::Xaml::UIElement ^anim::PaneInfoViewModel::Pane::get()
+Windows::UI::Xaml::UIElement ^anim::PaneInfoVM::Pane::get()
 {
 	if (this->paneUi == nullptr && this->pane != nullptr)
 	{
@@ -190,17 +190,17 @@ Windows::UI::Xaml::UIElement ^anim::PaneInfoViewModel::Pane::get()
 	return this->paneUi;
 }
 
-Windows::UI::Xaml::Input::ICommand ^anim::PaneInfoViewModel::ToggleActiveCommand::get()
+Windows::UI::Xaml::Input::ICommand ^anim::PaneInfoVM::ToggleActiveCommand::get()
 {
 	return this->toggleActiveCommand;
 }
 
-bool anim::PaneInfoViewModel::IsActive::get()
+bool anim::PaneInfoVM::IsActive::get()
 {
 	return this->active;
 }
 
-void anim::PaneInfoViewModel::IsActive::set(bool value)
+void anim::PaneInfoVM::IsActive::set(bool value)
 {
 	if (this->active != value)
 	{
@@ -209,7 +209,7 @@ void anim::PaneInfoViewModel::IsActive::set(bool value)
 	}
 }
 
-bool anim::PaneInfoViewModel::IsVisible::get()
+bool anim::PaneInfoVM::IsVisible::get()
 {
 	bool visible = false;
 
@@ -238,12 +238,12 @@ bool anim::PaneInfoViewModel::IsVisible::get()
 	return visible;
 }
 
-void anim::PaneInfoViewModel::NotifyPropertyChanged(Platform::String ^name)
+void anim::PaneInfoVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }
 
-void anim::PaneInfoViewModel::AppPropertyChanged(const char *name)
+void anim::PaneInfoVM::AppPropertyChanged(const char *name)
 {
 	if (strcmp(name, "Mode") == 0)
 	{
@@ -251,11 +251,11 @@ void anim::PaneInfoViewModel::AppPropertyChanged(const char *name)
 	}
 }
 
-void anim::PaneInfoViewModel::ModelPropertyChanged(const char *name)
+void anim::PaneInfoVM::PanePropertyChanged(const char *name)
 {
 }
 
-void anim::PaneInfoViewModel::ToggleActive(ShellViewModel ^shell)
+void anim::PaneInfoVM::ToggleActive(ShellVM ^shell)
 {
 	shell->ActivePane = (shell->ActivePane != this) ? this : nullptr;
 }

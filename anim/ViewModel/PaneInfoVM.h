@@ -1,24 +1,24 @@
 #pragma once
 
 #include "Core/Event.h"
-#include "ViewModel/ProjectFolderViewModel.h"
+#include "ViewModel/ProjectFolderVM.h"
 
 namespace anim
 {
 	class PaneInfo;
 	class AppState;
 
-	ref class ShellViewModel;
+	ref class ShellVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class PaneInfoViewModel sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class PaneInfoVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		PaneInfoViewModel(AppState *app, PaneInfo *pane, ShellViewModel ^shell);
+		PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell);
 
 	public:
-		PaneInfoViewModel();
-		virtual ~PaneInfoViewModel();
+		PaneInfoVM();
+		virtual ~PaneInfoVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Platform::String ^Name { Platform::String ^get(); }
@@ -31,14 +31,14 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
-		void ModelPropertyChanged(const char *name);
-		void ToggleActive(ShellViewModel ^shell);
+		void PanePropertyChanged(const char *name);
+		void ToggleActive(ShellVM ^shell);
 
 		AppState *app;
 		PaneInfo *pane;
-		EventCookie appDisposedCookie;
+		EventCookie appDestroyedCookie;
 		EventCookie appChangedCookie;
-		EventCookie paneDisposedCookie;
+		EventCookie paneDestroyedCookie;
 		EventCookie paneChangedCookie;
 		Platform::String ^name;
 		Windows::UI::Xaml::Media::ImageSource ^icon;

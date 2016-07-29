@@ -2,12 +2,13 @@
 
 namespace anim
 {
-	public ref class ProjectFolderViewModel sealed
+	public ref class ProjectFolderVM sealed
 	{
+	internal:
+		ProjectFolderVM(Windows::Storage::StorageFolder ^folder);
+
 	public:
-		ProjectFolderViewModel(Windows::Storage::StorageFolder ^folder);
-		virtual ~ProjectFolderViewModel();
-		void Destroy();
+		virtual ~ProjectFolderVM();
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Platform::String ^DisplayName { Platform::String ^get(); }

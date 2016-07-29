@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
 #include "UI/MainPage.xaml.h"
-#include "ViewModel/ShellViewModel.h"
+#include "ViewModel/ShellVM.h"
 
 anim::App::App()
 {

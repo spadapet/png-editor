@@ -4,7 +4,7 @@
 
 namespace anim
 {
-	ref class PaneInfoViewModel;
+	ref class PaneInfoVM;
 
 	enum class PaneType
 	{

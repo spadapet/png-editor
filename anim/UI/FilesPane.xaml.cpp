@@ -2,7 +2,16 @@
 #include "UI/FilesPane.xaml.h"
 
 anim::FilesPane::FilesPane(AppState *app)
-	: app(app)
+	: state(ref new FilesPaneVM(app))
 {
-	InitializeComponent();
+	this->InitializeComponent();
+}
+
+anim::FilesPane::~FilesPane()
+{
+}
+
+anim::FilesPaneVM ^anim::FilesPane::State::get()
+{
+	return this->state;
 }

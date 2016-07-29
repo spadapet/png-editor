@@ -21,10 +21,11 @@
     <ClCompile Include="UI\MainPage.xaml.cpp">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="ViewModel\PaneInfoViewModel.cpp" />
-    <ClCompile Include="ViewModel\MainPageViewModel.cpp" />
-    <ClCompile Include="ViewModel\ShellViewModel.cpp" />
-    <ClCompile Include="ViewModel\ProjectFolderViewModel.cpp" />
+    <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
+    <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
+    <ClCompile Include="ViewModel\MainPageVM.cpp" />
+    <ClCompile Include="ViewModel\ShellVM.cpp" />
+    <ClCompile Include="ViewModel\ProjectFolderVM.cpp" />
     <ClInclude Include="Converters\BoolToBrushConverter.h" />
     <ClInclude Include="Converters\BoolToVisibleConverter.h" />
     <ClInclude Include="Core\Command.h" />
@@ -48,10 +49,11 @@
     <ClInclude Include="UI\MainPage.xaml.h">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="ViewModel\PaneInfoViewModel.h" />
-    <ClInclude Include="ViewModel\MainPageViewModel.h" />
-    <ClInclude Include="ViewModel\ShellViewModel.h" />
-    <ClInclude Include="ViewModel\ProjectFolderViewModel.h" />
+    <ClInclude Include="ViewModel\FilesPaneVM.h" />
+    <ClInclude Include="ViewModel\PaneInfoVM.h" />
+    <ClInclude Include="ViewModel\MainPageVM.h" />
+    <ClInclude Include="ViewModel\ShellVM.h" />
+    <ClInclude Include="ViewModel\ProjectFolderVM.h" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
