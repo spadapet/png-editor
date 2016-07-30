@@ -4,6 +4,7 @@
 # sub dirs
 .vs/
 bin/
+BundleArtifacts/
 obj/
 
 # files
