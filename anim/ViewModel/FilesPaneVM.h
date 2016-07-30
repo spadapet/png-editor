@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Core/Event.h"
-#include "ViewModel/ProjectFolderVM.h"
 
 namespace anim
 {
 	class AppState;
+	ref class ProjectFolderVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class FilesPaneVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged

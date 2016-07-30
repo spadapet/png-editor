@@ -1,11 +1,11 @@
 ﻿#pragma once
 
 #include "UI/FilesPane.g.h"
-#include "ViewModel/FilesPaneVM.h"
 
 namespace anim
 {
 	class AppState;
+	ref class FilesPaneVM;
 
 	public ref class FilesPane sealed
 	{

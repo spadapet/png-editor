@@ -1,5 +1,4 @@
 ﻿#include "pch.h"
-#include "App.xaml.h"
 #include "UI/AppShell.xaml.h"
 
 anim::AppShell::AppShell(AppState *app)

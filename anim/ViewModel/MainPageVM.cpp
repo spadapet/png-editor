@@ -33,20 +33,27 @@ anim::MainPageVM::~MainPageVM()
 	}
 }
 
-Windows::UI::Xaml::UIElement ^anim::MainPageVM::Shell::get()
+Windows::UI::Xaml::UIElement ^anim::MainPageVM::UserInterface::get()
 {
-	if (this->shell == nullptr && this->app != nullptr)
+	Windows::UI::Xaml::UIElement ^ui = nullptr;
+
+	if (this->app != nullptr)
 	{
 		switch (this->app->GetMode())
 		{
 		case AppMode::None:
 		case AppMode::Edit:
-			this->shell = ref new AppShell(this->app);
+			if (this->shell == nullptr)
+			{
+				this->shell = ref new AppShell(this->app);
+			}
+
+			ui = this->shell;
 			break;
 		}
 	}
 
-	return this->shell;
+	return ui;
 }
 
 void anim::MainPageVM::NotifyPropertyChanged(Platform::String ^name)

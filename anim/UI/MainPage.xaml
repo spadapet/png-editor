@@ -9,7 +9,7 @@
     FontSize="{StaticResource UiFontSize}">
 
     <Grid>
-        <ContentControl Content="{x:Bind State.Shell}">
+        <ContentControl Content="{x:Bind State.UserInterface}">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <ContentPresenter />

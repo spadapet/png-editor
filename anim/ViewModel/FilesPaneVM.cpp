@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ProjectFolderVM.h"
 #include "ViewModel/FilesPaneVM.h"
 

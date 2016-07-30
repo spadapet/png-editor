@@ -17,7 +17,7 @@ namespace anim
 		virtual ~MainPageVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
-		property Windows::UI::Xaml::UIElement ^Shell { Windows::UI::Xaml::UIElement ^get(); }
+		property Windows::UI::Xaml::UIElement ^UserInterface { Windows::UI::Xaml::UIElement ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

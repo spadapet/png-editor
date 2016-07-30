@@ -6,7 +6,6 @@
 namespace anim
 {
 	class AppState;
-	ref class MainPageVM;
 
 	public ref class MainPage sealed
 	{

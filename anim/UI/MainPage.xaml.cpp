@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
-#include "UI/AppShell.xaml.h"
 #include "UI/MainPage.xaml.h"
+#include "ViewModel/MainPageVM.h"
 
 anim::MainPage::MainPage(AppState *app)
 	: state(ref new MainPageVM(app))
