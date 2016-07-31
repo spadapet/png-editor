@@ -138,79 +138,34 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Icons\FileGroup.scale-400.png">
+    <Image Include="Assets\Icons\documents.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\FileGroup.scale-200.png">
+    <Image Include="Assets\Icons\documents.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\FileGroup.scale-150.png">
+    <Image Include="Assets\Icons\image_colors.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\FileGroup.scale-125.png">
+    <Image Include="Assets\Icons\image_colors.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\FileGroup.scale-100.png">
+    <Image Include="Assets\Icons\layers.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\ColorPalette.scale-400.png">
+    <Image Include="Assets\Icons\layers.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\ColorPalette.scale-200.png">
+    <Image Include="Assets\Icons\view_zoom.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\ColorPalette.scale-150.png">
+    <Image Include="Assets\Icons\view_zoom.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\ColorPalette.scale-125.png">
+    <Image Include="Assets\Icons\movie2.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\ColorPalette.scale-100.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Zoom.scale-400.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Zoom.scale-200.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Zoom.scale-150.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Zoom.scale-125.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Zoom.scale-100.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Animation.scale-400.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Animation.scale-200.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Animation.scale-150.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Animation.scale-125.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Animation.scale-100.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Layers.scale-400.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Layers.scale-200.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Layers.scale-150.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Layers.scale-125.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\Layers.scale-100.png">
+    <Image Include="Assets\Icons\movie2.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
   </ItemGroup>

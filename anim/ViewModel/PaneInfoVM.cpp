@@ -122,23 +122,23 @@ Windows::UI::Xaml::Media::ImageSource ^anim::PaneInfoVM::Icon::get()
 			break;
 
 		case PaneType::Files:
-			uri = "ms-appx:///Assets/Icons/FileGroup.png";
+			uri = "ms-appx:///Assets/Icons/documents.png";
 			break;
 
 		case PaneType::Color:
-			uri = "ms-appx:///Assets/Icons/ColorPalette.png";
+			uri = "ms-appx:///Assets/Icons/image_colors.png";
 			break;
 
 		case PaneType::Layers:
-			uri = "ms-appx:///Assets/Icons/Layers.png";
+			uri = "ms-appx:///Assets/Icons/layers.png";
 			break;
 	
 		case PaneType::View:
-			uri = "ms-appx:///Assets/Icons/Zoom.png";
+			uri = "ms-appx:///Assets/Icons/view_zoom.png";
 			break;
 
 		case PaneType::Animation:
-			uri = "ms-appx:///Assets/Icons/Animation.png";
+			uri = "ms-appx:///Assets/Icons/movie2.png";
 			break;
 		}
 

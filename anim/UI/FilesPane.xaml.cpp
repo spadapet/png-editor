@@ -1,6 +1,5 @@
 ﻿#include "pch.h"
 #include "UI/FilesPane.xaml.h"
-#include "ViewModel/FilesPaneVM.h"
 
 anim::FilesPane::FilesPane(AppState *app)
 	: state(ref new FilesPaneVM(app))

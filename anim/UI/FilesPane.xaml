@@ -9,7 +9,19 @@
     d:DesignHeight="600"
     d:DesignWidth="200">
 
+    <Grid.Resources>
+        <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
+            <Grid Background="Salmon" ToolTipService.ToolTip="{x:Bind FullName}">
+                <TextBlock Text="{x:Bind DisplayName}" />
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
+            <Setter Property="ItemTemplate" Value="{StaticResource ProjectFolderTemplate}" />
+        </Style>
+    </Grid.Resources>
+
     <StackPanel>
         <TextBlock Text="Explorer" Style="{StaticResource PaneHeaderStyle}" />
+        <ItemsControl ItemsSource="{x:Bind State.ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
     </StackPanel>
 </Grid>
