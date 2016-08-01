@@ -22,7 +22,19 @@
     </Grid.Resources>
 
     <StackPanel>
-        <TextBlock Text="Explorer" Style="{StaticResource PaneHeaderStyle}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Grid.ColumnSpan="2" Opacity="0.25" Background="{ThemeResource ContentDialogBorderThemeBrush}" />
+            <TextBlock Grid.Column="0" x:Uid="FilesPaneName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2,5" VerticalAlignment="Center">
+                <Button Style="{StaticResource ToolbarButtonStyle}">
+                    <Image Source="/Assets/Icons/close_simple.png" />
+                </Button>
+            </StackPanel>
+        </Grid>
         <ItemsControl ItemsSource="{x:Bind State.ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
     </StackPanel>
 </Grid>

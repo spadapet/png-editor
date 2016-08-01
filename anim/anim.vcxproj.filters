@@ -168,6 +168,12 @@
     <Image Include="Assets\Icons\movie2.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
+    <Image Include="Assets\Icons\close_simple.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\close_simple.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\MainPage.xaml">

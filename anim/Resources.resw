@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnimationPaneName" xml:space="preserve">
+  <data name="AnimationPaneName.Text" xml:space="preserve">
     <value>Animation</value>
   </data>
-  <data name="ColorPaneName" xml:space="preserve">
+  <data name="ColorPaneName.Text" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="FilesPaneName" xml:space="preserve">
+  <data name="FilesPaneName.Text" xml:space="preserve">
     <value>Explorer</value>
   </data>
-  <data name="LayersPaneName" xml:space="preserve">
+  <data name="LayersPaneName.Text" xml:space="preserve">
     <value>Layers</value>
   </data>
-  <data name="ViewPaneName" xml:space="preserve">
+  <data name="ViewPaneName.Text" xml:space="preserve">
     <value>View</value>
   </data>
 </root>

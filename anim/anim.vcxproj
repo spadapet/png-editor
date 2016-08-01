@@ -70,6 +70,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\Icons\close_simple.scale-100.png" />
+    <Image Include="Assets\Icons\close_simple.scale-200.png" />
     <Image Include="Assets\Icons\documents.scale-100.png" />
     <Image Include="Assets\Icons\documents.scale-200.png" />
     <Image Include="Assets\Icons\image_colors.scale-100.png" />

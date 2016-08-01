@@ -87,13 +87,6 @@
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{StaticResource PaneBackgroundBrush}" />
-            <Setter Property="ContentTransitions">
-                <Setter.Value>
-                    <TransitionCollection>
-                        <PaneThemeTransition Edge="Left" />
-                    </TransitionCollection>
-                </Setter.Value>
-            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
