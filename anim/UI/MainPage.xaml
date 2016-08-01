@@ -9,7 +9,7 @@
     FontSize="{StaticResource UiFontSize}">
 
     <Grid>
-        <ContentControl Content="{x:Bind State.UserInterface}">
+        <ContentControl Content="{x:Bind State.UserInterface}" IsTabStop="False">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <ContentPresenter />

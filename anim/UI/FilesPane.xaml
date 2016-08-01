@@ -16,6 +16,7 @@
             </Grid>
         </DataTemplate>
         <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
+            <Setter Property="IsTabStop" Value="False" />
             <Setter Property="ItemTemplate" Value="{StaticResource ProjectFolderTemplate}" />
         </Style>
     </Grid.Resources>

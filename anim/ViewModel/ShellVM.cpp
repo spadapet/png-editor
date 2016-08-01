@@ -70,7 +70,13 @@ void anim::ShellVM::ActivePane::set(PaneInfoVM ^value)
 		this->activePane = value;
 		this->activePane->IsActive = true;
 		this->NotifyPropertyChanged("ActivePane");
+		this->NotifyPropertyChanged("HasActivePane");
 	}
+}
+
+bool anim::ShellVM::HasActivePane::get()
+{
+	return this->activePane != this->nonePane;
 }
 
 void anim::ShellVM::NotifyPropertyChanged(Platform::String ^name)
