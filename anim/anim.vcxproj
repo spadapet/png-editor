@@ -15,8 +15,8 @@
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
-    <ClCompile Include="UI\AppShell.xaml.cpp">
-      <DependentUpon>UI\AppShell.xaml</DependentUpon>
+    <ClCompile Include="UI\Shell.xaml.cpp">
+      <DependentUpon>UI\Shell.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="UI\FilesPane.xaml.cpp">
       <DependentUpon>UI\FilesPane.xaml</DependentUpon>
@@ -43,8 +43,8 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <ClInclude Include="UI\AppShell.xaml.h">
-      <DependentUpon>UI\AppShell.xaml</DependentUpon>
+    <ClInclude Include="UI\Shell.xaml.h">
+      <DependentUpon>UI\Shell.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="UI\FilesPane.xaml.h">
       <DependentUpon>UI\FilesPane.xaml</DependentUpon>
@@ -89,7 +89,7 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UI\AppShell.xaml">
+    <Page Include="UI\Shell.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\FilesPane.xaml" />

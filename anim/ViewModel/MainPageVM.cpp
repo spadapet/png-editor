@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Model/AppState.h"
-#include "UI/AppShell.xaml.h"
+#include "UI/Shell.xaml.h"
 #include "ViewModel/MainPageVM.h"
 
 anim::MainPageVM::MainPageVM(AppState *app)
@@ -45,7 +45,7 @@ Windows::UI::Xaml::UIElement ^anim::MainPageVM::UserInterface::get()
 		case AppMode::Edit:
 			if (this->shell == nullptr)
 			{
-				this->shell = ref new AppShell(this->app);
+				this->shell = ref new Shell(this->app);
 			}
 
 			ui = this->shell;

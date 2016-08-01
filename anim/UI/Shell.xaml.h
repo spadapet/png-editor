@@ -2,7 +2,7 @@
 
 #include "Converters/BoolToBrushConverter.h"
 #include "Converters/BoolToVisibleConverter.h"
-#include "UI/AppShell.g.h"
+#include "UI/Shell.g.h"
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
@@ -10,13 +10,13 @@ namespace anim
 {
 	class AppState;
 
-	public ref class AppShell sealed
+	public ref class Shell sealed
 	{
 	internal:
-		AppShell(AppState *app);
+		Shell(AppState *app);
 
 	public:
-		virtual ~AppShell();
+		virtual ~Shell();
 
 		property ShellVM ^State { ShellVM ^get(); }
 

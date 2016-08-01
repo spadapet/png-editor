@@ -42,7 +42,6 @@
     <ClCompile Include="Core\String.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="UI\AppShell.xaml.cpp" />
     <ClCompile Include="UI\MainPage.xaml.cpp" />
     <ClCompile Include="UI\FilesPane.xaml.cpp" />
     <ClCompile Include="Converters\BoolToBrushConverter.cpp">
@@ -72,6 +71,7 @@
     <ClCompile Include="ViewModel\FilesPaneVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Shell.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -85,7 +85,6 @@
     <ClInclude Include="Core\String.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="UI\AppShell.xaml.h" />
     <ClInclude Include="UI\MainPage.xaml.h" />
     <ClInclude Include="UI\FilesPane.xaml.h" />
     <ClInclude Include="Converters\BoolToBrushConverter.h">
@@ -115,6 +114,7 @@
     <ClInclude Include="ViewModel\FilesPaneVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Shell.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
@@ -173,13 +173,13 @@
     <Page Include="UI\MainPage.xaml">
       <Filter>UI</Filter>
     </Page>
-    <Page Include="UI\AppShell.xaml">
-      <Filter>UI</Filter>
-    </Page>
     <Page Include="UI\Theme.xaml">
       <Filter>UI</Filter>
     </Page>
     <Page Include="UI\FilesPane.xaml">
+      <Filter>UI</Filter>
+    </Page>
+    <Page Include="UI\Shell.xaml">
       <Filter>UI</Filter>
     </Page>
   </ItemGroup>
