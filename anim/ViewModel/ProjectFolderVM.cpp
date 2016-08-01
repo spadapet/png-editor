@@ -24,3 +24,8 @@ Platform::String ^anim::ProjectFolderVM::FullName::get()
 {
 	return this->folder->DisplayName;
 }
+
+void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)
+{
+	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
+}

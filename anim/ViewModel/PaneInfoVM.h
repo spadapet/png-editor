@@ -17,7 +17,6 @@ namespace anim
 		PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell);
 
 	public:
-		PaneInfoVM();
 		virtual ~PaneInfoVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;

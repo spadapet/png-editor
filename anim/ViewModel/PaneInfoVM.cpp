@@ -7,11 +7,6 @@
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
-anim::PaneInfoVM::PaneInfoVM()
-	: PaneInfoVM(nullptr, nullptr, nullptr)
-{
-}
-
 anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 	: app(app)
 	, pane(pane)
