@@ -10,6 +10,7 @@ namespace anim
 
 	ref class ShellVM;
 
+	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class PaneInfoVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{

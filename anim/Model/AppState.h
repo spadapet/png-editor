@@ -11,7 +11,7 @@ namespace anim
 		Edit,
 	};
 
-	class AppState : std::enable_shared_from_this<AppState>
+	class AppState : public std::enable_shared_from_this<AppState>
 	{
 	public:
 		AppState();

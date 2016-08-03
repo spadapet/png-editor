@@ -5,6 +5,7 @@
 anim::Shell::Shell(std::shared_ptr<AppState> app)
 	: state(ref new ShellVM(app))
 {
+	this->DataContext = this->state;
 	this->InitializeComponent();
 }
 

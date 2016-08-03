@@ -5,6 +5,7 @@
     xmlns:local="using:anim"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=local:ShellVM, IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -56,17 +57,15 @@
         </Style>
 
         <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoVM">
-            <Grid Background="Red" BorderBrush="Yellow" BorderThickness="2" Width="75" Height="75" Margin="5">
-                <Button
-                    Style="{StaticResource PaneInfoButtonStyle}"
-                    Command="{x:Bind ToggleActiveCommand}"
-                    ToolTipService.ToolTip="{x:Bind Name}"
-                    Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
-                    BorderBrush="{x:Bind IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
-                    Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
-                    <Image Source="{x:Bind Icon}" Stretch="None" />
-                </Button>
-            </Grid>
+            <Button
+                Style="{StaticResource PaneInfoButtonStyle}"
+                Command="{Binding ToggleActiveCommand}"
+                ToolTipService.ToolTip="{Binding Name}"
+                Background="{Binding IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
+                BorderBrush="{Binding IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
+                Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisible}}">
+                <Image Source="{Binding Icon}" Stretch="None" />
+            </Button>
         </DataTemplate>
 
         <Style x:Key="PaneInfoListStyle" TargetType="ItemsControl">
@@ -101,8 +100,8 @@
         </Style>
     </Grid.Resources>
 
-    <ItemsControl Grid.Column="0" ItemsSource="{x:Bind State.Panes}" Style="{StaticResource PaneInfoListStyle}" />
-    <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{x:Bind State.ActivePane.Pane, Mode=OneWay}" />
-    <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="1" Visibility="{x:Bind State.HasActivePane, Mode=OneWay, Converter={StaticResource BoolToVisible}}" />
+    <ItemsControl Grid.Column="0" ItemsSource="{Binding Panes}" Style="{StaticResource PaneInfoListStyle}" />
+    <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane, Mode=OneWay}" />
+    <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="1" Visibility="{Binding HasActivePane, Mode=OneWay, Converter={StaticResource BoolToVisible}}" />
     <Grid Grid.Column="3" Background="DarkOliveGreen" />
 </Grid>

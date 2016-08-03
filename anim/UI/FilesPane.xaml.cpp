@@ -5,6 +5,7 @@
 anim::FilesPane::FilesPane(std::shared_ptr<AppState> app)
 	: state(ref new FilesPaneVM(app))
 {
+	this->DataContext = this->state;
 	this->InitializeComponent();
 }
 

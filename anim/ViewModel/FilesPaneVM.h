@@ -7,6 +7,7 @@ namespace anim
 	class AppState;
 	ref class ProjectFolderVM;
 
+	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class FilesPaneVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{

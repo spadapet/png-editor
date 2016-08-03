@@ -6,6 +6,7 @@
 anim::MainPage::MainPage(std::shared_ptr<AppState> app)
 	: state(ref new MainPageVM(app))
 {
+	this->DataContext = this->state;
 	this->InitializeComponent();
 }
 

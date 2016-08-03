@@ -6,6 +6,7 @@ namespace anim
 {
 	class AppState;
 
+	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class MainPageVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{

@@ -6,13 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignData Type=local:FilesPaneVM, IsDesignTimeCreatable=True}"
     d:DesignHeight="600"
     d:DesignWidth="200">
 
     <Grid.Resources>
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid Background="Salmon" ToolTipService.ToolTip="{x:Bind FullName}">
-                <TextBlock Text="{x:Bind DisplayName}" />
+            <Grid Background="Salmon" ToolTipService.ToolTip="{Binding FullName}">
+                <TextBlock Text="{Binding DisplayName}" />
             </Grid>
         </DataTemplate>
         <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
@@ -34,6 +35,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ItemsControl ItemsSource="{x:Bind State.ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
+        <ItemsControl ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
     </StackPanel>
 </Grid>
