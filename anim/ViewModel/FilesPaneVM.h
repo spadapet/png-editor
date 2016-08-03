@@ -11,9 +11,10 @@ namespace anim
 	public ref class FilesPaneVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		FilesPaneVM(AppState *app);
+		FilesPaneVM(std::shared_ptr<AppState> app);
 
 	public:
+		FilesPaneVM();
 		virtual ~FilesPaneVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -26,7 +27,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
 
-		AppState *app;
+		std::shared_ptr<AppState> app;
 		EventCookie appChangedCookie;
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;

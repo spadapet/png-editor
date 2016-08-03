@@ -4,7 +4,7 @@
 #include "ViewModel/ProjectFolderVM.h"
 #include "ViewModel/FilesPaneVM.h"
 
-anim::FilesPaneVM::FilesPaneVM(AppState *app)
+anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
@@ -58,6 +58,11 @@ anim::FilesPaneVM::FilesPaneVM(AppState *app)
 			}
 		}
 	});
+}
+
+anim::FilesPaneVM::FilesPaneVM()
+	: FilesPaneVM(AppState::CreateForDesigner())
+{
 }
 
 anim::FilesPaneVM::~FilesPaneVM()

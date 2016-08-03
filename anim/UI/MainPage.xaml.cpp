@@ -1,11 +1,18 @@
 ﻿#include "pch.h"
+#include "Model/AppState.h"
 #include "UI/MainPage.xaml.h"
 #include "ViewModel/MainPageVM.h"
 
-anim::MainPage::MainPage(AppState *app)
+anim::MainPage::MainPage(std::shared_ptr<AppState> app)
 	: state(ref new MainPageVM(app))
 {
 	this->InitializeComponent();
+}
+
+anim::MainPage::MainPage()
+	: MainPage(AppState::CreateForDesigner())
+{
+	throw ref new Platform::NotImplementedException();
 }
 
 anim::MainPage::~MainPage()

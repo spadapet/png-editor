@@ -20,6 +20,6 @@ namespace anim
 		void OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^arg);
 
-		AppState state;
+		std::shared_ptr<AppState> state;
 	};
 }

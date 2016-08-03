@@ -14,9 +14,10 @@ namespace anim
 	public ref class PaneInfoVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell);
+		PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, ShellVM ^shell);
 
 	public:
+		PaneInfoVM();
 		virtual ~PaneInfoVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -33,7 +34,7 @@ namespace anim
 		void PanePropertyChanged(const char *name);
 		void ToggleActive(ShellVM ^shell);
 
-		AppState *app;
+		std::shared_ptr<AppState> app;
 		PaneInfo *pane;
 		EventCookie appChangedCookie;
 		EventCookie paneChangedCookie;

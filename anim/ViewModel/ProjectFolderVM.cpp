@@ -6,6 +6,11 @@ anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
 {
 }
 
+anim::ProjectFolderVM::ProjectFolderVM()
+	: ProjectFolderVM(nullptr)
+{
+}
+
 anim::ProjectFolderVM::~ProjectFolderVM()
 {
 }

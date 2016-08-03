@@ -14,9 +14,10 @@ namespace anim
 	public ref class Shell sealed
 	{
 	internal:
-		Shell(AppState *app);
+		Shell(std::shared_ptr<AppState> app);
 
 	public:
+		Shell();
 		virtual ~Shell();
 
 		property ShellVM ^State { ShellVM ^get(); }

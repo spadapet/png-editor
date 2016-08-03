@@ -46,12 +46,13 @@ void anim::App::InitializeProcess()
 
 void anim::App::InitializeGlobals()
 {
-	this->state.Initialize();
+	this->state = std::make_shared<AppState>();
+	this->state->Load();
 }
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 {
-	window->Content = ref new MainPage(&this->state);
+	window->Content = ref new MainPage(this->state);
 	window->Activate();
 }
 
@@ -62,7 +63,7 @@ void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel
 	Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal,
 		ref new Windows::UI::Core::DispatchedHandler([this, deferral]()
 	{
-		this->state.Save();
+		this->state->Save();
 		deferral->Complete();
 	}));
 }

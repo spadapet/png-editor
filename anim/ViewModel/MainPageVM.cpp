@@ -3,7 +3,7 @@
 #include "UI/Shell.xaml.h"
 #include "ViewModel/MainPageVM.h"
 
-anim::MainPageVM::MainPageVM(AppState *app)
+anim::MainPageVM::MainPageVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 {
@@ -23,6 +23,11 @@ anim::MainPageVM::MainPageVM(AppState *app)
 			owner->AppPropertyChanged(name);
 		}
 	});
+}
+
+anim::MainPageVM::MainPageVM()
+	: MainPageVM(AppState::CreateForDesigner())
+{
 }
 
 anim::MainPageVM::~MainPageVM()

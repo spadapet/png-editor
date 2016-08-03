@@ -1,10 +1,16 @@
 ﻿#include "pch.h"
+#include "Model/AppState.h"
 #include "UI/FilesPane.xaml.h"
 
-anim::FilesPane::FilesPane(AppState *app)
+anim::FilesPane::FilesPane(std::shared_ptr<AppState> app)
 	: state(ref new FilesPaneVM(app))
 {
 	this->InitializeComponent();
+}
+
+anim::FilesPane::FilesPane()
+	: FilesPane(AppState::CreateForDesigner())
+{
 }
 
 anim::FilesPane::~FilesPane()

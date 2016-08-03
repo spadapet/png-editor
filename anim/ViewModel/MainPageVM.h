@@ -10,9 +10,10 @@ namespace anim
 	public ref class MainPageVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		MainPageVM(AppState *app);
+		MainPageVM(std::shared_ptr<AppState> app);
 
 	public:
+		MainPageVM();
 		virtual ~MainPageVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -22,7 +23,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
 
-		AppState *app;
+		std::shared_ptr<AppState> app;
 		EventCookie appChangedCookie;
 		Windows::UI::Xaml::UIElement ^shell;
 	};

@@ -10,9 +10,10 @@ namespace anim
 	public ref class MainPage sealed
 	{
 	internal:
-		MainPage(AppState *app);
+		MainPage(std::shared_ptr<AppState> app);
 
 	public:
+		MainPage();
 		virtual ~MainPage();
 
 		property MainPageVM ^State { MainPageVM ^get(); }

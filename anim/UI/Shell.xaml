@@ -56,15 +56,17 @@
         </Style>
 
         <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoVM">
-            <Button
-                Style="{StaticResource PaneInfoButtonStyle}"
-                Command="{x:Bind ToggleActiveCommand}"
-                ToolTipService.ToolTip="{x:Bind Name}"
-                Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
-                BorderBrush="{x:Bind IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
-                Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
-                <Image Source="{x:Bind Icon}" Stretch="None" />
-            </Button>
+            <Grid Background="Red" BorderBrush="Yellow" BorderThickness="2" Width="75" Height="75" Margin="5">
+                <Button
+                    Style="{StaticResource PaneInfoButtonStyle}"
+                    Command="{x:Bind ToggleActiveCommand}"
+                    ToolTipService.ToolTip="{x:Bind Name}"
+                    Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
+                    BorderBrush="{x:Bind IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
+                    Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}}">
+                    <Image Source="{x:Bind Icon}" Stretch="None" />
+                </Button>
+            </Grid>
         </DataTemplate>
 
         <Style x:Key="PaneInfoListStyle" TargetType="ItemsControl">

@@ -9,6 +9,7 @@ namespace anim
 		ProjectFolderVM(Windows::Storage::StorageFolder ^folder);
 
 	public:
+		ProjectFolderVM();
 		virtual ~ProjectFolderVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;

@@ -11,18 +11,22 @@ namespace anim
 		Edit,
 	};
 
-	class AppState
+	class AppState : std::enable_shared_from_this<AppState>
 	{
 	public:
 		AppState();
+		AppState(bool forDesigner);
 		~AppState();
+
+		static std::shared_ptr<AppState> CreateForDesigner();
 
 		ChangedEvent PropertyChanged;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
-		void Initialize();
+		void Load();
 		void Save();
+
 		const std::vector<std::unique_ptr<PaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
 		PaneInfo &GetNonePane();

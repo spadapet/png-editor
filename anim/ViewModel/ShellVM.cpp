@@ -4,7 +4,7 @@
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
-anim::ShellVM::ShellVM(AppState *app)
+anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, panes(ref new Platform::Collections::Vector<PaneInfoVM ^>())
@@ -37,6 +37,11 @@ anim::ShellVM::ShellVM(AppState *app)
 			owner->AppPropertyChanged(name);
 		}
 	});
+}
+
+anim::ShellVM::ShellVM()
+	: ShellVM(AppState::CreateForDesigner())
+{
 }
 
 anim::ShellVM::~ShellVM()

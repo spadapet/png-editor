@@ -10,9 +10,10 @@ namespace anim
 	public ref class FilesPane sealed
 	{
 	internal:
-		FilesPane(AppState *app);
+		FilesPane(std::shared_ptr<AppState> app);
 
 	public:
+		FilesPane();
 		virtual ~FilesPane();
 
 		property FilesPaneVM ^State { FilesPaneVM ^get(); }

@@ -7,7 +7,7 @@
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
-anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
+anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, ShellVM ^shell)
 	: app(app)
 	, pane(pane)
 	, appChangedCookie(NULL_EVENT_COOKIE)
@@ -51,6 +51,11 @@ anim::PaneInfoVM::PaneInfoVM(AppState *app, PaneInfo *pane, ShellVM ^shell)
 			owner->ToggleActive(shell);
 		}
 	});
+}
+
+anim::PaneInfoVM::PaneInfoVM()
+	: PaneInfoVM(AppState::CreateForDesigner(), nullptr, nullptr)
+{
 }
 
 anim::PaneInfoVM::~PaneInfoVM()

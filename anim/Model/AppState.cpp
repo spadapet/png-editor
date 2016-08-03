@@ -9,45 +9,55 @@ static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type)
 }
 
 anim::AppState::AppState()
+	: AppState(false)
+{
+}
+
+anim::AppState::AppState(bool forDesigner)
 	: nonePane(PaneType::None, &CreateNonePane)
 {
+	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Files,
+		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return ref new FilesPane(this->shared_from_this());
+	}));
+
+	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Color,
+		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return ref new FilesPane(this->shared_from_this());
+	}));
+
+	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Layers,
+		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return ref new FilesPane(this->shared_from_this());
+	}));
+
+	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::View,
+		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return ref new FilesPane(this->shared_from_this());
+	}));
+
+	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Animation,
+		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		return ref new FilesPane(this->shared_from_this());
+	}));
 }
 
 anim::AppState::~AppState()
 {
 }
 
-void anim::AppState::Initialize()
+std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 {
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Files,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this);
-	}));
+	return std::make_shared<AppState>(true);
+}
 
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Color,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this);
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Layers,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this);
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::View,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this);
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Animation,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this);
-	}));
+void anim::AppState::Load()
+{
 }
 
 void anim::AppState::Save()

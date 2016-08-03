@@ -11,9 +11,10 @@ namespace anim
 	public ref class ShellVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		ShellVM(AppState *app);
+		ShellVM(std::shared_ptr<AppState> app);
 
 	public:
+		ShellVM();
 		virtual ~ShellVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -27,7 +28,7 @@ namespace anim
 		void AppPropertyChanged(const char *name);
 
 		// App
-		AppState *app;
+		std::shared_ptr<AppState> app;
 		EventCookie appChangedCookie;
 
 		// Panes
