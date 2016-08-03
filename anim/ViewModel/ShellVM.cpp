@@ -71,7 +71,15 @@ void anim::ShellVM::ActivePane::set(PaneInfoVM ^value)
 		this->activePane->IsActive = true;
 		this->NotifyPropertyChanged("ActivePane");
 		this->NotifyPropertyChanged("HasActivePane");
+		this->NotifyPropertyChanged("PaneContentVisualState");
 	}
+}
+
+Platform::String ^anim::ShellVM::PaneContentVisualState::get()
+{
+	return this->HasActivePane
+		? "Normal"
+		: "None";
 }
 
 bool anim::ShellVM::HasActivePane::get()

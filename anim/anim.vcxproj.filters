@@ -23,7 +23,7 @@
     <Filter Include="Assets\Icons">
       <UniqueIdentifier>{f19314bf-d64a-40cc-9e6d-0dc657bd6f87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Converters">
+    <Filter Include="Core\Converters">
       <UniqueIdentifier>{4af7f576-1752-4be0-8166-92ee0e81e0e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -45,10 +45,10 @@
     <ClCompile Include="UI\MainPage.xaml.cpp" />
     <ClCompile Include="UI\FilesPane.xaml.cpp" />
     <ClCompile Include="Converters\BoolToBrushConverter.cpp">
-      <Filter>Converters</Filter>
+      <Filter>Core\Converters</Filter>
     </ClCompile>
     <ClCompile Include="Converters\BoolToVisibleConverter.cpp">
-      <Filter>Converters</Filter>
+      <Filter>Core\Converters</Filter>
     </ClCompile>
     <ClCompile Include="Core\Command.cpp">
       <Filter>Core</Filter>
@@ -72,6 +72,9 @@
       <Filter>ViewModel</Filter>
     </ClCompile>
     <ClCompile Include="UI\Shell.xaml.cpp" />
+    <ClCompile Include="Core\Properties.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -88,10 +91,10 @@
     <ClInclude Include="UI\MainPage.xaml.h" />
     <ClInclude Include="UI\FilesPane.xaml.h" />
     <ClInclude Include="Converters\BoolToBrushConverter.h">
-      <Filter>Converters</Filter>
+      <Filter>Core\Converters</Filter>
     </ClInclude>
     <ClInclude Include="Converters\BoolToVisibleConverter.h">
-      <Filter>Converters</Filter>
+      <Filter>Core\Converters</Filter>
     </ClInclude>
     <ClInclude Include="Core\Command.h">
       <Filter>Core</Filter>
@@ -115,6 +118,9 @@
       <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="UI\Shell.xaml.h" />
+    <ClInclude Include="Core\Properties.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">

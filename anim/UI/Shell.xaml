@@ -84,18 +84,18 @@
             </Setter>
         </Style>
 
+        <ControlTemplate x:Key="PaneContentTemplate" TargetType="ContentControl">
+            <Border
+                Name="Container"
+                Background="{TemplateBinding Background}"
+                Width="{StaticResource DefaultPaneWidth}">
+                <ContentPresenter ContentTransitions="{TemplateBinding ContentTransitions}" />
+            </Border>
+        </ControlTemplate>
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{StaticResource PaneBackgroundBrush}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ContentControl">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter ContentTransitions="{TemplateBinding ContentTransitions}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Template" Value="{StaticResource PaneContentTemplate}" />
         </Style>
     </Grid.Resources>
 

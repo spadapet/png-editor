@@ -13,6 +13,7 @@
     <ClCompile Include="Converters\BoolToVisibleConverter.cpp" />
     <ClCompile Include="Core\Command.cpp" />
     <ClCompile Include="Core\Event.cpp" />
+    <ClCompile Include="Core\Properties.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="UI\Shell.xaml.cpp">
@@ -33,6 +34,7 @@
     <ClInclude Include="Converters\BoolToVisibleConverter.h" />
     <ClInclude Include="Core\Command.h" />
     <ClInclude Include="Core\Event.h" />
+    <ClInclude Include="Core\Properties.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />

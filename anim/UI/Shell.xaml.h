@@ -2,6 +2,7 @@
 
 #include "Converters/BoolToBrushConverter.h"
 #include "Converters/BoolToVisibleConverter.h"
+#include "Core/Properties.h"
 #include "UI/Shell.g.h"
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
