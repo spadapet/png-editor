@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData Type=local:FilesPaneVM, IsDesignTimeCreatable=True}"
-    d:DesignHeight="600"
-    d:DesignWidth="200">
+    d:DesignHeight="500"
+    d:DesignWidth="{StaticResource DefaultPaneWidth}">
 
     <Grid.Resources>
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Uid="FilesPaneName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+            <TextBlock Grid.Column="0" x:Uid="FilesPaneName" Text="Explorer" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2,5" VerticalAlignment="Center">
                 <Button Style="{StaticResource ToolbarButtonStyle}">
                     <Image Source="/Assets/Icons/close_simple.png" />
