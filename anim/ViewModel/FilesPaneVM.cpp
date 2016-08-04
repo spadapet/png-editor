@@ -11,12 +11,6 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
 {
-	if (this->app == nullptr)
-	{
-		// Probably running in XAML desigher
-		return;
-	}
-
 	Platform::WeakReference weakThis(this);
 
 	for (Windows::Storage::StorageFolder ^folder : app->GetProjectFolders())

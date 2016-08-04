@@ -9,12 +9,6 @@ anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, panes(ref new Platform::Collections::Vector<PaneInfoVM ^>())
 {
-	if (this->app == nullptr)
-	{
-		// Probably running in XAML desigher
-		return;
-	}
-
 	Platform::WeakReference weakThis(this);
 
 	this->nonePane = ref new PaneInfoVM(this->app, &app->GetNonePane(), this);

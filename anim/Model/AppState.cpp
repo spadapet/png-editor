@@ -53,7 +53,18 @@ anim::AppState::~AppState()
 
 std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 {
+	AppState::AssertDesigner();
 	return std::make_shared<AppState>(true);
+}
+
+void anim::AppState::AssertDesigner()
+{
+	assert(AppState::IsDesigner());
+}
+
+bool anim::AppState::IsDesigner()
+{
+	return Windows::ApplicationModel::DesignMode::DesignModeEnabled;
 }
 
 void anim::AppState::Load()

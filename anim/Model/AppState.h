@@ -19,6 +19,8 @@ namespace anim
 		~AppState();
 
 		static std::shared_ptr<AppState> CreateForDesigner();
+		static void AssertDesigner();
+		static bool IsDesigner();
 
 		ChangedEvent PropertyChanged;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;

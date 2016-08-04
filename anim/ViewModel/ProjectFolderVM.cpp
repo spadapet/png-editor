@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Model/AppState.h"
 #include "ViewModel/ProjectFolderVM.h"
 
 anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
@@ -9,6 +10,7 @@ anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
 anim::ProjectFolderVM::ProjectFolderVM()
 	: ProjectFolderVM(nullptr)
 {
+	AppState::AssertDesigner();
 }
 
 anim::ProjectFolderVM::~ProjectFolderVM()

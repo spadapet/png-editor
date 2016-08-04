@@ -14,10 +14,12 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, Shel
 	, paneChangedCookie(NULL_EVENT_COOKIE)
 	, active(false)
 {
-	if (this->pane == nullptr || this->app == nullptr)
+	if (this->pane == nullptr)
 	{
 		// Probably running in XAML designer
-		return;
+		this->pane = this->app->GetPanes().size()
+			? this->app->GetPanes().at(0).get()
+			: &this->app->GetNonePane();
 	}
 
 	Platform::WeakReference weakThis(this);

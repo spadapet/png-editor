@@ -7,12 +7,6 @@ anim::MainPageVM::MainPageVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 {
-	if (this->app == nullptr)
-	{
-		// Probably running in XAML desigher
-		return;
-	}
-
 	Platform::WeakReference weakThis(this);
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
