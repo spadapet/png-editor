@@ -9,8 +9,6 @@
   </PropertyGroup>
   <Import Project="../cpp.props" />
   <ItemGroup>
-    <ClCompile Include="Converters\BoolToBrushConverter.cpp" />
-    <ClCompile Include="Converters\BoolToVisibleConverter.cpp" />
     <ClCompile Include="Core\Command.cpp" />
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\Properties.cpp" />
@@ -25,13 +23,13 @@
     <ClCompile Include="UI\MainPage.xaml.cpp">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="UI\Utility\BoolToBrushConverter.cpp" />
+    <ClCompile Include="UI\Utility\BoolToVisibleConverter.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
     <ClCompile Include="ViewModel\ShellVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderVM.cpp" />
-    <ClInclude Include="Converters\BoolToBrushConverter.h" />
-    <ClInclude Include="Converters\BoolToVisibleConverter.h" />
     <ClInclude Include="Core\Command.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\Properties.h" />
@@ -54,6 +52,8 @@
     <ClInclude Include="UI\MainPage.xaml.h">
       <DependentUpon>UI\MainPage.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="UI\Utility\BoolToBrushConverter.h" />
+    <ClInclude Include="UI\Utility\BoolToVisibleConverter.h" />
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />

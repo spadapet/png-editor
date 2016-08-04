@@ -11,11 +11,11 @@ anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 {
 	Platform::WeakReference weakThis(this);
 
-	this->nonePane = ref new PaneInfoVM(this->app, &app->GetNonePane(), this);
+	this->nonePane = ref new PaneInfoVM(this->app, app->GetNonePane(), this);
 
-	for (auto &pane : this->app->GetPanes())
+	for (auto pane : this->app->GetPanes())
 	{
-		this->panes->Append(ref new PaneInfoVM(this->app, pane.get(), this));
+		this->panes->Append(ref new PaneInfoVM(this->app, pane, this));
 	}
 
 	this->activePane = (this->panes->Size > 0)

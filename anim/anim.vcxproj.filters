@@ -23,8 +23,8 @@
     <Filter Include="Assets\Icons">
       <UniqueIdentifier>{f19314bf-d64a-40cc-9e6d-0dc657bd6f87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Converters">
-      <UniqueIdentifier>{4af7f576-1752-4be0-8166-92ee0e81e0e8}</UniqueIdentifier>
+    <Filter Include="UI\Utility">
+      <UniqueIdentifier>{aca3ab87-16c3-42ce-adb5-1955596b7c36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="UI\MainPage.xaml.cpp" />
     <ClCompile Include="UI\FilesPane.xaml.cpp" />
-    <ClCompile Include="Converters\BoolToBrushConverter.cpp">
-      <Filter>Core\Converters</Filter>
-    </ClCompile>
-    <ClCompile Include="Converters\BoolToVisibleConverter.cpp">
-      <Filter>Core\Converters</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Command.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -75,6 +69,12 @@
     <ClCompile Include="Core\Properties.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Utility\BoolToBrushConverter.cpp">
+      <Filter>UI\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Utility\BoolToVisibleConverter.cpp">
+      <Filter>UI\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -90,12 +90,6 @@
     </ClInclude>
     <ClInclude Include="UI\MainPage.xaml.h" />
     <ClInclude Include="UI\FilesPane.xaml.h" />
-    <ClInclude Include="Converters\BoolToBrushConverter.h">
-      <Filter>Core\Converters</Filter>
-    </ClInclude>
-    <ClInclude Include="Converters\BoolToVisibleConverter.h">
-      <Filter>Core\Converters</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Command.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -120,6 +114,12 @@
     <ClInclude Include="UI\Shell.xaml.h" />
     <ClInclude Include="Core\Properties.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Utility\BoolToBrushConverter.h">
+      <Filter>UI\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Utility\BoolToVisibleConverter.h">
+      <Filter>UI\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

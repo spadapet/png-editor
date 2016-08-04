@@ -47,6 +47,7 @@ void anim::App::InitializeProcess()
 void anim::App::InitializeGlobals()
 {
 	this->state = std::make_shared<AppState>();
+	this->state->Initialize();
 	this->state->Load();
 }
 

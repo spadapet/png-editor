@@ -11,6 +11,8 @@
     d:DesignWidth="{StaticResource DefaultPaneWidth}">
 
     <Grid.Resources>
+        <local:BoolToVisibleConverter x:Key="BoolToVisible" />
+        <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <Grid Background="Salmon" ToolTipService.ToolTip="{Binding FullName}">
                 <TextBlock Text="{Binding DisplayName}" />
@@ -19,6 +21,7 @@
         <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="ItemTemplate" Value="{StaticResource ProjectFolderTemplate}" />
+            <Setter Property="Visibility" Value="{Binding HasFolders, Converter={StaticResource BoolToVisible}}" />
         </Style>
     </Grid.Resources>
 
@@ -36,5 +39,6 @@
             </StackPanel>
         </Grid>
         <ItemsControl ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
+        <TextBlock Text="No Items" Visibility="{Binding HasItems, Converter={StaticResource BoolToInvisible}}" />
     </StackPanel>
 </Grid>

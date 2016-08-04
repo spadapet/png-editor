@@ -33,6 +33,10 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		if (owner != nullptr)
 		{
 			owner->projectFolders->Append(ref new ProjectFolderVM(folder));
+			if (owner->projectFolders->Size > 0)
+			{
+				owner->NotifyPropertyChanged("HasFolders");
+			}
 		}
 	});
 
@@ -47,6 +51,10 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 				if (projectFolder->Folder == folder)
 				{
 					owner->projectFolders->RemoveAt(i);
+					if (owner->projectFolders->Size == 0)
+					{
+						owner->NotifyPropertyChanged("HasFolders");
+					}
 					break;
 				}
 			}
@@ -69,6 +77,11 @@ anim::FilesPaneVM::~FilesPaneVM()
 Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::FilesPaneVM::ProjectFolders::get()
 {
 	return this->projectFolders;
+}
+
+bool anim::FilesPaneVM::HasFolders::get()
+{
+	return this->projectFolders->Size > 0;
 }
 
 void anim::FilesPaneVM::NotifyPropertyChanged(Platform::String ^name)

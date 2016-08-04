@@ -9,42 +9,8 @@ static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type)
 }
 
 anim::AppState::AppState()
-	: AppState(false)
+	: nonePane(std::make_shared<PaneInfo>(PaneType::None, &::CreateNonePane))
 {
-}
-
-anim::AppState::AppState(bool forDesigner)
-	: nonePane(PaneType::None, &CreateNonePane)
-{
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Files,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this->shared_from_this());
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Color,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this->shared_from_this());
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Layers,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this->shared_from_this());
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::View,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this->shared_from_this());
-	}));
-
-	this->panes.emplace_back(std::make_unique<PaneInfo>(PaneType::Animation,
-		[this](PaneType type) -> Windows::UI::Xaml::UIElement ^
-	{
-		return ref new FilesPane(this->shared_from_this());
-	}));
 }
 
 anim::AppState::~AppState()
@@ -53,8 +19,9 @@ anim::AppState::~AppState()
 
 std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 {
-	AppState::AssertDesigner();
-	return std::make_shared<AppState>(true);
+	auto app = std::make_shared<AppState>();
+	app->InitializeForDesigner();
+	return app;
 }
 
 void anim::AppState::AssertDesigner()
@@ -67,6 +34,78 @@ bool anim::AppState::IsDesigner()
 	return Windows::ApplicationModel::DesignMode::DesignModeEnabled;
 }
 
+void anim::AppState::Initialize()
+{
+	std::weak_ptr<AppState> weakThis = this->shared_from_this();
+
+	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Files,
+		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		auto owner = weakThis.lock();
+		if (owner == nullptr)
+		{
+			return nullptr;
+		}
+
+		return ref new FilesPane(owner);
+	}));
+
+	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Color,
+		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		auto owner = weakThis.lock();
+		if (owner == nullptr)
+		{
+			return nullptr;
+		}
+
+		return ref new FilesPane(owner);
+	}));
+
+	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Layers,
+		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		auto owner = weakThis.lock();
+		if (owner == nullptr)
+		{
+			return nullptr;
+		}
+
+		return ref new FilesPane(owner);
+	}));
+
+	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::View,
+		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		auto owner = weakThis.lock();
+		if (owner == nullptr)
+		{
+			return nullptr;
+		}
+
+		return ref new FilesPane(owner);
+	}));
+
+	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Animation,
+		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
+	{
+		auto owner = weakThis.lock();
+		if (owner == nullptr)
+		{
+			return nullptr;
+		}
+
+		return ref new FilesPane(owner);
+	}));
+}
+
+void anim::AppState::InitializeForDesigner()
+{
+	AppState::AssertDesigner();
+
+	this->Initialize();
+}
+
 void anim::AppState::Load()
 {
 }
@@ -75,7 +114,7 @@ void anim::AppState::Save()
 {
 }
 
-const std::vector<std::unique_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const
+const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const
 {
 	return this->panes;
 }
@@ -85,7 +124,7 @@ const std::vector<Windows::Storage::StorageFolder ^> &anim::AppState::GetProject
 	return this->projectFolders;
 }
 
-anim::PaneInfo &anim::AppState::GetNonePane()
+std::shared_ptr<anim::PaneInfo> anim::AppState::GetNonePane() const
 {
 	return this->nonePane;
 }

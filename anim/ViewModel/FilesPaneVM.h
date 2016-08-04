@@ -23,6 +23,7 @@ namespace anim
 		{
 			Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get();
 		}
+		property bool HasFolders { bool get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

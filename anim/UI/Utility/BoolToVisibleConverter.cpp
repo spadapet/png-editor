@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Converters/BoolToVisibleConverter.h"
+#include "UI/Utility/BoolToVisibleConverter.h"
 
 anim::BoolToVisibleConverter::BoolToVisibleConverter()
 	: inverse(false)

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Core/Event.h"
-#include "Model/PaneInfo.h"
 
 namespace anim
 {
+	class PaneInfo;
+
 	enum class AppMode
 	{
 		None,
@@ -15,7 +16,6 @@ namespace anim
 	{
 	public:
 		AppState();
-		AppState(bool forDesigner);
 		~AppState();
 
 		static std::shared_ptr<AppState> CreateForDesigner();
@@ -26,17 +26,19 @@ namespace anim
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
+		void Initialize();
+		void InitializeForDesigner();
 		void Load();
 		void Save();
 
-		const std::vector<std::unique_ptr<PaneInfo>> &GetPanes() const;
+		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
-		PaneInfo &GetNonePane();
+		std::shared_ptr<PaneInfo> GetNonePane() const;
 		AppMode GetMode() const;
 
 	private:
-		PaneInfo nonePane;
-		std::vector<std::unique_ptr<PaneInfo>> panes;
+		std::shared_ptr<PaneInfo> nonePane;
+		std::vector<std::shared_ptr<PaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
 	};
 }

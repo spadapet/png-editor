@@ -7,18 +7,13 @@
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
-anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, ShellVM ^shell)
+anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, std::shared_ptr<PaneInfo> pane, ShellVM ^shell)
 	: app(app)
 	, pane(pane)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, paneChangedCookie(NULL_EVENT_COOKIE)
 	, active(false)
 {
-	if (this->pane == nullptr)
-	{
-		this->pane = &this->app->GetNonePane();
-	}
-
 	Platform::WeakReference weakThis(this);
 	Platform::WeakReference weakShell(shell);
 
@@ -52,8 +47,13 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, Shel
 	});
 }
 
+anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app)
+	: PaneInfoVM(app, app->GetPanes().empty() ? app->GetNonePane() : app->GetPanes()[0], ref new ShellVM(app))
+{
+}
+
 anim::PaneInfoVM::PaneInfoVM()
-	: PaneInfoVM(AppState::CreateForDesigner(), nullptr, ref new ShellVM())
+	: PaneInfoVM(AppState::CreateForDesigner())
 {
 }
 
