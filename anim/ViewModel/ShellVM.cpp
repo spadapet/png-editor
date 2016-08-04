@@ -40,10 +40,7 @@ anim::ShellVM::ShellVM()
 
 anim::ShellVM::~ShellVM()
 {
-	if (this->app != nullptr)
-	{
-		this->app->PropertyChanged.Remove(this->appChangedCookie);
-	}
+	this->app->PropertyChanged.Remove(this->appChangedCookie);
 }
 
 Windows::Foundation::Collections::IVector<anim::PaneInfoVM ^> ^anim::ShellVM::Panes::get()

@@ -26,30 +26,24 @@ anim::MainPageVM::MainPageVM()
 
 anim::MainPageVM::~MainPageVM()
 {
-	if (this->app != nullptr)
-	{
-		this->app->PropertyChanged.Remove(this->appChangedCookie);
-	}
+	this->app->PropertyChanged.Remove(this->appChangedCookie);
 }
 
 Windows::UI::Xaml::UIElement ^anim::MainPageVM::UserInterface::get()
 {
 	Windows::UI::Xaml::UIElement ^ui = nullptr;
 
-	if (this->app != nullptr)
+	switch (this->app->GetMode())
 	{
-		switch (this->app->GetMode())
+	case AppMode::None:
+	case AppMode::Edit:
+		if (this->shell == nullptr)
 		{
-		case AppMode::None:
-		case AppMode::Edit:
-			if (this->shell == nullptr)
-			{
-				this->shell = ref new Shell(this->app);
-			}
-
-			ui = this->shell;
-			break;
+			this->shell = ref new Shell(this->app);
 		}
+
+		ui = this->shell;
+		break;
 	}
 
 	return ui;

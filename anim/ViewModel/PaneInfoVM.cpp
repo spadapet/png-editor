@@ -16,10 +16,7 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, Shel
 {
 	if (this->pane == nullptr)
 	{
-		// Probably running in XAML designer
-		this->pane = this->app->GetPanes().size()
-			? this->app->GetPanes().at(0).get()
-			: &this->app->GetNonePane();
+		this->pane = &this->app->GetNonePane();
 	}
 
 	Platform::WeakReference weakThis(this);
@@ -56,16 +53,13 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, PaneInfo *pane, Shel
 }
 
 anim::PaneInfoVM::PaneInfoVM()
-	: PaneInfoVM(AppState::CreateForDesigner(), nullptr, nullptr)
+	: PaneInfoVM(AppState::CreateForDesigner(), nullptr, ref new ShellVM())
 {
 }
 
 anim::PaneInfoVM::~PaneInfoVM()
 {
-	if (this->pane != nullptr)
-	{
-		this->pane->PropertyChanged.Remove(this->paneChangedCookie);
-	}
+	this->pane->PropertyChanged.Remove(this->paneChangedCookie);
 }
 
 Platform::String ^anim::PaneInfoVM::Name::get()

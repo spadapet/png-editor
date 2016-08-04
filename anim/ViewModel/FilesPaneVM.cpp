@@ -61,12 +61,9 @@ anim::FilesPaneVM::FilesPaneVM()
 
 anim::FilesPaneVM::~FilesPaneVM()
 {
-	if (this->app != nullptr)
-	{
-		this->app->PropertyChanged.Remove(this->appChangedCookie);
-		this->app->ProjectFolderAdded.Remove(this->projectFolderAddedCookie);
-		this->app->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
-	}
+	this->app->PropertyChanged.Remove(this->appChangedCookie);
+	this->app->ProjectFolderAdded.Remove(this->projectFolderAddedCookie);
+	this->app->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
 }
 
 Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::FilesPaneVM::ProjectFolders::get()
