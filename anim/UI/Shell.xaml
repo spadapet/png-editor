@@ -8,7 +8,7 @@
     d:DataContext="{d:DesignInstance Type=local:ShellVM, IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="48"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*" />
@@ -19,16 +19,15 @@
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
 
         <Style x:Key="PaneInfoButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="50" />
+            <Setter Property="Width" Value="48" />
             <Setter Property="Height" Value="40" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,5,-1,5" />
-            <Setter Property="BorderThickness" Value="1,1,0,1" />
+            <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Background="Transparent">
-                            <Border Name="Background" Background="{TemplateBinding Background}" CornerRadius="5,0,0,5" Margin="2,0,0,0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                            <Border Name="Background" Background="{TemplateBinding Background}" />
                             <ContentPresenter />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -71,13 +70,11 @@
         <Style x:Key="PaneInfoListStyle" TargetType="ItemsControl">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{StaticResource PaneListBackgroundBrush}" />
-            <Setter Property="BorderThickness" Value="0,0,1,0" />
-            <Setter Property="BorderBrush" Value="{StaticResource PaneBorderBrush}" />
             <Setter Property="ItemTemplate" Value="{StaticResource PaneInfoItemTemplate}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ItemsControl">
-                        <StackPanel Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <StackPanel Background="{TemplateBinding Background}" Padding="0,32,0,0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ItemsPresenter />
                         </StackPanel>
                     </ControlTemplate>
@@ -95,7 +92,6 @@
         </ControlTemplate>
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
             <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Padding" Value="4,0,0,0" />
             <Setter Property="Background" Value="{StaticResource PaneBackgroundBrush}" />
             <Setter Property="Template" Value="{StaticResource PaneContentTemplate}" />
         </Style>
