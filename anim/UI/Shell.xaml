@@ -20,7 +20,7 @@
 
         <Style x:Key="PaneInfoButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="48" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Height" Value="44" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Template">
@@ -99,6 +99,6 @@
 
     <ItemsControl Grid.Column="0" ItemsSource="{Binding Panes}" Style="{StaticResource PaneInfoListStyle}" />
     <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane, Mode=OneWay}" />
-    <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="1" Visibility="{Binding HasActivePane, Mode=OneWay, Converter={StaticResource BoolToVisible}}" />
+    <Rectangle Grid.Column="2" Fill="{StaticResource PaneListBackgroundBrush}" Width="4" Visibility="{Binding HasActivePane, Mode=OneWay, Converter={StaticResource BoolToVisible}}" />
     <Grid Grid.Column="3" Background="DarkOliveGreen" />
 </Grid>
