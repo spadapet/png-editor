@@ -180,6 +180,18 @@
     <Image Include="Assets\Icons\close_simple.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
+    <Image Include="Assets\Icons\picture-open.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\picture-open.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder-add.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder-add.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\MainPage.xaml">

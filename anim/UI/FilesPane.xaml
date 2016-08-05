@@ -26,18 +26,29 @@
     </Grid.Resources>
 
     <StackPanel>
-        <Grid>
+        <Grid Background="{StaticResource PaneBorderBrush}" Padding="4,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Uid="FilesPaneName" Text="Explorer" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
-            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2,5" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" x:Uid="FilesPaneName" Text="Explorer" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                 <Button Style="{StaticResource ToolbarButtonStyle}">
                     <Image Source="/Assets/Icons/close_simple.png" />
                 </Button>
             </StackPanel>
         </Grid>
+        <StackPanel Orientation="Horizontal" Padding="4">
+            <Button x:Name="OpenFolderButton" Style="{StaticResource ToolbarButtonStyle}">
+                <Image Source="ms-appx:///Assets/Icons/folder-add.png"/>
+            </Button>
+            <Button x:Name="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}">
+                <Image Source="ms-appx:///Assets/Icons/picture-open.png"/>
+            </Button>
+        </StackPanel>
         <ItemsControl ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
         <TextBlock Text="No Items" Visibility="{Binding HasItems, Converter={StaticResource BoolToInvisible}}" />
     </StackPanel>

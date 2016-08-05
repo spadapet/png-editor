@@ -90,11 +90,12 @@
                 Name="Container"
                 Background="{TemplateBinding Background}"
                 Width="{StaticResource DefaultPaneWidth}">
-                <ContentPresenter ContentTransitions="{TemplateBinding ContentTransitions}" />
+                <ContentPresenter Margin="{TemplateBinding Padding}" ContentTransitions="{TemplateBinding ContentTransitions}" />
             </Border>
         </ControlTemplate>
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
             <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Padding" Value="4,0,0,0" />
             <Setter Property="Background" Value="{StaticResource PaneBackgroundBrush}" />
             <Setter Property="Template" Value="{StaticResource PaneContentTemplate}" />
         </Style>

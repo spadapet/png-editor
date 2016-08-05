@@ -76,12 +76,16 @@
     <Image Include="Assets\Icons\close_simple.scale-200.png" />
     <Image Include="Assets\Icons\documents.scale-100.png" />
     <Image Include="Assets\Icons\documents.scale-200.png" />
+    <Image Include="Assets\Icons\folder-add.scale-100.png" />
+    <Image Include="Assets\Icons\folder-add.scale-200.png" />
     <Image Include="Assets\Icons\image_colors.scale-100.png" />
     <Image Include="Assets\Icons\image_colors.scale-200.png" />
     <Image Include="Assets\Icons\layers.scale-100.png" />
     <Image Include="Assets\Icons\layers.scale-200.png" />
     <Image Include="Assets\Icons\movie2.scale-100.png" />
     <Image Include="Assets\Icons\movie2.scale-200.png" />
+    <Image Include="Assets\Icons\picture-open.scale-100.png" />
+    <Image Include="Assets\Icons\picture-open.scale-200.png" />
     <Image Include="Assets\Icons\view_zoom.scale-100.png" />
     <Image Include="Assets\Icons\view_zoom.scale-200.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
