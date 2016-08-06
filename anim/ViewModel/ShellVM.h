@@ -7,7 +7,6 @@ namespace anim
 	class AppState;
 	ref class PaneInfoVM;
 
-	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class ShellVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{

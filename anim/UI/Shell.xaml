@@ -11,6 +11,7 @@
         <ColumnDefinition Width="48"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
@@ -60,8 +61,8 @@
                 Style="{StaticResource PaneInfoButtonStyle}"
                 Command="{Binding ToggleActiveCommand}"
                 ToolTipService.ToolTip="{Binding Name}"
-                Background="{Binding IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
-                BorderBrush="{Binding IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
+                Background="{Binding IsActive, Converter={StaticResource ActiveToPaneButtonBackground}}"
+                BorderBrush="{Binding IsActive, Converter={StaticResource ActiveToPaneBorder}}"
                 Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisible}}">
                 <Image Source="{Binding Icon}" Stretch="None" />
             </Button>
@@ -83,12 +84,25 @@
         </Style>
 
         <ControlTemplate x:Key="PaneContentTemplate" TargetType="ContentControl">
-            <Border
-                Name="Container"
-                Background="{TemplateBinding Background}"
-                Width="{StaticResource DefaultPaneWidth}">
-                <ContentPresenter Margin="{TemplateBinding Padding}" ContentTransitions="{TemplateBinding ContentTransitions}" />
-            </Border>
+            <Grid Background="{StaticResource PaneBorderBrush}" Width="{StaticResource DefaultPaneWidth}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding ActivePane.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4,0,0,0" />
+                    <Button Name="ClosePaneButton" Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" VerticalAlignment="Center">
+                        <Image Source="/Assets/Icons/close_simple.png" Width="16" Height="16" />
+                    </Button>
+                </Grid>
+                <Border Grid.Row="1" x:Name="Container" Background="{TemplateBinding Background}">
+                    <ContentPresenter Margin="{TemplateBinding Padding}" ContentTransitions="{TemplateBinding ContentTransitions}" />
+                </Border>
+            </Grid>
         </ControlTemplate>
         <Style x:Key="PaneContentStyle" TargetType="ContentControl">
             <Setter Property="IsTabStop" Value="False" />
@@ -98,7 +112,8 @@
     </Grid.Resources>
 
     <ItemsControl Grid.Column="0" ItemsSource="{Binding Panes}" Style="{StaticResource PaneInfoListStyle}" />
-    <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane, Mode=OneWay}" />
-    <Rectangle Grid.Column="2" Fill="{StaticResource PaneListBackgroundBrush}" Width="4" Visibility="{Binding HasActivePane, Mode=OneWay, Converter={StaticResource BoolToVisible}}" />
-    <Grid Grid.Column="3" Background="DarkOliveGreen" />
+    <Rectangle Grid.Column="1" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+    <ContentControl Grid.Column="2" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane}" />
+    <Rectangle Grid.Column="3" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+    <Grid Grid.Column="4" Background="DarkOliveGreen" />
 </Grid>

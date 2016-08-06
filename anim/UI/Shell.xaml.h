@@ -11,6 +11,7 @@ namespace anim
 {
 	class AppState;
 
+	[Windows::UI::Xaml::Data::Bindable]
 	public ref class Shell sealed
 	{
 	internal:

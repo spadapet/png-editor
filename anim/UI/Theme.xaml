@@ -6,8 +6,8 @@
     <x:Double x:Key="UiFontSize">12</x:Double>
     <x:Double x:Key="DefaultPaneWidth">200</x:Double>
     <SolidColorBrush x:Key="PaneBackgroundBrush">#fff5f5f5</SolidColorBrush>
-    <SolidColorBrush x:Key="PaneListBackgroundBrush">#ffdfdee6</SolidColorBrush>
-    <SolidColorBrush x:Key="PaneBorderBrush">#ffb7bacb</SolidColorBrush>
+    <SolidColorBrush x:Key="PaneListBackgroundBrush">#ffb7bacb</SolidColorBrush>
+    <SolidColorBrush x:Key="PaneBorderBrush">#ffdfdee6</SolidColorBrush>
 
     <Style x:Key="ToolbarButtonStyle" TargetType="Button">
         <Setter Property="Template">
@@ -15,7 +15,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
                         <Border Name="Background" />
-                        <ContentPresenter Name="Content" Margin="2" />
+                        <ContentPresenter Name="Content" Margin="4" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
