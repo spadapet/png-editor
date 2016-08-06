@@ -10,8 +10,6 @@
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"/>
         <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
@@ -22,8 +20,7 @@
         <Style x:Key="PaneInfoButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="48" />
             <Setter Property="Height" Value="44" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Margin" Value="0,0,0,4" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -75,7 +72,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ItemsControl">
-                        <StackPanel Background="{TemplateBinding Background}" Padding="0,32,0,0" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <StackPanel Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ItemsPresenter />
                         </StackPanel>
                     </ControlTemplate>
@@ -95,7 +92,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{Binding ActivePane.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4,0,0,0" />
-                    <Button Name="ClosePaneButton" Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" VerticalAlignment="Center">
+                    <Button Name="ClosePaneButton" Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" VerticalAlignment="Center" Command="{Binding ActivePane.ToggleActiveCommand}">
                         <Image Source="/Assets/Icons/close_simple.png" Width="16" Height="16" />
                     </Button>
                 </Grid>
@@ -111,9 +108,21 @@
         </Style>
     </Grid.Resources>
 
+    <!-- Menu -->
     <ItemsControl Grid.Column="0" ItemsSource="{Binding Panes}" Style="{StaticResource PaneInfoListStyle}" />
-    <Rectangle Grid.Column="1" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
-    <ContentControl Grid.Column="2" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane}" />
-    <Rectangle Grid.Column="3" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
-    <Grid Grid.Column="4" Background="DarkOliveGreen" />
+
+    <!-- Tool pane -->
+    <Grid Grid.Column="1" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="4" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Grid.Column="0" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+        <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane}" />
+        <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+    </Grid>
+
+    <!-- Document area -->
+    <Grid Grid.Column="3" Background="DarkOliveGreen" />
 </Grid>

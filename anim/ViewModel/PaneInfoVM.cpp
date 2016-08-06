@@ -78,23 +78,23 @@ Platform::String ^anim::PaneInfoVM::Name::get()
 			break;
 
 		case PaneType::Files:
-			this->name = Resource::GetString("FilesPaneName.Text");
+			this->name = Resource::GetString("/Resources/FilesPaneName/Text");
 			break;
 
 		case PaneType::Color:
-			this->name = Resource::GetString("ColorPaneName.Text");
+			this->name = Resource::GetString("/Resources/ColorPaneName/Text");
 			break;
 
 		case PaneType::Layers:
-			this->name = Resource::GetString("LayersPaneName.Text");
+			this->name = Resource::GetString("/Resources/LayersPaneName/Text");
 			break;
 
 		case PaneType::View:
-			this->name = Resource::GetString("ViewPaneName.Text");
+			this->name = Resource::GetString("/Resources/ViewPaneName/Text");
 			break;
 
 		case PaneType::Animation:
-			this->name = Resource::GetString("AnimationPaneName.Text");
+			this->name = Resource::GetString("/Resources/AnimationPaneName/Text");
 			break;
 		}
 	}
