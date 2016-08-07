@@ -22,3 +22,8 @@ anim::FilesPaneVM ^anim::FilesPane::State::get()
 {
 	return this->state;
 }
+
+void anim::FilesPane::OnClickAddFolderLink(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args)
+{
+	
+}

@@ -75,6 +75,9 @@
     <ClCompile Include="UI\Utility\BoolToVisibleConverter.cpp">
       <Filter>UI\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Model\AppController.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="UI\Utility\BoolToVisibleConverter.h">
       <Filter>UI\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\AppController.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,16 +186,16 @@
     <Image Include="Assets\Icons\close_simple.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
-    <Image Include="Assets\Icons\picture-open.scale-100.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
-    <Image Include="Assets\Icons\picture-open.scale-200.png">
-      <Filter>Assets\Icons</Filter>
-    </Image>
     <Image Include="Assets\Icons\folder-add.scale-100.png">
       <Filter>Assets\Icons</Filter>
     </Image>
     <Image Include="Assets\Icons\folder-add.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder_open-picture.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder_open-picture.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
   </ItemGroup>

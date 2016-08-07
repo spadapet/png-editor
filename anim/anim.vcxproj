@@ -13,6 +13,7 @@
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\Properties.cpp" />
     <ClCompile Include="Core\String.cpp" />
+    <ClCompile Include="Model\AppController.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="UI\Shell.xaml.cpp">
       <DependentUpon>UI\Shell.xaml</DependentUpon>
@@ -34,6 +35,7 @@
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\Properties.h" />
     <ClInclude Include="Core\String.h" />
+    <ClInclude Include="Model\AppController.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="pch.h" />
@@ -78,14 +80,14 @@
     <Image Include="Assets\Icons\documents.scale-200.png" />
     <Image Include="Assets\Icons\folder-add.scale-100.png" />
     <Image Include="Assets\Icons\folder-add.scale-200.png" />
+    <Image Include="Assets\Icons\folder_open-picture.scale-100.png" />
+    <Image Include="Assets\Icons\folder_open-picture.scale-200.png" />
     <Image Include="Assets\Icons\image_colors.scale-100.png" />
     <Image Include="Assets\Icons\image_colors.scale-200.png" />
     <Image Include="Assets\Icons\layers.scale-100.png" />
     <Image Include="Assets\Icons\layers.scale-200.png" />
     <Image Include="Assets\Icons\movie2.scale-100.png" />
     <Image Include="Assets\Icons\movie2.scale-200.png" />
-    <Image Include="Assets\Icons\picture-open.scale-100.png" />
-    <Image Include="Assets\Icons\picture-open.scale-200.png" />
     <Image Include="Assets\Icons\view_zoom.scale-100.png" />
     <Image Include="Assets\Icons\view_zoom.scale-200.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />

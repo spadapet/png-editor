@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Event.h"
+#include "Model/AppController.h"
 
 namespace anim
 {
@@ -25,6 +26,10 @@ namespace anim
 		}
 		property bool HasFolders { bool get(); }
 
+		// Commands
+		property Windows::UI::Xaml::Input::ICommand ^AddFolderCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+		property Windows::UI::Xaml::Input::ICommand ^OpenFileCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
@@ -34,5 +39,10 @@ namespace anim
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
 		Platform::Collections::Vector<ProjectFolderVM ^> ^projectFolders;
+
+		// Commands
+		AppController controller;
+		Windows::UI::Xaml::Input::ICommand ^addFolderCommand;
+		Windows::UI::Xaml::Input::ICommand ^openFileCommand;
 	};
 }

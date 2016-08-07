@@ -19,6 +19,8 @@ namespace anim
 		property FilesPaneVM ^State { FilesPaneVM ^get(); }
 
 	private:
+		void OnClickAddFolderLink(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
+
 		FilesPaneVM ^state;
 	};
 }

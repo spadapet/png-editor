@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddFolderButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add Folder...</value>
+  </data>
   <data name="AnimationPaneName.Text" xml:space="preserve">
     <value>Animation</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="LayersPaneName.Text" xml:space="preserve">
     <value>Layers</value>
+  </data>
+  <data name="OpenFileButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open File...</value>
   </data>
   <data name="ViewPaneName.Text" xml:space="preserve">
     <value>View</value>

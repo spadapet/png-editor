@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "App.xaml.h"
+#include "Core/Command.h"
 #include "Model/AppState.h"
 #include "ViewModel/ProjectFolderVM.h"
 #include "ViewModel/FilesPaneVM.h"
 
 anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 	: app(app)
+	, controller(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
@@ -60,6 +62,24 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 			}
 		}
 	});
+
+	this->addFolderCommand = ref new Command([weakThis](Platform::Object ^)
+	{
+		auto owner = weakThis.Resolve<FilesPaneVM>();
+		if (owner != nullptr)
+		{
+			owner->controller.AddFolder();
+		}
+	});
+
+	this->openFileCommand = ref new Command([weakThis](Platform::Object ^)
+	{
+		auto owner = weakThis.Resolve<FilesPaneVM>();
+		if (owner != nullptr)
+		{
+			owner->controller.OpenFile();
+		}
+	});
 }
 
 anim::FilesPaneVM::FilesPaneVM()
@@ -82,6 +102,16 @@ Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::FilesP
 bool anim::FilesPaneVM::HasFolders::get()
 {
 	return this->projectFolders->Size > 0;
+}
+
+Windows::UI::Xaml::Input::ICommand ^anim::FilesPaneVM::AddFolderCommand::get()
+{
+	return this->addFolderCommand;
+}
+
+Windows::UI::Xaml::Input::ICommand ^anim::FilesPaneVM::OpenFileCommand::get()
+{
+	return this->openFileCommand;
 }
 
 void anim::FilesPaneVM::NotifyPropertyChanged(Platform::String ^name)
