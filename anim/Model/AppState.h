@@ -45,6 +45,5 @@ namespace anim
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
-		std::vector<std::string> projectFolderTokens;
 	};
 }

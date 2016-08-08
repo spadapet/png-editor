@@ -142,9 +142,7 @@ concurrency::task<void> anim::AppState::Load()
 		}
 		catch (Platform::Exception ^ex)
 		{
-#ifdef _DEBUG
-			::OutputDebugString(Platform::String::Concat(ex->Message, "\r\n")->Data());
-#endif
+			// doesn't matter if state can't be loaded
 		}
 	}, concurrency::task_continuation_context::use_current());
 
@@ -153,6 +151,7 @@ concurrency::task<void> anim::AppState::Load()
 
 void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 {
+	std::shared_ptr<AppState> owner = this->shared_from_this();
 	std::vector<Platform::String ^> projectFolderTokens;
 
 	if (root->HasKey("ProjectFolderTokens"))
@@ -167,12 +166,25 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 
 	for (Platform::String ^token : projectFolderTokens)
 	{
+		auto getTask = concurrency::create_task(
+			Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList->GetFolderAsync(token,
+				Windows::Storage::AccessCache::AccessCacheOptions::DisallowUserInput));
+
+		getTask.then([owner](Windows::Storage::StorageFolder ^folder)
+		{
+			if (folder != nullptr)
+			{
+				owner->AddProjectFolder(folder);
+			}
+		}, concurrency::task_continuation_context::use_current());
 	}
 }
 
 void anim::AppState::Save()
 {
 	Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
+	//Windows::Data::Json::JsonArray ^tokens = nullptr;
+	//root->SetNamedValue("ProjectFolderTokens", tokens);
 }
 
 const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const
