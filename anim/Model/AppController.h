@@ -10,7 +10,7 @@ namespace anim
 		AppController(std::shared_ptr<AppState> app);
 		~AppController();
 
-		void AddFolder();
+		void AddProjectFolder();
 		void OpenFile();
 
 	private:

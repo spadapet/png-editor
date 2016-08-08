@@ -68,7 +68,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		auto owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
-			owner->controller.AddFolder();
+			owner->controller.AddProjectFolder();
 		}
 	});
 

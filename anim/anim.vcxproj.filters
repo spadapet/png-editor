@@ -78,6 +78,9 @@
     <ClCompile Include="Model\AppController.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Model\ProjectFolder.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -125,6 +128,9 @@
       <Filter>UI\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Model\AppController.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ProjectFolder.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

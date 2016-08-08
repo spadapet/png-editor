@@ -15,6 +15,7 @@
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Model\AppController.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
+    <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="UI\Shell.xaml.cpp">
       <DependentUpon>UI\Shell.xaml</DependentUpon>
     </ClCompile>
@@ -38,6 +39,7 @@
     <ClInclude Include="Model\AppController.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
+    <ClInclude Include="Model\ProjectFolder.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>

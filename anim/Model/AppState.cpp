@@ -133,3 +133,7 @@ anim::AppMode anim::AppState::GetMode() const
 {
 	return AppMode::None;
 }
+
+void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
+{
+}

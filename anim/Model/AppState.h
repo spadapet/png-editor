@@ -36,6 +36,8 @@ namespace anim
 		std::shared_ptr<PaneInfo> GetNonePane() const;
 		AppMode GetMode() const;
 
+		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
+
 	private:
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
