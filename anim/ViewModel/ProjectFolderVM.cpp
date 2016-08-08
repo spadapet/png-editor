@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Model/AppState.h"
+#include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFolderVM.h"
 
-anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
+anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
 {
 }
@@ -19,17 +20,17 @@ anim::ProjectFolderVM::~ProjectFolderVM()
 
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
-	return this->folder;
+	return this->folder->GetFolder();
 }
 
 Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 {
-	return this->folder->Name;;
+	return this->folder->GetFolder()->Name;
 }
 
 Platform::String ^anim::ProjectFolderVM::FullName::get()
 {
-	return this->folder->DisplayName;
+	return this->folder->GetFolder()->DisplayName;
 }
 
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)

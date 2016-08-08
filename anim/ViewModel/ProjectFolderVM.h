@@ -2,12 +2,14 @@
 
 namespace anim
 {
+	class ProjectFolder;
+
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class ProjectFolderVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		ProjectFolderVM(Windows::Storage::StorageFolder ^folder);
+		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder);
 
 	public:
 		ProjectFolderVM();
@@ -21,6 +23,6 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
-		Windows::Storage::StorageFolder ^folder;
+		std::shared_ptr<ProjectFolder> folder;
 	};
 }

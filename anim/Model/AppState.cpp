@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Core/String.h"
-#include "Model/PaneInfo.h"
 #include "Model/AppState.h"
+#include "Model/PaneInfo.h"
+#include "Model/ProjectFolder.h"
 #include "UI/FilesPane.xaml.h"
 
 static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type) 
@@ -154,6 +155,9 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 	std::shared_ptr<AppState> owner = this->shared_from_this();
 	std::vector<Platform::String ^> projectFolderTokens;
 
+	Windows::Storage::AccessCache::StorageItemAccessList ^futureAccessList =
+		Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList;
+
 	if (root->HasKey("ProjectFolderTokens"))
 	{
 		Windows::Data::Json::JsonArray ^tokens = root->GetNamedArray("ProjectFolderTokens");
@@ -167,8 +171,7 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 	for (Platform::String ^token : projectFolderTokens)
 	{
 		auto getTask = concurrency::create_task(
-			Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList->GetFolderAsync(token,
-				Windows::Storage::AccessCache::AccessCacheOptions::DisallowUserInput));
+			futureAccessList->GetFolderAsync(token, Windows::Storage::AccessCache::AccessCacheOptions::DisallowUserInput));
 
 		getTask.then([owner](Windows::Storage::StorageFolder ^folder)
 		{
@@ -182,16 +185,33 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 
 concurrency::task<void> anim::AppState::Save()
 {
-	auto rootTask = concurrency::create_task([]()
+	std::vector<Windows::Storage::StorageFolder ^> projectFolders;
+	for (std::shared_ptr<ProjectFolder> folder : this->projectFolders)
+	{
+		projectFolders.push_back(folder->GetFolder());
+	}
+
+	auto createTask = concurrency::create_task([projectFolders]()
 	{
 		Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
-		//Windows::Data::Json::JsonArray ^tokens = nullptr;
-		//root->SetNamedValue("ProjectFolderTokens", tokens);
+		Windows::Data::Json::JsonArray ^tokens = ref new Windows::Data::Json::JsonArray();
+		root->SetNamedValue("ProjectFolderTokens", tokens);
+
+		Windows::Storage::AccessCache::StorageItemAccessList ^futureAccessList =
+			Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList;
+		futureAccessList->Clear();
+
+		for (Windows::Storage::StorageFolder ^folder : projectFolders)
+		{
+			Platform::String ^token = futureAccessList->Add(folder);
+			Windows::Data::Json::JsonValue ^value = Windows::Data::Json::JsonValue::CreateStringValue(token);
+			tokens->Append(value);
+		}
 
 		return root;
 	});
 
-	auto saveTask = rootTask.then([](Windows::Data::Json::JsonObject ^root)
+	auto saveTask = createTask.then([](Windows::Data::Json::JsonObject ^root)
 	{
 	});
 
@@ -214,7 +234,7 @@ const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() c
 	return this->panes;
 }
 
-const std::vector<Windows::Storage::StorageFolder ^> &anim::AppState::GetProjectFolders() const
+const std::vector<std::shared_ptr<anim::ProjectFolder>> &anim::AppState::GetProjectFolders() const
 {
 	return this->projectFolders;
 }

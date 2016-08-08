@@ -2,6 +2,7 @@
 #include "App.xaml.h"
 #include "Core/Command.h"
 #include "Model/AppState.h"
+#include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFolderVM.h"
 #include "ViewModel/FilesPaneVM.h"
 
@@ -26,7 +27,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		}
 	});
 
-	this->projectFolderAddedCookie = this->app->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	this->projectFolderAddedCookie = this->app->ProjectFolderAdded.Add([weakThis](std::shared_ptr<ProjectFolder> folder)
 	{
 		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
@@ -36,7 +37,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		}
 	});
 
-	this->projectFolderRemovedCookie = this->app->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
+	this->projectFolderRemovedCookie = this->app->ProjectFolderRemoved.Add([weakThis](std::shared_ptr<ProjectFolder> folder)
 	{
 		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
@@ -44,7 +45,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 			for (unsigned int i = 0; i < owner->projectFolders->Size; i++)
 			{
 				ProjectFolderVM ^projectFolder = owner->projectFolders->GetAt(i);
-				if (projectFolder->Folder == folder)
+				if (projectFolder->Folder == folder->GetFolder())
 				{
 					owner->projectFolders->RemoveAt(i);
 					owner->NotifyPropertyChanged("HasFolders");
@@ -124,7 +125,7 @@ void anim::FilesPaneVM::ResetProjectFolders()
 {
 	this->projectFolders->Clear();
 
-	for (Windows::Storage::StorageFolder ^folder : app->GetProjectFolders())
+	for (std::shared_ptr<ProjectFolder> folder : app->GetProjectFolders())
 	{
 		this->projectFolders->Append(ref new ProjectFolderVM(folder));
 	}

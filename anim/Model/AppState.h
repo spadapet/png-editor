@@ -5,6 +5,7 @@
 namespace anim
 {
 	class PaneInfo;
+	class ProjectFolder;
 
 	enum class AppMode
 	{
@@ -23,14 +24,14 @@ namespace anim
 		static bool IsDesigner();
 
 		ChangedEvent PropertyChanged;
-		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
-		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
+		Event<std::shared_ptr<ProjectFolder>> ProjectFolderAdded;
+		Event<std::shared_ptr<ProjectFolder>> ProjectFolderRemoved;
 
 		concurrency::task<void> Load();
 		concurrency::task<void> Save();
 
 		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
-		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;
+		const std::vector<std::shared_ptr<anim::ProjectFolder>> &GetProjectFolders() const;
 		std::shared_ptr<PaneInfo> GetNonePane() const;
 		AppMode GetMode() const;
 
@@ -44,6 +45,6 @@ namespace anim
 
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
-		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
+		std::vector<std::shared_ptr<ProjectFolder>> projectFolders;
 	};
 }
