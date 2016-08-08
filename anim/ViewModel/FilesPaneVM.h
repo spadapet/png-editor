@@ -33,6 +33,7 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
+		void ResetProjectFolders();
 
 		std::shared_ptr<AppState> app;
 		EventCookie appChangedCookie;

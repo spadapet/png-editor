@@ -26,9 +26,7 @@ namespace anim
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderAdded;
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
-		void Initialize();
-		void InitializeForDesigner();
-		void Load();
+		concurrency::task<void> Load();
 		void Save();
 
 		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
@@ -39,8 +37,14 @@ namespace anim
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 
 	private:
+		void Load(Windows::Data::Json::JsonObject ^root);
+		void Initialize();
+		void InitializeForDesigner();
+		void ResetPanes();
+
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
 		std::vector<Windows::Storage::StorageFolder ^> projectFolders;
+		std::vector<std::string> projectFolderTokens;
 	};
 }

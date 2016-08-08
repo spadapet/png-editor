@@ -21,12 +21,12 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Windows::Foundation::Collections::IVector<PaneInfoVM ^> ^Panes { Windows::Foundation::Collections::IVector<PaneInfoVM ^> ^get(); }
 		property PaneInfoVM ^ActivePane { PaneInfoVM ^get(); void set(PaneInfoVM ^value); }
-		property Platform::String ^PaneContentVisualState { Platform::String ^get(); }
 		property bool HasActivePane { bool get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
+		void ResetPanes();
 
 		// App
 		std::shared_ptr<AppState> app;

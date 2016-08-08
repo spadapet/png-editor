@@ -15,10 +15,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 {
 	Platform::WeakReference weakThis(this);
 
-	for (Windows::Storage::StorageFolder ^folder : app->GetProjectFolders())
-	{
-		this->projectFolders->Append(ref new ProjectFolderVM(folder));
-	}
+	this->ResetProjectFolders();
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
@@ -35,10 +32,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		if (owner != nullptr)
 		{
 			owner->projectFolders->Append(ref new ProjectFolderVM(folder));
-			if (owner->projectFolders->Size > 0)
-			{
-				owner->NotifyPropertyChanged("HasFolders");
-			}
+			owner->NotifyPropertyChanged("HasFolders");
 		}
 	});
 
@@ -53,10 +47,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 				if (projectFolder->Folder == folder)
 				{
 					owner->projectFolders->RemoveAt(i);
-					if (owner->projectFolders->Size == 0)
-					{
-						owner->NotifyPropertyChanged("HasFolders");
-					}
+					owner->NotifyPropertyChanged("HasFolders");
 					break;
 				}
 			}
@@ -121,4 +112,22 @@ void anim::FilesPaneVM::NotifyPropertyChanged(Platform::String ^name)
 
 void anim::FilesPaneVM::AppPropertyChanged(const char *name)
 {
+	bool allChanged = (name == nullptr || *name == 0);
+
+	if (allChanged || strcmp(name, "ProjectFolders"))
+	{
+		this->ResetProjectFolders();
+	}
+}
+
+void anim::FilesPaneVM::ResetProjectFolders()
+{
+	this->projectFolders->Clear();
+
+	for (Windows::Storage::StorageFolder ^folder : app->GetProjectFolders())
+	{
+		this->projectFolders->Append(ref new ProjectFolderVM(folder));
+	}
+
+	this->NotifyPropertyChanged("HasFolders");
 }

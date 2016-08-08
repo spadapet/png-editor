@@ -213,7 +213,9 @@ void anim::PaneInfoVM::NotifyPropertyChanged(Platform::String ^name)
 
 void anim::PaneInfoVM::AppPropertyChanged(const char *name)
 {
-	if (strcmp(name, "Mode") == 0)
+	bool allChanged = (name == nullptr || *name == 0);
+
+	if (allChanged || strcmp(name, "Mode") == 0)
 	{
 		this->NotifyPropertyChanged("IsVisible");
 	}

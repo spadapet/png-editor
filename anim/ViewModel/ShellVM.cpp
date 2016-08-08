@@ -11,17 +11,7 @@ anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 {
 	Platform::WeakReference weakThis(this);
 
-	this->nonePane = ref new PaneInfoVM(this->app, app->GetNonePane(), this);
-
-	for (auto pane : this->app->GetPanes())
-	{
-		this->panes->Append(ref new PaneInfoVM(this->app, pane, this));
-	}
-
-	this->activePane = (this->panes->Size > 0)
-		? this->panes->GetAt(0)
-		: this->nonePane;
-	this->activePane->IsActive = true;
+	this->ResetPanes();
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
@@ -67,15 +57,7 @@ void anim::ShellVM::ActivePane::set(PaneInfoVM ^value)
 		this->activePane->IsActive = true;
 		this->NotifyPropertyChanged("ActivePane");
 		this->NotifyPropertyChanged("HasActivePane");
-		this->NotifyPropertyChanged("PaneContentVisualState");
 	}
-}
-
-Platform::String ^anim::ShellVM::PaneContentVisualState::get()
-{
-	return this->HasActivePane
-		? "Normal"
-		: "None";
 }
 
 bool anim::ShellVM::HasActivePane::get()
@@ -90,4 +72,29 @@ void anim::ShellVM::NotifyPropertyChanged(Platform::String ^name)
 
 void anim::ShellVM::AppPropertyChanged(const char *name)
 {
+	bool allChanged = (name == nullptr || *name == 0);
+
+	if (allChanged || strcmp(name, "Panes"))
+	{
+		this->ResetPanes();
+	}
+}
+
+void anim::ShellVM::ResetPanes()
+{
+	this->panes->Clear();
+	this->nonePane = ref new PaneInfoVM(this->app, app->GetNonePane(), this);
+
+	for (auto pane : this->app->GetPanes())
+	{
+		this->panes->Append(ref new PaneInfoVM(this->app, pane, this));
+	}
+
+	this->activePane = (this->panes->Size > 0)
+		? this->panes->GetAt(0)
+		: this->nonePane;
+	this->activePane->IsActive = true;
+
+	this->NotifyPropertyChanged("ActivePane");
+	this->NotifyPropertyChanged("HasActivePane");
 }
