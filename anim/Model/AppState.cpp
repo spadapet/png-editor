@@ -180,11 +180,33 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 	}
 }
 
-void anim::AppState::Save()
+concurrency::task<void> anim::AppState::Save()
 {
-	Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
-	//Windows::Data::Json::JsonArray ^tokens = nullptr;
-	//root->SetNamedValue("ProjectFolderTokens", tokens);
+	auto rootTask = concurrency::create_task([]()
+	{
+		Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
+		//Windows::Data::Json::JsonArray ^tokens = nullptr;
+		//root->SetNamedValue("ProjectFolderTokens", tokens);
+
+		return root;
+	});
+
+	auto saveTask = rootTask.then([](Windows::Data::Json::JsonObject ^root)
+	{
+	});
+
+	auto doneTask = saveTask.then([](concurrency::task<void> task)
+	{
+		try
+		{
+			task.get();
+		}
+		catch (Platform::Exception ^ex)
+		{
+		}
+	});
+
+	return doneTask;
 }
 
 const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const

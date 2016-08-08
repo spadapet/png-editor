@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
+#include "Core/Thread.h"
 #include "UI/MainPage.xaml.h"
 
 anim::App::App()
@@ -55,12 +56,10 @@ void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel
 {
 	Windows::ApplicationModel::SuspendingDeferral ^deferral = args->SuspendingOperation->GetDeferral();
 
-	Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal,
-		ref new Windows::UI::Core::DispatchedHandler([this, deferral]()
+	this->state->Save().then([deferral]()
 	{
-		this->state->Save();
 		deferral->Complete();
-	}));
+	}, concurrency::task_continuation_context::use_current());
 }
 
 void anim::App::OnResuming(Platform::Object ^sender, Platform::Object ^arg)

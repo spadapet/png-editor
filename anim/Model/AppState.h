@@ -27,7 +27,7 @@ namespace anim
 		Event<Windows::Storage::StorageFolder ^> ProjectFolderRemoved;
 
 		concurrency::task<void> Load();
-		void Save();
+		concurrency::task<void> Save();
 
 		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
 		const std::vector<Windows::Storage::StorageFolder ^> &GetProjectFolders() const;

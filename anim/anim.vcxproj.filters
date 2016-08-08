@@ -81,6 +81,9 @@
     <ClCompile Include="Model\ProjectFolder.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Thread.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -132,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="Model\ProjectFolder.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Thread.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
