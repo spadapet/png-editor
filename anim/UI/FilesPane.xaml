@@ -25,7 +25,7 @@
     </Grid.Resources>
 
     <StackPanel>
-        <StackPanel Orientation="Horizontal" Padding="4">
+        <StackPanel Orientation="Horizontal" Padding="4" Background="{StaticResource PaneBorderBrush}">
             <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding AddFolderCommand}">
                 <Image Source="ms-appx:///Assets/Icons/folder-add.png" Width="20" Height="20" />
             </Button>
