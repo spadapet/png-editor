@@ -13,11 +13,11 @@ anim::AppController::~AppController()
 
 void anim::AppController::AddProjectFolder()
 {
-	auto dialog = ref new Windows::Storage::Pickers::FolderPicker();
+	Windows::Storage::Pickers::FolderPicker ^dialog = ref new Windows::Storage::Pickers::FolderPicker();
 	dialog->FileTypeFilter->Append("*");
 
+	std::shared_ptr<AppState> app = this->app;
 	auto pickTask = concurrency::create_task(dialog->PickSingleFolderAsync());
-	auto app = this->app;
 
 	pickTask.then([app](Windows::Storage::StorageFolder ^folder)
 	{

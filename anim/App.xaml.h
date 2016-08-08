@@ -14,7 +14,7 @@ namespace anim
 
 	private:
 		void InitializeProcess();
-		void InitializeGlobals();
+		concurrency::task<void> InitializeGlobals();
 		void InitializeWindow(Windows::UI::Xaml::Window ^window);
 
 		void OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args);

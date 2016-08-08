@@ -20,7 +20,7 @@ anim::AppState::~AppState()
 
 std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 {
-	auto app = std::make_shared<AppState>();
+	std::shared_ptr<AppState> app = std::make_shared<AppState>();
 	app->InitializeForDesigner();
 	return app;
 }
@@ -56,35 +56,35 @@ void anim::AppState::ResetPanes()
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Files,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		auto owner = weakThis.lock();
+		std::shared_ptr<AppState> owner = weakThis.lock();
 		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Color,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		auto owner = weakThis.lock();
+		std::shared_ptr<AppState> owner = weakThis.lock();
 		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Layers,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		auto owner = weakThis.lock();
+		std::shared_ptr<AppState> owner = weakThis.lock();
 		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::View,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		auto owner = weakThis.lock();
+		std::shared_ptr<AppState> owner = weakThis.lock();
 		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Animation,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
-		auto owner = weakThis.lock();
+		std::shared_ptr<AppState> owner = weakThis.lock();
 		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
 	}));
 
@@ -93,13 +93,12 @@ void anim::AppState::ResetPanes()
 
 concurrency::task<void> anim::AppState::Load()
 {
-	auto owner = this->shared_from_this();
-
 	this->Initialize();
 
 	Windows::Storage::StorageFolder ^folder = Windows::Storage::ApplicationData::Current->LocalCacheFolder;
-	auto fileTask = concurrency::create_task(folder->GetFileAsync("AppStateCached.json"));
 
+	std::shared_ptr<AppState> owner = this->shared_from_this();
+	auto fileTask = concurrency::create_task(folder->GetFileAsync("AppStateCached.json"));
 	auto openTask = fileTask.then([](Windows::Storage::StorageFile ^file)
 	{
 		return file->OpenReadAsync();
@@ -113,39 +112,61 @@ concurrency::task<void> anim::AppState::Load()
 		return input->ReadAsync(buffer, (unsigned int)stream->Size, Windows::Storage::Streams::InputStreamOptions::None);
 	});
 
-	return readTask.then([owner](concurrency::task<Windows::Storage::Streams::IBuffer ^> bufferTask)
+	auto parseTask = readTask.then([](Windows::Storage::Streams::IBuffer ^buffer) -> Windows::Data::Json::JsonObject ^
+	{
+		Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+		Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
+
+		reader->ReadBytes(bytes);
+		std::string jsonText((const char *)bytes->Data, bytes->Length);
+
+		Windows::Data::Json::JsonObject ^root;
+		if (!Windows::Data::Json::JsonObject::TryParse(anim::ConvertString(jsonText), &root))
+		{
+			root = nullptr;
+		}
+
+		return root;
+	});
+
+	auto doneTask = parseTask.then([owner](concurrency::task<Windows::Data::Json::JsonObject ^> parseTask)
 	{
 		try
 		{
-			Windows::Storage::Streams::IBuffer ^buffer = bufferTask.get();
-			Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-			Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
+			Windows::Data::Json::JsonObject ^root = parseTask.get();
 
-			reader->ReadBytes(bytes);
-			std::string jsonText((const char *)bytes->Data, bytes->Length);
-
-			Windows::Data::Json::JsonObject ^root;
-			if (Windows::Data::Json::JsonObject::TryParse(anim::ConvertString(jsonText), &root))
+			if (root != nullptr)
 			{
 				owner->Load(root);
 			}
 		}
 		catch (Platform::Exception ^ex)
 		{
+#ifdef _DEBUG
+			::OutputDebugString(Platform::String::Concat(ex->Message, "\r\n")->Data());
+#endif
 		}
-	});
+	}, concurrency::task_continuation_context::use_current());
+
+	return doneTask;
 }
 
 void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 {
+	std::vector<Platform::String ^> projectFolderTokens;
+
 	if (root->HasKey("ProjectFolderTokens"))
 	{
 		Windows::Data::Json::JsonArray ^tokens = root->GetNamedArray("ProjectFolderTokens");
 		for (unsigned int i = 0; i < tokens->Size; i++)
 		{
 			Platform::String ^token = tokens->GetStringAt(i);
-			this->projectFolderTokens.push_back(anim::ConvertString(token));
+			projectFolderTokens.push_back(token);
 		}
+	}
+
+	for (Platform::String ^token : projectFolderTokens)
+	{
 	}
 }
 

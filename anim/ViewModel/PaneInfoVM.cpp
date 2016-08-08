@@ -19,7 +19,7 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, std::shared_ptr<Pane
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<PaneInfoVM>();
+		PaneInfoVM ^owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
@@ -28,7 +28,7 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, std::shared_ptr<Pane
 
 	this->paneChangedCookie = this->pane->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<PaneInfoVM>();
+		PaneInfoVM ^owner = weakThis.Resolve<PaneInfoVM>();
 		if (owner != nullptr)
 		{
 			owner->PanePropertyChanged(name);
@@ -37,8 +37,8 @@ anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, std::shared_ptr<Pane
 
 	this->toggleActiveCommand = ref new Command([weakThis, weakShell](Platform::Object ^)
 	{
-		auto owner = weakThis.Resolve<PaneInfoVM>();
-		auto shell = weakShell.Resolve<ShellVM>();
+		PaneInfoVM ^owner = weakThis.Resolve<PaneInfoVM>();
+		ShellVM ^shell = weakShell.Resolve<ShellVM>();
 
 		if (owner != nullptr && shell != nullptr)
 		{

@@ -26,12 +26,7 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::ClosedByUser:
 	case Windows::ApplicationModel::Activation::ApplicationExecutionState::Terminated:
 		{
-			auto initGlobals = concurrency::task<void>([this]()
-			{
-				this->InitializeGlobals();
-			});
-
-			initGlobals.then([this]()
+			this->InitializeGlobals().then([this]()
 			{
 				this->InitializeWindow(Windows::UI::Xaml::Window::Current);
 			}, concurrency::task_continuation_context::use_current());
@@ -44,10 +39,10 @@ void anim::App::InitializeProcess()
 {
 }
 
-void anim::App::InitializeGlobals()
+concurrency::task<void> anim::App::InitializeGlobals()
 {
 	this->state = std::make_shared<AppState>();
-	this->state->Load();
+	return this->state->Load();
 }
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)

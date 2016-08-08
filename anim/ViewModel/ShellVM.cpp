@@ -15,7 +15,7 @@ anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<ShellVM>();
+		ShellVM ^owner = weakThis.Resolve<ShellVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
@@ -85,7 +85,7 @@ void anim::ShellVM::ResetPanes()
 	this->panes->Clear();
 	this->nonePane = ref new PaneInfoVM(this->app, app->GetNonePane(), this);
 
-	for (auto pane : this->app->GetPanes())
+	for (const std::shared_ptr<PaneInfo> &pane : this->app->GetPanes())
 	{
 		this->panes->Append(ref new PaneInfoVM(this->app, pane, this));
 	}

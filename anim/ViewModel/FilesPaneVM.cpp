@@ -19,7 +19,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<FilesPaneVM>();
+		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
@@ -28,7 +28,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 
 	this->projectFolderAddedCookie = this->app->ProjectFolderAdded.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
-		auto owner = weakThis.Resolve<FilesPaneVM>();
+		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
 			owner->projectFolders->Append(ref new ProjectFolderVM(folder));
@@ -38,7 +38,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 
 	this->projectFolderRemovedCookie = this->app->ProjectFolderRemoved.Add([weakThis](Windows::Storage::StorageFolder ^folder)
 	{
-		auto owner = weakThis.Resolve<FilesPaneVM>();
+		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
 			for (unsigned int i = 0; i < owner->projectFolders->Size; i++)
@@ -56,7 +56,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 
 	this->addFolderCommand = ref new Command([weakThis](Platform::Object ^)
 	{
-		auto owner = weakThis.Resolve<FilesPaneVM>();
+		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
 			owner->controller.AddProjectFolder();
@@ -65,7 +65,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 
 	this->openFileCommand = ref new Command([weakThis](Platform::Object ^)
 	{
-		auto owner = weakThis.Resolve<FilesPaneVM>();
+		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
 			owner->controller.OpenFile();

@@ -11,7 +11,7 @@ anim::MainPageVM::MainPageVM(std::shared_ptr<AppState> app)
 
 	this->appChangedCookie = this->app->PropertyChanged.Add([weakThis](const char *name)
 	{
-		auto owner = weakThis.Resolve<MainPageVM>();
+		MainPageVM ^owner = weakThis.Resolve<MainPageVM>();
 		if (owner != nullptr)
 		{
 			owner->AppPropertyChanged(name);
