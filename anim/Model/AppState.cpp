@@ -185,13 +185,15 @@ void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
 
 concurrency::task<void> anim::AppState::Save()
 {
+	std::shared_ptr<Platform::String ^> text = std::make_shared<Platform::String ^>();
+
 	std::vector<Windows::Storage::StorageFolder ^> projectFolders;
 	for (std::shared_ptr<ProjectFolder> folder : this->projectFolders)
 	{
 		projectFolders.push_back(folder->GetFolder());
 	}
 
-	auto createTask = concurrency::create_task([projectFolders]()
+	auto stringTask = concurrency::create_task([projectFolders, text]()
 	{
 		Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
 		Windows::Data::Json::JsonArray ^tokens = ref new Windows::Data::Json::JsonArray();
@@ -208,11 +210,28 @@ concurrency::task<void> anim::AppState::Save()
 			tokens->Append(value);
 		}
 
-		return root;
+		*text = root->Stringify();
 	});
 
-	auto saveTask = createTask.then([](Windows::Data::Json::JsonObject ^root)
+	auto createTask = stringTask.then([]()
 	{
+		Windows::Storage::StorageFolder ^folder = Windows::Storage::ApplicationData::Current->LocalCacheFolder;
+		return folder->CreateFileAsync("AppStateCached.json", Windows::Storage::CreationCollisionOption::ReplaceExisting);
+	});
+
+	auto openTask = createTask.then([](Windows::Storage::StorageFile ^file)
+	{
+		return file->OpenAsync(Windows::Storage::FileAccessMode::ReadWrite);
+	});
+
+	auto saveTask = openTask.then([text](Windows::Storage::Streams::IRandomAccessStream ^stream)
+	{
+		Windows::Storage::Streams::DataWriter ^writer = ref new Windows::Storage::Streams::DataWriter();
+		Platform::ArrayReference<unsigned char> bytes((unsigned char *)(*text)->Data(), (*text)->Length() * sizeof(wchar_t));
+		writer->WriteBytes(bytes);
+
+		Windows::Storage::Streams::IOutputStream ^output = stream->GetOutputStreamAt(0);
+		output->WriteAsync(writer->DetachBuffer());
 	});
 
 	auto doneTask = saveTask.then([](concurrency::task<void> task)
