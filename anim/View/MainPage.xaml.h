@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "UI/MainPage.g.h"
+#include "View/MainPage.g.h"
 #include "ViewModel/MainPageVM.h"
 
 namespace anim

@@ -1,9 +1,10 @@
 #include "pch.h"
+#include "Core/Designer.h"
 #include "Core/String.h"
 #include "Model/AppState.h"
 #include "Model/PaneInfo.h"
 #include "Model/ProjectFolder.h"
-#include "UI/FilesPane.xaml.h"
+#include "View/FilesPane.xaml.h"
 
 static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type) 
 {
@@ -19,21 +20,18 @@ anim::AppState::~AppState()
 {
 }
 
+std::shared_ptr<anim::AppState> anim::AppState::Create()
+{
+	std::shared_ptr<AppState> app = std::make_shared<AppState>();
+	app->Initialize();
+	return app;
+}
+
 std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 {
 	std::shared_ptr<AppState> app = std::make_shared<AppState>();
 	app->InitializeForDesigner();
 	return app;
-}
-
-void anim::AppState::AssertDesigner()
-{
-	assert(AppState::IsDesigner());
-}
-
-bool anim::AppState::IsDesigner()
-{
-	return Windows::ApplicationModel::DesignMode::DesignModeEnabled;
 }
 
 void anim::AppState::Initialize()
@@ -43,7 +41,7 @@ void anim::AppState::Initialize()
 
 void anim::AppState::InitializeForDesigner()
 {
-	AppState::AssertDesigner();
+	anim::AssertXamlDesigner();
 
 	this->Initialize();
 }
@@ -90,162 +88,6 @@ void anim::AppState::ResetPanes()
 	}));
 
 	this->PropertyChanged.Notify("Panes");
-}
-
-concurrency::task<void> anim::AppState::Load()
-{
-	this->Initialize();
-
-	Windows::Storage::StorageFolder ^folder = Windows::Storage::ApplicationData::Current->LocalCacheFolder;
-
-	std::shared_ptr<AppState> owner = this->shared_from_this();
-	auto fileTask = concurrency::create_task(folder->GetFileAsync("AppStateCached.json"));
-	auto openTask = fileTask.then([](Windows::Storage::StorageFile ^file)
-	{
-		return file->OpenReadAsync();
-	});
-
-	auto readTask = openTask.then([](Windows::Storage::Streams::IRandomAccessStreamWithContentType ^stream)
-	{
-		Windows::Storage::Streams::IBuffer ^buffer = ref new Windows::Storage::Streams::Buffer((unsigned int)stream->Size);
-		Windows::Storage::Streams::IInputStream ^input = stream->GetInputStreamAt(0);
-
-		return input->ReadAsync(buffer, (unsigned int)stream->Size, Windows::Storage::Streams::InputStreamOptions::None);
-	});
-
-	auto parseTask = readTask.then([](Windows::Storage::Streams::IBuffer ^buffer) -> Windows::Data::Json::JsonObject ^
-	{
-		Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-		Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
-
-		reader->ReadBytes(bytes);
-		std::string jsonText((const char *)bytes->Data, bytes->Length);
-
-		Windows::Data::Json::JsonObject ^root;
-		if (!Windows::Data::Json::JsonObject::TryParse(anim::ConvertString(jsonText), &root))
-		{
-			root = nullptr;
-		}
-
-		return root;
-	});
-
-	auto doneTask = parseTask.then([owner](concurrency::task<Windows::Data::Json::JsonObject ^> parseTask)
-	{
-		try
-		{
-			Windows::Data::Json::JsonObject ^root = parseTask.get();
-
-			if (root != nullptr)
-			{
-				owner->Load(root);
-			}
-		}
-		catch (Platform::Exception ^ex)
-		{
-			// doesn't matter if state can't be loaded
-		}
-	}, concurrency::task_continuation_context::use_current());
-
-	return doneTask;
-}
-
-void anim::AppState::Load(Windows::Data::Json::JsonObject ^root)
-{
-	std::shared_ptr<AppState> owner = this->shared_from_this();
-	std::vector<Platform::String ^> projectFolderTokens;
-
-	Windows::Storage::AccessCache::StorageItemAccessList ^futureAccessList =
-		Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList;
-
-	if (root->HasKey("ProjectFolderTokens"))
-	{
-		Windows::Data::Json::JsonArray ^tokens = root->GetNamedArray("ProjectFolderTokens");
-		for (unsigned int i = 0; i < tokens->Size; i++)
-		{
-			Platform::String ^token = tokens->GetStringAt(i);
-			projectFolderTokens.push_back(token);
-		}
-	}
-
-	for (Platform::String ^token : projectFolderTokens)
-	{
-		auto getTask = concurrency::create_task(
-			futureAccessList->GetFolderAsync(token, Windows::Storage::AccessCache::AccessCacheOptions::DisallowUserInput));
-
-		getTask.then([owner](Windows::Storage::StorageFolder ^folder)
-		{
-			if (folder != nullptr)
-			{
-				owner->AddProjectFolder(folder);
-			}
-		}, concurrency::task_continuation_context::use_current());
-	}
-}
-
-concurrency::task<void> anim::AppState::Save()
-{
-	std::shared_ptr<Platform::String ^> text = std::make_shared<Platform::String ^>();
-
-	std::vector<Windows::Storage::StorageFolder ^> projectFolders;
-	for (std::shared_ptr<ProjectFolder> folder : this->projectFolders)
-	{
-		projectFolders.push_back(folder->GetFolder());
-	}
-
-	auto stringTask = concurrency::create_task([projectFolders, text]()
-	{
-		Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
-		Windows::Data::Json::JsonArray ^tokens = ref new Windows::Data::Json::JsonArray();
-		root->SetNamedValue("ProjectFolderTokens", tokens);
-
-		Windows::Storage::AccessCache::StorageItemAccessList ^futureAccessList =
-			Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList;
-		futureAccessList->Clear();
-
-		for (Windows::Storage::StorageFolder ^folder : projectFolders)
-		{
-			Platform::String ^token = futureAccessList->Add(folder);
-			Windows::Data::Json::JsonValue ^value = Windows::Data::Json::JsonValue::CreateStringValue(token);
-			tokens->Append(value);
-		}
-
-		*text = root->Stringify();
-	});
-
-	auto createTask = stringTask.then([]()
-	{
-		Windows::Storage::StorageFolder ^folder = Windows::Storage::ApplicationData::Current->LocalCacheFolder;
-		return folder->CreateFileAsync("AppStateCached.json", Windows::Storage::CreationCollisionOption::ReplaceExisting);
-	});
-
-	auto openTask = createTask.then([](Windows::Storage::StorageFile ^file)
-	{
-		return file->OpenAsync(Windows::Storage::FileAccessMode::ReadWrite);
-	});
-
-	auto saveTask = openTask.then([text](Windows::Storage::Streams::IRandomAccessStream ^stream)
-	{
-		Windows::Storage::Streams::DataWriter ^writer = ref new Windows::Storage::Streams::DataWriter();
-		Platform::ArrayReference<unsigned char> bytes((unsigned char *)(*text)->Data(), (*text)->Length() * sizeof(wchar_t));
-		writer->WriteBytes(bytes);
-
-		Windows::Storage::Streams::IOutputStream ^output = stream->GetOutputStreamAt(0);
-		output->WriteAsync(writer->DetachBuffer());
-	});
-
-	auto doneTask = saveTask.then([](concurrency::task<void> task)
-	{
-		try
-		{
-			task.get();
-		}
-		catch (Platform::Exception ^ex)
-		{
-		}
-	});
-
-	return doneTask;
 }
 
 const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const

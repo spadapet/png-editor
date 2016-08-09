@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "Model/AppState.h"
-#include "UI/Shell.xaml.h"
+#include "View/Shell.xaml.h"
 
 anim::Shell::Shell(std::shared_ptr<AppState> app)
 	: state(ref new ShellVM(app))

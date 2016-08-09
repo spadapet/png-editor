@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Model/AppState.h"
 #include "Model/PaneInfo.h"
-#include "UI/FilesPane.xaml.h"
+#include "View/FilesPane.xaml.h"
 
 anim::PaneInfo::PaneInfo(PaneType type, PaneUiFactory &&paneFactory)
 	: type(type)

@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "Model/AppState.h"
-#include "UI/MainPage.xaml.h"
+#include "View/MainPage.xaml.h"
 #include "ViewModel/MainPageVM.h"
 
 anim::MainPage::MainPage(std::shared_ptr<AppState> app)

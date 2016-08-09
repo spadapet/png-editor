@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "Model/AppState.h"
-#include "UI/FilesPane.xaml.h"
+#include "View/FilesPane.xaml.h"
 
 anim::FilesPane::FilesPane(std::shared_ptr<AppState> app)
 	: state(ref new FilesPaneVM(app))

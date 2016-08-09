@@ -9,36 +9,40 @@
   </PropertyGroup>
   <Import Project="../cpp.props" />
   <ItemGroup>
+    <ClCompile Include="Controller\AppController.cpp" />
+    <ClCompile Include="Controller\AppPersist.cpp" />
     <ClCompile Include="Core\Command.cpp" />
+    <ClCompile Include="Core\Designer.cpp" />
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\Properties.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
-    <ClCompile Include="Model\AppController.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
-    <ClCompile Include="UI\Shell.xaml.cpp">
-      <DependentUpon>UI\Shell.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="UI\FilesPane.xaml.cpp">
-      <DependentUpon>UI\FilesPane.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="UI\MainPage.xaml.cpp">
-      <DependentUpon>UI\MainPage.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="UI\Utility\BoolToBrushConverter.cpp" />
-    <ClCompile Include="UI\Utility\BoolToVisibleConverter.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
     <ClCompile Include="ViewModel\ShellVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderVM.cpp" />
+    <ClCompile Include="View\FilesPane.xaml.cpp">
+      <DependentUpon>View\FilesPane.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="View\MainPage.xaml.cpp">
+      <DependentUpon>View\MainPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="View\Shell.xaml.cpp">
+      <DependentUpon>View\Shell.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToBrushConverter.cpp" />
+    <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp" />
+    <ClInclude Include="Controller\AppController.h" />
+    <ClInclude Include="Controller\AppPersist.h" />
     <ClInclude Include="Core\Command.h" />
+    <ClInclude Include="Core\Designer.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\Properties.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Core\Thread.h" />
-    <ClInclude Include="Model\AppController.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="Model\ProjectFolder.h" />
@@ -49,17 +53,6 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <ClInclude Include="UI\Shell.xaml.h">
-      <DependentUpon>UI\Shell.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="UI\FilesPane.xaml.h">
-      <DependentUpon>UI\FilesPane.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="UI\MainPage.xaml.h">
-      <DependentUpon>UI\MainPage.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="UI\Utility\BoolToBrushConverter.h" />
-    <ClInclude Include="UI\Utility\BoolToVisibleConverter.h" />
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
@@ -68,6 +61,17 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <ClInclude Include="View\FilesPane.xaml.h">
+      <DependentUpon>View\FilesPane.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="View\MainPage.xaml.h">
+      <DependentUpon>View\MainPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="View\Shell.xaml.h">
+      <DependentUpon>View\Shell.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToBrushConverter.h" />
+    <ClInclude Include="View\Utility\BoolToVisibleConverter.h" />
     <None Include="TemporaryKey.pfx" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
@@ -103,17 +107,13 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UI\Shell.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\FilesPane.xaml" />
-    <Page Include="UI\MainPage.xaml" />
-    <Page Include="UI\Theme.xaml">
-      <DeploymentContent>true</DeploymentContent>
-    </Page>
+    <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Resources.resw" />
+    <Page Include="View\FilesPane.xaml" />
+    <Page Include="View\MainPage.xaml" />
+    <Page Include="View\Shell.xaml" />
+    <Page Include="View\Theme.xaml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

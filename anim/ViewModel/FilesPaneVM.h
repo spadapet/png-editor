@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Controller/AppController.h"
 #include "Core/Event.h"
-#include "Model/AppController.h"
 
 namespace anim
 {

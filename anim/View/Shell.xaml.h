@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "Core/Properties.h"
-#include "UI/Shell.g.h"
-#include "UI/Utility/BoolToBrushConverter.h"
-#include "UI/Utility/BoolToVisibleConverter.h"
+#include "View/Shell.g.h"
+#include "View/Utility/BoolToBrushConverter.h"
+#include "View/Utility/BoolToVisibleConverter.h"
 #include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 

@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/Designer.h"
 #include "Model/AppState.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFolderVM.h"
@@ -11,7 +12,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 anim::ProjectFolderVM::ProjectFolderVM()
 	: ProjectFolderVM(nullptr)
 {
-	AppState::AssertDesigner();
+	anim::AssertXamlDesigner();
 }
 
 anim::ProjectFolderVM::~ProjectFolderVM()

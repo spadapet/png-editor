@@ -14,16 +14,19 @@
     <Filter Include="Core">
       <UniqueIdentifier>{924eee67-3bad-410f-91d5-32d128db9a5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{1f682cf1-2648-429c-ba76-467f484e58d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Package">
       <UniqueIdentifier>{7b3da740-bbaa-4c51-a897-78b48a25e224}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Icons">
       <UniqueIdentifier>{f19314bf-d64a-40cc-9e6d-0dc657bd6f87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Utility">
+    <Filter Include="Controller">
+      <UniqueIdentifier>{884d83c6-6b24-44ea-aeed-dc6bf1ce0884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View">
+      <UniqueIdentifier>{1f682cf1-2648-429c-ba76-467f484e58d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Utility">
       <UniqueIdentifier>{aca3ab87-16c3-42ce-adb5-1955596b7c36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -69,20 +72,26 @@
     <ClCompile Include="Core\Properties.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="UI\Utility\BoolToBrushConverter.cpp">
-      <Filter>UI\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\Utility\BoolToVisibleConverter.cpp">
-      <Filter>UI\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\AppController.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Model\ProjectFolder.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="Core\Thread.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Designer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AppController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AppPersist.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToBrushConverter.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp">
+      <Filter>View\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,20 +133,26 @@
     <ClInclude Include="Core\Properties.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="UI\Utility\BoolToBrushConverter.h">
-      <Filter>UI\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\Utility\BoolToVisibleConverter.h">
-      <Filter>UI\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\AppController.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Model\ProjectFolder.h">
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="Core\Thread.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Designer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AppController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AppPersist.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToBrushConverter.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToVisibleConverter.h">
+      <Filter>View\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,20 +227,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UI\MainPage.xaml">
-      <Filter>UI</Filter>
-    </Page>
-    <Page Include="UI\Theme.xaml">
-      <Filter>UI</Filter>
-    </Page>
-    <Page Include="UI\FilesPane.xaml">
-      <Filter>UI</Filter>
-    </Page>
-    <Page Include="UI\Shell.xaml">
-      <Filter>UI</Filter>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <Filter>Package</Filter>
     </AppxManifest>
@@ -239,5 +240,19 @@
     <PRIResource Include="Resources.resw">
       <Filter>Package</Filter>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\FilesPane.xaml">
+      <Filter>View</Filter>
+    </Page>
+    <Page Include="View\MainPage.xaml">
+      <Filter>View</Filter>
+    </Page>
+    <Page Include="View\Shell.xaml">
+      <Filter>View</Filter>
+    </Page>
+    <Page Include="View\Theme.xaml">
+      <Filter>View</Filter>
+    </Page>
   </ItemGroup>
 </Project>

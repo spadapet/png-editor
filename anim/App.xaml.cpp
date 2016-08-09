@@ -1,7 +1,8 @@
 ﻿#include "pch.h"
 #include "App.xaml.h"
+#include "Controller/AppPersist.h"
 #include "Core/Thread.h"
-#include "UI/MainPage.xaml.h"
+#include "View/MainPage.xaml.h"
 
 anim::App::App()
 {
@@ -42,8 +43,14 @@ void anim::App::InitializeProcess()
 
 concurrency::task<void> anim::App::InitializeGlobals()
 {
-	this->state = std::make_shared<AppState>();
-	return this->state->Load();
+	auto loadTask = anim::LoadAppState();
+
+	auto doneTask = loadTask.then([this](std::shared_ptr<AppState> app)
+	{
+		this->state = app;
+	});
+
+	return doneTask;
 }
 
 void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
@@ -55,8 +62,9 @@ void anim::App::InitializeWindow(Windows::UI::Xaml::Window ^window)
 void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args)
 {
 	Windows::ApplicationModel::SuspendingDeferral ^deferral = args->SuspendingOperation->GetDeferral();
+	auto saveTask = anim::SaveAppState(this->state);
 
-	this->state->Save().then([deferral]()
+	saveTask.then([deferral]()
 	{
 		deferral->Complete();
 	}, concurrency::task_continuation_context::use_current());

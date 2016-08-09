@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "UI/FilesPane.g.h"
+#include "View/FilesPane.g.h"
 #include "ViewModel/FilesPaneVM.h"
 
 namespace anim
