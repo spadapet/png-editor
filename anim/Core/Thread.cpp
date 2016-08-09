@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "Core/Thread.h"
 
+void anim::AssertMainThread()
+{
+	assert(anim::IsMainThread());
+}
+
 bool anim::IsMainThread()
 {
 	return anim::GetMainDispatcher()->HasThreadAccess;

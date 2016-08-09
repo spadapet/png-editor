@@ -24,7 +24,7 @@ namespace anim
 		{
 			Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get();
 		}
-		property bool HasFolders { bool get(); }
+		property bool HasProjectFolders { bool get(); }
 
 		// Commands
 		property Windows::UI::Xaml::Input::ICommand ^AddFolderCommand { Windows::UI::Xaml::Input::ICommand ^get(); }

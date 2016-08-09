@@ -33,10 +33,10 @@
                 <Image Source="ms-appx:///Assets/Icons/folder_open-picture.png" Width="20" Height="20" />
             </Button>
         </StackPanel>
-        <Grid Padding="4" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}">
+        <Grid Padding="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}">
             <ItemsControl ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
         </Grid>
-        <Grid Padding="4" Visibility="{Binding HasItems, Converter={StaticResource BoolToInvisible}}">
+        <Grid Padding="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
             <TextBlock TextWrapping="Wrap">
                 <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
             </TextBlock>

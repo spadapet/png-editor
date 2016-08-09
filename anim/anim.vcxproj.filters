@@ -45,8 +45,6 @@
     <ClCompile Include="Core\String.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="UI\MainPage.xaml.cpp" />
-    <ClCompile Include="UI\FilesPane.xaml.cpp" />
     <ClCompile Include="Core\Command.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -68,7 +66,6 @@
     <ClCompile Include="ViewModel\FilesPaneVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
-    <ClCompile Include="UI\Shell.xaml.cpp" />
     <ClCompile Include="Core\Properties.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -78,13 +75,7 @@
     <ClCompile Include="Core\Thread.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Designer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Controller\AppController.cpp">
-      <Filter>Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="Controller\AppPersist.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
     <ClCompile Include="View\Utility\BoolToBrushConverter.cpp">
@@ -92,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp">
       <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="View\FilesPane.xaml.cpp" />
+    <ClCompile Include="View\MainPage.xaml.cpp" />
+    <ClCompile Include="View\Shell.xaml.cpp" />
+    <ClCompile Include="Core\Designer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AppPersist.cpp">
+      <Filter>Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,8 +106,6 @@
     <ClInclude Include="Core\String.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="UI\MainPage.xaml.h" />
-    <ClInclude Include="UI\FilesPane.xaml.h" />
     <ClInclude Include="Core\Command.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -129,7 +127,6 @@
     <ClInclude Include="ViewModel\FilesPaneVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
-    <ClInclude Include="UI\Shell.xaml.h" />
     <ClInclude Include="Core\Properties.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -139,13 +136,7 @@
     <ClInclude Include="Core\Thread.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Designer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\AppController.h">
-      <Filter>Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller\AppPersist.h">
       <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="View\Utility\BoolToBrushConverter.h">
@@ -153,6 +144,15 @@
     </ClInclude>
     <ClInclude Include="View\Utility\BoolToVisibleConverter.h">
       <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\FilesPane.xaml.h" />
+    <ClInclude Include="View\MainPage.xaml.h" />
+    <ClInclude Include="View\Shell.xaml.h" />
+    <ClInclude Include="Core\Designer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AppPersist.h">
+      <Filter>Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

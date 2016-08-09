@@ -1,13 +1,9 @@
 #include "pch.h"
-#include "Model/AppController.h"
+#include "Controller/AppController.h"
 #include "Model/AppState.h"
 
 anim::AppController::AppController(std::shared_ptr<AppState> app)
 	: app(app)
-{
-}
-
-anim::AppController::~AppController()
 {
 }
 

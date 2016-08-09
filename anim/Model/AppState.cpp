@@ -112,4 +112,35 @@ anim::AppMode anim::AppState::GetMode() const
 
 void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 {
+	if (folder == nullptr)
+	{
+		return;
+	}
+
+	for (std::shared_ptr<ProjectFolder> project : this->projectFolders)
+	{
+		if (project->GetFolder() == folder)
+		{
+			return;
+		}
+	}
+
+	std::shared_ptr<ProjectFolder> project = std::make_shared<ProjectFolder>(folder);
+	this->projectFolders.push_back(project);
+	this->ProjectFolderAdded.Notify(project);
+}
+
+void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder)
+{
+	for (auto i = this->projectFolders.begin(); i != this->projectFolders.end(); i++)
+	{
+		std::shared_ptr<ProjectFolder> project = *i;
+
+		if (project->GetFolder() == folder)
+		{
+			this->projectFolders.erase(i);
+			this->ProjectFolderRemoved.Notify(project);
+			break;
+		}
+	}
 }

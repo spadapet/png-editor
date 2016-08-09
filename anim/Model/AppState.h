@@ -35,6 +35,7 @@ namespace anim
 
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
+		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
 
 	private:
 		void Initialize();

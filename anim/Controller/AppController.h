@@ -8,7 +8,6 @@ namespace anim
 	{
 	public:
 		AppController(std::shared_ptr<AppState> app);
-		~AppController();
 
 		void AddProjectFolder();
 		void OpenFile();
