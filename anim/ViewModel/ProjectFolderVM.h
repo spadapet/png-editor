@@ -34,6 +34,7 @@ namespace anim
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
+		void Refresh();
 
 		std::shared_ptr<ProjectFolder> folder;
 		Platform::Collections::Vector<ProjectFolderVM ^> ^folders;

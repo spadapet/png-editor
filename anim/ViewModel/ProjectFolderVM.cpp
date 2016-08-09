@@ -9,6 +9,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	, folders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
 	, files(ref new Platform::Collections::Vector<ProjectFileVM ^>())
 {
+	this->Refresh();
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
@@ -49,4 +50,42 @@ Windows::Foundation::Collections::IVector<anim::ProjectFileVM ^> ^anim::ProjectF
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
+}
+
+void anim::ProjectFolderVM::Refresh()
+{
+	Platform::WeakReference weakOwner(this);
+
+	this->folders->Clear();
+	this->files->Clear();
+
+	auto getTask = concurrency::create_task(this->folder->GetFolder()->GetItemsAsync());
+
+	getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::IStorageItem ^> ^items)
+	{
+		ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+		if (owner == nullptr)
+		{
+			return;
+		}
+
+		for (Windows::Storage::IStorageItem ^item : items)
+		{
+			if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
+			{
+				Windows::Storage::StorageFolder ^folder = dynamic_cast<Windows::Storage::StorageFolder ^>(item);
+				if (folder != nullptr)
+				{
+				}
+			}
+			else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
+			{
+				Windows::Storage::StorageFile ^file = dynamic_cast<Windows::Storage::StorageFile ^>(item);
+				if (file != nullptr)
+				{
+				}
+			}
+		}
+
+	}, concurrency::task_continuation_context::use_current());
 }
