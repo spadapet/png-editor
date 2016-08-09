@@ -18,10 +18,12 @@
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
+    <ClCompile Include="Model\ProjectFile.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
+    <ClCompile Include="ViewModel\ProjectFileVM.cpp" />
     <ClCompile Include="ViewModel\ShellVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderVM.cpp" />
     <ClCompile Include="View\FilesPane.xaml.cpp">
@@ -45,6 +47,7 @@
     <ClInclude Include="Core\Thread.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
+    <ClInclude Include="Model\ProjectFile.h" />
     <ClInclude Include="Model\ProjectFolder.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
@@ -56,6 +59,7 @@
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
+    <ClInclude Include="ViewModel\ProjectFileVM.h" />
     <ClInclude Include="ViewModel\ShellVM.h" />
     <ClInclude Include="ViewModel\ProjectFolderVM.h" />
     <AppxManifest Include="Package.appxmanifest">

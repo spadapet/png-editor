@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ViewModel/ProjectFileVM.h"
+
 namespace anim
 {
 	class ProjectFolder;
@@ -18,11 +20,23 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Platform::String ^DisplayName { Platform::String ^get(); }
-		property Platform::String ^FullName { Platform::String ^get(); }
+		property Platform::String ^FullPath { Platform::String ^get(); }
+
+		property Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^Folders
+		{
+			Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get();
+		}
+
+		property Windows::Foundation::Collections::IVector<ProjectFileVM ^> ^Files
+		{
+			Windows::Foundation::Collections::IVector<ProjectFileVM ^> ^get();
+		}
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
 		std::shared_ptr<ProjectFolder> folder;
+		Platform::Collections::Vector<ProjectFolderVM ^> ^folders;
+		Platform::Collections::Vector<ProjectFileVM ^> ^files;
 	};
 }

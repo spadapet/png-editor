@@ -93,6 +93,12 @@
     <ClCompile Include="Controller\AppPersist.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\ProjectFileVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ProjectFile.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -153,6 +159,12 @@
     </ClInclude>
     <ClInclude Include="Controller\AppPersist.h">
       <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectFileVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ProjectFile.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

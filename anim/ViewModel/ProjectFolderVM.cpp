@@ -6,6 +6,8 @@
 
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
+	, folders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
+	, files(ref new Platform::Collections::Vector<ProjectFileVM ^>())
 {
 }
 
@@ -26,12 +28,22 @@ Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 
 Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 {
-	return this->folder->GetFolder()->Name;
+	return this->folder->GetFolder()->DisplayName;
 }
 
-Platform::String ^anim::ProjectFolderVM::FullName::get()
+Platform::String ^anim::ProjectFolderVM::FullPath::get()
 {
-	return this->folder->GetFolder()->DisplayName;
+	return this->folder->GetFolder()->Path;
+}
+
+Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::ProjectFolderVM::Folders::get()
+{
+	return this->folders;
+}
+
+Windows::Foundation::Collections::IVector<anim::ProjectFileVM ^> ^anim::ProjectFolderVM::Files::get()
+{
+	return this->files;
 }
 
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)

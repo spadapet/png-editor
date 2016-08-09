@@ -14,7 +14,7 @@
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
         <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid Background="Salmon" ToolTipService.ToolTip="{Binding FullName}">
+            <Grid Background="Salmon" ToolTipService.ToolTip="{Binding FullPath}">
                 <TextBlock Text="{Binding DisplayName}" />
             </Grid>
         </DataTemplate>
