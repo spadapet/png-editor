@@ -10,6 +10,7 @@ namespace anim
 	{
 	internal:
 		ProjectFileVM(std::shared_ptr<ProjectFile> file);
+		ProjectFileVM(Windows::Storage::StorageFile ^file);
 
 	public:
 		ProjectFileVM();

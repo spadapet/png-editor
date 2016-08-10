@@ -8,15 +8,17 @@ anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
 	: file(file)
 {
 #ifdef _DEBUG
-	if (this->file != nullptr)
-	{
-		::OutputDebugString(Platform::String::Concat(this->file->GetFile()->Path, "\r\n")->Data());
-	}
+	::OutputDebugString(Platform::String::Concat(this->FullPath, "\r\n")->Data());
 #endif
 }
 
+anim::ProjectFileVM::ProjectFileVM(Windows::Storage::StorageFile ^file)
+	: ProjectFileVM(std::make_shared<ProjectFile>(file))
+{
+}
+
 anim::ProjectFileVM::ProjectFileVM()
-	: ProjectFileVM(nullptr)
+	: ProjectFileVM(std::shared_ptr<ProjectFile>())
 {
 	anim::AssertXamlDesigner();
 }
@@ -27,17 +29,17 @@ anim::ProjectFileVM::~ProjectFileVM()
 
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
 {
-	return this->file->GetFile();
+	return (this->file != nullptr) ? this->file->GetFile() : nullptr;
 }
 
 Platform::String ^anim::ProjectFileVM::DisplayName::get()
 {
-	return this->file->GetFile()->DisplayName;
+	return (this->file != nullptr) ? this->file->GetFile()->DisplayName : "<null>";
 }
 
 Platform::String ^anim::ProjectFileVM::FullPath::get()
 {
-	return this->file->GetFile()->Path;
+	return (this->file != nullptr) ? this->file->GetFile()->Path : "<null>";
 }
 
 void anim::ProjectFileVM::NotifyPropertyChanged(Platform::String ^name)

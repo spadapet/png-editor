@@ -30,7 +30,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 {
 	Platform::WeakReference weakOwner(this);
 
-	if (this->folder != nullptr && this->folder->GetFolder()->IsCommonFolderQuerySupported(Windows::Storage::Search::CommonFolderQuery::DefaultQuery))
+	if (this->folder->GetFolder()->IsCommonFolderQuerySupported(Windows::Storage::Search::CommonFolderQuery::DefaultQuery))
 	{
 		this->folderQuery = this->folder->GetFolder()->CreateFolderQuery(Windows::Storage::Search::CommonFolderQuery::DefaultQuery);
 
@@ -38,18 +38,17 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
 			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
 		{
-			anim::PostToMainThread([weakOwner]()
+			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+			if (owner != nullptr)
 			{
-				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-				if (owner != nullptr)
-				{
-					owner->RefreshFolders();
-				}
-			});
+				owner->RefreshFolders();
+			}
 		});
+
+		this->RefreshFolders();
 	}
 
-	if (this->folder != nullptr && this->folder->GetFolder()->AreQueryOptionsSupported(::GetFileQueryOptions()))
+	if (this->folder->GetFolder()->AreQueryOptionsSupported(::GetFileQueryOptions()))
 	{
 		this->fileQuery = this->folder->GetFolder()->CreateFileQueryWithOptions(::GetFileQueryOptions());
 
@@ -57,30 +56,28 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
 			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
 		{
-			anim::PostToMainThread([weakOwner]()
+			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+			if (owner != nullptr)
 			{
-				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-				if (owner != nullptr)
-				{
-					owner->RefreshFiles();
-				}
-			});
+				owner->RefreshFiles();
+			}
 		});
-	}
 
-	this->RefreshFolders();
-	this->RefreshFiles();
+		this->RefreshFiles();
+	}
 
 #ifdef _DEBUG
-	if (this->folder != nullptr)
-	{
-		::OutputDebugString(Platform::String::Concat(this->folder->GetFolder()->Path, "\r\n")->Data());
-	}
+	::OutputDebugString(Platform::String::Concat(this->FullPath, "\r\n")->Data());
 #endif
 }
 
+anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
+	: ProjectFolderVM(std::make_shared<ProjectFolder>(folder))
+{
+}
+
 anim::ProjectFolderVM::ProjectFolderVM()
-	: ProjectFolderVM(nullptr)
+	: ProjectFolderVM(Windows::Storage::ApplicationData::Current->TemporaryFolder)
 {
 	anim::AssertXamlDesigner();
 }
@@ -130,65 +127,124 @@ void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)
 
 void anim::ProjectFolderVM::RefreshFolders()
 {
-	if (this->folderQuery == nullptr)
+	if (this->folderQuery != nullptr)
 	{
-		return;
+		Platform::WeakReference weakOwner(this);
+		auto getTask = concurrency::create_task(this->folderQuery->GetFoldersAsync());
+
+		getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFolder ^> ^items)
+		{
+			anim::PostToMainThread([weakOwner, items]()
+			{
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->MergeFolders(std::vector<Windows::Storage::StorageFolder ^>(begin(items), end(items)));
+				}
+			});
+		}, concurrency::task_continuation_context::use_current());
 	}
-
-	auto getTask = concurrency::create_task(this->folderQuery->GetFoldersAsync());
-
-	Platform::WeakReference weakOwner(this);
-	getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFolder ^> ^items)
-	{
-		ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-		if (owner == nullptr)
-		{
-			return;
-		}
-
-		std::vector<Windows::Storage::StorageFolder ^> newFolders(begin(items), end(items));
-		// std::sort(n
-
-		for (Windows::Storage::StorageFolder ^item : items)
-		{
-			std::shared_ptr<ProjectFolder> folderModel = std::make_shared<ProjectFolder>(item);
-			ProjectFolderVM ^folderVM = ref new ProjectFolderVM(folderModel);
-			owner->folders->Append(folderVM);
-		}
-	}, concurrency::task_continuation_context::use_current());
 }
 
 void anim::ProjectFolderVM::RefreshFiles()
 {
-	if (this->fileQuery == nullptr)
+	if (this->fileQuery != nullptr)
 	{
-		return;
+		Platform::WeakReference weakOwner(this);
+		auto getTask = concurrency::create_task(this->fileQuery->GetFilesAsync());
+
+		getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFile ^> ^items)
+		{
+			anim::PostToMainThread([weakOwner, items]()
+			{
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->MergeFiles(std::vector<Windows::Storage::StorageFile ^>(begin(items), end(items)));
+				}
+			});
+		}, concurrency::task_continuation_context::use_current());
+	}
+}
+
+#include <sstream>
+
+void anim::ProjectFolderVM::MergeFolders(std::vector<Windows::Storage::StorageFolder ^> newFolders)
+{
+	anim::AssertMainThread();
+
+	std::sort(newFolders.begin(), newFolders.end(),
+		[](Windows::Storage::StorageFolder ^lhs, Windows::Storage::StorageFolder ^rhs) -> bool
+	{
+		return ::_wcsicmp(lhs->DisplayName->Data(), rhs->DisplayName->Data()) < 0;
+	});
+
+	unsigned int curOld = 0;
+	for (auto i = newFolders.begin(); i != newFolders.end(); i++, curOld++)
+	{
+		if (curOld < this->folders->Size)
+		{
+			Windows::Storage::StorageFolder ^oldFolder = this->folders->GetAt(curOld)->Folder;
+			if (*i != oldFolder)
+			{
+				if (std::find(i + 1, newFolders.end(), oldFolder) == newFolders.end())
+				{
+					this->folders->SetAt(curOld, ref new ProjectFolderVM(*i));
+				}
+				else
+				{
+					this->folders->InsertAt(curOld, ref new ProjectFolderVM(*i));
+				}
+			}
+		}
+		else
+		{
+			this->folders->Append(ref new ProjectFolderVM(*i));
+		}
 	}
 
-	auto getTask = concurrency::create_task(this->fileQuery->GetFilesAsync());
-
-	Platform::WeakReference weakOwner(this);
-	getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFile ^> ^items)
+	for (; curOld < this->folders->Size; curOld++)
 	{
-		ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-		if (owner == nullptr)
-		{
-			return;
-		}
-
-		for (Windows::Storage::StorageFile ^item : items)
-		{
-			std::shared_ptr<ProjectFile> fileModel = std::make_shared<ProjectFile>(item);
-			ProjectFileVM ^fileVM = ref new ProjectFileVM(fileModel);
-			owner->files->Append(fileVM);
-		}
-	}, concurrency::task_continuation_context::use_current());
+		this->folders->RemoveAt(curOld);
+	}
 }
 
-void anim::ProjectFolderVM::MergeFolders(const std::vector<Windows::Storage::StorageFolder ^> &newFolders)
+void anim::ProjectFolderVM::MergeFiles(std::vector<Windows::Storage::StorageFile ^> newFiles)
 {
-}
+	anim::AssertMainThread();
 
-void anim::ProjectFolderVM::MergeFiles(const std::vector<Windows::Storage::StorageFile ^> &newFiles)
-{
+	std::sort(newFiles.begin(), newFiles.end(),
+		[](Windows::Storage::StorageFile ^lhs, Windows::Storage::StorageFile ^rhs) -> bool
+	{
+		return ::_wcsicmp(lhs->DisplayName->Data(), rhs->DisplayName->Data()) < 0;
+	});
+
+	unsigned int curOld = 0;
+	for (auto i = newFiles.begin(); i != newFiles.end(); i++, curOld++)
+	{
+		if (curOld < this->files->Size)
+		{
+			Windows::Storage::StorageFile ^oldFile = this->files->GetAt(curOld)->File;
+			if (*i != oldFile)
+			{
+				if (std::find(i + 1, newFiles.end(), oldFile) == newFiles.end())
+				{
+					this->files->SetAt(curOld, ref new ProjectFileVM(*i));
+				}
+				else
+				{
+					this->files->InsertAt(curOld, ref new ProjectFileVM(*i));
+				}
+			}
+		}
+		else
+		{
+			this->files->Append(ref new ProjectFileVM(*i));
+		}
+	}
+
+	for (; curOld < this->files->Size; curOld++)
+	{
+		this->files->RemoveAt(curOld);
+	}
 }
