@@ -34,10 +34,15 @@ namespace anim
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
-		void Refresh();
+		void RefreshFolders();
+		void RefreshFiles();
 
 		std::shared_ptr<ProjectFolder> folder;
 		Platform::Collections::Vector<ProjectFolderVM ^> ^folders;
 		Platform::Collections::Vector<ProjectFileVM ^> ^files;
+		Windows::Storage::Search::StorageFolderQueryResult ^folderQuery;
+		Windows::Storage::Search::StorageFileQueryResult ^fileQuery;
+		Windows::Foundation::EventRegistrationToken folderChangedToken;
+		Windows::Foundation::EventRegistrationToken fileChangedToken;
 	};
 }

@@ -2,6 +2,7 @@
 
 namespace anim
 {
+	void SetMainThread();
 	void AssertMainThread();
 	bool IsMainThread();
 	void RunOnMainThread(std::function<void()> func);

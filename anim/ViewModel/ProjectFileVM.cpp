@@ -7,6 +7,12 @@
 anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
 	: file(file)
 {
+#ifdef _DEBUG
+	if (this->file != nullptr)
+	{
+		::OutputDebugString(Platform::String::Concat(this->file->GetFile()->Path, "\r\n")->Data());
+	}
+#endif
 }
 
 anim::ProjectFileVM::ProjectFileVM()

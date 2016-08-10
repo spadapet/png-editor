@@ -1,6 +1,13 @@
 #include "pch.h"
 #include "Core/Thread.h"
 
+static Windows::UI::Core::CoreDispatcher ^mainDispatcher;
+
+void anim::SetMainThread()
+{
+	::mainDispatcher = Windows::UI::Xaml::Window::Current->Dispatcher;
+}
+
 void anim::AssertMainThread()
 {
 	assert(anim::IsMainThread());
@@ -8,7 +15,7 @@ void anim::AssertMainThread()
 
 bool anim::IsMainThread()
 {
-	return anim::GetMainDispatcher()->HasThreadAccess;
+	return ::mainDispatcher != nullptr && ::mainDispatcher->HasThreadAccess;
 }
 
 void anim::RunOnMainThread(std::function<void()> func)
@@ -32,5 +39,6 @@ void anim::PostToMainThread(std::function<void()> func)
 
 Windows::UI::Core::CoreDispatcher ^anim::GetMainDispatcher()
 {
-	return Windows::UI::Xaml::Window::Current->Dispatcher;
+	assert(::mainDispatcher != nullptr);
+	return ::mainDispatcher;
 }

@@ -39,6 +39,7 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 
 void anim::App::InitializeProcess()
 {
+	anim::SetMainThread();
 }
 
 concurrency::task<void> anim::App::InitializeGlobals()
