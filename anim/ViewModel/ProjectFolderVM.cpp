@@ -39,14 +39,15 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
 			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
 		{
-			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-			if (owner != nullptr)
+			anim::RunOnMainThread([weakOwner]()
 			{
-				owner->RefreshFolders();
-			}
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->RefreshFolders();
+				}
+			});
 		});
-
-		this->RefreshFolders();
 	}
 
 	if (this->folder->GetFolder()->AreQueryOptionsSupported(::GetFileQueryOptions()))
@@ -57,14 +58,15 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
 			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
 		{
-			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-			if (owner != nullptr)
+			anim::RunOnMainThread([weakOwner]()
 			{
-				owner->RefreshFiles();
-			}
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->RefreshFiles();
+				}
+			});
 		});
-
-		this->RefreshFiles();
 	}
 
 #ifdef _DEBUG
@@ -154,15 +156,12 @@ void anim::ProjectFolderVM::RefreshFolders()
 
 		getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFolder ^> ^items)
 		{
-			anim::PostToMainThread([weakOwner, items]()
+			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+			if (owner != nullptr)
 			{
-				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-				if (owner != nullptr)
-				{
-					owner->MergeFolders(std::vector<Windows::Storage::StorageFolder ^>(begin(items), end(items)));
-				}
-			});
-		});
+				owner->MergeFolders(std::vector<Windows::Storage::StorageFolder ^>(begin(items), end(items)));
+			}
+		}, concurrency::task_continuation_context::use_current());
 	}
 }
 
