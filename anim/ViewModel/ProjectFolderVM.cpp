@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core/Designer.h"
 #include "Model/AppState.h"
+#include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFolderVM.h"
 
@@ -10,6 +11,9 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	, files(ref new Platform::Collections::Vector<ProjectFileVM ^>())
 {
 	this->Refresh();
+
+	//Windows::Storage::Search::QueryOptions ^options = ref new Windows::Storage::Search::QueryOptions();
+	//this->folder->GetFolder()->CreateItemQueryWithOptions();
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
@@ -76,6 +80,9 @@ void anim::ProjectFolderVM::Refresh()
 				Windows::Storage::StorageFolder ^folder = dynamic_cast<Windows::Storage::StorageFolder ^>(item);
 				if (folder != nullptr)
 				{
+					std::shared_ptr<ProjectFolder> folderModel = std::make_shared<ProjectFolder>(folder);
+					ProjectFolderVM ^folderVM = ref new ProjectFolderVM(folderModel);
+					owner->folders->Append(folderVM);
 				}
 			}
 			else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
@@ -83,9 +90,11 @@ void anim::ProjectFolderVM::Refresh()
 				Windows::Storage::StorageFile ^file = dynamic_cast<Windows::Storage::StorageFile ^>(item);
 				if (file != nullptr)
 				{
+					std::shared_ptr<ProjectFile> fileModel = std::make_shared<ProjectFile>(file);
+					ProjectFileVM ^fileVM = ref new ProjectFileVM(fileModel);
+					owner->files->Append(fileVM);
 				}
 			}
 		}
-
 	}, concurrency::task_continuation_context::use_current());
 }
