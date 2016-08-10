@@ -27,6 +27,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
 	, folders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
 	, files(ref new Platform::Collections::Vector<ProjectFileVM ^>())
+	, expanded(false)
 {
 	Platform::WeakReference weakOwner(this);
 
@@ -110,6 +111,25 @@ Platform::String ^anim::ProjectFolderVM::FullPath::get()
 	return this->folder->GetFolder()->Path;
 }
 
+bool anim::ProjectFolderVM::HasChildren::get()
+{
+	return this->folders->Size > 0 || this->files->Size > 0;
+}
+
+bool anim::ProjectFolderVM::ShowExpanded::get()
+{
+	return this->expanded;
+}
+
+void anim::ProjectFolderVM::ShowExpanded::set(bool value)
+{
+	if (this->expanded != value)
+	{
+		this->expanded = value;
+		this->NotifyPropertyChanged("ShowExpanded");
+	}
+}
+
 Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::ProjectFolderVM::Folders::get()
 {
 	return this->folders;
@@ -142,7 +162,7 @@ void anim::ProjectFolderVM::RefreshFolders()
 					owner->MergeFolders(std::vector<Windows::Storage::StorageFolder ^>(begin(items), end(items)));
 				}
 			});
-		}, concurrency::task_continuation_context::use_current());
+		});
 	}
 }
 
@@ -163,18 +183,16 @@ void anim::ProjectFolderVM::RefreshFiles()
 					owner->MergeFiles(std::vector<Windows::Storage::StorageFile ^>(begin(items), end(items)));
 				}
 			});
-		}, concurrency::task_continuation_context::use_current());
+		});
 	}
 }
-
-#include <sstream>
 
 void anim::ProjectFolderVM::MergeFolders(std::vector<Windows::Storage::StorageFolder ^> newFolders)
 {
 	anim::AssertMainThread();
 
 	std::sort(newFolders.begin(), newFolders.end(),
-		[](Windows::Storage::StorageFolder ^lhs, Windows::Storage::StorageFolder ^rhs) -> bool
+		[](Windows::Storage::StorageFolder ^lhs, Windows::Storage::StorageFolder ^rhs)
 	{
 		return ::_wcsicmp(lhs->DisplayName->Data(), rhs->DisplayName->Data()) < 0;
 	});
@@ -207,6 +225,8 @@ void anim::ProjectFolderVM::MergeFolders(std::vector<Windows::Storage::StorageFo
 	{
 		this->folders->RemoveAt(curOld);
 	}
+
+	this->NotifyPropertyChanged("HasChildren");
 }
 
 void anim::ProjectFolderVM::MergeFiles(std::vector<Windows::Storage::StorageFile ^> newFiles)
@@ -214,7 +234,7 @@ void anim::ProjectFolderVM::MergeFiles(std::vector<Windows::Storage::StorageFile
 	anim::AssertMainThread();
 
 	std::sort(newFiles.begin(), newFiles.end(),
-		[](Windows::Storage::StorageFile ^lhs, Windows::Storage::StorageFile ^rhs) -> bool
+		[](Windows::Storage::StorageFile ^lhs, Windows::Storage::StorageFile ^rhs)
 	{
 		return ::_wcsicmp(lhs->DisplayName->Data(), rhs->DisplayName->Data()) < 0;
 	});
@@ -247,4 +267,6 @@ void anim::ProjectFolderVM::MergeFiles(std::vector<Windows::Storage::StorageFile
 	{
 		this->files->RemoveAt(curOld);
 	}
+
+	this->NotifyPropertyChanged("HasChildren");
 }

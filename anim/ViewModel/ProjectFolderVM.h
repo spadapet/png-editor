@@ -22,6 +22,8 @@ namespace anim
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Platform::String ^DisplayName { Platform::String ^get(); }
 		property Platform::String ^FullPath { Platform::String ^get(); }
+		property bool HasChildren { bool get(); }
+		property bool ShowExpanded { bool get(); void set(bool value); }
 
 		property Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^Folders
 		{
@@ -47,5 +49,6 @@ namespace anim
 		Windows::Storage::Search::StorageFileQueryResult ^fileQuery;
 		Windows::Foundation::EventRegistrationToken folderChangedToken;
 		Windows::Foundation::EventRegistrationToken fileChangedToken;
+		bool expanded;
 	};
 }
