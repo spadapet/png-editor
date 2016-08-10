@@ -99,6 +99,9 @@
     <ClCompile Include="Model\ProjectFile.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Model\RootProjectFolder.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -164,6 +167,9 @@
       <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="Model\ProjectFile.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\RootProjectFolder.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

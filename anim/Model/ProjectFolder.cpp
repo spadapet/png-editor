@@ -14,3 +14,8 @@ Windows::Storage::StorageFolder ^anim::ProjectFolder::GetFolder() const
 {
 	return this->folder;
 }
+
+bool anim::ProjectFolder::IsRoot() const
+{
+	return false;
+}

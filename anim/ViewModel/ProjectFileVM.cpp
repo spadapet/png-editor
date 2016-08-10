@@ -7,9 +7,6 @@
 anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
 	: file(file)
 {
-#ifdef _DEBUG
-	::OutputDebugString(Platform::String::Concat(this->FullPath, "\r\n")->Data());
-#endif
 }
 
 anim::ProjectFileVM::ProjectFileVM(Windows::Storage::StorageFile ^file)

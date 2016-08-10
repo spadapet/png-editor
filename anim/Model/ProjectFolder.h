@@ -9,6 +9,7 @@ namespace anim
 		~ProjectFolder();
 
 		Windows::Storage::StorageFolder ^GetFolder() const;
+		virtual bool IsRoot() const;
 
 	private:
 		Windows::Storage::StorageFolder ^folder;

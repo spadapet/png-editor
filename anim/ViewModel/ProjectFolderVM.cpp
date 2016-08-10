@@ -27,51 +27,9 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
 	, folders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
 	, files(ref new Platform::Collections::Vector<ProjectFileVM ^>())
+	, initFilters(false)
 	, expanded(false)
 {
-	Platform::WeakReference weakOwner(this);
-
-	if (this->folder->GetFolder()->IsCommonFolderQuerySupported(Windows::Storage::Search::CommonFolderQuery::DefaultQuery))
-	{
-		this->folderQuery = this->folder->GetFolder()->CreateFolderQuery(Windows::Storage::Search::CommonFolderQuery::DefaultQuery);
-
-		this->folderChangedToken = this->folderQuery->ContentsChanged +=
-			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
-			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
-		{
-			anim::RunOnMainThread([weakOwner]()
-			{
-				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-				if (owner != nullptr)
-				{
-					owner->RefreshFolders();
-				}
-			});
-		});
-	}
-
-	if (this->folder->GetFolder()->AreQueryOptionsSupported(::GetFileQueryOptions()))
-	{
-		this->fileQuery = this->folder->GetFolder()->CreateFileQueryWithOptions(::GetFileQueryOptions());
-
-		this->fileChangedToken = this->fileQuery->ContentsChanged +=
-			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
-			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
-		{
-			anim::RunOnMainThread([weakOwner]()
-			{
-				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-				if (owner != nullptr)
-				{
-					owner->RefreshFiles();
-				}
-			});
-		});
-	}
-
-#ifdef _DEBUG
-	::OutputDebugString(Platform::String::Concat(this->FullPath, "\r\n")->Data());
-#endif
 }
 
 anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
@@ -115,7 +73,7 @@ Platform::String ^anim::ProjectFolderVM::FullPath::get()
 
 bool anim::ProjectFolderVM::HasChildren::get()
 {
-	return this->folders->Size > 0 || this->files->Size > 0;
+	return !this->initFilters || this->folders->Size > 0 || this->files->Size > 0;
 }
 
 bool anim::ProjectFolderVM::ShowExpanded::get()
@@ -130,21 +88,88 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 		this->expanded = value;
 		this->NotifyPropertyChanged("ShowExpanded");
 	}
+
+	if (this->expanded)
+	{
+		this->InitFilters();
+	}
+}
+
+bool anim::ProjectFolderVM::IsRoot::get()
+{
+	return this->folder->IsRoot();
 }
 
 Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::ProjectFolderVM::Folders::get()
 {
+	this->InitFilters();
+
 	return this->folders;
 }
 
 Windows::Foundation::Collections::IVector<anim::ProjectFileVM ^> ^anim::ProjectFolderVM::Files::get()
 {
+	this->InitFilters();
+
 	return this->files;
 }
 
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
+}
+
+void anim::ProjectFolderVM::InitFilters()
+{
+	if (this->initFilters)
+	{
+		return;
+	}
+
+	this->initFilters = true;
+
+	Platform::WeakReference weakOwner(this);
+
+	if (this->folderQuery == nullptr && this->folder->GetFolder()->IsCommonFolderQuerySupported(
+		Windows::Storage::Search::CommonFolderQuery::DefaultQuery))
+	{
+		this->folderQuery = this->folder->GetFolder()->CreateFolderQuery(Windows::Storage::Search::CommonFolderQuery::DefaultQuery);
+
+		this->folderChangedToken = this->folderQuery->ContentsChanged +=
+			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
+			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
+		{
+			anim::RunOnMainThread([weakOwner]()
+			{
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->RefreshFolders();
+				}
+			});
+		});
+	}
+
+	if (this->fileQuery == nullptr && this->folder->GetFolder()->AreQueryOptionsSupported(::GetFileQueryOptions()))
+	{
+		this->fileQuery = this->folder->GetFolder()->CreateFileQueryWithOptions(::GetFileQueryOptions());
+
+		this->fileChangedToken = this->fileQuery->ContentsChanged +=
+			ref new Windows::Foundation::TypedEventHandler<Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^>
+			([weakOwner](Windows::Storage::Search::IStorageQueryResultBase ^, Platform::Object ^)
+		{
+			anim::RunOnMainThread([weakOwner]()
+			{
+				ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+				if (owner != nullptr)
+				{
+					owner->RefreshFiles();
+				}
+			});
+		});
+	}
+
+	this->NotifyPropertyChanged("HasChildren");
 }
 
 void anim::ProjectFolderVM::RefreshFolders()
