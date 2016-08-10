@@ -36,6 +36,8 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void RefreshFolders();
 		void RefreshFiles();
+		void MergeFolders(const std::vector<Windows::Storage::StorageFolder ^> &newFolders);
+		void MergeFiles(const std::vector<Windows::Storage::StorageFile ^> &newFiles);
 
 		std::shared_ptr<ProjectFolder> folder;
 		Platform::Collections::Vector<ProjectFolderVM ^> ^folders;
