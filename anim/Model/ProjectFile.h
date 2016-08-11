@@ -11,6 +11,7 @@ namespace anim
 		virtual ~ProjectFile() override;
 
 		Windows::Storage::StorageFile ^GetFile() const;
+		void SetFile(Windows::Storage::StorageFile ^file);
 
 	private:
 		Windows::Storage::StorageFile ^file;

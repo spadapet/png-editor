@@ -15,3 +15,13 @@ Windows::Storage::StorageFile ^anim::ProjectFile::GetFile() const
 {
 	return this->file;
 }
+
+void anim::ProjectFile::SetFile(Windows::Storage::StorageFile ^file)
+{
+	if (file != this->file)
+	{
+		this->file = file;
+		this->SetItem(file);
+		this->PropertyChanged.Notify("File");
+	}
+}

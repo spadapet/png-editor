@@ -15,3 +15,13 @@ Windows::Storage::StorageFolder ^anim::ProjectFolder::GetFolder() const
 {
 	return this->folder;
 }
+
+void anim::ProjectFolder::SetFolder(Windows::Storage::StorageFolder ^folder)
+{
+	if (folder != this->folder)
+	{
+		this->folder = folder;
+		this->SetItem(folder);
+		this->PropertyChanged.Notify("Folder");
+	}
+}

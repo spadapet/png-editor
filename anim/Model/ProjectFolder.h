@@ -11,6 +11,7 @@ namespace anim
 		virtual ~ProjectFolder() override;
 
 		Windows::Storage::StorageFolder ^GetFolder() const;
+		void SetFolder(Windows::Storage::StorageFolder ^folder);
 
 	private:
 		Windows::Storage::StorageFolder ^folder;
