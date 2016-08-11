@@ -9,11 +9,6 @@ anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
 {
 }
 
-anim::ProjectFileVM::ProjectFileVM(Windows::Storage::StorageFile ^file)
-	: ProjectFileVM(std::make_shared<ProjectFile>(file))
-{
-}
-
 anim::ProjectFileVM::ProjectFileVM()
 	: ProjectFileVM(std::shared_ptr<ProjectFile>())
 {

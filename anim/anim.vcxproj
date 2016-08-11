@@ -20,7 +20,7 @@
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="Model\ProjectFile.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
-    <ClCompile Include="Model\RootProjectFolder.cpp" />
+    <ClCompile Include="Model\ProjectItem.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
@@ -50,7 +50,7 @@
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="Model\ProjectFile.h" />
     <ClInclude Include="Model\ProjectFolder.h" />
-    <ClInclude Include="Model\RootProjectFolder.h" />
+    <ClInclude Include="Model\ProjectItem.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>

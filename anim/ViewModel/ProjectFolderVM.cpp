@@ -32,13 +32,8 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 {
 }
 
-anim::ProjectFolderVM::ProjectFolderVM(Windows::Storage::StorageFolder ^folder)
-	: ProjectFolderVM(std::make_shared<ProjectFolder>(folder))
-{
-}
-
 anim::ProjectFolderVM::ProjectFolderVM()
-	: ProjectFolderVM(Windows::Storage::ApplicationData::Current->TemporaryFolder)
+	: ProjectFolderVM(std::make_shared<ProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, nullptr))
 {
 	anim::AssertXamlDesigner();
 }
@@ -95,9 +90,9 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 	}
 }
 
-bool anim::ProjectFolderVM::IsRoot::get()
+int anim::ProjectFolderVM::Level::get()
 {
-	return this->folder->IsRoot();
+	return this->folder->GetLevel();
 }
 
 Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::ProjectFolderVM::Folders::get()
@@ -231,17 +226,17 @@ void anim::ProjectFolderVM::MergeFolders(std::vector<Windows::Storage::StorageFo
 			{
 				if (std::find(i + 1, newFolders.end(), oldFolder) == newFolders.end())
 				{
-					this->folders->SetAt(curOld, ref new ProjectFolderVM(*i));
+					this->folders->SetAt(curOld, ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
 				}
 				else
 				{
-					this->folders->InsertAt(curOld, ref new ProjectFolderVM(*i));
+					this->folders->InsertAt(curOld, ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
 				}
 			}
 		}
 		else
 		{
-			this->folders->Append(ref new ProjectFolderVM(*i));
+			this->folders->Append(ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
 		}
 	}
 
@@ -273,17 +268,17 @@ void anim::ProjectFolderVM::MergeFiles(std::vector<Windows::Storage::StorageFile
 			{
 				if (std::find(i + 1, newFiles.end(), oldFile) == newFiles.end())
 				{
-					this->files->SetAt(curOld, ref new ProjectFileVM(*i));
+					this->files->SetAt(curOld, ref new ProjectFileVM(std::make_shared<ProjectFile>(*i, this->folder)));
 				}
 				else
 				{
-					this->files->InsertAt(curOld, ref new ProjectFileVM(*i));
+					this->files->InsertAt(curOld, ref new ProjectFileVM(std::make_shared<ProjectFile>(*i, this->folder)));
 				}
 			}
 		}
 		else
 		{
-			this->files->Append(ref new ProjectFileVM(*i));
+			this->files->Append(ref new ProjectFileVM(std::make_shared<ProjectFile>(*i, this->folder)));
 		}
 	}
 

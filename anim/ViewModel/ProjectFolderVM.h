@@ -12,7 +12,6 @@ namespace anim
 	{
 	internal:
 		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder);
-		ProjectFolderVM(Windows::Storage::StorageFolder ^folder);
 
 	public:
 		ProjectFolderVM();
@@ -24,7 +23,7 @@ namespace anim
 		property Platform::String ^FullPath { Platform::String ^get(); }
 		property bool HasChildren { bool get(); }
 		property bool ShowExpanded { bool get(); void set(bool value); }
-		property bool IsRoot { bool get(); }
+		property int Level { int get(); }
 
 		property Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^Folders
 		{

@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Model/ProjectItem.h"
+
 namespace anim
 {
-	class ProjectFile
+	class ProjectFile : public ProjectItem
 	{
 	public:
-		ProjectFile(Windows::Storage::StorageFile ^file);
-		~ProjectFile();
+		ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<ProjectFolder> parent);
+		virtual ~ProjectFile() override;
 
 		Windows::Storage::StorageFile ^GetFile() const;
 

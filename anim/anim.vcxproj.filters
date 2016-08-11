@@ -99,7 +99,7 @@
     <ClCompile Include="Model\ProjectFile.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Model\RootProjectFolder.cpp">
+    <ClCompile Include="Model\ProjectItem.cpp">
       <Filter>Model</Filter>
     </ClCompile>
   </ItemGroup>
@@ -169,7 +169,7 @@
     <ClInclude Include="Model\ProjectFile.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model\RootProjectFolder.h">
+    <ClInclude Include="Model\ProjectItem.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
