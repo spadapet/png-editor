@@ -39,12 +39,28 @@ Windows::Storage::StorageFolder ^anim::ProjectFolder::GetFolder() const
 	return this->folder;
 }
 
+void anim::ProjectFolder::SetItem(Windows::Storage::IStorageItem ^item)
+{
+	Windows::Storage::StorageFolder ^folder = dynamic_cast<Windows::Storage::StorageFolder ^>(item);
+	assert(folder != nullptr);
+
+	if (folder != nullptr)
+	{
+		this->SetFolder(folder);
+	}
+}
+
+bool anim::ProjectFolder::IsFolder() const
+{
+	return true;
+}
+
 void anim::ProjectFolder::SetFolder(Windows::Storage::StorageFolder ^folder)
 {
 	if (folder != this->folder)
 	{
 		this->folder = folder;
-		this->SetItem(folder);
+		ProjectItem::SetItem(folder);
 		this->PropertyChanged.Notify("Folder");
 	}
 }

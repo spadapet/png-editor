@@ -6,6 +6,7 @@
 namespace anim
 {
 	class ProjectFolder;
+	class ProjectItem;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -38,6 +39,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void FolderPropertyChanged(const char *name);
 		void UpdateItems();
+		IProjectItemVM ^MakeVM(std::shared_ptr<ProjectItem> item);
 
 		std::shared_ptr<ProjectFolder> folder;
 		EventCookie folderChangedCookie;

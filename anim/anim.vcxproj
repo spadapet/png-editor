@@ -25,6 +25,7 @@
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFileVM.cpp" />
+    <ClCompile Include="ViewModel\ProjectItemVM.cpp" />
     <ClCompile Include="ViewModel\ShellVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFolderVM.cpp" />
     <ClCompile Include="View\FilesPane.xaml.cpp">
@@ -63,6 +64,7 @@
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
     <ClInclude Include="ViewModel\ProjectFileVM.h" />
+    <ClInclude Include="ViewModel\ProjectItemVM.h" />
     <ClInclude Include="ViewModel\ShellVM.h" />
     <ClInclude Include="ViewModel\ProjectFolderVM.h" />
     <AppxManifest Include="Package.appxmanifest">

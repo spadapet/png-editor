@@ -2,6 +2,7 @@
 #include "Core/Designer.h"
 #include "Core/Thread.h"
 #include "Model/AppState.h"
+#include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFileVM.h"
 #include "ViewModel/ProjectFolderVM.h"
@@ -113,30 +114,67 @@ void anim::ProjectFolderVM::UpdateItems()
 	const std::vector<std::shared_ptr<ProjectItem>> &newItems = this->folder->GetItems();
 
 	unsigned int old = 0;
-	for (auto i = newItems.begin(); i != newItems.end(); i++)
+	for (auto newItem = newItems.begin(); newItem != newItems.end(); newItem++)
 	{
-#if 0
-		if (old != this->items->Size)
+		if ((*newItem)->IsFile() || (*newItem)->IsFolder())
 		{
-			IProjectItemVM ^oldItem = this->items->GetAt(old);
-			if (*i != oldItem->It)
+			if (old != this->items->Size)
 			{
-				if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
+				IProjectItemVM ^oldItem = this->items->GetAt(old);
+				if ((*newItem)->GetItem() != oldItem->Item)
 				{
-					*old = this->MakeItem(*i);
-				}
-				else
-				{
-					old = this->items.insert(old, this->MakeItem(*i));
+					if (std::find_if(newItem + 1, newItems.end(),
+						[oldItem](const std::shared_ptr<ProjectItem> &newItem2)
+						{
+							return newItem2->GetItem() == oldItem->Item;
+						}) == newItems.end())
+					{
+						this->items->SetAt(old, this->MakeVM(*newItem));
+					}
+					else
+					{
+						this->items->InsertAt(old, this->MakeVM(*newItem));
+					}
 				}
 			}
+			else
+			{
+				this->items->Append(this->MakeVM(*newItem));
+				old++;
+			}
+		}
+	}
+
+	while (old < this->items->Size)
+	{
+		this->items->RemoveAtEnd();
+	}
+
+	for (unsigned int i = 0; i < this->items->Size; )
+	{
+		if (this->items->GetAt(i) == nullptr)
+		{
+			this->items->RemoveAt(i);
 		}
 		else
 		{
-			old = this->items.insert(old, this->MakeItem(*i));
+			i++;
 		}
-#endif
+	}
+}
+
+anim::IProjectItemVM ^anim::ProjectFolderVM::MakeVM(std::shared_ptr<ProjectItem> item)
+{
+	if (item->IsFolder())
+	{
+		std::shared_ptr<ProjectFolder> folder = std::dynamic_pointer_cast<ProjectFolder>(item);
+		return ref new ProjectFolderVM(folder);
+	}
+	else if (item->IsFile())
+	{
+		std::shared_ptr<ProjectFile> file = std::dynamic_pointer_cast<ProjectFile>(item);
+		return ref new ProjectFileVM(file);
 	}
 
-	// this->items.erase(old, this->items.end());
+	return nullptr;
 }

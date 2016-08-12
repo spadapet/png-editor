@@ -10,6 +10,10 @@ namespace anim
 		ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<ProjectFolder> parent);
 		virtual ~ProjectFile() override;
 
+		// Overrides
+		virtual void SetItem(Windows::Storage::IStorageItem ^item) override;
+		virtual bool IsFile() const override;
+
 		Windows::Storage::StorageFile ^GetFile() const;
 		void SetFile(Windows::Storage::StorageFile ^file);
 

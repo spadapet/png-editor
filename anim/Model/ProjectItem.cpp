@@ -35,3 +35,13 @@ int anim::ProjectItem::GetLevel() const
 {
 	return this->level;
 }
+
+bool anim::ProjectItem::IsFile() const
+{
+	return false;
+}
+
+bool anim::ProjectItem::IsFolder() const
+{
+	return false;
+}
