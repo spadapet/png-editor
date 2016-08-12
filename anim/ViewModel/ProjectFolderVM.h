@@ -25,32 +25,10 @@ namespace anim
 		property bool ShowExpanded { bool get(); void set(bool value); }
 		property int Level { int get(); }
 
-		property Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^Folders
-		{
-			Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get();
-		}
-
-		property Windows::Foundation::Collections::IVector<ProjectFileVM ^> ^Files
-		{
-			Windows::Foundation::Collections::IVector<ProjectFileVM ^> ^get();
-		}
-
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
-		void InitFilters();
-		void RefreshFolders();
-		void RefreshFiles();
-		void MergeFolders(std::vector<Windows::Storage::StorageFolder ^> newFolders);
-		void MergeFiles(std::vector<Windows::Storage::StorageFile ^> newFiles);
 
 		std::shared_ptr<ProjectFolder> folder;
-		Platform::Collections::Vector<ProjectFolderVM ^> ^folders;
-		Platform::Collections::Vector<ProjectFileVM ^> ^files;
-		Windows::Storage::Search::StorageFolderQueryResult ^folderQuery;
-		Windows::Storage::Search::StorageFileQueryResult ^fileQuery;
-		Windows::Foundation::EventRegistrationToken folderChangedToken;
-		Windows::Foundation::EventRegistrationToken fileChangedToken;
-		bool initFilters;
 		bool expanded;
 	};
 }
