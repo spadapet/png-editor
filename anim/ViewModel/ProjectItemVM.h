@@ -4,20 +4,20 @@
 
 namespace anim
 {
-	class ProjectFile;
+	class ProjectItem;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class ProjectFileVM sealed
+	public ref class ProjectItemVM sealed
 		: Windows::UI::Xaml::Data::INotifyPropertyChanged
 		, IProjectItemVM
 	{
 	internal:
-		ProjectFileVM(std::shared_ptr<ProjectFile> file);
+		ProjectItemVM(std::shared_ptr<ProjectItem> file);
 
 	public:
-		ProjectFileVM();
-		virtual ~ProjectFileVM();
+		ProjectItemVM();
+		virtual ~ProjectItemVM();
 
 		// INotifyPropertyChanged
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -28,11 +28,9 @@ namespace anim
 		virtual property Platform::String ^FullPath { Platform::String ^get(); }
 		virtual property int Level { int get(); }
 
-		property Windows::Storage::StorageFile ^File { Windows::Storage::StorageFile ^get(); }
-
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
-		std::shared_ptr<ProjectFile> file;
+		std::shared_ptr<ProjectItem> item;
 	};
 }

@@ -1,50 +1,44 @@
 #include "pch.h"
 #include "Core/Designer.h"
-#include "Model/AppState.h"
-#include "Model/ProjectFile.h"
-#include "ViewModel/ProjectFileVM.h"
+#include "Model/ProjectItem.h"
+#include "ViewModel/ProjectItemVM.h"
 
-anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
-	: file(file)
+anim::ProjectItemVM::ProjectItemVM(std::shared_ptr<ProjectItem> item)
+	: item(item)
 {
 }
 
-anim::ProjectFileVM::ProjectFileVM()
-	: ProjectFileVM(std::shared_ptr<ProjectFile>())
+anim::ProjectItemVM::ProjectItemVM()
+	: ProjectItemVM(std::shared_ptr<ProjectItem>())
 {
 	anim::AssertXamlDesigner();
 }
 
-anim::ProjectFileVM::~ProjectFileVM()
+anim::ProjectItemVM::~ProjectItemVM()
 {
 }
 
-Windows::Storage::IStorageItem ^anim::ProjectFileVM::Item::get()
+Windows::Storage::IStorageItem ^anim::ProjectItemVM::Item::get()
 {
-	return (this->file != nullptr) ? this->file->GetItem() : nullptr;
+	return (this->item != nullptr) ? this->item->GetItem() : nullptr;
 }
 
-Platform::String ^anim::ProjectFileVM::DisplayName::get()
+Platform::String ^anim::ProjectItemVM::DisplayName::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile()->DisplayName : "<null>";
+	return (this->item != nullptr) ? this->item->GetItem()->Name : "<null>";
 }
 
-Platform::String ^anim::ProjectFileVM::FullPath::get()
+Platform::String ^anim::ProjectItemVM::FullPath::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile()->Path : "<null>";
+	return (this->item != nullptr) ? this->item->GetItem()->Path : "<null>";
 }
 
-int anim::ProjectFileVM::Level::get()
+int anim::ProjectItemVM::Level::get()
 {
-	return (this->file != nullptr) ? this->file->GetLevel() : 0;
+	return (this->item != nullptr) ? this->item->GetLevel() : 0;
 }
 
-Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
-{
-	return (this->file != nullptr) ? this->file->GetFile() : nullptr;
-}
-
-void anim::ProjectFileVM::NotifyPropertyChanged(Platform::String ^name)
+void anim::ProjectItemVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }

@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Core/Designer.h"
-#include "Core/Thread.h"
-#include "Model/AppState.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFileVM.h"
+#include "ViewModel/ProjectItemVM.h"
 #include "ViewModel/ProjectFolderVM.h"
 
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
@@ -149,18 +148,6 @@ void anim::ProjectFolderVM::UpdateItems()
 	{
 		this->items->RemoveAtEnd();
 	}
-
-	for (unsigned int i = 0; i < this->items->Size; )
-	{
-		if (this->items->GetAt(i) == nullptr)
-		{
-			this->items->RemoveAt(i);
-		}
-		else
-		{
-			i++;
-		}
-	}
 }
 
 anim::IProjectItemVM ^anim::ProjectFolderVM::MakeVM(std::shared_ptr<ProjectItem> item)
@@ -170,11 +157,12 @@ anim::IProjectItemVM ^anim::ProjectFolderVM::MakeVM(std::shared_ptr<ProjectItem>
 		std::shared_ptr<ProjectFolder> folder = std::dynamic_pointer_cast<ProjectFolder>(item);
 		return ref new ProjectFolderVM(folder);
 	}
-	else if (item->IsFile())
+
+	if (item->IsFile())
 	{
 		std::shared_ptr<ProjectFile> file = std::dynamic_pointer_cast<ProjectFile>(item);
 		return ref new ProjectFileVM(file);
 	}
 
-	return nullptr;
+	return ref new ProjectItemVM(item);
 }

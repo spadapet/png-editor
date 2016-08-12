@@ -3,6 +3,13 @@
 #include "App.g.h"
 #include "Model/AppState.h"
 
+// Not sure why these view models need to be included globally,
+// but the build fails without them.
+#include "ViewModel/PaneInfoVM.h"
+#include "ViewModel/ProjectFileVM.h"
+#include "ViewModel/ProjectItemVM.h"
+#include "ViewModel/ProjectFolderVM.h"
+
 namespace anim
 {
 	ref class App sealed

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Model/AppState.h"
-#include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
 anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)

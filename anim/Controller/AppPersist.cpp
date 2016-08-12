@@ -141,7 +141,7 @@ concurrency::task<void> anim::SaveAppState(std::shared_ptr<AppState> app)
 	auto saveTask = openTask.then([text](Windows::Storage::Streams::IRandomAccessStream ^stream)
 	{
 		Windows::Storage::Streams::DataWriter ^writer = ref new Windows::Storage::Streams::DataWriter();
-		Platform::ArrayReference<unsigned char> bytes((unsigned char *)text->c_str(), text->size());
+		Platform::ArrayReference<unsigned char> bytes((unsigned char *)text->c_str(), (unsigned int)text->size());
 		writer->WriteBytes(bytes);
 
 		Windows::Storage::Streams::IOutputStream ^output = stream->GetOutputStreamAt(0);

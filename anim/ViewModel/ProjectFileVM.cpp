@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Core/Designer.h"
-#include "Model/AppState.h"
 #include "Model/ProjectFile.h"
 #include "ViewModel/ProjectFileVM.h"
 
@@ -31,7 +30,7 @@ Platform::String ^anim::ProjectFileVM::DisplayName::get()
 
 Platform::String ^anim::ProjectFileVM::FullPath::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile()->Path : "<null>";
+	return (this->file != nullptr) ? this->file->GetItem()->Path : "<null>";
 }
 
 int anim::ProjectFileVM::Level::get()

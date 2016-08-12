@@ -4,7 +4,6 @@
 #include "Core/String.h"
 #include "Model/PaneInfo.h"
 #include "Model/AppState.h"
-#include "ViewModel/PaneInfoVM.h"
 #include "ViewModel/ShellVM.h"
 
 anim::PaneInfoVM::PaneInfoVM(std::shared_ptr<AppState> app, std::shared_ptr<PaneInfo> pane, ShellVM ^shell)

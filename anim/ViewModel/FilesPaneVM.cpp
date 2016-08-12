@@ -3,7 +3,6 @@
 #include "Core/Command.h"
 #include "Model/AppState.h"
 #include "Model/ProjectFolder.h"
-#include "ViewModel/ProjectFolderVM.h"
 #include "ViewModel/FilesPaneVM.h"
 
 anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
