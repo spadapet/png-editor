@@ -58,7 +58,7 @@ const std::vector<std::shared_ptr<anim::ProjectItem>> &anim::ProjectFolder::GetI
 
 bool anim::ProjectFolder::HasItems() const
 {
-	return !this->items.empty();
+	return !this->initQuery || !this->items.empty();
 }
 
 bool anim::ProjectFolder::CheckedForItems() const
@@ -96,6 +96,7 @@ void anim::ProjectFolder::InitializeQuery()
 		});
 	}
 
+	this->PropertyChanged.Notify("HasItems");
 	this->PropertyChanged.Notify("CheckedForItems");
 }
 
@@ -120,45 +121,40 @@ void anim::ProjectFolder::Refresh()
 			owner->Merge(std::vector<Windows::Storage::IStorageItem ^>(begin(items), end(items)));
 		}
 	}, concurrency::task_continuation_context::use_current());
-
-	this->PropertyChanged.Notify("HasItems");
-	this->PropertyChanged.Notify("Items");
 }
 
 void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> newItems)
 {
 	anim::AssertMainThread();
 
-	size_t curOld = 0;
-	for (auto i = newItems.begin(); i != newItems.end(); i++, curOld++)
+	auto old = this->items.begin();
+	for (auto i = newItems.begin(); i != newItems.end(); i++, old++)
 	{
-		if (curOld < this->items.size())
+		if (old != this->items.end())
 		{
-			Windows::Storage::IStorageItem ^oldItem = this->items[curOld]->GetItem();
+			Windows::Storage::IStorageItem ^oldItem = (*old)->GetItem();
 			if (*i != oldItem)
 			{
 				if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
 				{
-					this->items[curOld] = this->MakeItem(*i);
+					*old = this->MakeItem(*i);
 				}
 				else
 				{
-					this->items.insert(this->items.begin() + curOld, this->MakeItem(*i));
+					old = this->items.insert(old, this->MakeItem(*i));
 				}
 			}
 		}
 		else
 		{
-			this->items.push_back(this->MakeItem(*i));
+			old = this->items.insert(old, this->MakeItem(*i));
 		}
 	}
 
-	if (curOld < this->items.size())
-	{
-		this->items.erase(this->items.begin() + curOld, this->items.end());
-	}
+	this->items.erase(old, this->items.end());
 
 	this->PropertyChanged.Notify("HasItems");
+	this->PropertyChanged.Notify("Items");
 }
 
 std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storage::IStorageItem ^item)
@@ -167,11 +163,11 @@ std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storag
 
 	if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
 	{
-		return std::make_shared<ProjectFolder>(dynamic_cast<Windows::Storage::StorageFolder ^>(item), owner);
+		return std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), owner);
 	}
 	else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
 	{
-		return std::make_shared<ProjectFile>(dynamic_cast<Windows::Storage::StorageFile ^>(item), owner);
+		return std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), owner);
 	}
 
 	return std::make_shared<ProjectItem>(item, owner);
