@@ -5,6 +5,8 @@
 #include "View/Utility/BoolToBrushConverter.h"
 #include "View/Utility/BoolToVisibleConverter.h"
 #include "ViewModel/PaneInfoVM.h"
+#include "ViewModel/ProjectFileVM.h" // can this be deleted?
+#include "ViewModel/ProjectFolderVM.h" // can this be deleted?
 #include "ViewModel/ShellVM.h"
 
 namespace anim

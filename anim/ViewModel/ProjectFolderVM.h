@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ViewModel/ProjectFileVM.h"
+#include "Core/Event.h"
+#include "ViewModel/IProjectItemVM.h"
 
 namespace anim
 {
@@ -8,7 +9,9 @@ namespace anim
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class ProjectFolderVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class ProjectFolderVM sealed
+		: Windows::UI::Xaml::Data::INotifyPropertyChanged
+		, IProjectItemVM
 	{
 	internal:
 		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder);
@@ -17,18 +20,28 @@ namespace anim
 		ProjectFolderVM();
 		virtual ~ProjectFolderVM();
 
+		// INotifyPropertyChanged
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
+
+		// IProjectItemVM
+		virtual property Windows::Storage::IStorageItem ^Item { Windows::Storage::IStorageItem ^get(); }
+		virtual property Platform::String ^DisplayName { Platform::String ^get(); }
+		virtual property Platform::String ^FullPath { Platform::String ^get(); }
+		virtual property int Level { int get(); }
+
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
-		property Platform::String ^DisplayName { Platform::String ^get(); }
-		property Platform::String ^FullPath { Platform::String ^get(); }
-		property bool HasChildren { bool get(); }
+		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^Items { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }
+		property bool HasItems { bool get(); }
 		property bool ShowExpanded { bool get(); void set(bool value); }
-		property int Level { int get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
+		void FolderPropertyChanged(const char *name);
+		void UpdateItems();
 
 		std::shared_ptr<ProjectFolder> folder;
+		EventCookie folderChangedCookie;
+		Platform::Collections::Vector<IProjectItemVM ^> ^items;
 		bool expanded;
 	};
 }

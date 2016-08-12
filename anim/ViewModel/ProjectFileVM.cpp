@@ -19,9 +19,9 @@ anim::ProjectFileVM::~ProjectFileVM()
 {
 }
 
-Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
+Windows::Storage::IStorageItem ^anim::ProjectFileVM::Item::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile() : nullptr;
+	return (this->file != nullptr) ? this->file->GetItem() : nullptr;
 }
 
 Platform::String ^anim::ProjectFileVM::DisplayName::get()
@@ -32,6 +32,16 @@ Platform::String ^anim::ProjectFileVM::DisplayName::get()
 Platform::String ^anim::ProjectFileVM::FullPath::get()
 {
 	return (this->file != nullptr) ? this->file->GetFile()->Path : "<null>";
+}
+
+int anim::ProjectFileVM::Level::get()
+{
+	return (this->file != nullptr) ? this->file->GetLevel() : 0;
+}
+
+Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
+{
+	return (this->file != nullptr) ? this->file->GetFile() : nullptr;
 }
 
 void anim::ProjectFileVM::NotifyPropertyChanged(Platform::String ^name)

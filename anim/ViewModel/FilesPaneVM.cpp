@@ -115,7 +115,7 @@ void anim::FilesPaneVM::AppPropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
 
-	if (allChanged || strcmp(name, "ProjectFolders"))
+	if (allChanged || strcmp(name, "ProjectFolders") == 0)
 	{
 		this->ResetProjectFolders();
 	}

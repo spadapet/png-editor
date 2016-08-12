@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Event.h"
-#include "ViewModel/ProjectFolderVM.h"
 
 namespace anim
 {

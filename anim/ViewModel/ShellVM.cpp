@@ -74,7 +74,7 @@ void anim::ShellVM::AppPropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
 
-	if (allChanged || strcmp(name, "Panes"))
+	if (allChanged || strcmp(name, "Panes") == 0)
 	{
 		this->ResetPanes();
 	}
