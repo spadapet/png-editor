@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/Thread.h"
+#include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 
 static Windows::Storage::Search::QueryOptions ^GetQueryOptions()
@@ -100,22 +101,25 @@ void anim::ProjectFolder::InitializeQuery()
 
 void anim::ProjectFolder::Refresh()
 {
-#if 0
-	if (this->folderQuery != nullptr)
-	{
-		Platform::WeakReference weakOwner(this);
-		auto getTask = concurrency::create_task(this->folderQuery->GetFoldersAsync());
+	anim::AssertMainThread();
 
-		getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::StorageFolder ^> ^items)
-		{
-			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
-			if (owner != nullptr)
-			{
-				owner->MergeFolders(std::vector<Windows::Storage::StorageFolder ^>(begin(items), end(items)));
-			}
-		}, concurrency::task_continuation_context::use_current());
+	if (this->query == nullptr)
+	{
+		return;
 	}
-#endif
+
+	std::weak_ptr<ProjectItem> weakOwner = this->shared_from_this();
+
+	auto getTask = concurrency::create_task(this->query->GetItemsAsync());
+
+	getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::IStorageItem ^> ^items)
+	{
+		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(weakOwner.lock());
+		if (owner != nullptr)
+		{
+			owner->Merge(std::vector<Windows::Storage::IStorageItem ^>(begin(items), end(items)));
+		}
+	}, concurrency::task_continuation_context::use_current());
 
 	this->PropertyChanged.Notify("HasItems");
 	this->PropertyChanged.Notify("Items");
@@ -125,42 +129,50 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 {
 	anim::AssertMainThread();
 
-#if 0
-	std::sort(newFolders.begin(), newFolders.end(),
-		[](Windows::Storage::StorageFolder ^lhs, Windows::Storage::StorageFolder ^rhs)
+	size_t curOld = 0;
+	for (auto i = newItems.begin(); i != newItems.end(); i++, curOld++)
 	{
-		return ::_wcsicmp(lhs->DisplayName->Data(), rhs->DisplayName->Data()) < 0;
-	});
-
-	unsigned int curOld = 0;
-	for (auto i = newFolders.begin(); i != newFolders.end(); i++, curOld++)
-	{
-		if (curOld < this->folders->Size)
+		if (curOld < this->items.size())
 		{
-			Windows::Storage::StorageFolder ^oldFolder = this->folders->GetAt(curOld)->Folder;
-			if (*i != oldFolder)
+			Windows::Storage::IStorageItem ^oldItem = this->items[curOld]->GetItem();
+			if (*i != oldItem)
 			{
-				if (std::find(i + 1, newFolders.end(), oldFolder) == newFolders.end())
+				if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
 				{
-					this->folders->SetAt(curOld, ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
+					this->items[curOld] = this->MakeItem(*i);
 				}
 				else
 				{
-					this->folders->InsertAt(curOld, ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
+					this->items.insert(this->items.begin() + curOld, this->MakeItem(*i));
 				}
 			}
 		}
 		else
 		{
-			this->folders->Append(ref new ProjectFolderVM(std::make_shared<ProjectFolder>(*i, this->folder)));
+			this->items.push_back(this->MakeItem(*i));
 		}
 	}
 
-	for (; curOld < this->folders->Size; curOld++)
+	if (curOld < this->items.size())
 	{
-		this->folders->RemoveAt(curOld);
+		this->items.erase(this->items.begin() + curOld, this->items.end());
 	}
-#endif
 
 	this->PropertyChanged.Notify("HasItems");
+}
+
+std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storage::IStorageItem ^item)
+{
+	std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(this->shared_from_this());
+
+	if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
+	{
+		return std::make_shared<ProjectFolder>(dynamic_cast<Windows::Storage::StorageFolder ^>(item), owner);
+	}
+	else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
+	{
+		return std::make_shared<ProjectFile>(dynamic_cast<Windows::Storage::StorageFile ^>(item), owner);
+	}
+
+	return std::make_shared<ProjectItem>(item, owner);
 }
