@@ -13,14 +13,38 @@
     <Grid.Resources>
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
         <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
+
+        <x:Double x:Key="RowHeight">24</x:Double>
+        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid Background="Salmon" ToolTipService.ToolTip="{Binding FullPath}">
+            <Grid Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
+                <Rectangle Grid.Column="1" Fill="LightCoral" Width="{StaticResource RowHeight}" />
+                <Grid Grid.Column="2" Padding="4,0,0,0">
+                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ProjectItemTemplate" x:DataType="local:IProjectItemVM">
+            <Grid Background="Yellow" Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
                 <TextBlock Text="{Binding DisplayName}" />
             </Grid>
         </DataTemplate>
+
+        <local:ProjectItemTemplateSelector
+            x:Key="ProjectItemTemplateSelector"
+            FolderTemplate="{StaticResource ProjectFolderTemplate}"
+            ItemTemplate="{StaticResource ProjectItemTemplate}" />
+
         <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
             <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="ItemTemplate" Value="{StaticResource ProjectFolderTemplate}" />
+            <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
         </Style>
     </Grid.Resources>
 

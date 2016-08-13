@@ -105,6 +105,12 @@
     <ClCompile Include="ViewModel\ProjectItemVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\LevelToIndentConverter.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -180,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="ViewModel\ProjectItemVM.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\LevelToIndentConverter.h">
+      <Filter>View\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
