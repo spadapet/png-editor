@@ -114,6 +114,8 @@ void anim::ProjectFolder::InitializeQuery()
 
 	this->PropertyChanged.Notify("HasItems");
 	this->PropertyChanged.Notify("CheckedForItems");
+
+	this->Refresh();
 }
 
 void anim::ProjectFolder::Refresh()
@@ -143,6 +145,7 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 {
 	anim::AssertMainThread();
 
+	bool changed = false;
 	auto old = this->items.begin();
 	for (auto i = newItems.begin(); i != newItems.end(); i++, old++)
 	{
@@ -154,23 +157,33 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 				if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
 				{
 					*old = this->MakeItem(*i);
+					changed = true;
 				}
 				else
 				{
 					old = this->items.insert(old, this->MakeItem(*i));
+					changed = true;
 				}
 			}
 		}
 		else
 		{
 			old = this->items.insert(old, this->MakeItem(*i));
+			changed = true;
 		}
 	}
 
-	this->items.erase(old, this->items.end());
+	if (old != this->items.end())
+	{
+		this->items.erase(old, this->items.end());
+		changed = true;
+	}
 
-	this->PropertyChanged.Notify("HasItems");
-	this->PropertyChanged.Notify("Items");
+	if (changed)
+	{
+		this->PropertyChanged.Notify("HasItems");
+		this->PropertyChanged.Notify("Items");
+	}
 }
 
 std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storage::IStorageItem ^item)

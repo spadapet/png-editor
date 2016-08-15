@@ -18,9 +18,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
-                        <Grid Background="Transparent">
-                            <Path Name="ClosedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Black" StrokeThickness="1" Data="M5.5,3.5 9.5,7.5 5.5,11.5 z" />
-                            <Path Name="ExpandedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Fill="Black" Data="M4,11 11,4 11,11 z" />
+                        <Grid Background="Transparent" Width="24" Height="24">
+                            <Path Name="ClosedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Black" StrokeThickness="1" Data="M5.5,4.5 9.5,8.5 5.5,12.5 z" />
+                            <Path Name="ExpandedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Fill="Black" Data="M4,12 11,5 11,12 z" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -29,7 +29,11 @@
                                             <Setter Target="ClosedArrow.Stroke" Value="{StaticResource SystemControlHighlightAccentBrush}" />
                                         </VisualState.Setters>
                                     </VisualState>
-                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="ClosedArrow.Stroke" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
                                     <VisualState x:Name="Disabled" />
                                     <VisualState x:Name="Checked">
                                         <VisualState.Setters>
@@ -72,7 +76,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                <ToggleButton Grid.Column="1" Style="{StaticResource ExpanderButtonStyle}" />
+                <ToggleButton Grid.Column="1" Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" />
                 <Grid Grid.Column="2" Padding="4,0,0,0">
                     <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
                 </Grid>

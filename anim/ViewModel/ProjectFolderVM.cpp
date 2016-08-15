@@ -82,7 +82,7 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 		this->NotifyPropertyChanged("ShowExpanded");
 	}
 
-	if (this->expanded)
+	if (this->expanded && !this->folder->CheckedForItems())
 	{
 		this->UpdateItems();
 	}
@@ -113,34 +113,30 @@ void anim::ProjectFolderVM::UpdateItems()
 	const std::vector<std::shared_ptr<ProjectItem>> &newItems = this->folder->GetItems();
 
 	unsigned int old = 0;
-	for (auto newItem = newItems.begin(); newItem != newItems.end(); newItem++)
+	for (auto newItem = newItems.begin(); newItem != newItems.end(); newItem++, old++)
 	{
-		if ((*newItem)->IsFile() || (*newItem)->IsFolder())
+		if (old != this->items->Size)
 		{
-			if (old != this->items->Size)
+			IProjectItemVM ^oldItem = this->items->GetAt(old);
+			if ((*newItem)->GetItem() != oldItem->Item)
 			{
-				IProjectItemVM ^oldItem = this->items->GetAt(old);
-				if ((*newItem)->GetItem() != oldItem->Item)
+				if (std::find_if(newItem + 1, newItems.end(),
+					[oldItem](const std::shared_ptr<ProjectItem> &newItem2)
+					{
+						return newItem2->GetItem() == oldItem->Item;
+					}) == newItems.end())
 				{
-					if (std::find_if(newItem + 1, newItems.end(),
-						[oldItem](const std::shared_ptr<ProjectItem> &newItem2)
-						{
-							return newItem2->GetItem() == oldItem->Item;
-						}) == newItems.end())
-					{
-						this->items->SetAt(old, this->MakeVM(*newItem));
-					}
-					else
-					{
-						this->items->InsertAt(old, this->MakeVM(*newItem));
-					}
+					this->items->SetAt(old, this->MakeVM(*newItem));
+				}
+				else
+				{
+					this->items->InsertAt(old, this->MakeVM(*newItem));
 				}
 			}
-			else
-			{
-				this->items->Append(this->MakeVM(*newItem));
-				old++;
-			}
+		}
+		else
+		{
+			this->items->Append(this->MakeVM(*newItem));
 		}
 	}
 
