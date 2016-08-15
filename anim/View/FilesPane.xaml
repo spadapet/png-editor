@@ -19,14 +19,14 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
                         <Grid Background="Transparent">
-                            <Path Name="ClosedArrow" Width="24" Height="24" Fill="#ffa6a6a6" Data="M7,1 L18,12 L7,23 L7,1 L9,7 L9,17 L14,12 L9,7 z" />
-                            <Path Name="ExpandedArrow" Width="24" Height="24" Visibility="Collapsed" Fill="#ffa6a6a6" Data="M5,19 19,5 19,19 z" />
+                            <Path Name="ClosedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Black" StrokeThickness="1" Data="M5.5,3.5 9.5,7.5 5.5,11.5 z" />
+                            <Path Name="ExpandedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Fill="Black" Data="M4,11 11,4 11,11 z" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>
-                                            <Setter Target="ClosedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                            <Setter Target="ClosedArrow.Stroke" Value="{StaticResource SystemControlHighlightAccentBrush}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed" />
