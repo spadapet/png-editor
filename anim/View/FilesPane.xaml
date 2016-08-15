@@ -15,10 +15,11 @@
         <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
 
         <Style x:Key="ExpanderButtonStyle" TargetType="ToggleButton">
+            <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
-                        <Grid Background="Transparent" Width="24" Height="24">
+                        <Grid Background="Transparent">
                             <Path Name="ClosedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Black" StrokeThickness="1" Data="M5.5,4.5 9.5,8.5 5.5,12.5 z" />
                             <Path Name="ExpandedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Fill="Black" Data="M4,12 11,5 11,12 z" />
                             <VisualStateManager.VisualStateGroups>
@@ -52,6 +53,7 @@
                                         <VisualState.Setters>
                                             <Setter Target="ClosedArrow.Visibility" Value="Collapsed" />
                                             <Setter Target="ExpandedArrow.Visibility" Value="Visible" />
+                                            <Setter Target="ExpandedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="CheckedDisabled" />
@@ -67,24 +69,31 @@
             </Setter>
         </Style>
 
-        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="24" />
+        <x:Double x:Key="RowHeight">20</x:Double>
+        <GridLength x:Key="RowGridHeight">20</GridLength>
+        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid Height="24" ToolTipService.ToolTip="{Binding FullPath}">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                <ToggleButton Grid.Column="1" Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" />
-                <Grid Grid.Column="2" Padding="4,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{StaticResource RowGridHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
+                <ToggleButton Grid.Column="1" Grid.Row="0" Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                <Grid Grid.Column="2" Grid.Row="0" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
                     <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
                 </Grid>
+                <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectItemTemplate" x:DataType="local:IProjectItemVM">
-            <Grid Background="Yellow" Height="24" ToolTipService.ToolTip="{Binding FullPath}">
+            <Grid Background="Yellow" Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
                 <TextBlock Text="{Binding DisplayName}" />
             </Grid>
         </DataTemplate>
