@@ -14,17 +14,65 @@
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
         <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
 
-        <x:Double x:Key="RowHeight">24</x:Double>
-        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
+        <Style x:Key="ExpanderButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Background="Transparent">
+                            <Path Name="ClosedArrow" Width="24" Height="24" Fill="#ffa6a6a6" Data="M7,1 L18,12 L7,23 L7,1 L9,7 L9,17 L14,12 L9,7 z" />
+                            <Path Name="ExpandedArrow" Width="24" Height="24" Visibility="Collapsed" Fill="#ffa6a6a6" Data="M5,19 19,5 19,19 z" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="ClosedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Disabled" />
+                                    <VisualState x:Name="Checked">
+                                        <VisualState.Setters>
+                                            <Setter Target="ClosedArrow.Visibility" Value="Collapsed" />
+                                            <Setter Target="ExpandedArrow.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="ClosedArrow.Visibility" Value="Collapsed" />
+                                            <Setter Target="ExpandedArrow.Visibility" Value="Visible" />
+                                            <Setter Target="ExpandedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="ClosedArrow.Visibility" Value="Collapsed" />
+                                            <Setter Target="ExpandedArrow.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedDisabled" />
+                                    <VisualState x:Name="Indeterminate" />
+                                    <VisualState x:Name="IndeterminatePointerOver" />
+                                    <VisualState x:Name="IndeterminatePressed" />
+                                    <VisualState x:Name="IndeterminateDisabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="24" />
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
+            <Grid Height="24" ToolTipService.ToolTip="{Binding FullPath}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="24" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                <Rectangle Grid.Column="1" Fill="LightCoral" Width="{StaticResource RowHeight}" />
+                <ToggleButton Grid.Column="1" Style="{StaticResource ExpanderButtonStyle}" />
                 <Grid Grid.Column="2" Padding="4,0,0,0">
                     <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
                 </Grid>
@@ -32,7 +80,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectItemTemplate" x:DataType="local:IProjectItemVM">
-            <Grid Background="Yellow" Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
+            <Grid Background="Yellow" Height="24" ToolTipService.ToolTip="{Binding FullPath}">
                 <TextBlock Text="{Binding DisplayName}" />
             </Grid>
         </DataTemplate>
