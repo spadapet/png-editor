@@ -77,6 +77,11 @@ int anim::ProjectFolderVM::Level::get()
 	return this->folder->GetLevel();
 }
 
+bool anim::ProjectFolderVM::IsOpen::get()
+{
+	return false;
+}
+
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
 	return this->folder->GetFolder();
@@ -94,7 +99,7 @@ bool anim::ProjectFolderVM::HasItems::get()
 
 bool anim::ProjectFolderVM::ShowExpanded::get()
 {
-	return this->expanded;
+	return this->expanded && this->HasItems;
 }
 
 void anim::ProjectFolderVM::ShowExpanded::set(bool value)
@@ -128,6 +133,7 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 	if (allChanged || strcmp(name, "HasItems") == 0)
 	{
 		this->NotifyPropertyChanged("HasItems");
+		this->NotifyPropertyChanged("ShowExpanded");
 	}
 }
 

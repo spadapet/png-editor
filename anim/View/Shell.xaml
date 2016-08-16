@@ -13,8 +13,8 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
-        <local:BoolToBrushConverter x:Key="ActiveToPaneButtonBackground" BrushTrue="{StaticResource PaneBackgroundBrush}" BrushFalse="Transparent" />
-        <local:BoolToBrushConverter x:Key="ActiveToPaneBorder" BrushTrue="{StaticResource PaneBorderBrush}" BrushFalse="Transparent" />
+        <local:BoolToObjectConverter x:Key="ActiveToPaneButtonBackground" ObjectTrue="{StaticResource PaneBackgroundBrush}" ObjectFalse="Transparent" />
+        <local:BoolToObjectConverter x:Key="ActiveToPaneBorder" ObjectTrue="{StaticResource PaneBorderBrush}" ObjectFalse="Transparent" />
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
 
         <Style x:Key="PaneInfoButtonStyle" TargetType="Button">

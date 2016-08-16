@@ -38,6 +38,11 @@ int anim::ProjectItemVM::Level::get()
 	return (this->item != nullptr) ? this->item->GetLevel() : 0;
 }
 
+bool anim::ProjectItemVM::IsOpen::get()
+{
+	return false;
+}
+
 void anim::ProjectItemVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));

@@ -37,7 +37,7 @@
     <ClCompile Include="View\Shell.xaml.cpp">
       <DependentUpon>View\Shell.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="View\Utility\BoolToBrushConverter.cpp" />
+    <ClCompile Include="View\Utility\BoolToObjectConverter.cpp" />
     <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
@@ -81,7 +81,7 @@
     <ClInclude Include="View\Shell.xaml.h">
       <DependentUpon>View\Shell.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="View\Utility\BoolToBrushConverter.h" />
+    <ClInclude Include="View\Utility\BoolToObjectConverter.h" />
     <ClInclude Include="View\Utility\BoolToVisibleConverter.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
@@ -101,14 +101,22 @@
     <Image Include="Assets\Icons\documents.scale-200.png" />
     <Image Include="Assets\Icons\folder-add.scale-100.png" />
     <Image Include="Assets\Icons\folder-add.scale-200.png" />
+    <Image Include="Assets\Icons\folder.scale-100.png" />
+    <Image Include="Assets\Icons\folder.scale-200.png" />
     <Image Include="Assets\Icons\folder_open-picture.scale-100.png" />
     <Image Include="Assets\Icons\folder_open-picture.scale-200.png" />
+    <Image Include="Assets\Icons\folder_open.scale-100.png" />
+    <Image Include="Assets\Icons\folder_open.scale-200.png" />
     <Image Include="Assets\Icons\image_colors.scale-100.png" />
     <Image Include="Assets\Icons\image_colors.scale-200.png" />
     <Image Include="Assets\Icons\layers.scale-100.png" />
     <Image Include="Assets\Icons\layers.scale-200.png" />
     <Image Include="Assets\Icons\movie2.scale-100.png" />
     <Image Include="Assets\Icons\movie2.scale-200.png" />
+    <Image Include="Assets\Icons\picture-edit.scale-100.png" />
+    <Image Include="Assets\Icons\picture-edit.scale-200.png" />
+    <Image Include="Assets\Icons\picture.scale-100.png" />
+    <Image Include="Assets\Icons\picture.scale-200.png" />
     <Image Include="Assets\Icons\view_zoom.scale-100.png" />
     <Image Include="Assets\Icons\view_zoom.scale-200.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />

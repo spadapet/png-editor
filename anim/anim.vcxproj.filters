@@ -78,9 +78,6 @@
     <ClCompile Include="Controller\AppController.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="View\Utility\BoolToBrushConverter.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
       <Filter>View\Utility</Filter>
     </ClCompile>
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToObjectConverter.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
   </ItemGroup>
@@ -157,9 +157,6 @@
     <ClInclude Include="Controller\AppController.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="View\Utility\BoolToBrushConverter.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="View\Utility\BoolToVisibleConverter.h">
       <Filter>View\Utility</Filter>
     </ClInclude>
@@ -191,6 +188,9 @@
       <Filter>View\Utility</Filter>
     </ClInclude>
     <ClInclude Include="View\Utility\LevelToIndentConverter.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToObjectConverter.h">
       <Filter>View\Utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -262,6 +262,30 @@
       <Filter>Assets\Icons</Filter>
     </Image>
     <Image Include="Assets\Icons\folder_open-picture.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder_open.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\folder_open.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\picture.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\picture.scale-200.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\picture-edit.scale-100.png">
+      <Filter>Assets\Icons</Filter>
+    </Image>
+    <Image Include="Assets\Icons\picture-edit.scale-200.png">
       <Filter>Assets\Icons</Filter>
     </Image>
   </ItemGroup>

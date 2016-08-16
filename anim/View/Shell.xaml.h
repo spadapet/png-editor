@@ -2,7 +2,7 @@
 
 #include "Core/Properties.h"
 #include "View/Shell.g.h"
-#include "View/Utility/BoolToBrushConverter.h"
+#include "View/Utility/BoolToObjectConverter.h"
 #include "View/Utility/BoolToVisibleConverter.h"
 #include "ViewModel/ShellVM.h"
 

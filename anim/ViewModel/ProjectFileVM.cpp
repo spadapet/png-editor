@@ -38,6 +38,11 @@ int anim::ProjectFileVM::Level::get()
 	return (this->file != nullptr) ? this->file->GetLevel() : 0;
 }
 
+bool anim::ProjectFileVM::IsOpen::get()
+{
+	return false;
+}
+
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
 {
 	return (this->file != nullptr) ? this->file->GetFile() : nullptr;

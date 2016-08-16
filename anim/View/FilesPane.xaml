@@ -72,29 +72,63 @@
         <x:Double x:Key="RowHeight">20</x:Double>
         <GridLength x:Key="RowGridHeight">20</GridLength>
         <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
+        <BitmapImage x:Key="FolderClosedIcon" UriSource="ms-appx:///Assets/Icons/folder.png" />
+        <BitmapImage x:Key="FolderOpenIcon" UriSource="ms-appx:///Assets/Icons/folder_open.png" />
+        <local:BoolToObjectConverter x:Key="BoolToFolder" ObjectTrue="{StaticResource FolderOpenIcon}" ObjectFalse="{StaticResource FolderClosedIcon}" />
+        <BitmapImage x:Key="PictureIcon" UriSource="ms-appx:///Assets/Icons/picture.png" />
+        <BitmapImage x:Key="PictureEditIcon" UriSource="ms-appx:///Assets/Icons/picture-edit.png" />
+        <local:BoolToObjectConverter x:Key="BoolToPicture" ObjectTrue="{StaticResource PictureEditIcon}" ObjectFalse="{StaticResource PictureIcon}" />
 
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="{StaticResource RowGridHeight}" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ToggleButton Grid.Column="1" Grid.Row="0" Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
-                <Grid Grid.Column="2" Grid.Row="0" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
+            <StackPanel>
+                <Grid Height="{StaticResource RowHeight}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
+                        <ColumnDefinition Width="{StaticResource RowGridHeight}" />
+                        <ColumnDefinition Width="{StaticResource RowGridHeight}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Style="{StaticResource ExpanderButtonStyle}"
+                        IsChecked="{Binding ShowExpanded, Mode=TwoWay}"
+                        Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                    <Image
+                        Grid.Column="2"
+                        Width="16"
+                        Height="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
+                    <Grid Grid.Column="3" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
+                        <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
+                    </Grid>
                 </Grid>
-                <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
-            </Grid>
+                <ItemsControl
+                    ItemsSource="{Binding Items}"
+                    Style="{StaticResource ProjectFolderListStyle}"
+                    Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectItemTemplate" x:DataType="local:IProjectItemVM">
-            <Grid Background="Yellow" Height="{StaticResource RowHeight}" ToolTipService.ToolTip="{Binding FullPath}">
-                <TextBlock Text="{Binding DisplayName}" />
+            <Grid Height="{StaticResource RowHeight}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
+                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
+                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Column="2"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
+                <Grid Grid.Column="3" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
+                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
+                </Grid>
             </Grid>
         </DataTemplate>
 
