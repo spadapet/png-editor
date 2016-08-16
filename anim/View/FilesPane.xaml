@@ -72,10 +72,11 @@
         <x:Double x:Key="RowHeight">20</x:Double>
         <GridLength x:Key="RowGridHeight">20</GridLength>
         <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
+
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
                     <ColumnDefinition Width="{StaticResource RowGridHeight}" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -83,7 +84,6 @@
                     <RowDefinition Height="{StaticResource RowGridHeight}" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Border Grid.Column="0" Grid.Row="0" Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
                 <ToggleButton Grid.Column="1" Grid.Row="0" Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
                 <Grid Grid.Column="2" Grid.Row="0" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
                     <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />

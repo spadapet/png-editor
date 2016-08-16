@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/Designer.h"
+#include "Core/String.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFileVM.h"
@@ -41,7 +42,15 @@ Windows::Storage::IStorageItem ^anim::ProjectFolderVM::Item::get()
 
 Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 {
-	return this->folder->GetFolder()->DisplayName;
+	if (this->Level == 0)
+	{
+		Windows::Storage::StorageFolder ^folder = this->folder->GetFolder();
+		std::wostringstream str;
+		str << folder->Name->Data() << L" (" << folder->Path->Data() << L")";
+		return ref new Platform::String(str.str().c_str());
+	}
+
+	return this->folder->GetFolder()->Name;
 }
 
 Platform::String ^anim::ProjectFolderVM::FullPath::get()

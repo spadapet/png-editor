@@ -25,7 +25,16 @@ Platform::Object ^anim::LevelToIndentConverter::Convert(
 	Platform::IBox<int> ^intValue = dynamic_cast<Platform::IBox<int> ^>(value);
 	if (intValue != nullptr)
 	{
-		return intValue->Value * this->IndentSize;
+		double indent = intValue->Value * this->IndentSize;
+
+		if (Windows::UI::Xaml::Interop::TypeName(double::typeid).Name == targetType.Name)
+		{
+			return indent;
+		}
+		else if (Windows::UI::Xaml::Interop::TypeName(Windows::UI::Xaml::GridLength::typeid).Name == targetType.Name)
+		{
+			return Windows::UI::Xaml::GridLength(indent);
+		}
 	}
 
 	return nullptr;

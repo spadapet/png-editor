@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <forward_list>
+#include <sstream>
 
 #include <collection.h>
 #include <ppltasks.h>

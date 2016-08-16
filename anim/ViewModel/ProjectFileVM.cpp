@@ -25,7 +25,7 @@ Windows::Storage::IStorageItem ^anim::ProjectFileVM::Item::get()
 
 Platform::String ^anim::ProjectFileVM::DisplayName::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile()->DisplayName : "<null>";
+	return (this->file != nullptr) ? this->file->GetFile()->Name : "<null>";
 }
 
 Platform::String ^anim::ProjectFileVM::FullPath::get()
