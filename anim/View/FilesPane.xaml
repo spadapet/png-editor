@@ -108,23 +108,30 @@
             <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
         </Style>
     </Grid.Resources>
+    
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Padding="4" Background="{StaticResource PaneBorderBrush}">
-            <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding AddFolderCommand}">
-                <Image Source="ms-appx:///Assets/Icons/folder-add.png" Width="20" Height="20" />
-            </Button>
-            <Button x:Uid="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding OpenFileCommand}">
-                <Image Source="ms-appx:///Assets/Icons/folder_open-picture.png" Width="20" Height="20" />
-            </Button>
-        </StackPanel>
-        <Grid Padding="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}">
-            <ItemsControl ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
-        </Grid>
-        <Grid Padding="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
-            <TextBlock TextWrapping="Wrap">
-                <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
-            </TextBlock>
-        </Grid>
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Padding="4" Background="{StaticResource PaneBorderBrush}" VerticalAlignment="Top">
+        <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding AddFolderCommand}">
+            <Image Source="ms-appx:///Assets/Icons/folder-add.png" Width="20" Height="20" />
+        </Button>
+        <Button x:Uid="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding OpenFileCommand}">
+            <Image Source="ms-appx:///Assets/Icons/folder_open-picture.png" Width="20" Height="20" />
+        </Button>
     </StackPanel>
+
+    <ScrollViewer
+        Grid.Row="1"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Auto"
+        Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}">
+        <ItemsControl Margin="4,4,16,16" ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
+    </ScrollViewer>
+
+    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
+        <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
+    </TextBlock>
 </Grid>
