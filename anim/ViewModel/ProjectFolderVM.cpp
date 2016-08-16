@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core/Designer.h"
 #include "Core/String.h"
+#include "Core/Thread.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "ViewModel/ProjectFileVM.h"
@@ -22,6 +23,19 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 			owner->FolderPropertyChanged(name);
 		}
 	});
+
+	// Root folders always start off expanded
+	if (this->Level == 0)
+	{
+		anim::PostToMainThread([weakOwner]()
+		{
+			ProjectFolderVM ^owner = weakOwner.Resolve<ProjectFolderVM>();
+			if (owner != nullptr)
+			{
+				owner->ShowExpanded = true;
+			}
+		});
+	}
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
