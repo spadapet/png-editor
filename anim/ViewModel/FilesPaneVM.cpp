@@ -95,6 +95,15 @@ bool anim::FilesPaneVM::HasProjectFolders::get()
 	return this->projectFolders->Size > 0;
 }
 
+anim::TreeRow ^anim::FilesPaneVM::SelectedTreeRow::get()
+{
+	return nullptr;
+}
+
+void anim::FilesPaneVM::SelectedTreeRow::set(TreeRow ^value)
+{
+}
+
 Windows::UI::Xaml::Input::ICommand ^anim::FilesPaneVM::AddFolderCommand::get()
 {
 	return this->addFolderCommand;

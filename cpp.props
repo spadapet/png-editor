@@ -44,8 +44,8 @@
         <GenerateManifest Condition=" '$(GenerateManifest)' == '' And '$(ConfigurationType)' != 'Application' ">false</GenerateManifest>
         <GenerateWindowsMetadata Condition=" '$(GenerateWindowsMetadata)' == '' And '$(ConfigurationType)' == 'Application' ">true</GenerateWindowsMetadata>
         <GenerateWindowsMetadata Condition=" '$(GenerateWindowsMetadata)' == '' ">false</GenerateWindowsMetadata>
-        <WindowsTargetPlatformMinVersion Condition=" '$(WindowsTargetPlatformMinVersion)' == '' ">10.0.10586.0</WindowsTargetPlatformMinVersion>
-        <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.10586.0</WindowsTargetPlatformVersion>
+        <WindowsTargetPlatformMinVersion Condition=" '$(WindowsTargetPlatformMinVersion)' == '' ">10.0.10240.0</WindowsTargetPlatformMinVersion>
+        <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.10240.0</WindowsTargetPlatformVersion>
       </PropertyGroup>
     </When>
     <Otherwise>

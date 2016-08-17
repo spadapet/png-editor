@@ -118,9 +118,20 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="4" />
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="0" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+        <Rectangle Grid.Column="0" Fill="{StaticResource PaneBorderBrush}" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
         <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Width="{Binding PaneWidth}" Content="{Binding ActivePane.Pane}" />
-        <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
+        <Rectangle
+            Name="ResizeBorder"
+            Grid.Column="2"
+            Fill="{StaticResource PaneBorderBrush}"
+            Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}"
+            PointerCanceled="ResizeBorder_PointerCanceled"
+            PointerCaptureLost="ResizeBorder_PointerCaptureLost"
+            PointerEntered="ResizeBorder_PointerEntered"
+            PointerExited="ResizeBorder_PointerExited"
+            PointerMoved="ResizeBorder_PointerMoved"
+            PointerPressed="ResizeBorder_PointerPressed"
+            PointerReleased="ResizeBorder_PointerReleased" />
     </Grid>
 
     <!-- Document area -->

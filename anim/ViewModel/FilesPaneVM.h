@@ -2,6 +2,7 @@
 
 #include "Controller/AppController.h"
 #include "Core/Event.h"
+#include "View/Utility/ITreeHost.h"
 
 namespace anim
 {
@@ -10,7 +11,7 @@ namespace anim
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class FilesPaneVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
+	public ref class FilesPaneVM sealed : ITreeHost, Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
 		FilesPaneVM(std::shared_ptr<AppState> app);
@@ -25,6 +26,9 @@ namespace anim
 			Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get();
 		}
 		property bool HasProjectFolders { bool get(); }
+
+		// ITreeHost
+		virtual property TreeRow ^SelectedTreeRow { TreeRow ^get(); void set(TreeRow ^value); }
 
 		// Commands
 		property Windows::UI::Xaml::Input::ICommand ^AddFolderCommand { Windows::UI::Xaml::Input::ICommand ^get(); }

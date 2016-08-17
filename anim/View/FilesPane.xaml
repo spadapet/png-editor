@@ -90,9 +90,30 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
+        <Style TargetType="local:TreeRow">
+            <Setter Property="IsTabStop" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Background="Transparent">
+                            <ContentPresenter />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver" />
+                                    <VisualState x:Name="Selected" />
+                                    <VisualState x:Name="SelectedPointerOver" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <StackPanel>
-                <Button Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
+                <local:TreeRow Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
                     <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
                         <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
                             <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
@@ -102,20 +123,20 @@
                             <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
                         </Border>
                     </StackPanel>
-                </Button>
+                </local:TreeRow>
                 <ItemsControl ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectFileTemplate" x:DataType="local:ProjectFileVM">
-            <Button Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
+            <local:TreeRow Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
                 <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
                     <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
                     <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
                         <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
                     </Border>
                 </StackPanel>
-            </Button>
+            </local:TreeRow>
         </DataTemplate>
 
         <local:ProjectItemTemplateSelector
@@ -151,7 +172,7 @@
         <ItemsControl Margin="4,4,16,16" ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
     </ScrollViewer>
 
-    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
+    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
         <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
     </TextBlock>
 </Grid>
