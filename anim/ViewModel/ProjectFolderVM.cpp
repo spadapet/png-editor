@@ -77,11 +77,6 @@ int anim::ProjectFolderVM::Level::get()
 	return this->folder->GetLevel();
 }
 
-bool anim::ProjectFolderVM::IsOpen::get()
-{
-	return false;
-}
-
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
 	return this->folder->GetFolder();

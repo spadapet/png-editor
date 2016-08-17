@@ -7,6 +7,7 @@ anim::ShellVM::ShellVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, panes(ref new Platform::Collections::Vector<PaneInfoVM ^>())
+	, paneWidth(200)
 {
 	Platform::WeakReference weakThis(this);
 
@@ -62,6 +63,32 @@ void anim::ShellVM::ActivePane::set(PaneInfoVM ^value)
 bool anim::ShellVM::HasActivePane::get()
 {
 	return this->activePane != this->nonePane;
+}
+
+double anim::ShellVM::PaneWidth::get()
+{
+	return this->paneWidth;
+}
+
+void anim::ShellVM::PaneWidth::set(double value)
+{
+	value = std::floor(value / 4) * 4;
+
+	if (value < 64)
+	{
+		value = 64;
+	}
+
+	if (value > 512)
+	{
+		value = 512;
+	}
+
+	if (this->paneWidth != value)
+	{
+		this->paneWidth = value;
+		this->NotifyPropertyChanged("PaneWidth");
+	}
 }
 
 void anim::ShellVM::NotifyPropertyChanged(Platform::String ^name)

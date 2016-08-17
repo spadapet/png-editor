@@ -81,7 +81,7 @@
         </Style>
 
         <ControlTemplate x:Key="PaneContentTemplate" TargetType="ContentControl">
-            <Grid Background="{StaticResource PaneBorderBrush}" Width="{StaticResource DefaultPaneWidth}">
+            <Grid Background="{StaticResource PaneBorderBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
@@ -119,7 +119,7 @@
             <ColumnDefinition Width="4" />
         </Grid.ColumnDefinitions>
         <Rectangle Grid.Column="0" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
-        <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Content="{Binding ActivePane.Pane}" />
+        <ContentControl Grid.Column="1" Style="{StaticResource PaneContentStyle}" Width="{Binding PaneWidth}" Content="{Binding ActivePane.Pane}" />
         <Rectangle Grid.Column="2" Fill="{StaticResource PaneBorderBrush}" Width="4" Visibility="{Binding HasActivePane, Converter={StaticResource BoolToVisible}}" />
     </Grid>
 

@@ -22,6 +22,7 @@ namespace anim
 		property Windows::Foundation::Collections::IVector<PaneInfoVM ^> ^Panes { Windows::Foundation::Collections::IVector<PaneInfoVM ^> ^get(); }
 		property PaneInfoVM ^ActivePane { PaneInfoVM ^get(); void set(PaneInfoVM ^value); }
 		property bool HasActivePane { bool get(); }
+		property double PaneWidth { double get(); void set(double value); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -36,5 +37,6 @@ namespace anim
 		PaneInfoVM ^nonePane;
 		PaneInfoVM ^activePane;
 		Platform::Collections::Vector<PaneInfoVM ^> ^panes;
+		double paneWidth;
 	};
 }

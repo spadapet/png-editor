@@ -4,7 +4,6 @@
     xmlns:local="using:anim">
 
     <x:Double x:Key="UiFontSize">12</x:Double>
-    <x:Double x:Key="DefaultPaneWidth">200</x:Double>
     <SolidColorBrush x:Key="PaneBackgroundBrush">#fff5f5f5</SolidColorBrush>
     <SolidColorBrush x:Key="PaneListBackgroundBrush">#ffb7bacb</SolidColorBrush>
     <SolidColorBrush x:Key="PaneBorderBrush">#ffdfdee6</SolidColorBrush>

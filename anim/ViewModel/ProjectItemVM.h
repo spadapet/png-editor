@@ -27,7 +27,6 @@ namespace anim
 		virtual property Platform::String ^DisplayName { Platform::String ^get(); }
 		virtual property Platform::String ^FullPath { Platform::String ^get(); }
 		virtual property int Level { int get(); }
-		virtual property bool IsOpen { bool get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

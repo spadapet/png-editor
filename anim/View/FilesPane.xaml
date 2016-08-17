@@ -11,8 +11,19 @@
     d:DesignWidth="{StaticResource DefaultPaneWidth}">
 
     <Grid.Resources>
+        <x:Double x:Key="RowHeight">20</x:Double>
+        <GridLength x:Key="RowGridHeight">20</GridLength>
+
+        <BitmapImage x:Key="FolderClosedIcon" UriSource="ms-appx:///Assets/Icons/folder.png" />
+        <BitmapImage x:Key="FolderOpenIcon" UriSource="ms-appx:///Assets/Icons/folder_open.png" />
+        <BitmapImage x:Key="PictureIcon" UriSource="ms-appx:///Assets/Icons/picture.png" />
+        <BitmapImage x:Key="PictureEditIcon" UriSource="ms-appx:///Assets/Icons/picture-edit.png" />
+
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
         <local:BoolToVisibleConverter x:Key="BoolToInvisible" Inverse="True" />
+        <local:BoolToObjectConverter x:Key="BoolToFolder" ObjectTrue="{StaticResource FolderOpenIcon}" ObjectFalse="{StaticResource FolderClosedIcon}" />
+        <local:BoolToObjectConverter x:Key="BoolToPicture" ObjectTrue="{StaticResource PictureEditIcon}" ObjectFalse="{StaticResource PictureIcon}" />
+        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
 
         <Style x:Key="ExpanderButtonStyle" TargetType="ToggleButton">
             <Setter Property="IsTabStop" Value="False" />
@@ -28,11 +39,13 @@
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>
                                             <Setter Target="ClosedArrow.Stroke" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                            <Setter Target="ClosedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <VisualState.Setters>
                                             <Setter Target="ClosedArrow.Stroke" Value="{StaticResource SystemControlHighlightAccentBrush}" />
+                                            <Setter Target="ClosedArrow.Fill" Value="{StaticResource SystemControlHighlightAccentBrush}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Disabled" />
@@ -69,80 +82,53 @@
             </Setter>
         </Style>
 
-        <x:Double x:Key="RowHeight">20</x:Double>
-        <GridLength x:Key="RowGridHeight">20</GridLength>
-        <local:LevelToIndentConverter x:Key="IndentConverter" IndentSize="{StaticResource RowHeight}" />
-        <BitmapImage x:Key="FolderClosedIcon" UriSource="ms-appx:///Assets/Icons/folder.png" />
-        <BitmapImage x:Key="FolderOpenIcon" UriSource="ms-appx:///Assets/Icons/folder_open.png" />
-        <local:BoolToObjectConverter x:Key="BoolToFolder" ObjectTrue="{StaticResource FolderOpenIcon}" ObjectFalse="{StaticResource FolderClosedIcon}" />
-        <BitmapImage x:Key="PictureIcon" UriSource="ms-appx:///Assets/Icons/picture.png" />
-        <BitmapImage x:Key="PictureEditIcon" UriSource="ms-appx:///Assets/Icons/picture-edit.png" />
-        <local:BoolToObjectConverter x:Key="BoolToPicture" ObjectTrue="{StaticResource PictureEditIcon}" ObjectFalse="{StaticResource PictureIcon}" />
+        <Style x:Key="ItemIconStyle" TargetType="Image">
+            <Setter Property="Width" Value="{StaticResource RowHeight}" />
+            <Setter Property="Height" Value="{StaticResource RowHeight}" />
+            <Setter Property="Stretch" Value="None" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <StackPanel>
-                <Grid Height="{StaticResource RowHeight}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                        <ColumnDefinition Width="{StaticResource RowGridHeight}" />
-                        <ColumnDefinition Width="{StaticResource RowGridHeight}" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ToggleButton
-                        Grid.Column="1"
-                        Style="{StaticResource ExpanderButtonStyle}"
-                        IsChecked="{Binding ShowExpanded, Mode=TwoWay}"
-                        Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
-                    <Image
-                        Grid.Column="2"
-                        Width="16"
-                        Height="16"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
-                    <Grid Grid.Column="3" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
-                        <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
-                    </Grid>
-                </Grid>
-                <ItemsControl
-                    ItemsSource="{Binding Items}"
-                    Style="{StaticResource ProjectFolderListStyle}"
-                    Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
+                <Button Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
+                    <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
+                        <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
+                            <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                        </Border>
+                        <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
+                        <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
+                            <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                        </Border>
+                    </StackPanel>
+                </Button>
+                <ItemsControl ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ProjectItemTemplate" x:DataType="local:IProjectItemVM">
-            <Grid Height="{StaticResource RowHeight}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding Level, Converter={StaticResource IndentConverter}}" />
-                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
-                    <ColumnDefinition Width="{StaticResource RowGridHeight}" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image
-                    Grid.Column="2"
-                    Width="16"
-                    Height="16"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
-                <Grid Grid.Column="3" Padding="4,0,0,0" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" />
-                </Grid>
-            </Grid>
+        <DataTemplate x:Key="ProjectFileTemplate" x:DataType="local:ProjectFileVM">
+            <Button Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
+                <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
+                    <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
+                    <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                    </Border>
+                </StackPanel>
+            </Button>
         </DataTemplate>
 
         <local:ProjectItemTemplateSelector
             x:Key="ProjectItemTemplateSelector"
             FolderTemplate="{StaticResource ProjectFolderTemplate}"
-            ItemTemplate="{StaticResource ProjectItemTemplate}" />
+            FileTemplate="{StaticResource ProjectFileTemplate}" />
 
         <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
         </Style>
     </Grid.Resources>
-    
+
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*" />
