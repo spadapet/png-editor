@@ -16,6 +16,6 @@ namespace anim
 		void UpdateVisualState();
 		ITreeHost ^GetTreeHost();
 
-		bool pointerOver;
+		long long pointerOverToken;
 	};
 }

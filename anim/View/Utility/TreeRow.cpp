@@ -3,12 +3,25 @@
 #include "View/Utility/TreeRow.h"
 
 anim::TreeRow::TreeRow()
-	: pointerOver(false)
+	: pointerOverToken(0)
 {
+	Platform::WeakReference weakOwner(this);
+
+	this->pointerOverToken = this->RegisterPropertyChangedCallback(this->IsPointerOverProperty,
+		ref new Windows::UI::Xaml::DependencyPropertyChangedCallback(
+			[weakOwner](Windows::UI::Xaml::DependencyObject ^sender, Windows::UI::Xaml::DependencyProperty ^prop)
+	{
+		TreeRow ^owner = weakOwner.Resolve<TreeRow>();
+		if (owner != nullptr)
+		{
+			owner->UpdateVisualState();
+		}
+	}));
 }
 
 anim::TreeRow::~TreeRow()
 {
+	this->UnregisterPropertyChangedCallback(this->IsPointerOverProperty, this->pointerOverToken);
 }
 
 bool anim::TreeRow::IsSelected::get()
@@ -25,7 +38,7 @@ void anim::TreeRow::UpdateVisualState()
 {
 	Platform::String ^name = "Normal";
 
-	if (pointerOver)
+	if (this->IsPointerOver)
 	{
 		name = this->IsSelected ? "SelectedPointerOver" : "PointerOver";
 	}
