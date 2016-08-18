@@ -4,7 +4,6 @@
 #include "View/Shell.g.h"
 #include "View/Utility/BoolToObjectConverter.h"
 #include "View/Utility/BoolToVisibleConverter.h"
-#include "View/Utility/TreeRow.h"
 #include "ViewModel/ShellVM.h"
 
 namespace anim

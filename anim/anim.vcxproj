@@ -39,9 +39,9 @@
     </ClCompile>
     <ClCompile Include="View\Utility\BoolToObjectConverter.cpp" />
     <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp" />
+    <ClCompile Include="View\Utility\FlatProjectItems.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
-    <ClCompile Include="View\Utility\TreeRow.cpp" />
     <ClInclude Include="Controller\AppController.h" />
     <ClInclude Include="Controller\AppPersist.h" />
     <ClInclude Include="Core\Command.h" />
@@ -84,10 +84,9 @@
     </ClInclude>
     <ClInclude Include="View\Utility\BoolToObjectConverter.h" />
     <ClInclude Include="View\Utility\BoolToVisibleConverter.h" />
-    <ClInclude Include="View\Utility\ITreeHost.h" />
+    <ClInclude Include="View\Utility\FlatProjectItems.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
-    <ClInclude Include="View\Utility\TreeRow.h" />
     <None Include="TemporaryKey.pfx" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>

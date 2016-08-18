@@ -111,7 +111,7 @@
     <ClCompile Include="View\Utility\BoolToObjectConverter.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="View\Utility\TreeRow.cpp">
+    <ClCompile Include="View\Utility\FlatProjectItems.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
   </ItemGroup>
@@ -196,10 +196,7 @@
     <ClInclude Include="View\Utility\BoolToObjectConverter.h">
       <Filter>View\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="View\Utility\TreeRow.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\ITreeHost.h">
+    <ClInclude Include="View\Utility\FlatProjectItems.h">
       <Filter>View\Utility</Filter>
     </ClInclude>
   </ItemGroup>

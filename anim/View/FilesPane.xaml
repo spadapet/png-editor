@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData Type=local:FilesPaneVM, IsDesignTimeCreatable=True}"
-    d:DesignHeight="500"
-    d:DesignWidth="{StaticResource DefaultPaneWidth}">
+    d:DesignHeight="400"
+    d:DesignWidth="200">
 
     <Grid.Resources>
         <x:Double x:Key="RowHeight">20</x:Double>
@@ -90,53 +90,28 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <Style TargetType="local:TreeRow">
-            <Setter Property="IsTabStop" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Grid Background="Transparent">
-                            <ContentPresenter />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver" />
-                                    <VisualState x:Name="Selected" />
-                                    <VisualState x:Name="SelectedPointerOver" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <StackPanel>
-                <local:TreeRow Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
-                    <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
-                        <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
-                            <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
-                        </Border>
-                        <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
-                        <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                            <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
-                        </Border>
-                    </StackPanel>
-                </local:TreeRow>
+                <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
+                    <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
+                        <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                    </Border>
+                    <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
+                    <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                    </Border>
+                </StackPanel>
                 <ItemsControl ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectFileTemplate" x:DataType="local:ProjectFileVM">
-            <local:TreeRow Background="Transparent" Padding="0" Margin="0" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="{StaticResource UiFontSize}">
-                <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
-                    <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
-                    <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                        <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
-                    </Border>
-                </StackPanel>
-            </local:TreeRow>
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
+                <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
+                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                </Border>
+            </StackPanel>
         </DataTemplate>
 
         <local:ProjectItemTemplateSelector

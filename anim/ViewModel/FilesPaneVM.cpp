@@ -3,6 +3,7 @@
 #include "Core/Command.h"
 #include "Model/AppState.h"
 #include "Model/ProjectFolder.h"
+#include "View/Utility/FlatProjectItems.h"
 #include "ViewModel/FilesPaneVM.h"
 
 anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
@@ -12,6 +13,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
 	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
+	, flatItems(ref new FlatProjectItems(this->projectFolders))
 {
 	Platform::WeakReference weakThis(this);
 
@@ -90,18 +92,14 @@ Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::FilesP
 	return this->projectFolders;
 }
 
+Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::FilesPaneVM::FlatItems::get()
+{
+	return this->flatItems;
+}
+
 bool anim::FilesPaneVM::HasProjectFolders::get()
 {
 	return this->projectFolders->Size > 0;
-}
-
-anim::TreeRow ^anim::FilesPaneVM::SelectedTreeRow::get()
-{
-	return nullptr;
-}
-
-void anim::FilesPaneVM::SelectedTreeRow::set(TreeRow ^value)
-{
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::FilesPaneVM::AddFolderCommand::get()
