@@ -10,7 +10,7 @@ namespace anim
 	{
 	public:
 		FlatProjectItems();
-		FlatProjectItems(Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^roots);
+		FlatProjectItems(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^roots);
 		virtual ~FlatProjectItems();
 
 		// IBindableObservableVector
@@ -28,6 +28,16 @@ namespace anim
 		virtual void Clear();
 
 	private:
-		Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^roots;
+		struct Entry
+		{
+			Entry(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items);
+			~Entry();
+
+			Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items;
+			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
+			unsigned int startIndexFlat;
+			unsigned int start;
+			unsigned int count;
+		};
 	};
 }

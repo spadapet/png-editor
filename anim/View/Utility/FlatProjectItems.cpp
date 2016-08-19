@@ -5,12 +5,11 @@
 #include "ViewModel/ProjectFolderVM.h"
 
 anim::FlatProjectItems::FlatProjectItems()
-	: FlatProjectItems(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
+	: FlatProjectItems(ref new Platform::Collections::Vector<IProjectItemVM ^>())
 {
 }
 
-anim::FlatProjectItems::FlatProjectItems(Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^roots)
-	: roots(roots)
+anim::FlatProjectItems::FlatProjectItems(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^roots)
 {
 }
 
@@ -71,4 +70,12 @@ void anim::FlatProjectItems::RemoveAtEnd()
 void anim::FlatProjectItems::Clear()
 {
 	throw ref new Platform::NotImplementedException();
+}
+
+anim::FlatProjectItems::Entry::Entry(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items)
+{
+}
+
+anim::FlatProjectItems::Entry::~Entry()
+{
 }

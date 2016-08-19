@@ -12,7 +12,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 	, appChangedCookie(NULL_EVENT_COOKIE)
 	, projectFolderAddedCookie(NULL_EVENT_COOKIE)
 	, projectFolderRemovedCookie(NULL_EVENT_COOKIE)
-	, projectFolders(ref new Platform::Collections::Vector<ProjectFolderVM ^>())
+	, projectFolders(ref new Platform::Collections::Vector<IProjectItemVM ^>())
 	, flatItems(ref new FlatProjectItems(this->projectFolders))
 {
 	Platform::WeakReference weakThis(this);
@@ -45,8 +45,8 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		{
 			for (unsigned int i = 0; i < owner->projectFolders->Size; i++)
 			{
-				ProjectFolderVM ^projectFolder = owner->projectFolders->GetAt(i);
-				if (projectFolder->Folder == folder->GetFolder())
+				IProjectItemVM ^projectFolder = owner->projectFolders->GetAt(i);
+				if (projectFolder->Item == folder->GetItem())
 				{
 					owner->projectFolders->RemoveAt(i);
 					owner->NotifyPropertyChanged("HasProjectFolders");
@@ -87,7 +87,7 @@ anim::FilesPaneVM::~FilesPaneVM()
 	this->app->ProjectFolderRemoved.Remove(this->projectFolderRemovedCookie);
 }
 
-Windows::Foundation::Collections::IVector<anim::ProjectFolderVM ^> ^anim::FilesPaneVM::ProjectFolders::get()
+Windows::Foundation::Collections::IVector<anim::IProjectItemVM ^> ^anim::FilesPaneVM::ProjectFolders::get()
 {
 	return this->projectFolders;
 }

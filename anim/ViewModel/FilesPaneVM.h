@@ -7,7 +7,6 @@ namespace anim
 {
 	class AppState;
 	ref class FlatProjectItems;
-	ref class ProjectFolderVM;
 	interface class IProjectItemVM;
 
 	[Windows::UI::Xaml::Data::Bindable]
@@ -22,7 +21,7 @@ namespace anim
 		virtual ~FilesPaneVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
-		property Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<ProjectFolderVM ^> ^get(); }
+		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^FlatItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 		property bool HasProjectFolders { bool get(); }
 
@@ -39,7 +38,7 @@ namespace anim
 		EventCookie appChangedCookie;
 		EventCookie projectFolderAddedCookie;
 		EventCookie projectFolderRemovedCookie;
-		Platform::Collections::Vector<ProjectFolderVM ^> ^projectFolders;
+		Platform::Collections::Vector<IProjectItemVM ^> ^projectFolders;
 		FlatProjectItems ^flatItems;
 
 		// Commands
