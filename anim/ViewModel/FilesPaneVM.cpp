@@ -92,7 +92,12 @@ Windows::Foundation::Collections::IVector<anim::IProjectItemVM ^> ^anim::FilesPa
 	return this->projectFolders;
 }
 
-Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::FilesPaneVM::FlatItems::get()
+Windows::UI::Xaml::Interop::IBindableObservableVector  ^anim::FilesPaneVM::BindableProjectFolders::get()
+{
+	return this->projectFolders;
+}
+
+Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::FilesPaneVM::BindableFlatItems::get()
 {
 	return this->flatItems;
 }

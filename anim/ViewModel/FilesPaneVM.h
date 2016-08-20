@@ -22,7 +22,8 @@ namespace anim
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^ProjectFolders { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }
-		property Windows::UI::Xaml::Interop::IBindableObservableVector ^FlatItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
+		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableProjectFolders { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
+		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableFlatItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 		property bool HasProjectFolders { bool get(); }
 
 		// Commands

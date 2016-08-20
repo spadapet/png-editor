@@ -144,7 +144,7 @@
         HorizontalScrollBarVisibility="Auto"
         VerticalScrollBarVisibility="Auto"
         Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}">
-        <ItemsControl Margin="4,4,16,16" ItemsSource="{Binding ProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
+        <ItemsControl Margin="4,4,16,16" ItemsSource="{Binding BindableProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
     </ScrollViewer>
 
     <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
