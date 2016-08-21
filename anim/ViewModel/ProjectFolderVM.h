@@ -7,6 +7,7 @@ namespace anim
 {
 	class ProjectFolder;
 	class ProjectItem;
+	ref class FlatProjectItems;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -32,6 +33,8 @@ namespace anim
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^Items { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }
+		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
+		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableFlatItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 		property bool HasItems { bool get(); }
 		property bool ShowExpanded { bool get(); void set(bool value); }
 
@@ -44,6 +47,7 @@ namespace anim
 		std::shared_ptr<ProjectFolder> folder;
 		EventCookie folderChangedCookie;
 		Platform::Collections::Vector<IProjectItemVM ^> ^items;
+		FlatProjectItems ^flatItems;
 		bool expanded;
 	};
 }

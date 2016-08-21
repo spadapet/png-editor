@@ -101,7 +101,7 @@
                         <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
                     </Border>
                 </StackPanel>
-                <ItemsControl ItemsSource="{Binding Items}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
+                <ItemsControl ItemsSource="{Binding BindableItems}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
             </StackPanel>
         </DataTemplate>
 

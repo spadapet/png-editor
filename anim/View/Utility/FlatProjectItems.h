@@ -6,38 +6,16 @@ namespace anim
 	interface class IProjectItemVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class FlatProjectItems sealed : Windows::UI::Xaml::Interop::IBindableObservableVector
+	public ref class FlatProjectItems sealed
 	{
 	public:
 		FlatProjectItems();
 		FlatProjectItems(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^roots);
 		virtual ~FlatProjectItems();
 
-		// IBindableObservableVector
-		virtual event Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler ^VectorChanged;
-		virtual property unsigned int Size { unsigned int get(); }
-		virtual Windows::UI::Xaml::Interop::IBindableIterator ^First();
-		virtual Platform::Object ^GetAt(unsigned int index);
-		virtual Windows::UI::Xaml::Interop::IBindableVectorView ^GetView();
-		virtual bool IndexOf(Platform::Object ^value, unsigned int *index);
-		virtual void SetAt(unsigned int index, Platform::Object ^value);
-		virtual void InsertAt(unsigned int index, Platform::Object ^value);
-		virtual void RemoveAt(unsigned int index);
-		virtual void Append(Platform::Object ^value);
-		virtual void RemoveAtEnd();
-		virtual void Clear();
+		property Windows::UI::Xaml::Interop::IBindableObservableVector ^Items { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 
 	private:
-		struct Entry
-		{
-			Entry(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items);
-			~Entry();
-
-			Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items;
-			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
-			unsigned int startIndexFlat;
-			unsigned int start;
-			unsigned int count;
-		};
+		Platform::Collections::Vector<IProjectItemVM ^> ^flatItems;
 	};
 }

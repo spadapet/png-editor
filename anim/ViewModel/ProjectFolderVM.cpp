@@ -4,6 +4,7 @@
 #include "Core/Thread.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
+#include "View/Utility/FlatProjectItems.h"
 #include "ViewModel/ProjectFileVM.h"
 #include "ViewModel/ProjectItemVM.h"
 #include "ViewModel/ProjectFolderVM.h"
@@ -11,6 +12,7 @@
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
 	, items(ref new Platform::Collections::Vector<IProjectItemVM ^>())
+	, flatItems(ref new FlatProjectItems(this->items))
 	, expanded(false)
 {
 	Platform::WeakReference weakOwner(this);
@@ -85,6 +87,16 @@ Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 Windows::Foundation::Collections::IVector<anim::IProjectItemVM ^> ^anim::ProjectFolderVM::Items::get()
 {
 	return this->items;
+}
+
+Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ProjectFolderVM::BindableItems::get()
+{
+	return this->items;
+}
+
+Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ProjectFolderVM::BindableFlatItems::get()
+{
+	return this->flatItems->Items;
 }
 
 bool anim::ProjectFolderVM::HasItems::get()
