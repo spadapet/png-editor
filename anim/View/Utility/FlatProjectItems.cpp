@@ -66,22 +66,77 @@ Platform::Object ^anim::FlatProjectItems::GetAt(unsigned int index)
 			return item;
 		}
 
+		cur++;
+
 		ProjectFolderVM ^folder = item->AsFolder;
 		if (folder != nullptr && folder->ShowExpanded)
 		{
+			Windows::UI::Xaml::Interop::IBindableVector ^folderItems = folder->BindableFlatItems;
+			unsigned int nestedCount = folderItems->Size;
+
+			if (index - cur < nestedCount)
+			{
+				return folderItems->GetAt(index - cur);
+			}
+
+			cur += nestedCount;
 		}
 	}
 
-	throw ref new Platform::OutOfBoundsException();
+	assert(false);
+	return nullptr;
 }
 
 Windows::UI::Xaml::Interop::IBindableVectorView ^anim::FlatProjectItems::GetView()
 {
-	throw ref new Platform::NotImplementedException();
+	std::vector<Platform::Object ^> view;
+	view.reserve(this->Size);
+
+	for (Windows::UI::Xaml::Interop::IBindableIterator ^iter = this->First(); iter->HasCurrent; iter->MoveNext())
+	{
+		view.push_back(iter->Current);
+	}
+
+	return ref new Platform::Collections::VectorView<Platform::Object ^>(std::move(view));
 }
 
 bool anim::FlatProjectItems::IndexOf(Platform::Object ^value, unsigned int *index)
 {
+	unsigned int cur = 0;
+	for (IProjectItemVM ^item : this->items)
+	{
+		if (item == value)
+		{
+			if (index != nullptr)
+			{
+				*index = cur;
+			}
+
+			return true;
+		}
+
+		cur++;
+
+		ProjectFolderVM ^folder = item->AsFolder;
+		if (folder != nullptr && folder->ShowExpanded)
+		{
+			Windows::UI::Xaml::Interop::IBindableVector ^folderItems = folder->BindableFlatItems;
+			unsigned int nestedCount = folderItems->Size;
+
+			if (folder->BindableFlatItems->IndexOf(value, index))
+			{
+				if (index != nullptr)
+				{
+					*index += cur;
+				}
+
+				return true;
+			}
+
+			cur += nestedCount;
+		}
+	}
+
 	return false;
 }
 
