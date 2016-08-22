@@ -42,11 +42,32 @@ namespace anim
 			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
 		};
 
-		void OnFolderChanged(Platform::String ^name);
+		ref class Iterator sealed : Windows::UI::Xaml::Interop::IBindableIterator
+		{
+		public:
+			Iterator(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items);
+
+			// IBindableIterator
+			virtual property Platform::Object ^Current { Platform::Object ^get(); }
+			virtual property bool HasCurrent { bool get(); }
+			virtual bool MoveNext();
+
+		private:
+			Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items;
+			Windows::UI::Xaml::Interop::IBindableIterator ^nested;
+			unsigned int pos;
+		};
+
+		void OnFolderChanged(ProjectFolderVM ^folder, Platform::String ^name);
 		void OnFolderItemsChanged(ProjectFolderVM ^folder, Windows::UI::Xaml::Interop::IBindableObservableVector ^items, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
+		void UpdateCachedSize();
+		void InvalidateItemCache();
+		unsigned int FlatIndexOfChild(IProjectItemVM ^item);
 
 		Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^items;
 		std::vector<Entry> entries;
 		unsigned int cachedSize;
+		unsigned int cachedItemPos;
+		IProjectItemVM ^cachedItem;
 	};
 }
