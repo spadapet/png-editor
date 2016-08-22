@@ -99,7 +99,7 @@ Windows::UI::Xaml::Interop::IBindableObservableVector  ^anim::FilesPaneVM::Binda
 
 Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::FilesPaneVM::BindableFlatItems::get()
 {
-	return this->flatItems->Items;
+	return this->flatItems->BindableItems;
 }
 
 bool anim::FilesPaneVM::HasProjectFolders::get()

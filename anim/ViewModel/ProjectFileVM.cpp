@@ -38,6 +38,16 @@ int anim::ProjectFileVM::Level::get()
 	return (this->file != nullptr) ? this->file->GetLevel() : 0;
 }
 
+anim::ProjectFileVM ^anim::ProjectFileVM::AsFile::get()
+{
+	return this;
+}
+
+anim::ProjectFolderVM ^anim::ProjectFileVM::AsFolder::get()
+{
+	return nullptr;
+}
+
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
 {
 	return (this->file != nullptr) ? this->file->GetFile() : nullptr;

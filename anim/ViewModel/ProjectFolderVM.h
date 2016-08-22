@@ -30,6 +30,8 @@ namespace anim
 		virtual property Platform::String ^DisplayName { Platform::String ^get(); }
 		virtual property Platform::String ^FullPath { Platform::String ^get(); }
 		virtual property int Level { int get(); }
+		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
+		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^Items { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }

@@ -27,6 +27,8 @@ namespace anim
 		virtual property Platform::String ^DisplayName { Platform::String ^get(); }
 		virtual property Platform::String ^FullPath { Platform::String ^get(); }
 		virtual property int Level { int get(); }
+		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
+		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
 
 		property Windows::Storage::StorageFile ^File { Windows::Storage::StorageFile ^get(); }
 		property bool IsOpen { bool get(); }

@@ -79,6 +79,16 @@ int anim::ProjectFolderVM::Level::get()
 	return this->folder->GetLevel();
 }
 
+anim::ProjectFileVM ^anim::ProjectFolderVM::AsFile::get()
+{
+	return nullptr;
+}
+
+anim::ProjectFolderVM ^anim::ProjectFolderVM::AsFolder::get()
+{
+	return this;
+}
+
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
 	return this->folder->GetFolder();
@@ -96,7 +106,7 @@ Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ProjectFolderVM::Bi
 
 Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ProjectFolderVM::BindableFlatItems::get()
 {
-	return this->flatItems->Items;
+	return this->flatItems->BindableItems;
 }
 
 bool anim::ProjectFolderVM::HasItems::get()
