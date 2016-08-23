@@ -91,17 +91,14 @@
         </Style>
 
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
-                    <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
-                        <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
-                    </Border>
-                    <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
-                    <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                        <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
-                    </Border>
-                </StackPanel>
-                <ItemsControl ItemsSource="{Binding BindableItems}" Style="{StaticResource ProjectFolderListStyle}" Visibility="{Binding ShowExpanded, Converter={StaticResource BoolToVisible}}" />
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
+                <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
+                    <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                </Border>
+                <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
+                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                </Border>
             </StackPanel>
         </DataTemplate>
 
@@ -119,8 +116,9 @@
             FolderTemplate="{StaticResource ProjectFolderTemplate}"
             FileTemplate="{StaticResource ProjectFileTemplate}" />
 
-        <Style x:Key="ProjectFolderListStyle" TargetType="ItemsControl">
+        <Style x:Key="ProjectFolderListStyle" TargetType="ListBox">
             <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="SelectionMode" Value="Extended" />
             <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
         </Style>
     </Grid.Resources>
@@ -139,13 +137,14 @@
         </Button>
     </StackPanel>
 
-    <ScrollViewer
+    <ListBox
         Grid.Row="1"
-        HorizontalScrollBarVisibility="Auto"
-        VerticalScrollBarVisibility="Auto"
-        Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}">
-        <ItemsControl Margin="4,4,16,16" ItemsSource="{Binding BindableProjectFolders}" Style="{StaticResource ProjectFolderListStyle}" />
-    </ScrollViewer>
+        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        Padding="4,4,16,16"
+        ItemsSource="{Binding BindableFlatItems}"
+        Style="{StaticResource ProjectFolderListStyle}"
+        Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}" />
 
     <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
         <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>

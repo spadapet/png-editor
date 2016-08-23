@@ -10,7 +10,7 @@ namespace anim
 	{
 	public:
 		FlatProjectItems();
-		FlatProjectItems(Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^items);
+		FlatProjectItems(Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^rootItems);
 		virtual ~FlatProjectItems();
 
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
@@ -30,21 +30,25 @@ namespace anim
 		virtual void Clear();
 
 	private:
-		class Entry
+		struct Entry
 		{
-		public:
-			Entry(FlatProjectItems ^owner, ProjectFolderVM ^folder, unsigned int index);
+			Entry();
+			Entry(Entry &&rhs);
 			~Entry();
 
-			ProjectFolderVM ^GetFolder();
-			unsigned int GetIndex();
-			void SetIndex(unsigned int index);
+			Entry &operator=(const Entry &rhs)
+			{
+				assert(false);
+				return *this;
+			}
 
-		private:
-			unsigned int index;
 			ProjectFolderVM ^folder;
+			bool addedChildren;
 			Windows::Foundation::EventRegistrationToken folderChangedCookie;
 			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
+
+		private:
+			Entry(const Entry &rhs);
 		};
 
 		ref class Iterator sealed : Windows::UI::Xaml::Interop::IBindableIterator
@@ -64,19 +68,27 @@ namespace anim
 		};
 
 		void OnRootItemsChanged(Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^sender, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
-		void OnFolderChanged(ProjectFolderVM ^folder, Platform::String ^name);
-		void OnFolderItemsChanged(ProjectFolderVM ^folder, Windows::UI::Xaml::Interop::IBindableObservableVector ^items, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
-		void AddEntry(IProjectItemVM ^item, unsigned int index);
-		void RemoveEntry(IProjectItemVM ^item);
-		void UpdateCachedSize();
-		void InvalidateItemCache();
-		unsigned int FlatIndexOfChild(IProjectItemVM ^item);
+		void OnRootFolderChanged(ProjectFolderVM ^folder, Platform::String ^name);
+		void OnRootFolderItemsChanged(ProjectFolderVM ^folder, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
 
-		Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^items;
-		Windows::Foundation::EventRegistrationToken itemsChangedCookie;
+		void ResetRootEntries();
+		void AddRootEntry(IProjectItemVM ^item, unsigned int index = INVALID_UINT);
+		void RemoveRootEntry(unsigned int index);
+
+		void AddRootFolderChildren(ProjectFolderVM ^folder, bool force = false);
+		void RemoveRootFolderChildren(ProjectFolderVM ^folder, bool force = false);
+		void NotifyVectorChanged(Windows::Foundation::Collections::CollectionChange change, unsigned int index = 0, IProjectItemVM ^item = nullptr);
+
+		unsigned int FlatIndexOfRootFolder(ProjectFolderVM ^folder, unsigned int *realIndex = nullptr);
+		unsigned int FlatIndexOfRootIndex(unsigned int index);
+
+		Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^rootItems;
+		Windows::Foundation::EventRegistrationToken rootItemsChangedCookie;
 		std::vector<Entry> entries;
-		unsigned int cachedSize;
-		unsigned int cachedItemPos;
+		unsigned int size;
+		int blockNotifications;
+
+		unsigned int cachedIndex;
 		IProjectItemVM ^cachedItem;
 	};
 }
