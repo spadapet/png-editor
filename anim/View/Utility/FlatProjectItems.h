@@ -33,10 +33,15 @@ namespace anim
 		class Entry
 		{
 		public:
-			Entry(FlatProjectItems ^owner, ProjectFolderVM ^folder);
+			Entry(FlatProjectItems ^owner, ProjectFolderVM ^folder, unsigned int index);
 			~Entry();
 
+			ProjectFolderVM ^GetFolder();
+			unsigned int GetIndex();
+			void SetIndex(unsigned int index);
+
 		private:
+			unsigned int index;
 			ProjectFolderVM ^folder;
 			Windows::Foundation::EventRegistrationToken folderChangedCookie;
 			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
@@ -58,13 +63,17 @@ namespace anim
 			unsigned int pos;
 		};
 
+		void OnRootItemsChanged(Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^sender, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
 		void OnFolderChanged(ProjectFolderVM ^folder, Platform::String ^name);
 		void OnFolderItemsChanged(ProjectFolderVM ^folder, Windows::UI::Xaml::Interop::IBindableObservableVector ^items, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
+		void AddEntry(IProjectItemVM ^item, unsigned int index);
+		void RemoveEntry(IProjectItemVM ^item);
 		void UpdateCachedSize();
 		void InvalidateItemCache();
 		unsigned int FlatIndexOfChild(IProjectItemVM ^item);
 
 		Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^items;
+		Windows::Foundation::EventRegistrationToken itemsChangedCookie;
 		std::vector<Entry> entries;
 		unsigned int cachedSize;
 		unsigned int cachedItemPos;

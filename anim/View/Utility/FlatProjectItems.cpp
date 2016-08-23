@@ -14,15 +14,23 @@ anim::FlatProjectItems::FlatProjectItems(Windows::Foundation::Collections::IObse
 	, cachedSize(0)
 	, cachedItemPos(0)
 {
-	// TODO: Add a root listener and update entries
+	Platform::WeakReference weakOwner(this);
 
+	this->itemsChangedCookie = this->items->VectorChanged +=
+		ref new Windows::Foundation::Collections::VectorChangedEventHandler<IProjectItemVM ^>(
+			[weakOwner](Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^sender, Windows::Foundation::Collections::IVectorChangedEventArgs ^args)
+	{
+		FlatProjectItems ^owner = weakOwner.Resolve<FlatProjectItems>();
+		if (owner != nullptr)
+		{
+			owner->OnRootItemsChanged(sender, args);
+		}
+	});
+
+	unsigned int index = 0;
 	for (IProjectItemVM ^item : items)
 	{
-		ProjectFolderVM ^folder = item->AsFolder;
-		if (folder != nullptr)
-		{
-			this->entries.emplace_back(this, folder);
-		}
+		this->AddEntry(item, index++);
 	}
 
 	this->UpdateCachedSize();
@@ -166,6 +174,41 @@ void anim::FlatProjectItems::Clear()
 	throw ref new Platform::NotImplementedException();
 }
 
+void anim::FlatProjectItems::OnRootItemsChanged(
+	Windows::Foundation::Collections::IObservableVector<IProjectItemVM^> ^sender,
+	Windows::Foundation::Collections::IVectorChangedEventArgs ^args)
+{
+#if 0
+	unsigned int flatIndex = this->FlatIndexOfChild(folder);
+
+	switch (args->CollectionChange)
+	{
+	case Windows::Foundation::Collections::CollectionChange::ItemChanged:
+		this->VectorChanged(this, ref new Platform::Collections::Details::VectorChangedEventArgs(
+			args->CollectionChange, flatIndex + 1 + args->Index));
+		break;
+
+	case Windows::Foundation::Collections::CollectionChange::ItemInserted:
+		this->cachedSize++;
+		this->VectorChanged(this, ref new Platform::Collections::Details::VectorChangedEventArgs(
+			args->CollectionChange, flatIndex + 1 + args->Index));
+		break;
+
+	case Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+		this->cachedSize--;
+		this->VectorChanged(this, ref new Platform::Collections::Details::VectorChangedEventArgs(
+			args->CollectionChange, flatIndex + 1 + args->Index));
+		break;
+
+	case Windows::Foundation::Collections::CollectionChange::Reset:
+		this->UpdateCachedSize();
+		this->VectorChanged(this, ref new Platform::Collections::Details::VectorChangedEventArgs(
+			args->CollectionChange, 0));
+		break;
+	}
+#endif
+}
+
 void anim::FlatProjectItems::OnFolderChanged(ProjectFolderVM ^folder, Platform::String ^name)
 {
 	bool allChanged = (name == nullptr || name->Length() == 0);
@@ -237,6 +280,39 @@ void anim::FlatProjectItems::OnFolderItemsChanged(
 	}
 }
 
+void anim::FlatProjectItems::AddEntry(IProjectItemVM ^item, unsigned int index)
+{
+	for (Entry &entry : this->entries)
+	{
+		if (entry.GetIndex() >= index)
+		{
+			entry.SetIndex(entry.GetIndex() + 1);
+		}
+	}
+
+	ProjectFolderVM ^folder = item->AsFolder;
+	if (folder != nullptr)
+	{
+		this->entries.emplace_back(this, folder, index);
+	}
+}
+
+void anim::FlatProjectItems::RemoveEntry(IProjectItemVM ^item)
+{
+	ProjectFolderVM ^folder = item->AsFolder;
+	if (folder != nullptr)
+	{
+		for (auto i = this->entries.begin(); i != this->entries.end(); i++)
+		{
+			if (i->GetFolder() == folder)
+			{
+				this->entries.erase(i);
+				break;
+			}
+		}
+	}
+}
+
 void anim::FlatProjectItems::UpdateCachedSize()
 {
 	this->cachedSize = 0;
@@ -282,8 +358,9 @@ unsigned int anim::FlatProjectItems::FlatIndexOfChild(IProjectItemVM ^item)
 	return flatIndex;
 }
 
-anim::FlatProjectItems::Entry::Entry(FlatProjectItems ^owner, ProjectFolderVM ^folder)
+anim::FlatProjectItems::Entry::Entry(FlatProjectItems ^owner, ProjectFolderVM ^folder, unsigned int index)
 	: folder(folder)
+	, index(index)
 {
 	Platform::WeakReference weakOwner(owner);
 
@@ -316,6 +393,21 @@ anim::FlatProjectItems::Entry::~Entry()
 {
 	this->folder->PropertyChanged -= this->folderChangedCookie;
 	this->folder->BindableFlatItems->VectorChanged -= this->itemsChangedCookie;
+}
+
+anim::ProjectFolderVM ^anim::FlatProjectItems::Entry::GetFolder()
+{
+	return this->folder;
+}
+
+unsigned int anim::FlatProjectItems::Entry::GetIndex()
+{
+	return this->index;
+}
+
+void anim::FlatProjectItems::Entry::SetIndex(unsigned int index)
+{
+	this->index = index;
 }
 
 anim::FlatProjectItems::Iterator::Iterator(Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^items)
