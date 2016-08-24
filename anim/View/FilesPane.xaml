@@ -90,6 +90,11 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
+        <Style x:Key="ItemTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource UiFontSize}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
                 <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
@@ -97,7 +102,7 @@
                 </Border>
                 <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
                 <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{Binding DisplayName}" />
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -106,7 +111,7 @@
             <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
                 <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
                 <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{Binding DisplayName}" />
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -116,9 +121,15 @@
             FolderTemplate="{StaticResource ProjectFolderTemplate}"
             FileTemplate="{StaticResource ProjectFileTemplate}" />
 
+        <Style x:Key="ProjectItemContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
         <Style x:Key="ProjectFolderListStyle" TargetType="ListBox">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="SelectionMode" Value="Extended" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ProjectItemContainerStyle}" />
             <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
         </Style>
     </Grid.Resources>
@@ -141,7 +152,6 @@
         Grid.Row="1"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
-        Padding="4,4,16,16"
         ItemsSource="{Binding BindableFlatItems}"
         Style="{StaticResource ProjectFolderListStyle}"
         Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}" />

@@ -36,11 +36,7 @@ namespace anim
 			Entry(Entry &&rhs);
 			~Entry();
 
-			Entry &operator=(const Entry &rhs)
-			{
-				assert(false);
-				return *this;
-			}
+			Entry &operator=(Entry &&rhs);
 
 			ProjectFolderVM ^folder;
 			bool addedChildren;
@@ -49,6 +45,8 @@ namespace anim
 
 		private:
 			Entry(const Entry &rhs);
+
+			void Destroy();
 		};
 
 		ref class Iterator sealed : Windows::UI::Xaml::Interop::IBindableIterator
@@ -71,6 +69,7 @@ namespace anim
 		void OnRootFolderChanged(ProjectFolderVM ^folder, Platform::String ^name);
 		void OnRootFolderItemsChanged(ProjectFolderVM ^folder, Windows::Foundation::Collections::IVectorChangedEventArgs ^args);
 
+		void Validate();
 		void ResetRootEntries();
 		void AddRootEntry(IProjectItemVM ^item, unsigned int index = INVALID_UINT);
 		void RemoveRootEntry(unsigned int index);
@@ -88,6 +87,7 @@ namespace anim
 		unsigned int size;
 		int blockNotifications;
 
+		// Makes GetAt() faster when we know what item is going to be requested
 		unsigned int cachedIndex;
 		IProjectItemVM ^cachedItem;
 	};
