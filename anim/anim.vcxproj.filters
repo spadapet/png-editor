@@ -114,6 +114,12 @@
     <ClCompile Include="View\Utility\FlatProjectItems.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="View\Utility\FlatProjectItem.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\FlatProjectList.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -197,6 +203,12 @@
       <Filter>View\Utility</Filter>
     </ClInclude>
     <ClInclude Include="View\Utility\FlatProjectItems.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\FlatProjectItem.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\FlatProjectList.h">
       <Filter>View\Utility</Filter>
     </ClInclude>
   </ItemGroup>

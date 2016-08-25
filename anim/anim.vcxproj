@@ -39,7 +39,9 @@
     </ClCompile>
     <ClCompile Include="View\Utility\BoolToObjectConverter.cpp" />
     <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp" />
+    <ClCompile Include="View\Utility\FlatProjectItem.cpp" />
     <ClCompile Include="View\Utility\FlatProjectItems.cpp" />
+    <ClCompile Include="View\Utility\FlatProjectList.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
     <ClInclude Include="Controller\AppController.h" />
@@ -84,7 +86,9 @@
     </ClInclude>
     <ClInclude Include="View\Utility\BoolToObjectConverter.h" />
     <ClInclude Include="View\Utility\BoolToVisibleConverter.h" />
+    <ClInclude Include="View\Utility\FlatProjectItem.h" />
     <ClInclude Include="View\Utility\FlatProjectItems.h" />
+    <ClInclude Include="View\Utility\FlatProjectList.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
     <None Include="TemporaryKey.pfx" />
