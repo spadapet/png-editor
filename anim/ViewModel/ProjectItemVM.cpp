@@ -48,6 +48,21 @@ anim::ProjectFolderVM ^anim::ProjectItemVM::AsFolder::get()
 	return nullptr;
 }
 
+bool anim::ProjectItemVM::OnActivate()
+{
+	return false;
+}
+
+bool anim::ProjectItemVM::OnExpand()
+{
+	return false;
+}
+
+bool anim::ProjectItemVM::OnCollapse()
+{
+	return false;
+}
+
 void anim::ProjectItemVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));

@@ -32,6 +32,9 @@ namespace anim
 		virtual property int Level { int get(); }
 		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
+		virtual bool OnActivate();
+		virtual bool OnExpand();
+		virtual bool OnCollapse();
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^Items { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }

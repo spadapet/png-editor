@@ -89,6 +89,40 @@ anim::ProjectFolderVM ^anim::ProjectFolderVM::AsFolder::get()
 	return this;
 }
 
+bool anim::ProjectFolderVM::OnActivate()
+{
+	if (this->ShowExpanded)
+	{
+		return this->OnCollapse();
+	}
+	else
+	{
+		return this->OnExpand();
+	}
+}
+
+bool anim::ProjectFolderVM::OnExpand()
+{
+	if (!this->ShowExpanded)
+	{
+		this->ShowExpanded = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool anim::ProjectFolderVM::OnCollapse()
+{
+	if (this->ShowExpanded)
+	{
+		this->ShowExpanded = false;
+		return true;
+	}
+
+	return false;
+}
+
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
 	return this->folder->GetFolder();

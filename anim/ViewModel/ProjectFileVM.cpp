@@ -48,6 +48,21 @@ anim::ProjectFolderVM ^anim::ProjectFileVM::AsFolder::get()
 	return nullptr;
 }
 
+bool anim::ProjectFileVM::OnActivate()
+{
+	return false;
+}
+
+bool anim::ProjectFileVM::OnExpand()
+{
+	return false;
+}
+
+bool anim::ProjectFileVM::OnCollapse()
+{
+	return false;
+}
+
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
 {
 	return (this->file != nullptr) ? this->file->GetFile() : nullptr;

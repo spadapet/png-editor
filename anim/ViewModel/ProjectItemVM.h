@@ -29,6 +29,9 @@ namespace anim
 		virtual property int Level { int get(); }
 		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
+		virtual bool OnActivate();
+		virtual bool OnExpand();
+		virtual bool OnCollapse();
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
