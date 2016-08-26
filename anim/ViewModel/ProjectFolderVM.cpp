@@ -116,7 +116,7 @@ bool anim::ProjectFolderVM::HasItems::get()
 
 bool anim::ProjectFolderVM::ShowExpanded::get()
 {
-	return this->expanded && this->HasItems;
+	return this->expanded;
 }
 
 void anim::ProjectFolderVM::ShowExpanded::set(bool value)
@@ -125,11 +125,11 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 	{
 		this->expanded = value;
 		this->NotifyPropertyChanged("ShowExpanded");
-	}
 
-	if (this->expanded && !this->folder->CheckedForItems())
-	{
-		this->UpdateItems();
+		if (this->expanded && !this->folder->CheckedForItems())
+		{
+			this->UpdateItems();
+		}
 	}
 }
 
@@ -150,7 +150,6 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 	if (allChanged || strcmp(name, "HasItems") == 0)
 	{
 		this->NotifyPropertyChanged("HasItems");
-		this->NotifyPropertyChanged("ShowExpanded");
 	}
 }
 
