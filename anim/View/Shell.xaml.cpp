@@ -28,6 +28,19 @@ anim::ShellVM ^anim::Shell::State::get()
 	return this->state;
 }
 
+void anim::Shell::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	FrameworkElement ^elem = dynamic_cast<Windows::UI::Xaml::FrameworkElement ^>(sender);
+	if (elem != nullptr)
+	{
+		Windows::UI::Xaml::IDataTemplateExtension ^data = Windows::UI::Xaml::DataTemplate::GetExtensionInstance(elem);
+		if (data != nullptr)
+		{
+			data->ResetTemplate();
+		}
+	}
+}
+
 void anim::Shell::ResizeBorder_PointerCanceled(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
 {
 	this->ResizeBorder_PointerCaptureLost(sender, args);

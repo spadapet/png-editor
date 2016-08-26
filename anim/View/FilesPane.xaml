@@ -96,22 +96,22 @@
         </Style>
 
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}}">
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}}" Unloaded="OnDataTemplateUnloaded">
                 <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
-                    <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{Binding ShowExpanded, Mode=TwoWay}" Visibility="{Binding HasItems, Converter={StaticResource BoolToVisible}}" />
+                    <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{x:Bind ShowExpanded, Mode=TwoWay}" Visibility="{x:Bind HasItems, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
                 </Border>
-                <Image Style="{StaticResource ItemIconStyle}" Source="{Binding ShowExpanded, Converter={StaticResource BoolToFolder}}" />
-                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{Binding DisplayName}" />
+                <Image Style="{StaticResource ItemIconStyle}" Source="{x:Bind ShowExpanded, Converter={StaticResource BoolToFolder}, Mode=OneWay}" />
+                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{x:Bind DisplayName, Mode=OneWay}" />
                 </Border>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectFileTemplate" x:DataType="local:ProjectFileVM">
-            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{Binding Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
-                <Image Style="{StaticResource ItemIconStyle}" Source="{Binding IsOpen, Converter={StaticResource BoolToPicture}}" />
-                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{Binding FullPath}">
-                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{Binding DisplayName}" />
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}" Unloaded="OnDataTemplateUnloaded">
+                <Image Style="{StaticResource ItemIconStyle}" Source="{x:Bind IsOpen, Converter={StaticResource BoolToPicture}, Mode=OneWay}" />
+                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{x:Bind DisplayName, Mode=OneWay}" />
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -140,10 +140,10 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0" Orientation="Horizontal" Padding="4" Background="{StaticResource PaneBorderBrush}" VerticalAlignment="Top">
-        <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding AddFolderCommand}">
+        <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{x:Bind State.AddFolderCommand}">
             <Image Source="ms-appx:///Assets/Icons/folder-add.png" Width="20" Height="20" />
         </Button>
-        <Button x:Uid="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}" Command="{Binding OpenFileCommand}">
+        <Button x:Uid="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}" Command="{x:Bind State.OpenFileCommand}">
             <Image Source="ms-appx:///Assets/Icons/folder_open-picture.png" Width="20" Height="20" />
         </Button>
     </StackPanel>
@@ -152,11 +152,11 @@
         Grid.Row="1"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
-        ItemsSource="{Binding BindableFlatItems}"
+        ItemsSource="{x:Bind State.BindableFlatItems}"
         Style="{StaticResource ProjectFolderListStyle}"
-        Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}}" />
+        Visibility="{x:Bind State.HasProjectFolders, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
 
-    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}}">
+    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{x:Bind State.HasProjectFolders, Converter={StaticResource BoolToInvisible}, Mode=OneWay}">
         <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
     </TextBlock>
 </Grid>

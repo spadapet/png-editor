@@ -13,8 +13,8 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.Resources>
-        <local:BoolToObjectConverter x:Key="ActiveToPaneButtonBackground" ObjectTrue="{StaticResource PaneBackgroundBrush}" ObjectFalse="Transparent" />
-        <local:BoolToObjectConverter x:Key="ActiveToPaneBorder" ObjectTrue="{StaticResource PaneBorderBrush}" ObjectFalse="Transparent" />
+        <local:BoolToObjectConverter x:Key="ActiveToPaneButtonBackground" ObjectTrue="{StaticResource PaneBackgroundBrush}" ObjectFalse="{StaticResource TransparentBrush}" />
+        <local:BoolToObjectConverter x:Key="ActiveToPaneBorder" ObjectTrue="{StaticResource PaneBorderBrush}" ObjectFalse="{StaticResource TransparentBrush}" />
         <local:BoolToVisibleConverter x:Key="BoolToVisible" />
 
         <Style x:Key="PaneInfoButtonStyle" TargetType="Button">
@@ -56,12 +56,13 @@
         <DataTemplate x:Key="PaneInfoItemTemplate" x:DataType="local:PaneInfoVM">
             <Button
                 Style="{StaticResource PaneInfoButtonStyle}"
-                Command="{Binding ToggleActiveCommand}"
-                ToolTipService.ToolTip="{Binding Name}"
-                Background="{Binding IsActive, Converter={StaticResource ActiveToPaneButtonBackground}}"
-                BorderBrush="{Binding IsActive, Converter={StaticResource ActiveToPaneBorder}}"
-                Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisible}}">
-                <Image Source="{Binding Icon}" Stretch="None" />
+                Command="{x:Bind ToggleActiveCommand}"
+                ToolTipService.ToolTip="{x:Bind Name}"
+                Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
+                BorderBrush="{x:Bind IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
+                Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
+                Unloaded="OnDataTemplateUnloaded">
+                <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
 

@@ -7,6 +7,7 @@
     <SolidColorBrush x:Key="PaneBackgroundBrush">#fff5f5f5</SolidColorBrush>
     <SolidColorBrush x:Key="PaneListBackgroundBrush">#ffb7bacb</SolidColorBrush>
     <SolidColorBrush x:Key="PaneBorderBrush">#ffdfdee6</SolidColorBrush>
+    <SolidColorBrush x:Key="TransparentBrush">Transparent</SolidColorBrush>
 
     <Style x:Key="ToolbarButtonStyle" TargetType="Button">
         <Setter Property="Template">
