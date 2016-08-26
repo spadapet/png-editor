@@ -30,7 +30,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
-                        <Grid Background="Transparent">
+                        <Grid Background="Transparent" Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
                             <Path Name="ClosedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Black" StrokeThickness="1" Data="M5.5,4.5 9.5,8.5 5.5,12.5 z" />
                             <Path Name="ExpandedArrow" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Fill="Black" Data="M4,12 11,5 11,12 z" />
                             <VisualStateManager.VisualStateGroups>
