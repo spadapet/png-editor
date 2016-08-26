@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Core/Designer.h"
 #include "Core/String.h"
+#include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "Model/PaneInfo.h"
 #include "Model/ProjectFolder.h"

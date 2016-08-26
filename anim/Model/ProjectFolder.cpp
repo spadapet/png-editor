@@ -77,11 +77,6 @@ bool anim::ProjectFolder::HasItems() const
 	return !this->initQuery || !this->items.empty();
 }
 
-bool anim::ProjectFolder::CheckedForItems() const
-{
-	return this->initQuery;
-}
-
 void anim::ProjectFolder::InitializeQuery()
 {
 	if (this->initQuery)
@@ -113,7 +108,6 @@ void anim::ProjectFolder::InitializeQuery()
 	}
 
 	this->PropertyChanged.Notify("HasItems");
-	this->PropertyChanged.Notify("CheckedForItems");
 
 	this->Refresh();
 }

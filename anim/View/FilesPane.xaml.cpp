@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "View/FilesPane.xaml.h"
 
@@ -31,13 +32,5 @@ void anim::FilesPane::OnClickAddFolderLink(Windows::UI::Xaml::Documents::Hyperli
 
 void anim::FilesPane::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	FrameworkElement ^elem = dynamic_cast<Windows::UI::Xaml::FrameworkElement ^>(sender);
-	if (elem != nullptr)
-	{
-		Windows::UI::Xaml::IDataTemplateExtension ^data = Windows::UI::Xaml::DataTemplate::GetExtensionInstance(elem);
-		if (data != nullptr)
-		{
-			data->ResetTemplate();
-		}
-	}
+	anim::DisconnectDataTemplateBindings(sender);
 }

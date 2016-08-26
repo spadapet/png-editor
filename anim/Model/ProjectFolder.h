@@ -18,7 +18,6 @@ namespace anim
 		void SetFolder(Windows::Storage::StorageFolder ^folder);
 		const std::vector<std::shared_ptr<ProjectItem>> &GetItems();
 		bool HasItems() const;
-		bool CheckedForItems() const;
 
 	private:
 		void InitializeQuery();

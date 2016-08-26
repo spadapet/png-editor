@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "Core/Designer.h"
 #include "Core/String.h"
 #include "Core/Thread.h"
+#include "Core/Xaml.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 #include "View/Utility/FlatProjectItems.h"
@@ -126,7 +126,7 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 		this->expanded = value;
 		this->NotifyPropertyChanged("ShowExpanded");
 
-		if (this->expanded && !this->folder->CheckedForItems())
+		if (this->expanded)
 		{
 			this->UpdateItems();
 		}

@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "View/Shell.xaml.h"
 
@@ -30,15 +31,7 @@ anim::ShellVM ^anim::Shell::State::get()
 
 void anim::Shell::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	FrameworkElement ^elem = dynamic_cast<Windows::UI::Xaml::FrameworkElement ^>(sender);
-	if (elem != nullptr)
-	{
-		Windows::UI::Xaml::IDataTemplateExtension ^data = Windows::UI::Xaml::DataTemplate::GetExtensionInstance(elem);
-		if (data != nullptr)
-		{
-			data->ResetTemplate();
-		}
-	}
+	anim::DisconnectDataTemplateBindings(sender);
 }
 
 void anim::Shell::ResizeBorder_PointerCanceled(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)

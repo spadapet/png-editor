@@ -84,9 +84,6 @@
     <ClCompile Include="View\FilesPane.xaml.cpp" />
     <ClCompile Include="View\MainPage.xaml.cpp" />
     <ClCompile Include="View\Shell.xaml.cpp" />
-    <ClCompile Include="Core\Designer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Controller\AppPersist.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
@@ -119,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="View\Utility\FlatProjectList.cpp">
       <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Xaml.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +172,6 @@
     <ClInclude Include="View\FilesPane.xaml.h" />
     <ClInclude Include="View\MainPage.xaml.h" />
     <ClInclude Include="View\Shell.xaml.h" />
-    <ClInclude Include="Core\Designer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\AppPersist.h">
       <Filter>Controller</Filter>
     </ClInclude>
@@ -210,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="View\Utility\FlatProjectList.h">
       <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Xaml.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
