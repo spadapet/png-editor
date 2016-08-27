@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "View/Utility/FlatProjectItem.h"
+#include "View/Utility/FlatProjectList.h"
 #include "ViewModel/IProjectItemVM.h"
 #include "ViewModel/ProjectFolderVM.h"
 
@@ -35,7 +36,16 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 			{
 				args->Handled = true;
 			}
-			// TODO: Else select parent item
+			else
+			{
+				FlatProjectItem ^parent = this->List->GetParent(this);
+				if (parent != nullptr)
+				{
+					this->List->SelectedItems->Clear();
+					this->List->SelectedItems->Append(parent->Item);
+					args->Handled = true;
+				}
+			}
 			break;
 
 		case Windows::System::VirtualKey::Right:
@@ -43,7 +53,16 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 			{
 				args->Handled = true;
 			}
-			// TODO: Else select child item
+			else
+			{
+				FlatProjectItem ^child = this->List->GetChild(this);
+				if (child != nullptr)
+				{
+					this->List->SelectedItems->Clear();
+					this->List->SelectedItems->Append(child->Item);
+					args->Handled = true;
+				}
+			}
 			break;
 		}
 	}
