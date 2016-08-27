@@ -22,19 +22,23 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 {
 	if (!args->Handled)
 	{
+		ProjectFolderVM ^folder = this->Item->AsFolder;
+
 		switch (args->Key)
 		{
 		case Windows::System::VirtualKey::Enter:
-			if (this->Item->OnActivate())
+			args->Handled = true;
+			if (this->Item->ActivateCommand != nullptr && this->Item->ActivateCommand->CanExecute(this->Item))
 			{
-				args->Handled = true;
+				this->Item->ActivateCommand->Execute(this->Item);
 			}
 			break;
 
 		case Windows::System::VirtualKey::Left:
-			if (this->Item->OnCollapse())
+			args->Handled = true;
+			if (folder != nullptr && folder->ShowExpanded)
 			{
-				args->Handled = true;
+				folder->ShowExpanded = false;
 			}
 			else
 			{
@@ -43,15 +47,15 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 				{
 					this->List->SelectedItems->Clear();
 					this->List->SelectedItems->Append(parent->Item);
-					args->Handled = true;
 				}
 			}
 			break;
 
 		case Windows::System::VirtualKey::Right:
-			if (this->Item->OnExpand())
+			args->Handled = true;
+			if (folder != nullptr && !folder->ShowExpanded)
 			{
-				args->Handled = true;
+				folder->ShowExpanded = true;
 			}
 			else
 			{
@@ -60,7 +64,6 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 				{
 					this->List->SelectedItems->Clear();
 					this->List->SelectedItems->Append(child->Item);
-					args->Handled = true;
 				}
 			}
 			break;
@@ -82,9 +85,14 @@ void anim::FlatProjectItem::OnTapped(Windows::UI::Xaml::Input::TappedRoutedEvent
 
 void anim::FlatProjectItem::OnDoubleTapped(Windows::UI::Xaml::Input::DoubleTappedRoutedEventArgs ^args)
 {
-	if (!args->Handled && this->Item->OnActivate())
+	if (!args->Handled)
 	{
 		args->Handled = true;
+
+		if (this->Item->ActivateCommand != nullptr && this->Item->ActivateCommand->CanExecute(nullptr))
+		{
+			this->Item->ActivateCommand->Execute(this->Item);
+		}
 	}
 
 	Windows::UI::Xaml::Controls::ListBoxItem::OnDoubleTapped(args);

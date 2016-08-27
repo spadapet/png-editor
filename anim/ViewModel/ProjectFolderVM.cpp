@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/Command.h"
 #include "Core/String.h"
 #include "Core/Thread.h"
 #include "Core/Xaml.h"
@@ -8,6 +9,8 @@
 #include "ViewModel/ProjectFileVM.h"
 #include "ViewModel/ProjectItemVM.h"
 #include "ViewModel/ProjectFolderVM.h"
+
+static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
 
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 	: folder(folder)
@@ -89,38 +92,21 @@ anim::ProjectFolderVM ^anim::ProjectFolderVM::AsFolder::get()
 	return this;
 }
 
-bool anim::ProjectFolderVM::OnActivate()
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectFolderVM::ActivateCommand::get()
 {
-	if (this->ShowExpanded)
+	if (::activateCommand == nullptr)
 	{
-		return this->OnCollapse();
-	}
-	else
-	{
-		return this->OnExpand();
-	}
-}
-
-bool anim::ProjectFolderVM::OnExpand()
-{
-	if (!this->ShowExpanded)
-	{
-		this->ShowExpanded = true;
-		return true;
+		::activateCommand = ref new anim::Command([](Platform::Object ^item)
+		{
+			ProjectFolderVM ^folder = dynamic_cast<ProjectFolderVM ^>(item);
+			if (folder != nullptr)
+			{
+				folder->ShowExpanded = !folder->ShowExpanded;
+			}
+		});
 	}
 
-	return false;
-}
-
-bool anim::ProjectFolderVM::OnCollapse()
-{
-	if (this->ShowExpanded)
-	{
-		this->ShowExpanded = false;
-		return true;
-	}
-
-	return false;
+	return ::activateCommand;
 }
 
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()

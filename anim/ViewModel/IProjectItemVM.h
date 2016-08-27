@@ -16,8 +16,6 @@ namespace anim
 		property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
 
-		bool OnActivate();
-		bool OnExpand();
-		bool OnCollapse();
+		property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 	};
 }

@@ -48,19 +48,9 @@ anim::ProjectFolderVM ^anim::ProjectItemVM::AsFolder::get()
 	return nullptr;
 }
 
-bool anim::ProjectItemVM::OnActivate()
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectItemVM::ActivateCommand::get()
 {
-	return false;
-}
-
-bool anim::ProjectItemVM::OnExpand()
-{
-	return false;
-}
-
-bool anim::ProjectItemVM::OnCollapse()
-{
-	return false;
+	return nullptr;
 }
 
 void anim::ProjectItemVM::NotifyPropertyChanged(Platform::String ^name)

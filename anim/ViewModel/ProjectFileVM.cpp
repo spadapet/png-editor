@@ -48,19 +48,9 @@ anim::ProjectFolderVM ^anim::ProjectFileVM::AsFolder::get()
 	return nullptr;
 }
 
-bool anim::ProjectFileVM::OnActivate()
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
 {
-	return false;
-}
-
-bool anim::ProjectFileVM::OnExpand()
-{
-	return false;
-}
-
-bool anim::ProjectFileVM::OnCollapse()
-{
-	return false;
+	return nullptr;
 }
 
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
