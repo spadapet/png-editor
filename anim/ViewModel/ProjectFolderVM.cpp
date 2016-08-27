@@ -170,6 +170,11 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 	if (allChanged || strcmp(name, "HasItems") == 0)
 	{
 		this->NotifyPropertyChanged("HasItems");
+
+		anim::RunOnMainThread([this]()
+		{
+			this->ShowExpanded = this->HasItems;
+		});
 	}
 }
 
