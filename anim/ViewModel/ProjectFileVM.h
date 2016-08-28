@@ -13,7 +13,7 @@ namespace anim
 		, IProjectItemVM
 	{
 	internal:
-		ProjectFileVM(std::shared_ptr<ProjectFile> file);
+		ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFolderVM ^parent);
 
 	public:
 		ProjectFileVM();
@@ -38,5 +38,6 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
 		std::shared_ptr<ProjectFile> file;
+		Platform::WeakReference weakParent;
 	};
 }

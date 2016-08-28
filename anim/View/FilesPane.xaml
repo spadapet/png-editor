@@ -27,6 +27,7 @@
 
         <Style x:Key="ExpanderButtonStyle" TargetType="ToggleButton">
             <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="ClickMode" Value="Press" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">

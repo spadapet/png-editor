@@ -16,7 +16,7 @@ namespace anim
 		, IProjectItemVM
 	{
 	internal:
-		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder);
+		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, ProjectFolderVM ^parent);
 
 	public:
 		ProjectFolderVM();
@@ -49,6 +49,7 @@ namespace anim
 		IProjectItemVM ^MakeVM(std::shared_ptr<ProjectItem> item);
 
 		std::shared_ptr<ProjectFolder> folder;
+		Platform::WeakReference weakParent;
 		EventCookie folderChangedCookie;
 		Platform::Collections::Vector<IProjectItemVM ^> ^items;
 		FlatProjectItems ^flatItems;

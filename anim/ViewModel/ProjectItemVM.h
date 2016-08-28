@@ -5,6 +5,7 @@
 namespace anim
 {
 	class ProjectItem;
+	ref class ProjectFolderVM;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -13,7 +14,7 @@ namespace anim
 		, IProjectItemVM
 	{
 	internal:
-		ProjectItemVM(std::shared_ptr<ProjectItem> file);
+		ProjectItemVM(std::shared_ptr<ProjectItem> file, ProjectFolderVM ^parent);
 
 	public:
 		ProjectItemVM();
@@ -35,5 +36,6 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
 		std::shared_ptr<ProjectItem> item;
+		Platform::WeakReference weakParent;
 	};
 }

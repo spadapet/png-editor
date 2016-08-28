@@ -17,7 +17,8 @@ anim::FlatProjectItem ^anim::FlatProjectList::GetParent(FlatProjectItem ^item)
 	int index = this->IndexFromContainer(item);
 	for (int i = index - 1; i >= 0; i--)
 	{
-		FlatProjectItem ^prevItem = dynamic_cast<FlatProjectItem ^>(this->ContainerFromIndex(i));
+		Windows::UI::Xaml::DependencyObject ^container = this->ContainerFromIndex(i);
+		FlatProjectItem ^prevItem = dynamic_cast<FlatProjectItem ^>(container);
 		if (prevItem != nullptr)
 		{
 			ProjectFolderVM ^folder = prevItem->Item->AsFolder;

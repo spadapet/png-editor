@@ -12,8 +12,9 @@
 
 static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
 
-anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
+anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, ProjectFolderVM ^parent)
 	: folder(folder)
+	, weakParent(parent)
 	, items(ref new Platform::Collections::Vector<IProjectItemVM ^>())
 	, flatItems(ref new FlatProjectItems(this->items))
 	, expanded(false)
@@ -44,7 +45,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder)
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
-	: ProjectFolderVM(std::make_shared<ProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, nullptr))
+	: ProjectFolderVM(std::make_shared<ProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, nullptr), nullptr)
 {
 	anim::AssertXamlDesigner();
 }
@@ -223,14 +224,14 @@ anim::IProjectItemVM ^anim::ProjectFolderVM::MakeVM(std::shared_ptr<ProjectItem>
 	if (item->IsFolder())
 	{
 		std::shared_ptr<ProjectFolder> folder = std::dynamic_pointer_cast<ProjectFolder>(item);
-		return ref new ProjectFolderVM(folder);
+		return ref new ProjectFolderVM(folder, this);
 	}
 
 	if (item->IsFile())
 	{
 		std::shared_ptr<ProjectFile> file = std::dynamic_pointer_cast<ProjectFile>(item);
-		return ref new ProjectFileVM(file);
+		return ref new ProjectFileVM(file, this);
 	}
 
-	return ref new ProjectItemVM(item);
+	return ref new ProjectItemVM(item, this);
 }

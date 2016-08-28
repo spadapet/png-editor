@@ -3,13 +3,14 @@
 #include "Model/ProjectItem.h"
 #include "ViewModel/ProjectItemVM.h"
 
-anim::ProjectItemVM::ProjectItemVM(std::shared_ptr<ProjectItem> item)
+anim::ProjectItemVM::ProjectItemVM(std::shared_ptr<ProjectItem> item, ProjectFolderVM ^parent)
 	: item(item)
+	, weakParent(parent)
 {
 }
 
 anim::ProjectItemVM::ProjectItemVM()
-	: ProjectItemVM(std::shared_ptr<ProjectItem>())
+	: ProjectItemVM(std::shared_ptr<ProjectItem>(), nullptr)
 {
 	anim::AssertXamlDesigner();
 }

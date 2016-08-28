@@ -3,13 +3,14 @@
 #include "Model/ProjectFile.h"
 #include "ViewModel/ProjectFileVM.h"
 
-anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file)
+anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFolderVM ^parent)
 	: file(file)
+	, weakParent(parent)
 {
 }
 
 anim::ProjectFileVM::ProjectFileVM()
-	: ProjectFileVM(std::shared_ptr<ProjectFile>())
+	: ProjectFileVM(std::shared_ptr<ProjectFile>(), nullptr)
 {
 	anim::AssertXamlDesigner();
 }

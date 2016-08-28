@@ -33,7 +33,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 		FilesPaneVM ^owner = weakThis.Resolve<FilesPaneVM>();
 		if (owner != nullptr)
 		{
-			owner->projectFolders->Append(ref new ProjectFolderVM(folder));
+			owner->projectFolders->Append(ref new ProjectFolderVM(folder, nullptr));
 			owner->NotifyPropertyChanged("HasProjectFolders");
 		}
 	});
@@ -138,7 +138,7 @@ void anim::FilesPaneVM::ResetProjectFolders()
 
 	for (std::shared_ptr<ProjectFolder> folder : app->GetProjectFolders())
 	{
-		this->projectFolders->Append(ref new ProjectFolderVM(folder));
+		this->projectFolders->Append(ref new ProjectFolderVM(folder, nullptr));
 	}
 
 	this->NotifyPropertyChanged("HasProjectFolders");
