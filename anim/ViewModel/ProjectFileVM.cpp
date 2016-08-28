@@ -5,7 +5,7 @@
 
 anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFolderVM ^parent)
 	: file(file)
-	, weakParent(parent)
+	, weakParent(parent != nullptr ? Platform::WeakReference(parent) : Platform::WeakReference(nullptr))
 {
 }
 
@@ -47,6 +47,11 @@ anim::ProjectFileVM ^anim::ProjectFileVM::AsFile::get()
 anim::ProjectFolderVM ^anim::ProjectFileVM::AsFolder::get()
 {
 	return nullptr;
+}
+
+anim::IProjectItemVM ^anim::ProjectFileVM::Parent::get()
+{
+	return this->weakParent.Resolve<IProjectItemVM>();
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()

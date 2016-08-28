@@ -15,6 +15,7 @@ namespace anim
 
 		property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
+		property IProjectItemVM ^Parent { IProjectItemVM ^get(); }
 
 		property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 	};

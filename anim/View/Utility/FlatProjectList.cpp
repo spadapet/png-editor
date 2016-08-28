@@ -14,23 +14,8 @@ anim::FlatProjectList::~FlatProjectList()
 
 anim::FlatProjectItem ^anim::FlatProjectList::GetParent(FlatProjectItem ^item)
 {
-	int index = this->IndexFromContainer(item);
-	for (int i = index - 1; i >= 0; i--)
-	{
-		Windows::UI::Xaml::DependencyObject ^container = this->ContainerFromIndex(i);
-		FlatProjectItem ^prevItem = dynamic_cast<FlatProjectItem ^>(container);
-		if (prevItem != nullptr)
-		{
-			ProjectFolderVM ^folder = prevItem->Item->AsFolder;
-			unsigned int index;
-			if (folder != nullptr && folder->ShowExpanded && folder->Items->IndexOf(item->Item, &index))
-			{
-				return prevItem;
-			}
-		}
-	}
-
-	return nullptr;
+	IProjectItemVM ^parent = item->Item->Parent;
+	return dynamic_cast<FlatProjectItem ^>(this->ContainerFromItem(parent));
 }
 
 anim::FlatProjectItem ^anim::FlatProjectList::GetChild(FlatProjectItem ^item)

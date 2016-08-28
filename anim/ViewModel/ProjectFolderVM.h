@@ -32,6 +32,7 @@ namespace anim
 		virtual property int Level { int get(); }
 		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
+		virtual property IProjectItemVM ^Parent { IProjectItemVM ^get(); }
 		virtual property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); };
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }

@@ -14,7 +14,7 @@ static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
 
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, ProjectFolderVM ^parent)
 	: folder(folder)
-	, weakParent(parent)
+	, weakParent(parent != nullptr ? Platform::WeakReference(parent) : Platform::WeakReference(nullptr))
 	, items(ref new Platform::Collections::Vector<IProjectItemVM ^>())
 	, flatItems(ref new FlatProjectItems(this->items))
 	, expanded(false)
@@ -91,6 +91,11 @@ anim::ProjectFileVM ^anim::ProjectFolderVM::AsFile::get()
 anim::ProjectFolderVM ^anim::ProjectFolderVM::AsFolder::get()
 {
 	return this;
+}
+
+anim::IProjectItemVM ^anim::ProjectFolderVM::Parent::get()
+{
+	return this->weakParent.Resolve<IProjectItemVM>();
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::ProjectFolderVM::ActivateCommand::get()
