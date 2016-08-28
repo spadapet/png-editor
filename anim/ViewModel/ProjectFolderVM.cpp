@@ -99,7 +99,7 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFolderVM::ActivateCommand::get(
 		::activateCommand = ref new anim::Command([](Platform::Object ^item)
 		{
 			ProjectFolderVM ^folder = dynamic_cast<ProjectFolderVM ^>(item);
-			if (folder != nullptr)
+			if (folder != nullptr && folder->HasItems)
 			{
 				folder->ShowExpanded = !folder->ShowExpanded;
 			}
@@ -145,12 +145,18 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 	{
 		this->expanded = value;
 		this->NotifyPropertyChanged("ShowExpanded");
+		this->NotifyPropertyChanged("ShowExpandedIcon");
 
 		if (this->expanded)
 		{
 			this->UpdateItems();
 		}
 	}
+}
+
+bool anim::ProjectFolderVM::ShowExpandedIcon::get()
+{
+	return this->ShowExpanded && this->HasItems;
 }
 
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)
@@ -170,11 +176,7 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 	if (allChanged || strcmp(name, "HasItems") == 0)
 	{
 		this->NotifyPropertyChanged("HasItems");
-
-		anim::RunOnMainThread([this]()
-		{
-			this->ShowExpanded = this->HasItems;
-		});
+		this->NotifyPropertyChanged("ShowExpandedIcon");
 	}
 }
 

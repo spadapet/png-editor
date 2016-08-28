@@ -40,6 +40,7 @@ namespace anim
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableFlatItems { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 		property bool HasItems { bool get(); }
 		property bool ShowExpanded { bool get(); void set(bool value); }
+		property bool ShowExpandedIcon { bool get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

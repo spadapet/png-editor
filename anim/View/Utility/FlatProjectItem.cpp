@@ -36,7 +36,7 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 
 		case Windows::System::VirtualKey::Left:
 			args->Handled = true;
-			if (folder != nullptr && folder->ShowExpanded)
+			if (folder != nullptr && folder->ShowExpanded && folder->HasItems)
 			{
 				folder->ShowExpanded = false;
 			}
