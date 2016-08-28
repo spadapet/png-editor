@@ -12,22 +12,11 @@ anim::FlatProjectList::~FlatProjectList()
 {
 }
 
-anim::FlatProjectItem ^anim::FlatProjectList::GetParent(FlatProjectItem ^item)
+void anim::FlatProjectList::SelectSingle(IProjectItemVM ^item)
 {
-	IProjectItemVM ^parent = item->Item->Parent;
-	return dynamic_cast<FlatProjectItem ^>(this->ContainerFromItem(parent));
-}
-
-anim::FlatProjectItem ^anim::FlatProjectList::GetChild(FlatProjectItem ^item)
-{
-	ProjectFolderVM ^folder = item->Item->AsFolder;
-	if (folder != nullptr && folder->ShowExpanded && folder->Items->Size > 0)
-	{
-		IProjectItemVM ^child = folder->Items->GetAt(0);
-		return dynamic_cast<FlatProjectItem ^>(this->ContainerFromItem(child));
-	}
-
-	return nullptr;
+	this->SelectedItems->Clear();
+	this->SelectedItems->Append(item);
+	this->ScrollIntoView(item);
 }
 
 Windows::UI::Xaml::DependencyObject ^anim::FlatProjectList::GetContainerForItemOverride()

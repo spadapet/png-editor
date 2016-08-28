@@ -3,6 +3,7 @@
 namespace anim
 {
 	ref class FlatProjectItem;
+	interface class IProjectItemVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class FlatProjectList sealed : Windows::UI::Xaml::Controls::ListBox
@@ -11,8 +12,7 @@ namespace anim
 		FlatProjectList();
 		virtual ~FlatProjectList();
 
-		FlatProjectItem ^GetParent(FlatProjectItem ^item);
-		FlatProjectItem ^GetChild(FlatProjectItem ^item);
+		void SelectSingle(IProjectItemVM ^item);
 
 	protected:
 		virtual Windows::UI::Xaml::DependencyObject ^GetContainerForItemOverride() override;

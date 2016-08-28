@@ -152,7 +152,9 @@
     <local:FlatProjectList
         Grid.Row="1"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        ScrollViewer.HorizontalScrollMode="Auto"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.VerticalScrollMode="Auto"
         ItemsSource="{x:Bind State.BindableFlatItems}"
         Style="{StaticResource ProjectFolderListStyle}"
         Visibility="{x:Bind State.HasProjectFolders, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />

@@ -40,13 +40,12 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 			{
 				folder->ShowExpanded = false;
 			}
-			else
+			else if (this->Item->Parent != nullptr)
 			{
-				FlatProjectItem ^parent = this->List->GetParent(this);
+				ProjectFolderVM ^parent = this->Item->Parent->AsFolder;
 				if (parent != nullptr)
 				{
-					this->List->SelectedItems->Clear();
-					this->List->SelectedItems->Append(parent->Item);
+					this->List->SelectSingle(parent);
 				}
 			}
 			break;
@@ -57,13 +56,12 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 			{
 				folder->ShowExpanded = true;
 			}
-			else
+			else if (folder != nullptr && folder->ShowExpanded && folder->HasItems && folder->Items->Size > 0)
 			{
-				FlatProjectItem ^child = this->List->GetChild(this);
+				IProjectItemVM ^child = folder->Items->GetAt(0);
 				if (child != nullptr)
 				{
-					this->List->SelectedItems->Clear();
-					this->List->SelectedItems->Append(child->Item);
+					this->List->SelectSingle(child);
 				}
 			}
 			break;
