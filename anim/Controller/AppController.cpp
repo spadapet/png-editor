@@ -21,6 +21,10 @@ void anim::AppController::AddProjectFolder()
 	}, concurrency::task_continuation_context::use_current());
 }
 
+void anim::AppController::RemoveProjectFolder(std::shared_ptr<ProjectFolder> folder)
+{
+}
+
 void anim::AppController::OpenFile()
 {
 }

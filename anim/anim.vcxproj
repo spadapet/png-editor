@@ -21,6 +21,7 @@
     <ClCompile Include="Model\ProjectFile.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="Model\ProjectItem.cpp" />
+    <ClCompile Include="Model\RootProjectFolder.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="View\Utility\FlatProjectItems.cpp" />
     <ClCompile Include="View\Utility\FlatProjectList.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
+    <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
     <ClInclude Include="Controller\AppController.h" />
     <ClInclude Include="Controller\AppPersist.h" />
@@ -57,6 +59,7 @@
     <ClInclude Include="Model\ProjectFile.h" />
     <ClInclude Include="Model\ProjectFolder.h" />
     <ClInclude Include="Model\ProjectItem.h" />
+    <ClInclude Include="Model\RootProjectFolder.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -90,6 +93,7 @@
     <ClInclude Include="View\Utility\FlatProjectItems.h" />
     <ClInclude Include="View\Utility\FlatProjectList.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
+    <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
     <None Include="TemporaryKey.pfx" />
     <ClCompile Include="App.xaml.cpp">

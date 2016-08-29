@@ -4,6 +4,7 @@
 
 namespace anim
 {
+	class AppState;
 	class ProjectFolder;
 
 	class ProjectItem : public std::enable_shared_from_this<ProjectItem>
@@ -16,6 +17,7 @@ namespace anim
 
 		Windows::Storage::IStorageItem ^GetItem() const;
 		virtual void SetItem(Windows::Storage::IStorageItem ^item);
+		virtual std::shared_ptr<AppState> GetAppState() const;
 		std::shared_ptr<ProjectFolder> GetParent() const;
 		int GetLevel() const;
 		virtual bool IsFile() const;

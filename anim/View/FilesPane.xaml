@@ -117,21 +117,60 @@
             </StackPanel>
         </DataTemplate>
 
+        <Style x:Key="ProjectItemContainerStyle" TargetType="local:FlatProjectItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style x:Key="ProjectFileContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
+            <Setter Property="ContextFlyout">
+                <Setter.Value>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" />
+                        <MenuFlyoutItem Text="Rename" />
+                    </MenuFlyout>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ProjectFolderContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
+            <Setter Property="ContextFlyout">
+                <Setter.Value>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" />
+                        <MenuFlyoutItem Text="Rename" />
+                    </MenuFlyout>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ProjectRootFolderContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
+            <Setter Property="ContextFlyout">
+                <Setter.Value>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Remove" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
+                    </MenuFlyout>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <local:ProjectItemTemplateSelector
             x:Key="ProjectItemTemplateSelector"
             FolderTemplate="{StaticResource ProjectFolderTemplate}"
             FileTemplate="{StaticResource ProjectFileTemplate}" />
 
-        <Style x:Key="ProjectItemContainerStyle" TargetType="ListBoxItem">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0" />
-        </Style>
+        <local:ProjectItemContainerStyleSelector
+            x:Key="ProjectItemContainerStyleSelector"
+            RootFolderStyle="{StaticResource ProjectRootFolderContainerStyle}"
+            FolderStyle="{StaticResource ProjectFolderContainerStyle}"
+            FileStyle="{StaticResource ProjectFileContainerStyle}"
+            ItemStyle="{StaticResource ProjectItemContainerStyle}" />
 
         <Style x:Key="ProjectFolderListStyle" TargetType="ListBox">
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="SelectionMode" Value="Extended" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource ProjectItemContainerStyle}" />
             <Setter Property="ItemTemplateSelector" Value="{StaticResource ProjectItemTemplateSelector}" />
+            <Setter Property="ItemContainerStyleSelector" Value="{StaticResource ProjectItemContainerStyleSelector}" />
         </Style>
     </Grid.Resources>
 

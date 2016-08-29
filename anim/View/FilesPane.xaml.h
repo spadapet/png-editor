@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "View/FilesPane.g.h"
+#include "View/Utility/FlatProjectItem.h"
 #include "View/Utility/FlatProjectList.h"
 #include "View/Utility/LevelToIndentConverter.h"
+#include "View/Utility/ProjectItemContainerStyleSelector.h"
 #include "View/Utility/ProjectItemTemplateSelector.h"
 #include "ViewModel/FilesPaneVM.h"
 

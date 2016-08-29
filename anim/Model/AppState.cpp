@@ -3,7 +3,7 @@
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "Model/PaneInfo.h"
-#include "Model/ProjectFolder.h"
+#include "Model/RootProjectFolder.h"
 #include "View/FilesPane.xaml.h"
 
 static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type) 
@@ -125,7 +125,7 @@ void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 		}
 	}
 
-	std::shared_ptr<ProjectFolder> project = std::make_shared<ProjectFolder>(folder, nullptr);
+	std::shared_ptr<ProjectFolder> project = std::make_shared<RootProjectFolder>(folder, this->shared_from_this());
 	this->projectFolders.push_back(project);
 	this->ProjectFolderAdded.Notify(project);
 }

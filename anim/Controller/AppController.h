@@ -3,6 +3,7 @@
 namespace anim
 {
 	class AppState;
+	class ProjectFolder;
 
 	class AppController
 	{
@@ -10,6 +11,7 @@ namespace anim
 		AppController(std::shared_ptr<AppState> app);
 
 		void AddProjectFolder();
+		void RemoveProjectFolder(std::shared_ptr<ProjectFolder> folder);
 		void OpenFile();
 
 	private:

@@ -3,14 +3,16 @@
 #include "Core/String.h"
 #include "Core/Thread.h"
 #include "Core/Xaml.h"
+#include "Model/AppState.h"
 #include "Model/ProjectFile.h"
-#include "Model/ProjectFolder.h"
+#include "Model/RootProjectFolder.h"
 #include "View/Utility/FlatProjectItems.h"
 #include "ViewModel/ProjectFileVM.h"
 #include "ViewModel/ProjectItemVM.h"
 #include "ViewModel/ProjectFolderVM.h"
 
 static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
+static Windows::UI::Xaml::Input::ICommand ^deleteCommand = nullptr;
 
 anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, ProjectFolderVM ^parent)
 	: folder(folder)
@@ -45,7 +47,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, Pr
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
-	: ProjectFolderVM(std::make_shared<ProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, nullptr), nullptr)
+	: ProjectFolderVM(std::make_shared<RootProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, AppState::CreateForDesigner()), nullptr)
 {
 	anim::AssertXamlDesigner();
 }
@@ -163,6 +165,33 @@ void anim::ProjectFolderVM::ShowExpanded::set(bool value)
 bool anim::ProjectFolderVM::ShowExpandedIcon::get()
 {
 	return this->ShowExpanded && this->HasItems;
+}
+
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectFolderVM::DeleteCommand::get()
+{
+	if (::deleteCommand == nullptr)
+	{
+		::deleteCommand = ref new anim::Command([](Platform::Object ^item)
+		{
+			ProjectFolderVM ^folder = dynamic_cast<ProjectFolderVM ^>(item);
+			if (folder != nullptr)
+			{
+				if (folder->Level == 0)
+				{
+					std::shared_ptr<AppState> app = folder->folder->GetAppState();
+					if (app != nullptr)
+					{
+						app->RemoveProjectFolder(folder->Folder);
+					}
+				}
+				else
+				{
+				}
+			}
+		});
+	}
+
+	return ::deleteCommand;
 }
 
 void anim::ProjectFolderVM::NotifyPropertyChanged(Platform::String ^name)

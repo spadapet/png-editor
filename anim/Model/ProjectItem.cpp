@@ -26,6 +26,17 @@ void anim::ProjectItem::SetItem(Windows::Storage::IStorageItem ^item)
 	}
 }
 
+std::shared_ptr<anim::AppState> anim::ProjectItem::GetAppState() const
+{
+	std::shared_ptr<ProjectFolder> folder = this->GetParent();
+	if (folder != nullptr)
+	{
+		return folder->GetAppState();
+	}
+
+	return nullptr;
+}
+
 std::shared_ptr<anim::ProjectFolder> anim::ProjectItem::GetParent() const
 {
 	return this->parent.lock();

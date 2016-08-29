@@ -8,13 +8,14 @@ namespace anim
 	public:
 		ProjectItemTemplateSelector();
 
-		virtual Windows::UI::Xaml::DataTemplate ^SelectTemplateCore(Platform::Object ^item) override;
-		virtual Windows::UI::Xaml::DataTemplate ^SelectTemplateCore(Platform::Object ^item, Windows::UI::Xaml::DependencyObject ^container) override;
-
 		property Windows::UI::Xaml::DataTemplate ^RootFolderTemplate { Windows::UI::Xaml::DataTemplate ^get(); void set(Windows::UI::Xaml::DataTemplate ^value); }
 		property Windows::UI::Xaml::DataTemplate ^FolderTemplate { Windows::UI::Xaml::DataTemplate ^get(); void set(Windows::UI::Xaml::DataTemplate ^value); }
 		property Windows::UI::Xaml::DataTemplate ^FileTemplate { Windows::UI::Xaml::DataTemplate ^get(); void set(Windows::UI::Xaml::DataTemplate ^value); }
 		property Windows::UI::Xaml::DataTemplate ^ItemTemplate { Windows::UI::Xaml::DataTemplate ^get(); void set(Windows::UI::Xaml::DataTemplate ^value); }
+
+	protected:
+		virtual Windows::UI::Xaml::DataTemplate ^SelectTemplateCore(Platform::Object ^item) override;
+		virtual Windows::UI::Xaml::DataTemplate ^SelectTemplateCore(Platform::Object ^item, Windows::UI::Xaml::DependencyObject ^container) override;
 
 	private:
 		Windows::UI::Xaml::DataTemplate ^rootFolderTemplate;

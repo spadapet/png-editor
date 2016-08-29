@@ -43,6 +43,9 @@ namespace anim
 		property bool ShowExpanded { bool get(); void set(bool value); }
 		property bool ShowExpandedIcon { bool get(); }
 
+		// Context commands
+		property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void FolderPropertyChanged(const char *name);
