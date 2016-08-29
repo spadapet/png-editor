@@ -67,7 +67,10 @@ void anim::ProjectFolder::SetFolder(Windows::Storage::StorageFolder ^folder)
 
 const std::vector<std::shared_ptr<anim::ProjectItem>> &anim::ProjectFolder::GetItems()
 {
-	this->InitializeQuery();
+	if (this->InitializeQuery())
+	{
+		this->Refresh();
+	}
 
 	return this->items;
 }
@@ -77,11 +80,11 @@ bool anim::ProjectFolder::HasItems() const
 	return !this->initQuery || !this->items.empty();
 }
 
-void anim::ProjectFolder::InitializeQuery()
+bool anim::ProjectFolder::InitializeQuery()
 {
 	if (this->initQuery)
 	{
-		return;
+		return false;
 	}
 
 	this->initQuery = true;
@@ -109,7 +112,7 @@ void anim::ProjectFolder::InitializeQuery()
 
 	this->PropertyChanged.Notify("HasItems");
 
-	this->Refresh();
+	return true;
 }
 
 void anim::ProjectFolder::Refresh()

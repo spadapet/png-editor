@@ -20,7 +20,7 @@ namespace anim
 		bool HasItems() const;
 
 	private:
-		void InitializeQuery();
+		bool InitializeQuery();
 		void Refresh();
 		void Merge(std::vector<Windows::Storage::IStorageItem ^> newItems);
 		std::shared_ptr<ProjectItem> MakeItem(Windows::Storage::IStorageItem ^item);
