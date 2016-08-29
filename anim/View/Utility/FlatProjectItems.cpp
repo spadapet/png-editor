@@ -351,7 +351,7 @@ void anim::FlatProjectItems::RemoveRootEntry(unsigned int index)
 	auto iter = this->entries.begin() + index;
 	if (iter->folder != nullptr)
 	{
-		this->RemoveRootFolderChildren(iter->folder);
+		this->RemoveRootFolderChildren(iter->folder, true);
 	}
 
 	unsigned int flatIndex = this->FlatIndexOfRootIndex(index);
@@ -367,7 +367,7 @@ void anim::FlatProjectItems::AddRootFolderChildren(ProjectFolderVM ^folder, bool
 	Entry &entry = this->entries[realIndex];
 	assert(entry.folder == folder);
 
-	if (force || (!entry.addedChildren && folder->ShowExpanded))
+	if (!entry.addedChildren && (force || folder->ShowExpanded))
 	{
 		unsigned int size = folder->BindableFlatItems->Size;
 		this->size += size;
@@ -392,7 +392,7 @@ void anim::FlatProjectItems::RemoveRootFolderChildren(ProjectFolderVM ^folder, b
 	Entry &entry = this->entries[realIndex];
 	assert(entry.folder == folder);
 
-	if (force || (entry.addedChildren && !folder->ShowExpanded))
+	if (entry.addedChildren && (force || !folder->ShowExpanded))
 	{
 		unsigned int size = folder->BindableFlatItems->Size;
 		this->size -= size;

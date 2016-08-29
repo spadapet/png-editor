@@ -26,6 +26,7 @@ namespace anim
 	private:
 		void OnClickAddFolderLink(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
 		void OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
+		void OnProjectItemContextMenuOpened(Platform::Object ^sender, Platform::Object ^args);
 
 		FilesPaneVM ^state;
 	};

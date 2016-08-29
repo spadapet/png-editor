@@ -125,8 +125,8 @@
         <Style x:Key="ProjectFileContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
             <Setter Property="ContextFlyout">
                 <Setter.Value>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Delete" />
+                    <MenuFlyout Opened="OnProjectItemContextMenuOpened">
+                        <MenuFlyoutItem Text="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
                         <MenuFlyoutItem Text="Rename" />
                     </MenuFlyout>
                 </Setter.Value>
@@ -136,8 +136,8 @@
         <Style x:Key="ProjectFolderContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
             <Setter Property="ContextFlyout">
                 <Setter.Value>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Delete" />
+                    <MenuFlyout Opened="OnProjectItemContextMenuOpened">
+                        <MenuFlyoutItem Text="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
                         <MenuFlyoutItem Text="Rename" />
                     </MenuFlyout>
                 </Setter.Value>
@@ -147,7 +147,7 @@
         <Style x:Key="ProjectRootFolderContainerStyle" TargetType="local:FlatProjectItem" BasedOn="{StaticResource ProjectItemContainerStyle}">
             <Setter Property="ContextFlyout">
                 <Setter.Value>
-                    <MenuFlyout>
+                    <MenuFlyout Opened="OnProjectItemContextMenuOpened">
                         <MenuFlyoutItem Text="Remove" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
                     </MenuFlyout>
                 </Setter.Value>
@@ -189,6 +189,7 @@
     </StackPanel>
 
     <local:FlatProjectList
+        x:Name="ProjectList"
         Grid.Row="1"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         ScrollViewer.HorizontalScrollMode="Auto"
