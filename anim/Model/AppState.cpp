@@ -119,7 +119,7 @@ void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 
 	for (std::shared_ptr<ProjectFolder> project : this->projectFolders)
 	{
-		if (project->GetFolder() == folder)
+		if (project->GetFolder() == folder || project->GetFolder()->Path == folder->Path)
 		{
 			return;
 		}

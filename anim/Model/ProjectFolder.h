@@ -20,9 +20,7 @@ namespace anim
 		bool HasItems();
 
 	private:
-		void InitializeQuery();
-		void InitializeItemQuery();
-		void InitializeCountQuery();
+		bool InitializeQuery();
 		void RefreshItems();
 		void RefreshCount();
 		void Merge(std::vector<Windows::Storage::IStorageItem ^> newItems);
@@ -32,9 +30,6 @@ namespace anim
 		std::vector<std::shared_ptr<ProjectItem>> items;
 		Windows::Storage::Search::StorageItemQueryResult ^query;
 		Windows::Foundation::EventRegistrationToken queryChangedToken;
-		bool mightHaveItems;
-		bool initQuery;
-		bool ranItemQuery;
-		bool ranCountQuery;
+		Tri hasItems;
 	};
 }
