@@ -126,16 +126,12 @@ void anim::ProjectFolder::RefreshItems()
 		return;
 	}
 
-	::OutputDebugString(L"Start RefreshItems\r\n");
-
 	std::weak_ptr<ProjectItem> weakOwner = this->shared_from_this();
 
 	auto getTask = concurrency::create_task(this->query->GetItemsAsync());
 
 	getTask.then([weakOwner](Windows::Foundation::Collections::IVectorView<Windows::Storage::IStorageItem ^> ^items)
 	{
-		::OutputDebugString((std::wstring(L"*** RefreshItems: ") + std::to_wstring(items->Size) + std::wstring(L"\r\n")).c_str());
-
 		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(weakOwner.lock());
 		if (owner != nullptr)
 		{
@@ -166,8 +162,6 @@ void anim::ProjectFolder::RefreshCount()
 
 	getTask.then([weakOwner](unsigned int count)
 	{
-		::OutputDebugString((std::wstring(L"*** RefreshCount: ") + std::to_wstring(count) + std::wstring(L"\r\n")).c_str());
-
 		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(weakOwner.lock());
 		if (owner != nullptr && count == 0)
 		{
@@ -180,8 +174,6 @@ void anim::ProjectFolder::RefreshCount()
 void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> newItems)
 {
 	anim::AssertMainThread();
-
-	::OutputDebugString((std::wstring(L"*** Merge: ") + std::to_wstring(newItems.size()) + std::wstring(L"\r\n")).c_str());
 
 	bool changed = false;
 	auto old = this->items.begin();

@@ -218,7 +218,6 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 void anim::ProjectFolderVM::UpdateItems()
 {
 	const std::vector<std::shared_ptr<ProjectItem>> &newItems = this->folder->GetItems();
-	::OutputDebugString((std::wstring(L"*** UpdateItemsVM: ") + std::to_wstring(newItems.size()) + std::wstring(L"\r\n")).c_str());
 
 	unsigned int old = 0;
 	for (auto newItem = newItems.begin(); newItem != newItems.end(); newItem++, old++)
