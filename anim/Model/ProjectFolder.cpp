@@ -22,7 +22,10 @@ static Windows::Storage::Search::QueryOptions ^GetQueryOptions()
 anim::ProjectFolder::ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<ProjectFolder> parent)
 	: ProjectItem(folder, parent)
 	, folder(folder)
+	, mightHaveItems(true)
 	, initQuery(false)
+	, ranCountQuery(false)
+	, ranItemQuery(false)
 {
 }
 
@@ -67,24 +70,23 @@ void anim::ProjectFolder::SetFolder(Windows::Storage::StorageFolder ^folder)
 
 const std::vector<std::shared_ptr<anim::ProjectItem>> &anim::ProjectFolder::GetItems()
 {
-	if (this->InitializeQuery())
-	{
-		this->Refresh();
-	}
+	this->InitializeItemQuery();
 
 	return this->items;
 }
 
-bool anim::ProjectFolder::HasItems() const
+bool anim::ProjectFolder::HasItems()
 {
-	return !this->initQuery || !this->items.empty();
+	this->InitializeCountQuery();
+
+	return this->mightHaveItems || !this->items.empty();
 }
 
-bool anim::ProjectFolder::InitializeQuery()
+void anim::ProjectFolder::InitializeQuery()
 {
 	if (this->initQuery)
 	{
-		return false;
+		return;
 	}
 
 	this->initQuery = true;
@@ -104,18 +106,41 @@ bool anim::ProjectFolder::InitializeQuery()
 				std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(weakOwner.lock());
 				if (owner != nullptr)
 				{
-					owner->Refresh();
+					if (owner->ranItemQuery)
+					{
+						owner->RefreshItems();
+					}
+					else if (owner->ranCountQuery)
+					{
+						owner->RefreshCount();
+					}
 				}
 			});
 		});
 	}
-
-	this->PropertyChanged.Notify("HasItems");
-
-	return true;
 }
 
-void anim::ProjectFolder::Refresh()
+void anim::ProjectFolder::InitializeItemQuery()
+{
+	if (!this->ranItemQuery)
+	{
+		this->ranItemQuery = true;
+		this->InitializeQuery();
+		this->RefreshItems();
+	}
+}
+
+void anim::ProjectFolder::InitializeCountQuery()
+{
+	if (!this->ranCountQuery)
+	{
+		this->ranCountQuery = true;
+		this->InitializeQuery();
+		this->RefreshCount();
+	}
+}
+
+void anim::ProjectFolder::RefreshItems()
 {
 	anim::AssertMainThread();
 
@@ -134,6 +159,34 @@ void anim::ProjectFolder::Refresh()
 		if (owner != nullptr)
 		{
 			owner->Merge(std::vector<Windows::Storage::IStorageItem ^>(begin(items), end(items)));
+		}
+	}, concurrency::task_continuation_context::use_current());
+}
+
+void anim::ProjectFolder::RefreshCount()
+{
+	anim::AssertMainThread();
+
+	if (this->query == nullptr || this->ranItemQuery)
+	{
+		return;
+	}
+
+	std::weak_ptr<ProjectItem> weakOwner = this->shared_from_this();
+
+	auto getTask = concurrency::create_task(this->query->GetItemCountAsync());
+
+	getTask.then([weakOwner](unsigned int count)
+	{
+		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(weakOwner.lock());
+		if (owner != nullptr && !owner->ranItemQuery)
+		{
+			bool hasItems = (count > 0);
+			if (owner->mightHaveItems != hasItems)
+			{
+				owner->mightHaveItems = hasItems;
+				owner->PropertyChanged.Notify("HasItems");
+			}
 		}
 	}, concurrency::task_continuation_context::use_current());
 }
@@ -176,9 +229,14 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 		changed = true;
 	}
 
+	if (changed || this->mightHaveItems)
+	{
+		this->mightHaveItems = false;
+		this->PropertyChanged.Notify("HasItems");
+	}
+
 	if (changed)
 	{
-		this->PropertyChanged.Notify("HasItems");
 		this->PropertyChanged.Notify("Items");
 	}
 }
