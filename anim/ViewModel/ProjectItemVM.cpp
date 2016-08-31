@@ -59,6 +59,11 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectItemVM::ActivateCommand::get()
 	return nullptr;
 }
 
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectItemVM::DeleteCommand::get()
+{
+	return nullptr;
+}
+
 void anim::ProjectItemVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));

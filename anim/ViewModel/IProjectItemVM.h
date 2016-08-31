@@ -18,5 +18,6 @@ namespace anim
 		property IProjectItemVM ^Parent { IProjectItemVM ^get(); }
 
 		property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+		property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 	};
 }

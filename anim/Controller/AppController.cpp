@@ -28,3 +28,7 @@ void anim::AppController::RemoveProjectFolder(std::shared_ptr<ProjectFolder> fol
 void anim::AppController::OpenFile()
 {
 }
+
+void anim::AppController::OpenFile(std::shared_ptr<ProjectFile> file)
+{
+}

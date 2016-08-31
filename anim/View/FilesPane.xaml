@@ -126,6 +126,7 @@
             <Setter Property="ContextFlyout">
                 <Setter.Value>
                     <MenuFlyout Opened="OnProjectItemContextMenuOpened">
+                        <MenuFlyoutItem Text="Open" Command="{Binding ActivateCommand}" CommandParameter="{Binding}" />
                         <MenuFlyoutItem Text="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
                         <MenuFlyoutItem Text="Rename" />
                     </MenuFlyout>

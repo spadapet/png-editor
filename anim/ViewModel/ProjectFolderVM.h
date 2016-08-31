@@ -17,6 +17,7 @@ namespace anim
 	{
 	internal:
 		ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, ProjectFolderVM ^parent);
+		property std::shared_ptr<ProjectFolder> Model { std::shared_ptr<ProjectFolder> get(); }
 
 	public:
 		ProjectFolderVM();
@@ -34,6 +35,7 @@ namespace anim
 		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
 		virtual property IProjectItemVM ^Parent { IProjectItemVM ^get(); }
 		virtual property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); };
+		virtual property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 
 		property Windows::Storage::StorageFolder ^Folder { Windows::Storage::StorageFolder ^get(); }
 		property Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^Items { Windows::Foundation::Collections::IVector<IProjectItemVM ^> ^get(); }
@@ -42,9 +44,6 @@ namespace anim
 		property bool HasItems { bool get(); }
 		property bool ShowExpanded { bool get(); void set(bool value); }
 		property bool ShowExpandedIcon { bool get(); }
-
-		// Context commands
-		property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

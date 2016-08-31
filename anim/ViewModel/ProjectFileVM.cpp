@@ -1,7 +1,11 @@
 #include "pch.h"
+#include "Controller/AppController.h"
+#include "Core/Command.h"
 #include "Core/Xaml.h"
 #include "Model/ProjectFile.h"
 #include "ViewModel/ProjectFileVM.h"
+
+static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
 
 anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFolderVM ^parent)
 	: file(file)
@@ -17,6 +21,11 @@ anim::ProjectFileVM::ProjectFileVM()
 
 anim::ProjectFileVM::~ProjectFileVM()
 {
+}
+
+std::shared_ptr<anim::ProjectFile> anim::ProjectFileVM::Model::get()
+{
+	return this->file;
 }
 
 Windows::Storage::IStorageItem ^anim::ProjectFileVM::Item::get()
@@ -55,6 +64,24 @@ anim::IProjectItemVM ^anim::ProjectFileVM::Parent::get()
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
+{
+	if (::activateCommand == nullptr)
+	{
+		::activateCommand = ref new anim::Command([](Platform::Object ^item)
+		{
+			ProjectFileVM ^file = dynamic_cast<ProjectFileVM ^>(item);
+			if (file != nullptr)
+			{
+				AppController controller(file->Model->GetAppState());
+				controller.OpenFile(file->Model);
+			}
+		});
+	}
+
+	return ::activateCommand;
+}
+
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::DeleteCommand::get()
 {
 	return nullptr;
 }

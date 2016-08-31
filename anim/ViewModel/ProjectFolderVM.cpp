@@ -57,6 +57,11 @@ anim::ProjectFolderVM::~ProjectFolderVM()
 	this->folder->PropertyChanged.Remove(this->folderChangedCookie);
 }
 
+std::shared_ptr<anim::ProjectFolder> anim::ProjectFolderVM::Model::get()
+{
+	return this->folder;
+}
+
 Windows::Storage::IStorageItem ^anim::ProjectFolderVM::Item::get()
 {
 	return this->folder->GetItem();
