@@ -38,7 +38,7 @@ namespace anim
 
 			Entry &operator=(Entry &&rhs);
 
-			ProjectFolderVM ^folder;
+			IProjectItemVM ^item;
 			bool addedChildren;
 			Windows::Foundation::EventRegistrationToken folderChangedCookie;
 			Windows::Foundation::EventRegistrationToken itemsChangedCookie;
@@ -78,7 +78,7 @@ namespace anim
 		void RemoveRootFolderChildren(ProjectFolderVM ^folder, bool force = false);
 		void NotifyVectorChanged(Windows::Foundation::Collections::CollectionChange change, unsigned int index = 0, IProjectItemVM ^item = nullptr);
 
-		unsigned int FlatIndexOfRootFolder(ProjectFolderVM ^folder, unsigned int *realIndex = nullptr);
+		unsigned int FlatIndexOfRootItem(IProjectItemVM ^item, unsigned int *realIndex = nullptr);
 		unsigned int FlatIndexOfRootIndex(unsigned int index);
 
 		Windows::Foundation::Collections::IObservableVector<IProjectItemVM ^> ^rootItems;

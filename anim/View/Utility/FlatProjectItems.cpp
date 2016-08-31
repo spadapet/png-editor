@@ -222,7 +222,7 @@ void anim::FlatProjectItems::OnRootFolderItemsChanged(ProjectFolderVM ^folder, W
 	case Windows::Foundation::Collections::CollectionChange::ItemInserted:
 	case Windows::Foundation::Collections::CollectionChange::ItemRemoved:
 		{
-			unsigned int flatIndex = this->FlatIndexOfRootFolder(folder);
+			unsigned int flatIndex = this->FlatIndexOfRootItem(folder);
 			IProjectItemVM ^item = nullptr;
 
 			if (args->CollectionChange == Windows::Foundation::Collections::CollectionChange::ItemInserted)
@@ -254,17 +254,18 @@ void anim::FlatProjectItems::Validate()
 	assert(this->entries.size() == this->rootItems->Size);
 	for (unsigned int i = 0; i < this->rootItems->Size; i++)
 	{
-		ProjectFolderVM ^folder1 = this->rootItems->GetAt(i)->AsFolder;
-		ProjectFolderVM ^folder2 = this->entries[i].folder;
+		IProjectItemVM ^item1 = this->rootItems->GetAt(i);
+		IProjectItemVM ^item2 = this->entries[i].item;
 
-		assert(folder1 == folder2);
+		assert(item1 == item2);
 	}
 
 	for (const Entry &entry : this->entries)
 	{
-		if (entry.folder != nullptr)
+		ProjectFolderVM ^folder = entry.item->AsFolder;
+		if (folder != nullptr)
 		{
-			assert(!entry.folder->ShowExpanded == !entry.addedChildren);
+			assert(!folder->ShowExpanded == !entry.addedChildren);
 			assert(entry.folderChangedCookie.Value != 0);
 			assert(entry.itemsChangedCookie.Value != 0);
 		}
@@ -304,13 +305,12 @@ void anim::FlatProjectItems::AddRootEntry(IProjectItemVM ^item, unsigned int ind
 
 	this->size++;
 	auto iter = this->entries.emplace(this->entries.begin() + index);
+	iter->item = item;
+
+	unsigned int flatIndex = this->FlatIndexOfRootItem(item);
+	this->NotifyVectorChanged(Windows::Foundation::Collections::CollectionChange::ItemInserted, flatIndex, item);
 
 	ProjectFolderVM ^folder = item->AsFolder;
-	iter->folder = folder;
-
-	unsigned int flatIndex = this->FlatIndexOfRootFolder(folder);
-	this->NotifyVectorChanged(Windows::Foundation::Collections::CollectionChange::ItemInserted, flatIndex, folder);
-
 	if (folder != nullptr)
 	{
 		Platform::WeakReference weakOwner(this);
@@ -349,9 +349,11 @@ void anim::FlatProjectItems::AddRootEntry(IProjectItemVM ^item, unsigned int ind
 void anim::FlatProjectItems::RemoveRootEntry(unsigned int index)
 {
 	auto iter = this->entries.begin() + index;
-	if (iter->folder != nullptr)
+	ProjectFolderVM ^folder = iter->item->AsFolder;
+
+	if (folder != nullptr)
 	{
-		this->RemoveRootFolderChildren(iter->folder, true);
+		this->RemoveRootFolderChildren(folder, true);
 	}
 
 	unsigned int flatIndex = this->FlatIndexOfRootIndex(index);
@@ -363,9 +365,9 @@ void anim::FlatProjectItems::RemoveRootEntry(unsigned int index)
 void anim::FlatProjectItems::AddRootFolderChildren(ProjectFolderVM ^folder, bool force)
 {
 	unsigned int realIndex;
-	unsigned int flatIndex = this->FlatIndexOfRootFolder(folder, &realIndex);
+	unsigned int flatIndex = this->FlatIndexOfRootItem(folder, &realIndex);
 	Entry &entry = this->entries[realIndex];
-	assert(entry.folder == folder);
+	assert(entry.item->AsFolder == folder);
 
 	if (!entry.addedChildren && (force || folder->ShowExpanded))
 	{
@@ -388,9 +390,9 @@ void anim::FlatProjectItems::AddRootFolderChildren(ProjectFolderVM ^folder, bool
 void anim::FlatProjectItems::RemoveRootFolderChildren(ProjectFolderVM ^folder, bool force)
 {
 	unsigned int realIndex;
-	unsigned int flatIndex = this->FlatIndexOfRootFolder(folder, &realIndex);
+	unsigned int flatIndex = this->FlatIndexOfRootItem(folder, &realIndex);
 	Entry &entry = this->entries[realIndex];
-	assert(entry.folder == folder);
+	assert(entry.item->AsFolder == folder);
 
 	if (entry.addedChildren && (force || !folder->ShowExpanded))
 	{
@@ -428,7 +430,7 @@ void anim::FlatProjectItems::NotifyVectorChanged(
 	}
 }
 
-unsigned int anim::FlatProjectItems::FlatIndexOfRootFolder(ProjectFolderVM ^folder, unsigned int *realIndex)
+unsigned int anim::FlatProjectItems::FlatIndexOfRootItem(IProjectItemVM ^item, unsigned int *realIndex)
 {
 	if (realIndex != nullptr)
 	{
@@ -439,7 +441,7 @@ unsigned int anim::FlatProjectItems::FlatIndexOfRootFolder(ProjectFolderVM ^fold
 	bool found = false;
 	for (const Entry &entry : this->entries)
 	{
-		if (entry.folder == folder)
+		if (entry.item == item)
 		{
 			found = true;
 			break;
@@ -452,9 +454,10 @@ unsigned int anim::FlatProjectItems::FlatIndexOfRootFolder(ProjectFolderVM ^fold
 			++*realIndex;
 		}
 
-		if (entry.folder != nullptr && entry.folder->ShowExpanded)
+		ProjectFolderVM ^folder = entry.item->AsFolder;
+		if (folder != nullptr && folder->ShowExpanded)
 		{
-			flatIndex += entry.folder->BindableFlatItems->Size;
+			flatIndex += folder->BindableFlatItems->Size;
 		}
 	}
 
@@ -468,9 +471,11 @@ unsigned int anim::FlatProjectItems::FlatIndexOfRootIndex(unsigned int index)
 	for (unsigned int i = 0; i < index; i++, flatIndex++)
 	{
 		const Entry &entry = this->entries[i];
-		if (entry.folder != nullptr && entry.folder->ShowExpanded)
+		ProjectFolderVM ^folder = entry.item->AsFolder;
+
+		if (folder != nullptr && folder->ShowExpanded)
 		{
-			flatIndex += entry.folder->BindableFlatItems->Size;
+			flatIndex += folder->BindableFlatItems->Size;
 		}
 	}
 
@@ -483,7 +488,7 @@ anim::FlatProjectItems::Entry::Entry()
 }
 
 anim::FlatProjectItems::Entry::Entry(Entry &&rhs)
-	: folder(rhs.folder)
+	: item(rhs.item)
 	, addedChildren(rhs.addedChildren)
 	, folderChangedCookie(rhs.folderChangedCookie)
 	, itemsChangedCookie(rhs.itemsChangedCookie)
@@ -498,10 +503,14 @@ anim::FlatProjectItems::Entry::~Entry()
 
 void anim::FlatProjectItems::Entry::Destroy()
 {
-	if (this->folder != nullptr)
+	if (this->item != nullptr)
 	{
-		this->folder->PropertyChanged -= this->folderChangedCookie;
-		this->folder->BindableFlatItems->VectorChanged -= this->itemsChangedCookie;
+		ProjectFolderVM ^folder = this->item->AsFolder;
+		if (folder != nullptr)
+		{
+			folder->PropertyChanged -= this->folderChangedCookie;
+			folder->BindableFlatItems->VectorChanged -= this->itemsChangedCookie;
+		}
 
 		::ZeroMemory(this, sizeof(*this));
 	}

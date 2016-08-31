@@ -136,7 +136,7 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	{
 		std::shared_ptr<ProjectFolder> project = *i;
 
-		if (project->GetFolder() == folder)
+		if (project->GetFolder() == folder || project->GetFolder()->Path == folder->Path)
 		{
 			this->projectFolders.erase(i);
 			this->ProjectFolderRemoved.Notify(project);
