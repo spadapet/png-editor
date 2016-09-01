@@ -119,7 +119,7 @@ void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 
 	for (std::shared_ptr<ProjectFolder> project : this->projectFolders)
 	{
-		if (project->GetFolder() == folder || project->GetFolder()->Path == folder->Path)
+		if (project->Equals(folder))
 		{
 			return;
 		}
@@ -136,11 +136,24 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	{
 		std::shared_ptr<ProjectFolder> project = *i;
 
-		if (project->GetFolder() == folder || project->GetFolder()->Path == folder->Path)
+		if (project->Equals(folder))
 		{
 			this->projectFolders.erase(i);
 			this->ProjectFolderRemoved.Notify(project);
 			break;
 		}
 	}
+}
+
+std::shared_ptr<anim::ProjectItem> anim::AppState::GetProjectItem(Windows::Storage::IStorageItem ^item)
+{
+	return std::shared_ptr<ProjectItem>();
+}
+
+void anim::AppState::RegisterProjectItem(std::shared_ptr<ProjectItem> item)
+{
+}
+
+void anim::AppState::UnregisterProjectItem(std::shared_ptr<ProjectItem> item)
+{
 }

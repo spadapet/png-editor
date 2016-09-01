@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/Thread.h"
+#include "Model/AppState.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 
@@ -223,16 +224,28 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 
 std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storage::IStorageItem ^item)
 {
-	std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(this->shared_from_this());
+	std::shared_ptr<AppState> app = this->GetAppState();
+	std::shared_ptr<ProjectItem> model = app->GetProjectItem(item);
 
-	if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
+	if (model == nullptr)
 	{
-		return std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), owner);
-	}
-	else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
-	{
-		return std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), owner);
+		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(this->shared_from_this());
+
+		if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
+		{
+			model = std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), owner);
+		}
+		else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
+		{
+			model = std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), owner);
+		}
+		else
+		{
+			model = std::make_shared<ProjectItem>(item, owner);
+		}
+
+		app->RegisterProjectItem(model);
 	}
 
-	return std::make_shared<ProjectItem>(item, owner);
+	return model;
 }

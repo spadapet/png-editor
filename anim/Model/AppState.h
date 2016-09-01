@@ -6,6 +6,7 @@ namespace anim
 {
 	class PaneInfo;
 	class ProjectFolder;
+	class ProjectItem;
 
 	enum class AppMode
 	{
@@ -36,6 +37,9 @@ namespace anim
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
+		std::shared_ptr<ProjectItem> GetProjectItem(Windows::Storage::IStorageItem ^item);
+		void RegisterProjectItem(std::shared_ptr<ProjectItem> item);
+		void UnregisterProjectItem(std::shared_ptr<ProjectItem> item);
 
 	private:
 		void Initialize();
@@ -45,5 +49,6 @@ namespace anim
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
 		std::vector<std::shared_ptr<ProjectFolder>> projectFolders;
+		std::unordered_map<std::string, std::weak_ptr<ProjectItem>> itemCache;
 	};
 }

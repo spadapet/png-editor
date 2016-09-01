@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Model/ProjectFile.h"
 
-anim::ProjectFile::ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<ProjectFolder> parent)
+anim::ProjectFile::ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<ProjectItem> parent)
 	: ProjectItem(file, parent)
 	, file(file)
 {
