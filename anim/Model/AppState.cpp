@@ -154,6 +154,6 @@ void anim::AppState::RegisterProjectItem(std::shared_ptr<ProjectItem> item)
 {
 }
 
-void anim::AppState::UnregisterProjectItem(std::shared_ptr<ProjectItem> item)
+void anim::AppState::UnregisterProjectItem(Windows::Storage::IStorageItem ^item)
 {
 }

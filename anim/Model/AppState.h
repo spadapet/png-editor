@@ -39,7 +39,7 @@ namespace anim
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
 		std::shared_ptr<ProjectItem> GetProjectItem(Windows::Storage::IStorageItem ^item);
 		void RegisterProjectItem(std::shared_ptr<ProjectItem> item);
-		void UnregisterProjectItem(std::shared_ptr<ProjectItem> item);
+		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);
 
 	private:
 		void Initialize();

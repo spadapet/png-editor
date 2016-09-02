@@ -11,7 +11,7 @@ anim::ProjectItem::ProjectItem(Windows::Storage::IStorageItem ^item, std::shared
 
 anim::ProjectItem::~ProjectItem()
 {
-	this->GetAppState()->UnregisterProjectItem(this->shared_from_this());
+	this->GetAppState()->UnregisterProjectItem(this->item);
 }
 
 bool anim::ProjectItem::Equals(Windows::Storage::IStorageItem ^item) const
