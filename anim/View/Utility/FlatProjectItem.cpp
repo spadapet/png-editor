@@ -20,7 +20,7 @@ anim::FlatProjectItem::~FlatProjectItem()
 
 void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventArgs ^args)
 {
-	if (!args->Handled)
+	if (!args->Handled && this->Item != nullptr && this->List != nullptr)
 	{
 		ProjectFolderVM ^folder = this->Item->AsFolder;
 
@@ -83,7 +83,7 @@ void anim::FlatProjectItem::OnTapped(Windows::UI::Xaml::Input::TappedRoutedEvent
 
 void anim::FlatProjectItem::OnDoubleTapped(Windows::UI::Xaml::Input::DoubleTappedRoutedEventArgs ^args)
 {
-	if (!args->Handled)
+	if (!args->Handled && this->Item != nullptr)
 	{
 		args->Handled = true;
 
