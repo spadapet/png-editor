@@ -314,13 +314,16 @@ void anim::FlatProjectItems::AddRootEntry(IProjectItemVM ^item, unsigned int ind
 	if (folder != nullptr)
 	{
 		Platform::WeakReference weakOwner(this);
+		Platform::WeakReference weakFolder(folder);
 
 		iter->folderChangedCookie = folder->PropertyChanged +=
 			ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(
-				[weakOwner, folder](Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args)
+				[weakOwner, weakFolder](Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args)
 		{
 			FlatProjectItems ^owner = weakOwner.Resolve<FlatProjectItems>();
-			if (owner != nullptr)
+			ProjectFolderVM ^folder = weakFolder.Resolve<ProjectFolderVM>();
+
+			if (owner != nullptr && folder != nullptr)
 			{
 				owner->OnRootFolderChanged(folder, args->PropertyName);
 			}
@@ -328,12 +331,13 @@ void anim::FlatProjectItems::AddRootEntry(IProjectItemVM ^item, unsigned int ind
 
 		iter->itemsChangedCookie = folder->BindableFlatItems->VectorChanged +=
 			ref new Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler(
-				[weakOwner, folder](Windows::UI::Xaml::Interop::IBindableObservableVector ^items, Platform::Object ^argsObject)
+				[weakOwner, weakFolder](Windows::UI::Xaml::Interop::IBindableObservableVector ^items, Platform::Object ^argsObject)
 		{
 			FlatProjectItems ^owner = weakOwner.Resolve<FlatProjectItems>();
+			ProjectFolderVM ^folder = weakFolder.Resolve<ProjectFolderVM>();
 			Windows::Foundation::Collections::IVectorChangedEventArgs ^args = dynamic_cast<Windows::Foundation::Collections::IVectorChangedEventArgs ^>(argsObject);
 
-			if (owner != nullptr && args != nullptr)
+			if (owner != nullptr && folder != nullptr && args != nullptr)
 			{
 				owner->OnRootFolderItemsChanged(folder, args);
 			}

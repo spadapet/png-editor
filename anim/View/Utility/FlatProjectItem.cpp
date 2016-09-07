@@ -26,6 +26,14 @@ void anim::FlatProjectItem::OnKeyDown(Windows::UI::Xaml::Input::KeyRoutedEventAr
 
 		switch (args->Key)
 		{
+		case Windows::System::VirtualKey::Delete:
+			args->Handled = true;
+			if (this->Item->DeleteCommand != nullptr && this->Item->DeleteCommand->CanExecute(this->Item))
+			{
+				this->Item->DeleteCommand->Execute(this->Item);
+			}
+			break;
+
 		case Windows::System::VirtualKey::Enter:
 			args->Handled = true;
 			if (this->Item->ActivateCommand != nullptr && this->Item->ActivateCommand->CanExecute(this->Item))

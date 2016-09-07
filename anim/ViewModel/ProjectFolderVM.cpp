@@ -233,7 +233,7 @@ void anim::ProjectFolderVM::UpdateItems()
 			if ((*newItem)->GetItem() != oldItem->Item)
 			{
 				if (std::find_if(newItem + 1, newItems.end(),
-					[oldItem](const std::shared_ptr<ProjectItem> &newItem2)
+					[&oldItem](const std::shared_ptr<ProjectItem> &newItem2)
 					{
 						return newItem2->GetItem() == oldItem->Item;
 					}) == newItems.end())
