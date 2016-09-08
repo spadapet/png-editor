@@ -54,11 +54,31 @@ anim::ProjectFolderVM::ProjectFolderVM()
 
 anim::ProjectFolderVM::~ProjectFolderVM()
 {
-	this->folder->PropertyChanged.Remove(this->folderChangedCookie);
+	if (this->folder != nullptr)
+	{
+		this->folder->PropertyChanged.Remove(this->folderChangedCookie);
+	}
 }
 
 void anim::ProjectFolderVM::Destroy()
 {
+	if (this->folder != nullptr)
+	{
+		this->folder->PropertyChanged.Remove(this->folderChangedCookie);
+		this->folder = nullptr;
+	}
+
+	for (IProjectItemVM ^item : this->items)
+	{
+		item->Destroy();
+	}
+
+	this->weakParent = nullptr;
+	this->expanded = false;
+	this->items->Clear();
+	this->NotifyPropertyChanged();
+
+	assert(this->flatItems->Size == 0);
 }
 
 std::shared_ptr<anim::ProjectFolder> anim::ProjectFolderVM::Model::get()
@@ -68,11 +88,16 @@ std::shared_ptr<anim::ProjectFolder> anim::ProjectFolderVM::Model::get()
 
 Windows::Storage::IStorageItem ^anim::ProjectFolderVM::Item::get()
 {
-	return this->folder->GetItem();
+	return (this->folder != nullptr) ? this->folder->GetItem() : nullptr;
 }
 
 Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 {
+	if (this->folder == nullptr)
+	{
+		return "<null>";
+	}
+
 	if (this->Level == 0)
 	{
 		Windows::Storage::StorageFolder ^folder = this->folder->GetFolder();
@@ -86,12 +111,12 @@ Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 
 Platform::String ^anim::ProjectFolderVM::FullPath::get()
 {
-	return this->folder->GetFolder()->Path;
+	return (this->folder != nullptr) ? this->folder->GetFolder()->Path : "<null>";
 }
 
 int anim::ProjectFolderVM::Level::get()
 {
-	return this->folder->GetLevel();
+	return (this->folder != nullptr) ? this->folder->GetLevel() : 0;
 }
 
 anim::ProjectFileVM ^anim::ProjectFolderVM::AsFile::get()
@@ -128,7 +153,7 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFolderVM::ActivateCommand::get(
 
 Windows::Storage::StorageFolder ^anim::ProjectFolderVM::Folder::get()
 {
-	return this->folder->GetFolder();
+	return (this->folder != nullptr) ? this->folder->GetFolder() : nullptr;
 }
 
 Windows::Foundation::Collections::IVector<anim::IProjectItemVM ^> ^anim::ProjectFolderVM::Items::get()
@@ -148,7 +173,7 @@ Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ProjectFolderVM::Bi
 
 bool anim::ProjectFolderVM::HasItems::get()
 {
-	return this->folder->HasItems();
+	return (this->folder != nullptr) ? this->folder->HasItems() : false;
 }
 
 bool anim::ProjectFolderVM::ShowExpanded::get()
@@ -226,7 +251,8 @@ void anim::ProjectFolderVM::FolderPropertyChanged(const char *name)
 
 void anim::ProjectFolderVM::UpdateItems()
 {
-	const std::vector<std::shared_ptr<ProjectItem>> &newItems = this->folder->GetItems();
+	const std::vector<std::shared_ptr<ProjectItem>> emptyItems;
+	const std::vector<std::shared_ptr<ProjectItem>> &newItems = (this->folder != nullptr) ? this->folder->GetItems() : emptyItems;
 
 	unsigned int old = 0;
 	for (auto newItem = newItems.begin(); newItem != newItems.end(); newItem++, old++)

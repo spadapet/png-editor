@@ -50,6 +50,7 @@ anim::FilesPaneVM::FilesPaneVM(std::shared_ptr<AppState> app)
 				{
 					owner->projectFolders->RemoveAt(i);
 					owner->NotifyPropertyChanged("HasProjectFolders");
+					projectFolder->Destroy();
 					break;
 				}
 			}

@@ -21,6 +21,9 @@ anim::ProjectItemVM::~ProjectItemVM()
 
 void anim::ProjectItemVM::Destroy()
 {
+	this->item = nullptr;
+	this->weakParent = nullptr;
+	this->NotifyPropertyChanged();
 }
 
 Windows::Storage::IStorageItem ^anim::ProjectItemVM::Item::get()

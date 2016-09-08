@@ -25,6 +25,9 @@ anim::ProjectFileVM::~ProjectFileVM()
 
 void anim::ProjectFileVM::Destroy()
 {
+	this->file = nullptr;
+	this->weakParent = nullptr;
+	this->NotifyPropertyChanged();
 }
 
 std::shared_ptr<anim::ProjectFile> anim::ProjectFileVM::Model::get()
