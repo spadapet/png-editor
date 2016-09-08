@@ -492,12 +492,9 @@ anim::FlatProjectItems::Entry::Entry()
 }
 
 anim::FlatProjectItems::Entry::Entry(Entry &&rhs)
-	: item(rhs.item)
-	, addedChildren(rhs.addedChildren)
-	, folderChangedCookie(rhs.folderChangedCookie)
-	, itemsChangedCookie(rhs.itemsChangedCookie)
+	: addedChildren(false)
 {
-	::ZeroMemory(&rhs, sizeof(rhs));
+	*this = std::move(rhs);
 }
 
 anim::FlatProjectItems::Entry::~Entry()
@@ -516,6 +513,7 @@ void anim::FlatProjectItems::Entry::Destroy()
 			folder->BindableFlatItems->VectorChanged -= this->itemsChangedCookie;
 		}
 
+		this->item = nullptr;
 		::ZeroMemory(this, sizeof(*this));
 	}
 }
