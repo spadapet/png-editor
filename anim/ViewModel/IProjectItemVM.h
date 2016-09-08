@@ -8,6 +8,8 @@ namespace anim
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public interface class IProjectItemVM
 	{
+		void Destroy();
+
 		property Windows::Storage::IStorageItem ^Item { Windows::Storage::IStorageItem ^get(); }
 		property Platform::String ^DisplayName { Platform::String ^get(); }
 		property Platform::String ^FullPath { Platform::String ^get(); }

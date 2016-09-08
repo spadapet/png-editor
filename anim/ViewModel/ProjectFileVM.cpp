@@ -23,6 +23,10 @@ anim::ProjectFileVM::~ProjectFileVM()
 {
 }
 
+void anim::ProjectFileVM::Destroy()
+{
+}
+
 std::shared_ptr<anim::ProjectFile> anim::ProjectFileVM::Model::get()
 {
 	return this->file;

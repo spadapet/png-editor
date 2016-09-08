@@ -57,6 +57,10 @@ anim::ProjectFolderVM::~ProjectFolderVM()
 	this->folder->PropertyChanged.Remove(this->folderChangedCookie);
 }
 
+void anim::ProjectFolderVM::Destroy()
+{
+}
+
 std::shared_ptr<anim::ProjectFolder> anim::ProjectFolderVM::Model::get()
 {
 	return this->folder;
@@ -233,12 +237,13 @@ void anim::ProjectFolderVM::UpdateItems()
 			if ((*newItem)->GetItem() != oldItem->Item)
 			{
 				if (std::find_if(newItem + 1, newItems.end(),
-					[&oldItem](const std::shared_ptr<ProjectItem> &newItem2)
+					[oldItem](const std::shared_ptr<ProjectItem> &newItem2)
 					{
 						return newItem2->GetItem() == oldItem->Item;
 					}) == newItems.end())
 				{
 					this->items->SetAt(old, this->MakeVM(*newItem));
+					oldItem->Destroy();
 				}
 				else
 				{
@@ -252,9 +257,11 @@ void anim::ProjectFolderVM::UpdateItems()
 		}
 	}
 
-	while (old < this->items->Size)
+	for (unsigned int i = this->items->Size; i > old; i--)
 	{
-		this->items->RemoveAtEnd();
+		IProjectItemVM ^oldItem = this->items->GetAt(i - 1);
+		this->items->RemoveAt(i - 1);
+		oldItem->Destroy();
 	}
 }
 

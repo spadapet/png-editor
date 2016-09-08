@@ -19,6 +19,10 @@ anim::ProjectItemVM::~ProjectItemVM()
 {
 }
 
+void anim::ProjectItemVM::Destroy()
+{
+}
+
 Windows::Storage::IStorageItem ^anim::ProjectItemVM::Item::get()
 {
 	return (this->item != nullptr) ? this->item->GetItem() : nullptr;

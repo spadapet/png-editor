@@ -24,6 +24,7 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
 		// IProjectItemVM
+		virtual void Destroy();
 		virtual property Windows::Storage::IStorageItem ^Item { Windows::Storage::IStorageItem ^get(); }
 		virtual property Platform::String ^DisplayName { Platform::String ^get(); }
 		virtual property Platform::String ^FullPath { Platform::String ^get(); }
