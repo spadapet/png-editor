@@ -57,6 +57,7 @@ namespace anim
 		EventCookie folderChangedCookie;
 		Platform::Collections::Vector<IProjectItemVM ^> ^items;
 		FlatProjectItems ^flatItems;
+		int level;
 		bool expanded;
 	};
 }

@@ -123,9 +123,6 @@
     <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp">
       <Filter>View\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="Model\RootProjectFolder.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -219,9 +216,6 @@
     </ClInclude>
     <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h">
       <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\RootProjectFolder.h">
-      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

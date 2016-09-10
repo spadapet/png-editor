@@ -5,7 +5,7 @@
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "Model/ProjectFile.h"
-#include "Model/RootProjectFolder.h"
+#include "Model/ProjectFolder.h"
 #include "View/Utility/FlatProjectItems.h"
 #include "ViewModel/ProjectFileVM.h"
 #include "ViewModel/ProjectItemVM.h"
@@ -20,6 +20,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, Pr
 	, items(ref new Platform::Collections::Vector<IProjectItemVM ^>())
 	, flatItems(ref new FlatProjectItems(this->items))
 	, expanded(false)
+	, level(parent != nullptr ? parent->Level + 1 : 0)
 {
 	Platform::WeakReference weakOwner(this);
 
@@ -47,7 +48,7 @@ anim::ProjectFolderVM::ProjectFolderVM(std::shared_ptr<ProjectFolder> folder, Pr
 }
 
 anim::ProjectFolderVM::ProjectFolderVM()
-	: ProjectFolderVM(std::make_shared<RootProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, AppState::CreateForDesigner()), nullptr)
+	: ProjectFolderVM(std::make_shared<ProjectFolder>(Windows::Storage::ApplicationData::Current->TemporaryFolder, AppState::CreateForDesigner()), nullptr)
 {
 	anim::AssertXamlDesigner();
 }
@@ -75,6 +76,7 @@ void anim::ProjectFolderVM::Destroy()
 
 	this->weakParent = nullptr;
 	this->expanded = false;
+	this->level = 0;
 	this->items->Clear();
 	this->NotifyPropertyChanged();
 
@@ -116,7 +118,7 @@ Platform::String ^anim::ProjectFolderVM::FullPath::get()
 
 int anim::ProjectFolderVM::Level::get()
 {
-	return (this->folder != nullptr) ? this->folder->GetLevel() : 0;
+	return this->level;
 }
 
 anim::ProjectFileVM ^anim::ProjectFolderVM::AsFile::get()

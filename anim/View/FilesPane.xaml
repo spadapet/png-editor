@@ -103,7 +103,7 @@
                 </Border>
                 <Image Style="{StaticResource ItemIconStyle}" Source="{x:Bind ShowExpandedIcon, Converter={StaticResource BoolToFolder}, Mode=OneWay}" />
                 <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
-                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{x:Bind DisplayName, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource ItemTextStyle}" Text="{x:Bind DisplayName, Mode=OneWay}" />
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -112,7 +112,7 @@
             <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}" Unloaded="OnDataTemplateUnloaded">
                 <Image Style="{StaticResource ItemIconStyle}" Source="{x:Bind IsOpen, Converter={StaticResource BoolToPicture}, Mode=OneWay}" />
                 <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
-                    <TextBlock Style="{StaticResource ItemTextStyle}"  Text="{x:Bind DisplayName, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource ItemTextStyle}" Text="{x:Bind DisplayName, Mode=OneWay}" />
                 </Border>
             </StackPanel>
         </DataTemplate>

@@ -52,7 +52,8 @@ Platform::String ^anim::ProjectFileVM::FullPath::get()
 
 int anim::ProjectFileVM::Level::get()
 {
-	return (this->file != nullptr) ? this->file->GetLevel() : 0;
+	IProjectItemVM ^parent = this->Parent;
+	return (parent != nullptr) ? parent->Level + 1 : 0;
 }
 
 anim::ProjectFileVM ^anim::ProjectFileVM::AsFile::get()

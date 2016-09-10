@@ -7,6 +7,12 @@ anim::ProjectFile::ProjectFile(Windows::Storage::StorageFile ^file, std::shared_
 {
 }
 
+anim::ProjectFile::ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<AppState> app)
+	: ProjectItem(file, app)
+	, file(file)
+{
+}
+
 anim::ProjectFile::~ProjectFile()
 {
 }

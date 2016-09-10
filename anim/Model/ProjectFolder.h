@@ -7,7 +7,8 @@ namespace anim
 	class ProjectFolder : public ProjectItem
 	{
 	public:
-		ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<ProjectFolder> parent);
+		ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<ProjectItem> parent);
+		ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<AppState> app);
 		virtual ~ProjectFolder() override;
 
 		// Overrides

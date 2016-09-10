@@ -3,7 +3,8 @@
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "Model/PaneInfo.h"
-#include "Model/RootProjectFolder.h"
+#include "Model/ProjectFile.h"
+#include "Model/ProjectFolder.h"
 #include "View/FilesPane.xaml.h"
 
 static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type) 
@@ -125,9 +126,12 @@ void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 		}
 	}
 
-	std::shared_ptr<ProjectFolder> project = std::make_shared<RootProjectFolder>(folder, this->shared_from_this());
-	this->projectFolders.push_back(project);
-	this->ProjectFolderAdded.Notify(project);
+	std::shared_ptr<ProjectFolder> project = std::dynamic_pointer_cast<ProjectFolder>(this->RegisterProjectItem(nullptr, folder));
+	if (project != nullptr)
+	{
+		this->projectFolders.push_back(project);
+		this->ProjectFolderAdded.Notify(project);
+	}
 }
 
 void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder)
@@ -145,15 +149,86 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	}
 }
 
-std::shared_ptr<anim::ProjectItem> anim::AppState::GetProjectItem(Windows::Storage::IStorageItem ^item)
+std::shared_ptr<anim::ProjectItem> anim::AppState::RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item)
 {
-	return std::shared_ptr<ProjectItem>();
-}
+	std::string name = anim::ConvertString(item->Path);
+	std::shared_ptr<ProjectItem> model;
 
-void anim::AppState::RegisterProjectItem(std::shared_ptr<ProjectItem> item)
-{
+	auto i = this->itemCache.find(name);
+	if (i != this->itemCache.end())
+	{
+		model = i->second.lock();
+		if (model == nullptr)
+		{
+			this->itemCache.erase(i);
+		}
+		else if (model->GetParent() == nullptr && parent != nullptr)
+		{
+			model->SetParent(parent);
+		}
+	}
+
+	if (model == nullptr)
+	{
+		if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
+		{
+			if (parent == nullptr)
+			{
+				model = std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), this->shared_from_this());
+			}
+			else
+			{
+				model = std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), parent);
+			}
+		}
+		else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
+		{
+			if (parent == nullptr)
+			{
+				model = std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), this->shared_from_this());
+			}
+			else
+			{
+				model = std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), parent);
+			}
+		}
+		else if (parent == nullptr)
+		{
+			model = std::make_shared<ProjectItem>(item, this->shared_from_this());
+		}
+		else
+		{
+			model = std::make_shared<ProjectItem>(item, parent);
+		}
+
+		this->itemCache.emplace(std::make_pair(std::move(name), std::weak_ptr<ProjectItem>(model)));
+	}
+
+	return model;
 }
 
 void anim::AppState::UnregisterProjectItem(Windows::Storage::IStorageItem ^item)
 {
+	std::string name = anim::ConvertString(item->Path);
+	auto i = this->itemCache.find(name);
+
+	if (i != this->itemCache.end())
+	{
+		this->itemCache.erase(i);
+	}
+}
+
+void anim::AppState::PurgeExpiredProjectItems()
+{
+	for (auto i = this->itemCache.begin(); i != this->itemCache.end(); )
+	{
+		if (i->second.expired())
+		{
+			i = this->itemCache.erase(i);
+		}
+		else
+		{
+			i++;
+		}
+	}
 }

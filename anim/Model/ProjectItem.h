@@ -10,6 +10,7 @@ namespace anim
 	{
 	public:
 		ProjectItem(Windows::Storage::IStorageItem ^item, std::shared_ptr<ProjectItem> parent);
+		ProjectItem(Windows::Storage::IStorageItem ^item, std::shared_ptr<AppState> app);
 		virtual ~ProjectItem();
 
 		ChangedEvent PropertyChanged;
@@ -17,15 +18,15 @@ namespace anim
 		bool Equals(Windows::Storage::IStorageItem ^item) const;
 		Windows::Storage::IStorageItem ^GetItem() const;
 		virtual void SetItem(Windows::Storage::IStorageItem ^item);
-		virtual std::shared_ptr<AppState> GetAppState() const;
+		std::shared_ptr<AppState> GetAppState() const;
 		std::shared_ptr<ProjectItem> GetParent() const;
-		int GetLevel() const;
+		void SetParent(std::shared_ptr<ProjectItem> parent);
 		virtual bool IsFile() const;
 		virtual bool IsFolder() const;
 
 	private:
 		Windows::Storage::IStorageItem ^item;
 		std::weak_ptr<ProjectItem> parent;
-		int level;
+		std::weak_ptr<AppState> app;
 	};
 }

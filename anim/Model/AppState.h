@@ -37,9 +37,9 @@ namespace anim
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
-		std::shared_ptr<ProjectItem> GetProjectItem(Windows::Storage::IStorageItem ^item);
-		void RegisterProjectItem(std::shared_ptr<ProjectItem> item);
+		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
 		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);
+		void PurgeExpiredProjectItems();
 
 	private:
 		void Initialize();

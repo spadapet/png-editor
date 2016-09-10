@@ -5,7 +5,13 @@
 anim::ProjectItem::ProjectItem(Windows::Storage::IStorageItem ^item, std::shared_ptr<ProjectItem> parent)
 	: item(item)
 	, parent(parent)
-	, level(parent != nullptr ? parent->GetLevel() + 1 : 0)
+	, app(parent->app)
+{
+}
+
+anim::ProjectItem::ProjectItem(Windows::Storage::IStorageItem ^item, std::shared_ptr<AppState> app)
+	: item(item)
+	, app(app)
 {
 }
 
@@ -40,13 +46,7 @@ void anim::ProjectItem::SetItem(Windows::Storage::IStorageItem ^item)
 
 std::shared_ptr<anim::AppState> anim::ProjectItem::GetAppState() const
 {
-	std::shared_ptr<ProjectItem> parent = this->GetParent();
-	if (parent != nullptr)
-	{
-		return parent->GetAppState();
-	}
-
-	return nullptr;
+	return this->app.lock();
 }
 
 std::shared_ptr<anim::ProjectItem> anim::ProjectItem::GetParent() const
@@ -54,9 +54,10 @@ std::shared_ptr<anim::ProjectItem> anim::ProjectItem::GetParent() const
 	return this->parent.lock();
 }
 
-int anim::ProjectItem::GetLevel() const
+void anim::ProjectItem::SetParent(std::shared_ptr<ProjectItem> parent)
 {
-	return this->level;
+	assert(this->GetParent() == nullptr);
+	this->parent = parent;
 }
 
 bool anim::ProjectItem::IsFile() const

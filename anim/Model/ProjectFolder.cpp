@@ -20,8 +20,15 @@ static Windows::Storage::Search::QueryOptions ^GetQueryOptions()
 	return options;
 }
 
-anim::ProjectFolder::ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<ProjectFolder> parent)
+anim::ProjectFolder::ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<ProjectItem> parent)
 	: ProjectItem(folder, parent)
+	, folder(folder)
+	, hasItems(Tri::Unknown)
+{
+}
+
+anim::ProjectFolder::ProjectFolder(Windows::Storage::StorageFolder ^folder, std::shared_ptr<AppState> app)
+	: ProjectItem(folder, app)
 	, folder(folder)
 	, hasItems(Tri::Unknown)
 {
@@ -224,28 +231,5 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 
 std::shared_ptr<anim::ProjectItem> anim::ProjectFolder::MakeItem(Windows::Storage::IStorageItem ^item)
 {
-	std::shared_ptr<AppState> app = this->GetAppState();
-	std::shared_ptr<ProjectItem> model = app->GetProjectItem(item);
-
-	if (model == nullptr)
-	{
-		std::shared_ptr<ProjectFolder> owner = std::dynamic_pointer_cast<ProjectFolder>(this->shared_from_this());
-
-		if (item->IsOfType(Windows::Storage::StorageItemTypes::Folder))
-		{
-			model = std::make_shared<ProjectFolder>(safe_cast<Windows::Storage::StorageFolder ^>(item), owner);
-		}
-		else if (item->IsOfType(Windows::Storage::StorageItemTypes::File))
-		{
-			model = std::make_shared<ProjectFile>(safe_cast<Windows::Storage::StorageFile ^>(item), owner);
-		}
-		else
-		{
-			model = std::make_shared<ProjectItem>(item, owner);
-		}
-
-		app->RegisterProjectItem(model);
-	}
-
-	return model;
+	return this->GetAppState()->RegisterProjectItem(this->shared_from_this(), item);
 }
