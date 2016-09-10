@@ -107,8 +107,6 @@
     <Image Include="Assets\Icons\close_simple.scale-200.png" />
     <Image Include="Assets\Icons\documents.scale-100.png" />
     <Image Include="Assets\Icons\documents.scale-200.png" />
-    <Image Include="Assets\Icons\folder-add.scale-100.png" />
-    <Image Include="Assets\Icons\folder-add.scale-200.png" />
     <Image Include="Assets\Icons\folder.scale-100.png" />
     <Image Include="Assets\Icons\folder.scale-200.png" />
     <Image Include="Assets\Icons\folder_open-picture.scale-100.png" />
@@ -125,6 +123,10 @@
     <Image Include="Assets\Icons\picture-edit.scale-200.png" />
     <Image Include="Assets\Icons\picture.scale-100.png" />
     <Image Include="Assets\Icons\picture.scale-200.png" />
+    <Image Include="Assets\Icons\project-add.scale-100.png" />
+    <Image Include="Assets\Icons\project-add.scale-200.png" />
+    <Image Include="Assets\Icons\project.scale-100.png" />
+    <Image Include="Assets\Icons\project.scale-200.png" />
     <Image Include="Assets\Icons\view_zoom.scale-100.png" />
     <Image Include="Assets\Icons\view_zoom.scale-200.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />

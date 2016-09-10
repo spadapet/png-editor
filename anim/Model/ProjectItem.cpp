@@ -56,7 +56,7 @@ std::shared_ptr<anim::ProjectItem> anim::ProjectItem::GetParent() const
 
 void anim::ProjectItem::SetParent(std::shared_ptr<ProjectItem> parent)
 {
-	assert(this->GetParent() == nullptr);
+	assert(this->parent.expired() || parent == nullptr);
 	this->parent = parent;
 }
 

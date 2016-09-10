@@ -96,6 +96,18 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
+        <DataTemplate x:Key="ProjectRootFolderTemplate" x:DataType="local:ProjectFolderVM">
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Unloaded="OnDataTemplateUnloaded">
+                <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
+                    <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{x:Bind ShowExpanded, Mode=TwoWay}" Visibility="{x:Bind HasItems, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
+                </Border>
+                <Image Style="{StaticResource ItemIconStyle}" Source="ms-appx:///Assets/Icons/project.png" />
+                <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource ItemTextStyle}" Text="{x:Bind DisplayName, Mode=OneWay}" />
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
             <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}}" Unloaded="OnDataTemplateUnloaded">
                 <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
@@ -157,6 +169,7 @@
 
         <local:ProjectItemTemplateSelector
             x:Key="ProjectItemTemplateSelector"
+            RootFolderTemplate="{StaticResource ProjectRootFolderTemplate}"
             FolderTemplate="{StaticResource ProjectFolderTemplate}"
             FileTemplate="{StaticResource ProjectFileTemplate}" />
 
@@ -182,7 +195,7 @@
 
     <StackPanel Grid.Row="0" Orientation="Horizontal" Padding="4" Background="{StaticResource PaneBorderBrush}" VerticalAlignment="Top">
         <Button x:Uid="AddFolderButton" Style="{StaticResource ToolbarButtonStyle}" Command="{x:Bind State.AddFolderCommand}">
-            <Image Source="ms-appx:///Assets/Icons/folder-add.png" Width="20" Height="20" />
+            <Image Source="ms-appx:///Assets/Icons/project-add.png" Width="20" Height="20" />
         </Button>
         <Button x:Uid="OpenFileButton" Style="{StaticResource ToolbarButtonStyle}" Command="{x:Bind State.OpenFileCommand}">
             <Image Source="ms-appx:///Assets/Icons/folder_open-picture.png" Width="20" Height="20" />
