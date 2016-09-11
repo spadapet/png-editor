@@ -17,6 +17,7 @@
     <ClCompile Include="Core\Properties.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
+    <ClCompile Include="Model\OpenFile.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="Model\ProjectFile.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="Core\Properties.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Core\Thread.h" />
+    <ClInclude Include="Model\OpenFile.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
     <ClInclude Include="Model\ProjectFile.h" />

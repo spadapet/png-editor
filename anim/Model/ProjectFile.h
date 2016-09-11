@@ -4,6 +4,8 @@
 
 namespace anim
 {
+	class OpenFile;
+
 	class ProjectFile : public ProjectItem
 	{
 	public:
@@ -18,7 +20,12 @@ namespace anim
 		Windows::Storage::StorageFile ^GetFile() const;
 		void SetFile(Windows::Storage::StorageFile ^file);
 
+		bool IsOpen() const;
+		std::shared_ptr<OpenFile> GetOpenFile() const;
+		void SetOpenFile(std::shared_ptr<OpenFile> openFile);
+
 	private:
 		Windows::Storage::StorageFile ^file;
+		std::weak_ptr<OpenFile> openFile;
 	};
 }

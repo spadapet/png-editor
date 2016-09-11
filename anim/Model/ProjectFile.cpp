@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Model/OpenFile.h"
 #include "Model/ProjectFile.h"
 
 anim::ProjectFile::ProjectFile(Windows::Storage::StorageFile ^file, std::shared_ptr<ProjectItem> parent)
@@ -46,4 +47,20 @@ void anim::ProjectFile::SetFile(Windows::Storage::StorageFile ^file)
 		ProjectItem::SetItem(file);
 		this->PropertyChanged.Notify("File");
 	}
+}
+
+bool anim::ProjectFile::IsOpen() const
+{
+	return !this->openFile.expired();
+}
+
+std::shared_ptr<anim::OpenFile> anim::ProjectFile::GetOpenFile() const
+{
+	return this->openFile.lock();
+}
+
+void anim::ProjectFile::SetOpenFile(std::shared_ptr<OpenFile> openFile)
+{
+	assert(this->openFile.expired() || openFile == nullptr);
+	this->openFile = openFile;
 }

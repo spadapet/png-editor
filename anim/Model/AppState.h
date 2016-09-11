@@ -4,7 +4,9 @@
 
 namespace anim
 {
+	class OpenFile;
 	class PaneInfo;
+	class ProjectFile;
 	class ProjectFolder;
 	class ProjectItem;
 
@@ -37,6 +39,9 @@ namespace anim
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
+		std::shared_ptr<OpenFile> EditFile(std::shared_ptr<ProjectFile> file);
+		void CloseFile(std::shared_ptr<OpenFile> file);
+
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
 		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);
 		void PurgeExpiredProjectItems();
@@ -49,6 +54,7 @@ namespace anim
 		std::shared_ptr<PaneInfo> nonePane;
 		std::vector<std::shared_ptr<PaneInfo>> panes;
 		std::vector<std::shared_ptr<ProjectFolder>> projectFolders;
+		std::vector<std::shared_ptr<OpenFile>> openFiles;
 		std::unordered_map<std::string, std::weak_ptr<ProjectItem>> itemCache;
 	};
 }

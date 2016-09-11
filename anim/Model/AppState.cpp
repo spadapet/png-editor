@@ -149,6 +149,21 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	}
 }
 
+std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<ProjectFile> file)
+{
+	return file->GetOpenFile();
+}
+
+void anim::AppState::CloseFile(std::shared_ptr<OpenFile> file)
+{
+	for (std::shared_ptr<OpenFile> openFile : this->openFiles)
+	{
+		if (file == openFile)
+		{
+		}
+	}
+}
+
 std::shared_ptr<anim::ProjectItem> anim::AppState::RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item)
 {
 	std::string name = anim::ConvertString(item->Path);

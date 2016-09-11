@@ -2,6 +2,7 @@
 #include "Controller/AppController.h"
 #include "Core/Command.h"
 #include "Core/Xaml.h"
+#include "Model/AppState.h"
 #include "Model/ProjectFile.h"
 #include "ViewModel/ProjectFileVM.h"
 
@@ -80,8 +81,8 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
 			ProjectFileVM ^file = dynamic_cast<ProjectFileVM ^>(item);
 			if (file != nullptr)
 			{
-				AppController controller(file->Model->GetAppState());
-				controller.OpenFile(file->Model);
+				std::shared_ptr<AppState> app = file->Model->GetAppState();
+				app->OpenFile(file->Model);
 			}
 		});
 	}
