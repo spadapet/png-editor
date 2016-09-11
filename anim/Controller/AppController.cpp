@@ -35,7 +35,7 @@ void anim::AppController::OpenFile()
 		std::shared_ptr<ProjectFile> model = std::dynamic_pointer_cast<ProjectFile>(app->RegisterProjectItem(nullptr, file));
 		if (model != nullptr)
 		{
-			app->OpenFile(model);
+			app->EditFile(model);
 		}
 	}, concurrency::task_continuation_context::use_current());
 }

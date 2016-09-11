@@ -29,6 +29,9 @@ namespace anim
 		ChangedEvent PropertyChanged;
 		Event<std::shared_ptr<ProjectFolder>> ProjectFolderAdded;
 		Event<std::shared_ptr<ProjectFolder>> ProjectFolderRemoved;
+		Event<std::shared_ptr<OpenFile>> FileOpened;
+		Event<std::shared_ptr<OpenFile>> FileClosed;
+		Event<std::shared_ptr<OpenFile>> FileFocus;
 
 		// Properties
 		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
@@ -39,8 +42,9 @@ namespace anim
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
+		std::shared_ptr<OpenFile> EditFile(Windows::Storage::StorageFile ^file);
 		std::shared_ptr<OpenFile> EditFile(std::shared_ptr<ProjectFile> file);
-		void CloseFile(std::shared_ptr<OpenFile> file);
+		void CloseFile(std::shared_ptr<OpenFile> openFile);
 
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
 		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);

@@ -2,6 +2,7 @@
 #include "Core/String.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
+#include "Model/OpenFile.h"
 #include "Model/PaneInfo.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
@@ -149,18 +150,36 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	}
 }
 
-std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<ProjectFile> file)
+std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(Windows::Storage::StorageFile ^file)
 {
-	return file->GetOpenFile();
+	std::shared_ptr<ProjectFile> projectFile = std::dynamic_pointer_cast<ProjectFile>(this->RegisterProjectItem(nullptr, file));
+	return this->EditFile(projectFile);
 }
 
-void anim::AppState::CloseFile(std::shared_ptr<OpenFile> file)
+std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<ProjectFile> file)
 {
-	for (std::shared_ptr<OpenFile> openFile : this->openFiles)
+	std::shared_ptr<OpenFile> openFile = file->GetOpenFile();
+
+	if (openFile == nullptr)
 	{
-		if (file == openFile)
-		{
-		}
+		openFile = std::make_shared<OpenFile>(file);
+		openFile->Initialize();
+		this->openFiles.push_back(openFile);
+		this->FileOpened.Notify(openFile);
+	}
+
+	this->FileFocus.Notify(openFile);
+	return openFile;
+}
+
+void anim::AppState::CloseFile(std::shared_ptr<OpenFile> openFile)
+{
+	auto i = std::find(this->openFiles.begin(), this->openFiles.end(), openFile);
+	if (i != this->openFiles.end())
+	{
+		openFile->Destroy();
+		this->openFiles.erase(i);
+		this->FileClosed.Notify(openFile);
 	}
 }
 

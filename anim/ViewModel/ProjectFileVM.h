@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Event.h"
 #include "ViewModel/IProjectItemVM.h"
 
 namespace anim
@@ -40,8 +41,10 @@ namespace anim
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
+		void FilePropertyChanged(const char *name);
 
 		std::shared_ptr<ProjectFile> file;
 		Platform::WeakReference weakParent;
+		EventCookie fileChangedCookie;
 	};
 }

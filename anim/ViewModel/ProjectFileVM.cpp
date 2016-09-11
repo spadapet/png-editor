@@ -12,6 +12,16 @@ anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFol
 	: file(file)
 	, weakParent(parent != nullptr ? Platform::WeakReference(parent) : Platform::WeakReference(nullptr))
 {
+	Platform::WeakReference weakOwner(this);
+
+	this->fileChangedCookie = this->file->PropertyChanged.Add([weakOwner](const char *name)
+	{
+		ProjectFileVM ^owner = weakOwner.Resolve<ProjectFileVM>();
+		if (owner != nullptr)
+		{
+			owner->FilePropertyChanged(name);
+		}
+	});
 }
 
 anim::ProjectFileVM::ProjectFileVM()
@@ -22,11 +32,20 @@ anim::ProjectFileVM::ProjectFileVM()
 
 anim::ProjectFileVM::~ProjectFileVM()
 {
+	if (this->file != nullptr)
+	{
+		this->file->PropertyChanged.Remove(this->fileChangedCookie);
+	}
 }
 
 void anim::ProjectFileVM::Destroy()
 {
-	this->file = nullptr;
+	if (this->file != nullptr)
+	{
+		this->file->PropertyChanged.Remove(this->fileChangedCookie);
+		this->file = nullptr;
+	}
+
 	this->weakParent = nullptr;
 	this->NotifyPropertyChanged();
 }
@@ -82,7 +101,7 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
 			if (file != nullptr)
 			{
 				std::shared_ptr<AppState> app = file->Model->GetAppState();
-				app->OpenFile(file->Model);
+				app->EditFile(file->Model);
 			}
 		});
 	}
@@ -102,10 +121,20 @@ Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()
 
 bool anim::ProjectFileVM::IsOpen::get()
 {
-	return false;
+	return this->file != nullptr && this->file->IsOpen();
 }
 
 void anim::ProjectFileVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
+}
+
+void anim::ProjectFileVM::FilePropertyChanged(const char *name)
+{
+	bool allChanged = (name == nullptr || *name == 0);
+
+	if (allChanged || strcmp(name, "IsOpen") == 0)
+	{
+		this->NotifyPropertyChanged("IsOpen");
+	}
 }

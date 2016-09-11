@@ -63,4 +63,5 @@ void anim::ProjectFile::SetOpenFile(std::shared_ptr<OpenFile> openFile)
 {
 	assert(this->openFile.expired() || openFile == nullptr);
 	this->openFile = openFile;
+	this->PropertyChanged.Notify("IsOpen");
 }
