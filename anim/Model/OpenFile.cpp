@@ -20,3 +20,8 @@ void anim::OpenFile::Destroy()
 {
 	this->file->SetOpenFile(nullptr);
 }
+
+std::shared_ptr<anim::ProjectFile> anim::OpenFile::GetFile() const
+{
+	return this->file;
+}

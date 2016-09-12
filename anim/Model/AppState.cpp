@@ -2,7 +2,7 @@
 #include "Core/String.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
-#include "Model/OpenFile.h"
+#include "Model/OpenImageFile.h"
 #include "Model/PaneInfo.h"
 #include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
@@ -162,7 +162,7 @@ std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<Project
 
 	if (openFile == nullptr)
 	{
-		openFile = std::make_shared<OpenFile>(file);
+		openFile = std::make_shared<OpenImageFile>(file);
 		openFile->Initialize();
 		this->openFiles.push_back(openFile);
 		this->FileOpened.Notify(openFile);

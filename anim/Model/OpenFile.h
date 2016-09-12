@@ -10,8 +10,10 @@ namespace anim
 		OpenFile(std::shared_ptr<ProjectFile> file);
 		~OpenFile();
 
-		void Initialize();
-		void Destroy();
+		virtual void Initialize();
+		virtual void Destroy();
+
+		std::shared_ptr<ProjectFile> GetFile() const;
 
 	private:
 		std::shared_ptr<ProjectFile> file;

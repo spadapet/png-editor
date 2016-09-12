@@ -126,6 +126,9 @@
     <ClCompile Include="Model\OpenFile.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Model\OpenImageFile.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -221,6 +224,9 @@
       <Filter>View\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Model\OpenFile.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\OpenImageFile.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
