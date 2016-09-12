@@ -7,6 +7,7 @@
 #include "ViewModel/ProjectFileVM.h"
 
 static Windows::UI::Xaml::Input::ICommand ^activateCommand = nullptr;
+static Windows::UI::Xaml::Input::ICommand ^closeCommand = nullptr;
 
 anim::ProjectFileVM::ProjectFileVM(std::shared_ptr<ProjectFile> file, ProjectFolderVM ^parent)
 	: file(file)
@@ -98,7 +99,7 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
 		::activateCommand = ref new anim::Command([](Platform::Object ^item)
 		{
 			ProjectFileVM ^file = dynamic_cast<ProjectFileVM ^>(item);
-			if (file != nullptr)
+			if (file != nullptr && file->Model != nullptr)
 			{
 				std::shared_ptr<AppState> app = file->Model->GetAppState();
 				app->EditFile(file->Model);
@@ -112,6 +113,29 @@ Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::ActivateCommand::get()
 Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::DeleteCommand::get()
 {
 	return nullptr;
+}
+
+Windows::UI::Xaml::Input::ICommand ^anim::ProjectFileVM::CloseCommand::get()
+{
+	if (::closeCommand == nullptr)
+	{
+		::closeCommand = ref new anim::Command([](Platform::Object ^item)
+		{
+			ProjectFileVM ^file = dynamic_cast<ProjectFileVM ^>(item);
+			if (file != nullptr && file->Model != nullptr && file->Model->GetOpenFile() != nullptr)
+			{
+				std::shared_ptr<AppState> app = file->Model->GetAppState();
+				app->CloseFile(file->Model->GetOpenFile());
+			}
+		},
+		[](Platform::Object ^item)
+		{
+			ProjectFileVM ^file = dynamic_cast<ProjectFileVM ^>(item);
+			return file != nullptr && file->Model != nullptr && file->Model->GetOpenFile() != nullptr;
+		});
+	}
+
+	return ::closeCommand;
 }
 
 Windows::Storage::StorageFile ^anim::ProjectFileVM::File::get()

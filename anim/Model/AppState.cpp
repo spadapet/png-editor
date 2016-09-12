@@ -65,28 +65,28 @@ void anim::AppState::ResetPanes()
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
 		std::shared_ptr<AppState> owner = weakThis.lock();
-		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
+		return (owner != nullptr) ? ref new Windows::UI::Xaml::Controls::Border() : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Layers,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
 		std::shared_ptr<AppState> owner = weakThis.lock();
-		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
+		return (owner != nullptr) ? ref new Windows::UI::Xaml::Controls::Border() : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::View,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
 		std::shared_ptr<AppState> owner = weakThis.lock();
-		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
+		return (owner != nullptr) ? ref new Windows::UI::Xaml::Controls::Border() : nullptr;
 	}));
 
 	this->panes.emplace_back(std::make_shared<PaneInfo>(PaneType::Animation,
 		[weakThis](PaneType type) -> Windows::UI::Xaml::UIElement ^
 	{
 		std::shared_ptr<AppState> owner = weakThis.lock();
-		return (owner != nullptr) ? ref new FilesPane(owner) : nullptr;
+		return (owner != nullptr) ? ref new Windows::UI::Xaml::Controls::Border() : nullptr;
 	}));
 
 	this->PropertyChanged.Notify("Panes");
@@ -109,7 +109,9 @@ std::shared_ptr<anim::PaneInfo> anim::AppState::GetNonePane() const
 
 anim::AppMode anim::AppState::GetMode() const
 {
-	return AppMode::None;
+	return this->openFiles.empty()
+		? AppMode::None
+		: AppMode::Edit;
 }
 
 void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
@@ -164,8 +166,15 @@ std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<Project
 	{
 		openFile = std::make_shared<OpenImageFile>(file);
 		openFile->Initialize();
+
+		bool modeChange = this->openFiles.empty();
 		this->openFiles.push_back(openFile);
 		this->FileOpened.Notify(openFile);
+
+		if (modeChange)
+		{
+			this->PropertyChanged.Notify("Mode");
+		}
 	}
 
 	this->FileFocus.Notify(openFile);
@@ -177,9 +186,15 @@ void anim::AppState::CloseFile(std::shared_ptr<OpenFile> openFile)
 	auto i = std::find(this->openFiles.begin(), this->openFiles.end(), openFile);
 	if (i != this->openFiles.end())
 	{
+		bool modeChange = this->openFiles.size() == 1;
 		openFile->Destroy();
 		this->openFiles.erase(i);
 		this->FileClosed.Notify(openFile);
+
+		if (modeChange)
+		{
+			this->PropertyChanged.Notify("Mode");
+		}
 	}
 }
 
@@ -249,20 +264,5 @@ void anim::AppState::UnregisterProjectItem(Windows::Storage::IStorageItem ^item)
 	if (i != this->itemCache.end())
 	{
 		this->itemCache.erase(i);
-	}
-}
-
-void anim::AppState::PurgeExpiredProjectItems()
-{
-	for (auto i = this->itemCache.begin(); i != this->itemCache.end(); )
-	{
-		if (i->second.expired())
-		{
-			i = this->itemCache.erase(i);
-		}
-		else
-		{
-			i++;
-		}
 	}
 }

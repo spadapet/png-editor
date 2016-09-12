@@ -194,11 +194,7 @@ bool anim::PaneInfoVM::IsVisible::get()
 	case PaneType::Layers:
 	case PaneType::View:
 	case PaneType::Animation:
-#ifdef _DEBUG
-		visible = true;
-#else
 		visible = this->app && (this->app->GetMode() == AppMode::Edit);
-#endif
 		break;
 	}
 

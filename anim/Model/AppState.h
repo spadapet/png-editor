@@ -48,7 +48,6 @@ namespace anim
 
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
 		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);
-		void PurgeExpiredProjectItems();
 
 	private:
 		void Initialize();

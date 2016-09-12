@@ -32,8 +32,8 @@ namespace anim
 		virtual property ProjectFileVM ^AsFile { ProjectFileVM ^get(); }
 		virtual property ProjectFolderVM ^AsFolder { ProjectFolderVM ^get(); }
 		virtual property IProjectItemVM ^Parent { IProjectItemVM ^get(); }
-		virtual property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); };
-		virtual property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); };
+		virtual property Windows::UI::Xaml::Input::ICommand ^ActivateCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+		virtual property Windows::UI::Xaml::Input::ICommand ^DeleteCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);

@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "Core/Command.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "View/FilesPane.xaml.h"
@@ -39,14 +40,26 @@ void anim::FilesPane::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::
 void anim::FilesPane::OnProjectItemContextMenuOpened(Platform::Object ^sender, Platform::Object ^args)
 {
 	Windows::UI::Xaml::Controls::MenuFlyout ^flyout = dynamic_cast<Windows::UI::Xaml::Controls::MenuFlyout ^>(sender);
-	if (flyout != nullptr && flyout->Items->Size > 0)
-	{
-		Platform::Object ^dc = flyout->Items->GetAt(0)->DataContext;
-		IProjectItemVM ^item = dynamic_cast<IProjectItemVM ^>(dc);
+	bool selected = false;
 
-		if (item != nullptr)
+	for (Windows::UI::Xaml::Controls::MenuFlyoutItemBase ^itemBase : flyout->Items)
+	{
+		if (!selected)
 		{
-			this->ProjectList->SelectSingle(item);
+			selected = true;
+
+			IProjectItemVM ^item = dynamic_cast<IProjectItemVM ^>(itemBase->DataContext);
+			if (item != nullptr)
+			{
+				this->ProjectList->SelectSingle(item);
+			}
+		}
+
+		Windows::UI::Xaml::Controls::MenuFlyoutItem ^flyoutItem = dynamic_cast<Windows::UI::Xaml::Controls::MenuFlyoutItem ^>(itemBase);
+		Command ^command = dynamic_cast<anim::Command ^>(flyoutItem->Command);
+		if (command != nullptr)
+		{
+			command->NotifyCanExecuteChanged();
 		}
 	}
 }
