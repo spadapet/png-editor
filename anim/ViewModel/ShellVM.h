@@ -27,6 +27,7 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void AppPropertyChanged(const char *name);
+		void PanePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
 		void ResetPanes();
 
 		// App
@@ -37,6 +38,7 @@ namespace anim
 		PaneInfoVM ^nonePane;
 		PaneInfoVM ^activePane;
 		Platform::Collections::Vector<PaneInfoVM ^> ^panes;
+		Windows::Foundation::EventRegistrationToken paneChangedCookie;
 		double paneWidth;
 	};
 }

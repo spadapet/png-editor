@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "App.xaml.h"
+#include "Core/Thread.h"
 #include "Model/AppState.h"
 #include "ViewModel/ShellVM.h"
 
@@ -45,16 +46,22 @@ anim::PaneInfoVM ^anim::ShellVM::ActivePane::get()
 
 void anim::ShellVM::ActivePane::set(PaneInfoVM ^value)
 {
-	if (value == nullptr)
+	if (value == nullptr || !value->IsVisible)
 	{
 		value = this->nonePane;
 	}
 
 	if (this->activePane != value)
 	{
+		this->activePane->PropertyChanged -= this->paneChangedCookie;
 		this->activePane->IsActive = false;
+
 		this->activePane = value;
+
 		this->activePane->IsActive = true;
+		this->paneChangedCookie = this->activePane->PropertyChanged +=
+			ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(this, &ShellVM::PanePropertyChanged);
+
 		this->NotifyPropertyChanged("ActivePane");
 		this->NotifyPropertyChanged("HasActivePane");
 	}
@@ -106,20 +113,64 @@ void anim::ShellVM::AppPropertyChanged(const char *name)
 	}
 }
 
+void anim::ShellVM::PanePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args)
+{
+	bool allChanged = args->PropertyName == nullptr || args->PropertyName->Length() == 0;
+
+	if (allChanged || args->PropertyName == "IsActive" || args->PropertyName == "IsVisible")
+	{
+		if (this->activePane->IsActive && !this->activePane->IsVisible)
+		{
+			Platform::WeakReference weakOwner(this);
+
+			anim::PostToMainThread([weakOwner]()
+			{
+				ShellVM ^owner = weakOwner.Resolve<ShellVM>();
+				if (owner != nullptr)
+				{
+					PaneInfoVM ^foundPane = nullptr;
+
+					for (PaneInfoVM ^pane : owner->Panes)
+					{
+						if (pane->IsVisible)
+						{
+							foundPane = pane;
+							break;
+						}
+					}
+
+					owner->ActivePane = foundPane;
+				}
+			});
+		}
+	}
+}
+
 void anim::ShellVM::ResetPanes()
 {
+	if (this->activePane != nullptr)
+	{
+		this->activePane->PropertyChanged -= this->paneChangedCookie;
+	}
+
 	this->panes->Clear();
 	this->nonePane = ref new PaneInfoVM(this->app, app->GetNonePane(), this);
+	this->activePane = this->nonePane;
 
 	for (const std::shared_ptr<PaneInfo> &pane : this->app->GetPanes())
 	{
-		this->panes->Append(ref new PaneInfoVM(this->app, pane, this));
+		PaneInfoVM ^paneVM = ref new PaneInfoVM(this->app, pane, this);
+		this->panes->Append(paneVM);
+
+		if (this->activePane == this->nonePane && paneVM->IsVisible)
+		{
+			this->activePane = paneVM;
+		}
 	}
 
-	this->activePane = (this->panes->Size > 0)
-		? this->panes->GetAt(0)
-		: this->nonePane;
 	this->activePane->IsActive = true;
+	this->paneChangedCookie = this->activePane->PropertyChanged +=
+		ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(this, &ShellVM::PanePropertyChanged);
 
 	this->NotifyPropertyChanged("ActivePane");
 	this->NotifyPropertyChanged("HasActivePane");
