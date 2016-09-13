@@ -24,6 +24,7 @@
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="Model\ProjectItem.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
+    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp" />
     <ClCompile Include="ViewModel\OpenImageVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
@@ -34,8 +35,14 @@
     <ClCompile Include="View\FilesPane.xaml.cpp">
       <DependentUpon>View\FilesPane.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="View\ImageEditor.xaml.cpp">
+      <DependentUpon>View\ImageEditor.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="View\MainPage.xaml.cpp">
       <DependentUpon>View\MainPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="View\OpenFileTabs.xaml.cpp">
+      <DependentUpon>View\OpenFileTabs.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="View\Shell.xaml.cpp">
       <DependentUpon>View\Shell.xaml</DependentUpon>
@@ -73,6 +80,7 @@
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
     <ClInclude Include="ViewModel\IOpenFileVM.h" />
     <ClInclude Include="ViewModel\IProjectItemVM.h" />
+    <ClInclude Include="ViewModel\OpenFileTabsVM.h" />
     <ClInclude Include="ViewModel\OpenImageVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
@@ -86,8 +94,14 @@
     <ClInclude Include="View\FilesPane.xaml.h">
       <DependentUpon>View\FilesPane.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="View\ImageEditor.xaml.h">
+      <DependentUpon>View\ImageEditor.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="View\MainPage.xaml.h">
       <DependentUpon>View\MainPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="View\OpenFileTabs.xaml.h">
+      <DependentUpon>View\OpenFileTabs.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="View\Shell.xaml.h">
       <DependentUpon>View\Shell.xaml</DependentUpon>
@@ -149,7 +163,13 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\FilesPane.xaml" />
+    <Page Include="View\ImageEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MainPage.xaml" />
+    <Page Include="View\OpenFileTabs.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Shell.xaml" />
     <Page Include="View\Theme.xaml" />
   </ItemGroup>

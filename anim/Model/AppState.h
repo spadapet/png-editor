@@ -31,9 +31,10 @@ namespace anim
 		Event<std::shared_ptr<ProjectFolder>> ProjectFolderRemoved;
 		Event<std::shared_ptr<OpenFile>> FileOpened;
 		Event<std::shared_ptr<OpenFile>> FileClosed;
-		Event<std::shared_ptr<OpenFile>> FileFocus;
+		Event<std::shared_ptr<OpenFile>, bool &> FileFocus;
 
 		// Properties
+		const std::vector<std::shared_ptr<OpenFile>> &GetOpenFiles() const;
 		const std::vector<std::shared_ptr<PaneInfo>> &GetPanes() const;
 		const std::vector<std::shared_ptr<anim::ProjectFolder>> &GetProjectFolders() const;
 		std::shared_ptr<PaneInfo> GetNonePane() const;

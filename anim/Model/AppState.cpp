@@ -92,6 +92,11 @@ void anim::AppState::ResetPanes()
 	this->PropertyChanged.Notify("Panes");
 }
 
+const std::vector<std::shared_ptr<anim::OpenFile>> &anim::AppState::GetOpenFiles() const
+{
+	return this->openFiles;
+}
+
 const std::vector<std::shared_ptr<anim::PaneInfo>> &anim::AppState::GetPanes() const
 {
 	return this->panes;
@@ -177,7 +182,8 @@ std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<Project
 		}
 	}
 
-	this->FileFocus.Notify(openFile);
+	bool handled = false;
+	this->FileFocus.Notify(openFile, handled);
 	return openFile;
 }
 

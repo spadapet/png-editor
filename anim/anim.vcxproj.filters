@@ -132,6 +132,9 @@
     <ClCompile Include="ViewModel\OpenImageVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -236,6 +239,9 @@
       <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="ViewModel\OpenImageVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenFileTabsVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -366,6 +372,12 @@
       <Filter>View</Filter>
     </Page>
     <Page Include="View\Theme.xaml">
+      <Filter>View</Filter>
+    </Page>
+    <Page Include="View\ImageEditor.xaml">
+      <Filter>View</Filter>
+    </Page>
+    <Page Include="View\OpenFileTabs.xaml">
       <Filter>View</Filter>
     </Page>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Event.h"
 #include "ViewModel/IOpenFileVM.h"
 
 namespace anim
@@ -26,9 +27,11 @@ namespace anim
 		virtual void Destroy();
 		virtual property Platform::String ^Name { Platform::String ^get(); }
 		virtual property Platform::String ^Tooltip { Platform::String ^get(); }
+		virtual property Platform::String ^Path { Platform::String ^get(); }
 		virtual property bool IsDirty { bool get(); }
 		virtual property Windows::UI::Xaml::UIElement ^UserInterface { Windows::UI::Xaml::UIElement ^get(); }
 		virtual property Windows::UI::Xaml::Input::ICommand ^CloseCommand { Windows::UI::Xaml::Input::ICommand ^get(); }
+		virtual property OpenImageVM ^AsImage { OpenImageVM ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -36,5 +39,6 @@ namespace anim
 
 		std::shared_ptr<OpenImageFile> file;
 		EventCookie fileChangedCookie;
+		Windows::UI::Xaml::UIElement ^control;
 	};
 }

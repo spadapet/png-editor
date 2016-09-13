@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/Command.h"
+#include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "Model/OpenImageFile.h"
 #include "Model/ProjectFile.h"
@@ -24,6 +25,7 @@ anim::OpenImageVM::OpenImageVM(std::shared_ptr<OpenImageFile> file)
 
 anim::OpenImageVM::OpenImageVM()
 {
+	anim::AssertXamlDesigner();
 }
 
 anim::OpenImageVM::~OpenImageVM()
@@ -36,6 +38,11 @@ anim::OpenImageVM::~OpenImageVM()
 
 void anim::OpenImageVM::Destroy()
 {
+	if (this->file != nullptr)
+	{
+		this->file->PropertyChanged.Remove(this->fileChangedCookie);
+		this->file = nullptr;
+	}
 }
 
 std::shared_ptr<anim::OpenImageFile> anim::OpenImageVM::Model::get()
@@ -50,6 +57,11 @@ Platform::String ^anim::OpenImageVM::Name::get()
 
 Platform::String ^anim::OpenImageVM::Tooltip::get()
 {
+	return this->Path;
+}
+
+Platform::String ^anim::OpenImageVM::Path::get()
+{
 	return (this->file != nullptr) ? this->file->GetFile()->GetFile()->Path : "<null>";
 }
 
@@ -60,6 +72,10 @@ bool anim::OpenImageVM::IsDirty::get()
 
 Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 {
+	if (this->control == nullptr)
+	{
+	}
+
 	return nullptr;
 }
 
@@ -81,6 +97,11 @@ Windows::UI::Xaml::Input::ICommand ^anim::OpenImageVM::CloseCommand::get()
 	return ::closeCommand;
 }
 
+anim::OpenImageVM ^anim::OpenImageVM::AsImage::get()
+{
+	return this;
+}
+
 void anim::OpenImageVM::NotifyPropertyChanged(Platform::String ^name)
 {
 	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
@@ -88,7 +109,7 @@ void anim::OpenImageVM::NotifyPropertyChanged(Platform::String ^name)
 
 void anim::OpenImageVM::FilePropertyChanged(const char *name)
 {
-	bool allChanged = (name == nullptr) || name[0] == 0;
+	bool allChanged = (name == nullptr || *name == 0);
 
 	if (allChanged || strcmp(name, "IsDirty") == 0)
 	{
