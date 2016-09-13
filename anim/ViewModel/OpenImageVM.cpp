@@ -1,7 +1,11 @@
 #include "pch.h"
+#include "Core/Command.h"
+#include "Model/AppState.h"
 #include "Model/OpenImageFile.h"
 #include "Model/ProjectFile.h"
 #include "ViewModel/OpenImageVM.h"
+
+static Windows::UI::Xaml::Input::ICommand ^closeCommand = nullptr;
 
 anim::OpenImageVM::OpenImageVM(std::shared_ptr<OpenImageFile> file)
 	: file(file)
@@ -47,7 +51,20 @@ Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 
 Windows::UI::Xaml::Input::ICommand ^anim::OpenImageVM::CloseCommand::get()
 {
-	return nullptr;
+	if (::closeCommand == nullptr)
+	{
+		::closeCommand = ref new anim::Command([](Platform::Object ^item)
+		{
+			OpenImageVM ^file = dynamic_cast<OpenImageVM ^>(item);
+			if (file != nullptr && file->Model != nullptr)
+			{
+				std::shared_ptr<AppState> app = file->Model->GetFile()->GetAppState();
+				app->CloseFile(file->Model);
+			}
+		});
+	}
+
+	return ::closeCommand;
 }
 
 void anim::OpenImageVM::NotifyPropertyChanged(Platform::String ^name)
