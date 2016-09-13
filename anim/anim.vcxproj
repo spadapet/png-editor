@@ -24,6 +24,7 @@
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="Model\ProjectItem.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
+    <ClCompile Include="ViewModel\OpenImageVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFileVM.cpp" />
@@ -70,7 +71,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
+    <ClInclude Include="ViewModel\IOpenFileVM.h" />
     <ClInclude Include="ViewModel\IProjectItemVM.h" />
+    <ClInclude Include="ViewModel\OpenImageVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
     <ClInclude Include="ViewModel\ProjectFileVM.h" />

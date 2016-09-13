@@ -129,6 +129,9 @@
     <ClCompile Include="Model\OpenImageFile.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\OpenImageVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -228,6 +231,12 @@
     </ClInclude>
     <ClInclude Include="Model\OpenImageFile.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\IOpenFileVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenImageVM.h">
+      <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
