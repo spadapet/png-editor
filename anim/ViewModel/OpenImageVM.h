@@ -32,7 +32,9 @@ namespace anim
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
+		void FilePropertyChanged(const char *name);
 
 		std::shared_ptr<OpenImageFile> file;
+		EventCookie fileChangedCookie;
 	};
 }

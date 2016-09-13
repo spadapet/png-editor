@@ -12,6 +12,7 @@ namespace anim
 
 		virtual void Initialize() override;
 		virtual void Destroy() override;
+		virtual bool IsDirty() const override;
 
 	private:
 	};

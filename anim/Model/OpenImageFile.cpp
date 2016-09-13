@@ -19,3 +19,8 @@ void anim::OpenImageFile::Destroy()
 {
 	OpenFile::Destroy();
 }
+
+bool anim::OpenImageFile::IsDirty() const
+{
+	return false;
+}
