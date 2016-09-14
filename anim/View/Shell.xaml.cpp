@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
+#include "View/OpenFileTabs.xaml.h"
 #include "View/Shell.xaml.h"
 
 anim::Shell::Shell(std::shared_ptr<AppState> app)
@@ -10,9 +11,13 @@ anim::Shell::Shell(std::shared_ptr<AppState> app)
 	, setResizeCursor(false)
 	, resizeStartSize(0)
 	, resizeCursor(ref new Windows::UI::Core::CoreCursor(Windows::UI::Core::CoreCursorType::SizeWestEast, 0))
+	, openFiles(ref new OpenFileTabs(app))
 {
+	Windows::UI::Xaml::Controls::Grid::SetColumn(this->openFiles, 3);
+
 	this->DataContext = this->state;
 	this->InitializeComponent();
+	this->Children->Append(this->openFiles);
 }
 
 anim::Shell::Shell()

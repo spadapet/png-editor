@@ -9,6 +9,7 @@
 namespace anim
 {
 	class AppState;
+	ref class OpenFileTabs;
 
 	public ref class Shell sealed
 	{
@@ -41,5 +42,6 @@ namespace anim
 		Windows::Foundation::Point resizeStartPoint;
 		Windows::UI::Core::CoreCursor ^resizeCursor;
 		Windows::UI::Core::CoreCursor ^oldCursor;
+		OpenFileTabs ^openFiles;
 	};
 }

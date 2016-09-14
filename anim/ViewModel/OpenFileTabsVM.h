@@ -21,6 +21,8 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
 		property Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^Files { Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^get(); }
+		property IOpenFileVM ^FocusFile { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
+		property Windows::UI::Xaml::UIElement ^FocusFileUserInterface { Windows::UI::Xaml::UIElement ^get(); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -34,5 +36,6 @@ namespace anim
 		EventCookie fileClosedCookie;
 		EventCookie fileFocusCookie;
 		Platform::Collections::Vector<IOpenFileVM ^> ^files;
+		IOpenFileVM ^focusFile;
 	};
 }

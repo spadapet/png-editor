@@ -74,9 +74,12 @@ Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 {
 	if (this->control == nullptr)
 	{
+		Windows::UI::Xaml::Controls::Grid ^grid = ref new Windows::UI::Xaml::Controls::Grid();
+		grid->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(255, 32, 0, 64));
+		this->control = grid;
 	}
 
-	return nullptr;
+	return this->control;
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::OpenImageVM::CloseCommand::get()

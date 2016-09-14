@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#define NOMINMAX
+
+#include <algorithm>
 #include <cassert>
 #include <forward_list>
 #include <sstream>

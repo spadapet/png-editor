@@ -134,7 +134,4 @@
             PointerPressed="ResizeBorder_PointerPressed"
             PointerReleased="ResizeBorder_PointerReleased" />
     </Grid>
-
-    <!-- Document area -->
-    <Grid Grid.Column="3" Background="DarkOliveGreen" />
 </Grid>
