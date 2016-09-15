@@ -35,7 +35,7 @@
         </DataTemplate>
 
         <ItemsPanelTemplate x:Key="TabListPanelTemplate">
-            <StackPanel Orientation="Horizontal" />
+            <VirtualizingStackPanel Orientation="Horizontal" />
         </ItemsPanelTemplate>
 
         <Style x:Key="TabListStyle" TargetType="ListBox">
