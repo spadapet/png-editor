@@ -25,8 +25,11 @@ namespace anim
 		property OpenFileTabsVM ^State { OpenFileTabsVM ^get(); }
 
 	private:
-		void TabItem_PointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
-		void TabItem_PointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
+		void OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
+		void OnTabPointerEntered(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
+		void OnTabPointerExited(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
+		void OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
+		void OnClickOpenFolder(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
 
 		OpenFileTabsVM ^state;
 	};

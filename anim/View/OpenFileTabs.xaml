@@ -28,7 +28,7 @@
         </Style>
 
         <DataTemplate x:Key="TabItemTemplate" x:DataType="local:IOpenFileVM">
-            <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="TabItem_PointerEntered" PointerExited="TabItem_PointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="OnTabPointerEntered" PointerExited="OnTabPointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}" Unloaded="OnDataTemplateUnloaded">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
                 <TextBlock Text="*" Visibility="{x:Bind IsDirty, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
                 <Grid Margin="4,0,0,0" Width="24" Height="24">
@@ -63,20 +63,27 @@
         </Style>
 
         <DataTemplate x:Key="ImageUiTemplate" x:DataType="local:OpenImageVM">
-            <Grid>
+            <Grid Unloaded="OnDataTemplateUnloaded">
                 <ContentControl Content="{x:Bind UserInterface, Mode=OneWay}" Style="{StaticResource SimpleContentControlStyle}" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="UnknownUiTemplate" x:DataType="local:IOpenFileVM">
-            <Grid>
-                <TextBlock Text="Can't edit this type of file." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" />
+            <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8">
+                    <Run Text="Can't edit this type of file." /><LineBreak />
+                    <Run Text="Path: " /><Run Text="{Binding Path}" />
+                </TextBlock>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="NullUiTemplate" x:DataType="local:IOpenFileVM">
-            <Grid>
-                <TextBlock Text="No file is open." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" />
+        <DataTemplate x:Key="NullUiTemplate" x:DataType="local:OpenNullFileVM">
+            <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" TextWrapping="Wrap">
+                    <Hyperlink Click="OnClickOpenFile"><Run Text="Click here" /></Hyperlink><Run Text=" to open an image file." /><LineBreak /><LineBreak />
+                    <Run Text="Or open an image file from the Explorer pane." /><LineBreak />
+                    <Hyperlink Click="OnClickOpenFolder"><Run Text="Click here" /></Hyperlink><Run Text=" to add a project folder to the Explorer pane." />
+                </TextBlock>
             </Grid>
         </DataTemplate>
 
@@ -91,7 +98,7 @@
         x:Name="TabsList"
         Grid.Row="0"
         ItemsSource="{x:Bind State.Files}"
-        SelectedItem="{x:Bind State.FocusFile, Mode=TwoWay}"
+        SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
         Style="{StaticResource TabListStyle}" />
 
     <ContentControl

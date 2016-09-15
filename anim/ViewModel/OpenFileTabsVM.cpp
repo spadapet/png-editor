@@ -64,6 +64,11 @@ anim::OpenFileTabsVM::~OpenFileTabsVM()
 	this->app->FileFocus.Remove(this->fileFocusCookie);
 }
 
+std::shared_ptr<anim::AppState> anim::OpenFileTabsVM::GetApp() const
+{
+	return this->app;
+}
+
 Windows::Foundation::Collections::IVector<anim::IOpenFileVM ^> ^anim::OpenFileTabsVM::Files::get()
 {
 	return this->files;
@@ -88,7 +93,18 @@ void anim::OpenFileTabsVM::FocusFile::set(IOpenFileVM ^value)
 		this->focusFile->IsActive = true;
 
 		this->NotifyPropertyChanged("FocusFile");
+		this->NotifyPropertyChanged("FocusFileOrNull");
 	}
+}
+
+anim::IOpenFileVM ^anim::OpenFileTabsVM::FocusFileOrNull::get()
+{
+	return (this->focusFile != this->nullFile) ? this->focusFile : nullptr;
+}
+
+void anim::OpenFileTabsVM::FocusFileOrNull::set(IOpenFileVM ^value)
+{
+	this->FocusFile = value;
 }
 
 Windows::UI::Xaml::Controls::ListBox ^anim::OpenFileTabsVM::TabsList::get()
@@ -130,9 +146,11 @@ void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 	{
 		if (imageFile != nullptr && openFile->AsImage != nullptr && openFile->AsImage->Model == imageFile)
 		{
-			if (this->focusFile == openFile && this->files->Size > 1)
+			if (this->focusFile == openFile)
 			{
-				this->FocusFile = this->files->GetAt((i == 0) ? 1 : 0);
+				this->FocusFile = (this->files->Size > 1)
+					? this->files->GetAt((i == 0) ? 1 : 0)
+					: this->nullFile;
 			}
 
 			openFile->Destroy();

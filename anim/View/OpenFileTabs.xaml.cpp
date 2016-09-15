@@ -1,4 +1,6 @@
 ﻿#include "pch.h"
+#include "Controller/AppController.h"
+#include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "View/OpenFileTabs.xaml.h"
 #include "ViewModel/OpenFileTabsVM.h"
@@ -24,36 +26,37 @@ anim::OpenFileTabsVM ^anim::OpenFileTabs::State::get()
 	return this->state;
 }
 
-static anim::IOpenFileVM ^GetFileFromSender(Platform::Object ^sender)
+void anim::OpenFileTabs::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	Windows::UI::Xaml::DependencyObject ^elem = dynamic_cast<Windows::UI::Xaml::DependencyObject ^>(sender);
-	if (elem != nullptr)
-	{
-		Platform::Object ^dc = elem->GetValue(Windows::UI::Xaml::Controls::Control::DataContextProperty);
-		return dynamic_cast<anim::IOpenFileVM ^>(dc);
-	}
-
-	return nullptr;
+	anim::DisconnectDataTemplateBindings(sender);
 }
 
-void anim::OpenFileTabs::TabItem_PointerEntered(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
+void anim::OpenFileTabs::OnTabPointerEntered(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
 {
-	IOpenFileVM ^file = ::GetFileFromSender(sender);
-	assert(file != nullptr);
-
+	IOpenFileVM ^file = anim::GetDataFromSender<IOpenFileVM>(sender);
 	if (file != nullptr)
 	{
 		file->TabMouseHover = true;
 	}
 }
 
-void anim::OpenFileTabs::TabItem_PointerExited(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
+void anim::OpenFileTabs::OnTabPointerExited(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
 {
-	IOpenFileVM ^file = ::GetFileFromSender(sender);
-	assert(file != nullptr);
-
+	IOpenFileVM ^file = anim::GetDataFromSender<IOpenFileVM>(sender);
 	if (file != nullptr)
 	{
 		file->TabMouseHover = false;
 	}
+}
+
+void anim::OpenFileTabs::OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args)
+{
+	anim::AppController controller(this->state->GetApp());
+	controller.OpenFile();
+}
+
+void anim::OpenFileTabs::OnClickOpenFolder(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args)
+{
+	anim::AppController controller(this->state->GetApp());
+	controller.AddProjectFolder();
 }

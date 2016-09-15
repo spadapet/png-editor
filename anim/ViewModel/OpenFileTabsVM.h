@@ -13,6 +13,7 @@ namespace anim
 	{
 	internal:
 		OpenFileTabsVM(std::shared_ptr<AppState> app);
+		std::shared_ptr<AppState> GetApp() const;
 
 	public:
 		OpenFileTabsVM();
@@ -23,6 +24,7 @@ namespace anim
 
 		property Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^Files { Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^get(); }
 		property IOpenFileVM ^FocusFile { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
+		property IOpenFileVM ^FocusFileOrNull { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
 		property Windows::UI::Xaml::Controls::ListBox ^TabsList { Windows::UI::Xaml::Controls::ListBox ^get(); void set(Windows::UI::Xaml::Controls::ListBox ^value); }
 
 	private:

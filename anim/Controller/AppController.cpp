@@ -18,7 +18,10 @@ void anim::AppController::AddProjectFolder()
 
 	pickTask.then([app](Windows::Storage::StorageFolder ^folder)
 	{
-		app->AddProjectFolder(folder);
+		if (folder != nullptr)
+		{
+			app->AddProjectFolder(folder);
+		}
 	}, concurrency::task_continuation_context::use_current());
 }
 
@@ -32,6 +35,9 @@ void anim::AppController::OpenFile()
 
 	pickTask.then([app](Windows::Storage::StorageFile ^file)
 	{
-		app->EditFile(file);
+		if (file != nullptr)
+		{
+			app->EditFile(file);
+		}
 	}, concurrency::task_continuation_context::use_current());
 }

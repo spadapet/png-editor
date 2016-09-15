@@ -121,11 +121,6 @@ anim::AppMode anim::AppState::GetMode() const
 
 void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)
 {
-	if (folder == nullptr)
-	{
-		return;
-	}
-
 	for (std::shared_ptr<ProjectFolder> project : this->projectFolders)
 	{
 		if (project->Equals(folder))
