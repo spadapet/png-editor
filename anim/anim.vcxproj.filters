@@ -135,6 +135,14 @@
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
+    <ClCompile Include="View\ImageEditor.xaml.cpp" />
+    <ClCompile Include="View\OpenFileTabs.xaml.cpp" />
+    <ClCompile Include="View\Utility\OpenFileUiTemplateSelector.cpp">
+      <Filter>View\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\OpenNullFileVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -242,6 +250,14 @@
       <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="ViewModel\OpenFileTabsVM.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="View\ImageEditor.xaml.h" />
+    <ClInclude Include="View\OpenFileTabs.xaml.h" />
+    <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h">
+      <Filter>View\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenNullFileVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>

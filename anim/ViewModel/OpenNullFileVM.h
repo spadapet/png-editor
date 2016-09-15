@@ -5,19 +5,15 @@
 
 namespace anim
 {
-	class OpenImageFile;
+	ref class OpenImageVM;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class OpenImageVM sealed : IOpenFileVM
+	public ref class OpenNullFileVM sealed : IOpenFileVM
 	{
-	internal:
-		OpenImageVM(std::shared_ptr<OpenImageFile> file);
-		property std::shared_ptr<OpenImageFile> Model { std::shared_ptr<OpenImageFile> get(); }
-
 	public:
-		OpenImageVM();
-		virtual ~OpenImageVM();
+		OpenNullFileVM();
+		virtual ~OpenNullFileVM();
 
 		// INotifyPropertyChanged
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -37,12 +33,7 @@ namespace anim
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
-		void FilePropertyChanged(const char *name);
 
-		std::shared_ptr<OpenImageFile> file;
-		EventCookie fileChangedCookie;
-		Windows::UI::Xaml::UIElement ^control;
 		bool active;
-		bool hover;
 	};
 }

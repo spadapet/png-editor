@@ -10,6 +10,8 @@ static Windows::UI::Xaml::Input::ICommand ^closeCommand = nullptr;
 
 anim::OpenImageVM::OpenImageVM(std::shared_ptr<OpenImageFile> file)
 	: file(file)
+	, active(false)
+	, hover(false)
 {
 	Platform::WeakReference weakOwner(this);
 
@@ -68,6 +70,41 @@ Platform::String ^anim::OpenImageVM::Path::get()
 bool anim::OpenImageVM::IsDirty::get()
 {
 	return this->file != nullptr && this->file->IsDirty();
+}
+
+bool anim::OpenImageVM::IsActive::get()
+{
+	return this->active;
+}
+
+void anim::OpenImageVM::IsActive::set(bool value)
+{
+	if (this->active != value)
+	{
+		this->active = value;
+		this->NotifyPropertyChanged("IsActive");
+		this->NotifyPropertyChanged("ShowCloseButton");
+	}
+}
+
+bool anim::OpenImageVM::TabMouseHover::get()
+{
+	return this->hover;
+}
+
+void anim::OpenImageVM::TabMouseHover::set(bool value)
+{
+	if (this->hover != value)
+	{
+		this->hover = value;
+		this->NotifyPropertyChanged("TabMouseHover");
+		this->NotifyPropertyChanged("ShowCloseButton");
+	}
+}
+
+bool anim::OpenImageVM::ShowCloseButton::get()
+{
+	return this->IsActive || this->TabMouseHover;
 }
 
 Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()

@@ -26,6 +26,7 @@
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp" />
     <ClCompile Include="ViewModel\OpenImageVM.cpp" />
+    <ClCompile Include="ViewModel\OpenNullFileVM.cpp" />
     <ClCompile Include="ViewModel\PaneInfoVM.cpp" />
     <ClCompile Include="ViewModel\MainPageVM.cpp" />
     <ClCompile Include="ViewModel\ProjectFileVM.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="View\Utility\FlatProjectItems.cpp" />
     <ClCompile Include="View\Utility\FlatProjectList.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
+    <ClCompile Include="View\Utility\OpenFileUiTemplateSelector.cpp" />
     <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
     <ClInclude Include="Controller\AppController.h" />
@@ -82,6 +84,7 @@
     <ClInclude Include="ViewModel\IProjectItemVM.h" />
     <ClInclude Include="ViewModel\OpenFileTabsVM.h" />
     <ClInclude Include="ViewModel\OpenImageVM.h" />
+    <ClInclude Include="ViewModel\OpenNullFileVM.h" />
     <ClInclude Include="ViewModel\PaneInfoVM.h" />
     <ClInclude Include="ViewModel\MainPageVM.h" />
     <ClInclude Include="ViewModel\ProjectFileVM.h" />
@@ -112,6 +115,7 @@
     <ClInclude Include="View\Utility\FlatProjectItems.h" />
     <ClInclude Include="View\Utility\FlatProjectList.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
+    <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
     <None Include="TemporaryKey.pfx" />

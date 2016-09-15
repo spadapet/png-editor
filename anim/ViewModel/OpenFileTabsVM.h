@@ -6,6 +6,7 @@ namespace anim
 {
 	class AppState;
 	interface class IOpenFileVM;
+	ref class OpenNullFileVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class OpenFileTabsVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
@@ -22,7 +23,7 @@ namespace anim
 
 		property Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^Files { Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^get(); }
 		property IOpenFileVM ^FocusFile { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
-		property Windows::UI::Xaml::UIElement ^FocusFileUserInterface { Windows::UI::Xaml::UIElement ^get(); }
+		property Windows::UI::Xaml::Controls::ListBox ^TabsList { Windows::UI::Xaml::Controls::ListBox ^get(); void set(Windows::UI::Xaml::Controls::ListBox ^value); }
 
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
@@ -36,6 +37,9 @@ namespace anim
 		EventCookie fileClosedCookie;
 		EventCookie fileFocusCookie;
 		Platform::Collections::Vector<IOpenFileVM ^> ^files;
+		Windows::Foundation::EventRegistrationToken focusFilePropertyChangedCookie;
 		IOpenFileVM ^focusFile;
+		OpenNullFileVM ^nullFile;
+		Platform::WeakReference tabsList;
 	};
 }

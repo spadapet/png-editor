@@ -5,11 +5,16 @@
 #include "ViewModel/IOpenFileVM.h"
 #include "ViewModel/OpenFileTabsVM.h"
 #include "ViewModel/OpenImageVM.h"
+#include "ViewModel/OpenNullFileVM.h"
 
 anim::OpenFileTabsVM::OpenFileTabsVM(std::shared_ptr<AppState> app)
 	: app(app)
 	, files(ref new Platform::Collections::Vector<IOpenFileVM ^>())
+	, nullFile(ref new OpenNullFileVM())
 {
+	this->focusFile = this->nullFile;
+	this->focusFile->IsActive = true;
+
 	Platform::WeakReference weakOwner(this);
 
 	this->fileOpenedCookie = this->app->FileOpened.Add([weakOwner](std::shared_ptr<OpenFile> file)
@@ -52,6 +57,8 @@ anim::OpenFileTabsVM::OpenFileTabsVM()
 
 anim::OpenFileTabsVM::~OpenFileTabsVM()
 {
+	this->focusFile->IsActive = false;
+
 	this->app->FileOpened.Remove(this->fileOpenedCookie);
 	this->app->FileClosed.Remove(this->fileClosedCookie);
 	this->app->FileFocus.Remove(this->fileFocusCookie);
@@ -69,17 +76,29 @@ anim::IOpenFileVM ^anim::OpenFileTabsVM::FocusFile::get()
 
 void anim::OpenFileTabsVM::FocusFile::set(IOpenFileVM ^value)
 {
+	if (value == nullptr)
+	{
+		value = this->nullFile;
+	}
+
 	if (this->focusFile != value)
 	{
+		this->focusFile->IsActive = false;
 		this->focusFile = value;
+		this->focusFile->IsActive = true;
+
 		this->NotifyPropertyChanged("FocusFile");
-		this->NotifyPropertyChanged("FocusFileUserInterface");
 	}
 }
 
-Windows::UI::Xaml::UIElement ^anim::OpenFileTabsVM::FocusFileUserInterface::get()
+Windows::UI::Xaml::Controls::ListBox ^anim::OpenFileTabsVM::TabsList::get()
 {
-	return (this->focusFile != nullptr) ? this->focusFile->UserInterface : nullptr;
+	return this->tabsList.Resolve<Windows::UI::Xaml::Controls::ListBox>();
+}
+
+void anim::OpenFileTabsVM::TabsList::set(Windows::UI::Xaml::Controls::ListBox ^value)
+{
+	this->tabsList = value;
 }
 
 void anim::OpenFileTabsVM::NotifyPropertyChanged(Platform::String ^name)
@@ -94,6 +113,11 @@ void anim::OpenFileTabsVM::OnFileOpened(std::shared_ptr<OpenFile> file)
 	{
 		OpenImageVM ^imageVM = ref new OpenImageVM(imageFile);
 		this->files->Append(imageVM);
+
+		if (this->focusFile == nullptr)
+		{
+			this->OnFileFocus(file);
+		}
 	}
 }
 
@@ -129,6 +153,20 @@ bool anim::OpenFileTabsVM::OnFileFocus(std::shared_ptr<OpenFile> file)
 		if (imageFile != nullptr && openFile->AsImage != nullptr && openFile->AsImage->Model == imageFile)
 		{
 			this->FocusFile = openFile;
+
+			Windows::UI::Xaml::Controls::ListBox ^list = this->TabsList;
+			if (list != nullptr)
+			{
+				anim::PostToMainThread([list, openFile]()
+				{
+					if (list->SelectedItem == openFile)
+					{
+						list->UpdateLayout();
+						list->ScrollIntoView(openFile);
+					}
+				});
+			}
+
 			return true;
 		}
 	}
@@ -138,6 +176,8 @@ bool anim::OpenFileTabsVM::OnFileFocus(std::shared_ptr<OpenFile> file)
 
 void anim::OpenFileTabsVM::ResetFiles()
 {
+	this->FocusFile = this->nullFile;
+
 	for (IOpenFileVM ^openFile : this->files)
 	{
 		openFile->Destroy();

@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <Grid.RowDefinitions>
-        <RowDefinition Height="32" />
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
@@ -26,11 +26,16 @@
             <Setter Property="FontSize" Value="{StaticResource UiFontSize}" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        
+
         <DataTemplate x:Key="TabItemTemplate" x:DataType="local:IOpenFileVM">
-            <StackPanel Orientation="Horizontal" Padding="4" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="TabItem_PointerEntered" PointerExited="TabItem_PointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
-                <TextBlock Text="*" Visibility="{x:Bind IsDirty, Converter={StaticResource BoolToVisible}}" Style="{StaticResource TabTextStyle}" />
+                <TextBlock Text="*" Visibility="{x:Bind IsDirty, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
+                <Grid Margin="4,0,0,0" Width="24" Height="24">
+                    <Button Style="{StaticResource ToolbarButtonStyle}" Visibility="{x:Bind ShowCloseButton, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Command="{x:Bind CloseCommand}" CommandParameter="{x:Bind}">
+                        <Image Source="ms-appx:///Assets/Icons/close_simple.png" Width="16" Height="16" />
+                    </Button>
+                </Grid>
             </StackPanel>
         </DataTemplate>
 
@@ -39,24 +44,60 @@
         </ItemsPanelTemplate>
 
         <Style x:Key="TabListStyle" TargetType="ListBox">
+            <Setter Property="Height" Value="32" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemContainerStyle}" />
             <Setter Property="ItemTemplate" Value="{StaticResource TabItemTemplate}" />
             <Setter Property="ItemsPanel" Value="{StaticResource TabListPanelTemplate}" />
         </Style>
+
+        <Style x:Key="SimpleContentControlStyle" TargetType="ContentControl">
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ImageUiTemplate" x:DataType="local:OpenImageVM">
+            <Grid>
+                <ContentControl Content="{x:Bind UserInterface, Mode=OneWay}" Style="{StaticResource SimpleContentControlStyle}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UnknownUiTemplate" x:DataType="local:IOpenFileVM">
+            <Grid>
+                <TextBlock Text="Can't edit this type of file." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NullUiTemplate" x:DataType="local:IOpenFileVM">
+            <Grid>
+                <TextBlock Text="No file is open." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" />
+            </Grid>
+        </DataTemplate>
+
+        <local:OpenFileUiTemplateSelector
+            x:Key="FileUiTemplateSelector"
+            ImageTemplate="{StaticResource ImageUiTemplate}"
+            UnknownTemplate="{StaticResource UnknownUiTemplate}"
+            NullTemplate="{StaticResource NullUiTemplate}"/>
     </Grid.Resources>
 
     <ListBox
+        x:Name="TabsList"
         Grid.Row="0"
         ItemsSource="{x:Bind State.Files}"
         SelectedItem="{x:Bind State.FocusFile, Mode=TwoWay}"
         Style="{StaticResource TabListStyle}" />
 
-    <ContentControl Grid.Row="1" Content="{x:Bind State.FocusFileUserInterface, Mode=OneWay}" IsTabStop="False">
-        <ContentControl.Template>
-            <ControlTemplate TargetType="ContentControl">
-                <ContentPresenter />
-            </ControlTemplate>
-        </ContentControl.Template>
-    </ContentControl>
+    <ContentControl
+        Grid.Row="1"
+        Content="{x:Bind State.FocusFile, Mode=OneWay}"
+        ContentTemplateSelector="{StaticResource FileUiTemplateSelector}"
+        Style="{StaticResource SimpleContentControlStyle}" />
+
 </Grid>
