@@ -29,6 +29,21 @@
     <Filter Include="View\Utility">
       <UniqueIdentifier>{aca3ab87-16c3-42ce-adb5-1955596b7c36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ViewModel\OpenFiles">
+      <UniqueIdentifier>{90534d36-fda0-494a-a7d4-aa9fd9cc31c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ViewModel\ProjectItems">
+      <UniqueIdentifier>{c7efcf30-cfd9-4c57-b430-11d90096f786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Utility\Converters">
+      <UniqueIdentifier>{a91c1c95-b5ec-48ba-bfd6-db74cbf8d83e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Utility\FlatList">
+      <UniqueIdentifier>{7aa9e8eb-cf9b-45f9-8192-44bdaa45d89f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Utility\Selectors">
+      <UniqueIdentifier>{4edb86e1-a8db-4d61-a8b9-f1520366dba6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -60,9 +75,6 @@
     <ClCompile Include="ViewModel\MainPageVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\ProjectFolderVM.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="ViewModel\FilesPaneVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
@@ -78,17 +90,11 @@
     <ClCompile Include="Controller\AppController.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="View\FilesPane.xaml.cpp" />
     <ClCompile Include="View\MainPage.xaml.cpp" />
     <ClCompile Include="View\Shell.xaml.cpp" />
     <ClCompile Include="Controller\AppPersist.cpp">
       <Filter>Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\ProjectFileVM.cpp">
-      <Filter>ViewModel</Filter>
     </ClCompile>
     <ClCompile Include="Model\ProjectFile.cpp">
       <Filter>Model</Filter>
@@ -96,32 +102,8 @@
     <ClCompile Include="Model\ProjectItem.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\ProjectItemVM.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\LevelToIndentConverter.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\BoolToObjectConverter.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\FlatProjectItems.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\FlatProjectItem.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\FlatProjectList.cpp">
-      <Filter>View\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Xaml.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp">
-      <Filter>View\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Model\OpenFile.cpp">
       <Filter>Model</Filter>
@@ -129,18 +111,51 @@
     <ClCompile Include="Model\OpenImageFile.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\OpenImageVM.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="View\ImageEditor.xaml.cpp" />
     <ClCompile Include="View\OpenFileTabs.xaml.cpp" />
-    <ClCompile Include="View\Utility\OpenFileUiTemplateSelector.cpp">
-      <Filter>View\Utility</Filter>
+    <ClCompile Include="ViewModel\OpenImageVM.cpp">
+      <Filter>ViewModel\OpenFiles</Filter>
     </ClCompile>
     <ClCompile Include="ViewModel\OpenNullFileVM.cpp">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ProjectFileVM.cpp">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ProjectFolderVM.cpp">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ProjectItemVM.cpp">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToObjectConverter.cpp">
+      <Filter>View\Utility\Converters</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\BoolToVisibleConverter.cpp">
+      <Filter>View\Utility\Converters</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\LevelToIndentConverter.cpp">
+      <Filter>View\Utility\Converters</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\FlatProjectItem.cpp">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\FlatProjectItems.cpp">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\FlatProjectList.cpp">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\OpenFileUiTemplateSelector.cpp">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,9 +186,6 @@
     <ClInclude Include="ViewModel\MainPageVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\ProjectFolderVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="ViewModel\FilesPaneVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
@@ -189,17 +201,11 @@
     <ClInclude Include="Controller\AppController.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="View\Utility\BoolToVisibleConverter.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="View\FilesPane.xaml.h" />
     <ClInclude Include="View\MainPage.xaml.h" />
     <ClInclude Include="View\Shell.xaml.h" />
     <ClInclude Include="Controller\AppPersist.h">
       <Filter>Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\ProjectFileVM.h">
-      <Filter>ViewModel</Filter>
     </ClInclude>
     <ClInclude Include="Model\ProjectFile.h">
       <Filter>Model</Filter>
@@ -207,35 +213,8 @@
     <ClInclude Include="Model\ProjectItem.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\IProjectItemVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\ProjectItemVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\LevelToIndentConverter.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\BoolToObjectConverter.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\FlatProjectItems.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\FlatProjectItem.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\FlatProjectList.h">
-      <Filter>View\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Xaml.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h">
-      <Filter>View\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Model\OpenFile.h">
       <Filter>Model</Filter>
@@ -243,21 +222,57 @@
     <ClInclude Include="Model\OpenImageFile.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\IOpenFileVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\OpenImageVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewModel\OpenFileTabsVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="View\ImageEditor.xaml.h" />
     <ClInclude Include="View\OpenFileTabs.xaml.h" />
-    <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h">
-      <Filter>View\Utility</Filter>
+    <ClInclude Include="ViewModel\IOpenFileVM.h">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenImageVM.h">
+      <Filter>ViewModel\OpenFiles</Filter>
     </ClInclude>
     <ClInclude Include="ViewModel\OpenNullFileVM.h">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\IProjectItemVM.h">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectFileVM.h">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectFolderVM.h">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ProjectItemVM.h">
+      <Filter>ViewModel\ProjectItems</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToObjectConverter.h">
+      <Filter>View\Utility\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\BoolToVisibleConverter.h">
+      <Filter>View\Utility\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\LevelToIndentConverter.h">
+      <Filter>View\Utility\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\FlatProjectItem.h">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\FlatProjectItems.h">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\FlatProjectList.h">
+      <Filter>View\Utility\FlatList</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h">
+      <Filter>View\Utility\Selectors</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenFileTabsVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>

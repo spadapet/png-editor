@@ -54,9 +54,3 @@ void anim::OpenFileTabs::OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink
 	anim::AppController controller(this->state->GetApp());
 	controller.OpenFile();
 }
-
-void anim::OpenFileTabs::OnClickOpenFolder(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args)
-{
-	anim::AppController controller(this->state->GetApp());
-	controller.AddProjectFolder();
-}

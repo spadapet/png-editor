@@ -23,6 +23,7 @@ namespace anim
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
 		property Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^Files { Windows::Foundation::Collections::IVector<IOpenFileVM ^> ^get(); }
+		property bool HasFiles { bool get(); }
 		property IOpenFileVM ^FocusFile { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
 		property IOpenFileVM ^FocusFileOrNull { IOpenFileVM ^get(); void set(IOpenFileVM ^value); }
 		property Windows::UI::Xaml::Controls::ListBox ^TabsList { Windows::UI::Xaml::Controls::ListBox ^get(); void set(Windows::UI::Xaml::Controls::ListBox ^value); }

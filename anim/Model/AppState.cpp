@@ -152,13 +152,13 @@ void anim::AppState::RemoveProjectFolder(Windows::Storage::StorageFolder ^folder
 	}
 }
 
-std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(Windows::Storage::StorageFile ^file)
+std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(Windows::Storage::StorageFile ^file, bool focus)
 {
 	std::shared_ptr<ProjectFile> projectFile = std::dynamic_pointer_cast<ProjectFile>(this->RegisterProjectItem(nullptr, file));
-	return this->EditFile(projectFile);
+	return this->EditFile(projectFile, focus);
 }
 
-std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<ProjectFile> file)
+std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<ProjectFile> file, bool focus)
 {
 	std::shared_ptr<OpenFile> openFile = file->GetOpenFile();
 
@@ -177,8 +177,12 @@ std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<Project
 		}
 	}
 
-	bool handled = false;
-	this->FileFocus.Notify(openFile, handled);
+	if (focus)
+	{
+		bool handled = false;
+		this->FileFocus.Notify(openFile, handled);
+	}
+
 	return openFile;
 }
 

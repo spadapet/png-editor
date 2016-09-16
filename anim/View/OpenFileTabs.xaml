@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    d:DataContext="{d:DesignInstance Type=local:OpenFileTabsVM, IsDesignTimeCreatable=True}">
 
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -29,7 +30,7 @@
 
         <DataTemplate x:Key="TabItemTemplate" x:DataType="local:IOpenFileVM">
             <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="OnTabPointerEntered" PointerExited="OnTabPointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}" Unloaded="OnDataTemplateUnloaded">
-                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" TextTrimming="CharacterEllipsis" MaxWidth="256" />
                 <TextBlock Text="*" Visibility="{x:Bind IsDirty, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
                 <Grid Margin="4,0,0,0" Width="24" Height="24">
                     <Button Style="{StaticResource ToolbarButtonStyle}" Visibility="{x:Bind ShowCloseButton, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Command="{x:Bind CloseCommand}" CommandParameter="{x:Bind}">
@@ -80,9 +81,7 @@
         <DataTemplate x:Key="NullUiTemplate" x:DataType="local:OpenNullFileVM">
             <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" TextWrapping="Wrap">
-                    <Hyperlink Click="OnClickOpenFile"><Run Text="Click here" /></Hyperlink><Run Text=" to open an image file." /><LineBreak /><LineBreak />
-                    <Run Text="Or open an image file from the Explorer pane." /><LineBreak />
-                    <Hyperlink Click="OnClickOpenFolder"><Run Text="Click here" /></Hyperlink><Run Text=" to add a project folder to the Explorer pane." />
+                    <Hyperlink Click="OnClickOpenFile"><Run Text="Click here" /></Hyperlink><Run Text=" to open an image file. Or use the Explorer pane." />
                 </TextBlock>
             </Grid>
         </DataTemplate>
@@ -99,7 +98,8 @@
         Grid.Row="0"
         ItemsSource="{x:Bind State.Files}"
         SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
-        Style="{StaticResource TabListStyle}" />
+        Style="{StaticResource TabListStyle}"
+        Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"/>
 
     <ContentControl
         Grid.Row="1"

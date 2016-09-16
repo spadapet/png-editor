@@ -43,8 +43,8 @@ namespace anim
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
 		void RemoveProjectFolder(Windows::Storage::StorageFolder ^folder);
-		std::shared_ptr<OpenFile> EditFile(Windows::Storage::StorageFile ^file);
-		std::shared_ptr<OpenFile> EditFile(std::shared_ptr<ProjectFile> file);
+		std::shared_ptr<OpenFile> EditFile(Windows::Storage::StorageFile ^file, bool focus = true);
+		std::shared_ptr<OpenFile> EditFile(std::shared_ptr<ProjectFile> file, bool focus = true);
 		void CloseFile(std::shared_ptr<OpenFile> openFile);
 
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);

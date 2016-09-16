@@ -3,11 +3,18 @@
 #include "Core/String.h"
 #include "Core/Thread.h"
 #include "Model/AppState.h"
+#include "Model/OpenFile.h"
+#include "Model/ProjectFile.h"
 #include "Model/ProjectFolder.h"
 
 static Windows::Storage::AccessCache::StorageItemAccessList ^GetFutureAccessList()
 {
 	return Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList;
+}
+
+static unsigned int GetMaxFutureAccessSize()
+{
+	return ::GetFutureAccessList()->MaximumItemsAllowed;
 }
 
 Windows::Storage::StorageFolder ^GetCacheFolder()
@@ -26,6 +33,8 @@ static void LoadAppState(std::shared_ptr<anim::AppState> app, Windows::Data::Jso
 	if (root->HasKey("ProjectFolderTokens"))
 	{
 		Windows::Data::Json::JsonArray ^tokens = root->GetNamedArray("ProjectFolderTokens");
+		projectFolderTokens.reserve(tokens->Size);
+
 		for (unsigned int i = 0; i < tokens->Size; i++)
 		{
 			Platform::String ^token = tokens->GetStringAt(i);
@@ -41,10 +50,45 @@ static void LoadAppState(std::shared_ptr<anim::AppState> app, Windows::Data::Jso
 
 		getTask.then([app](Windows::Storage::StorageFolder ^folder)
 		{
-			anim::PostToMainThread([app, folder]()
+			if (folder != nullptr)
 			{
-				app->AddProjectFolder(folder);
-			});
+				anim::PostToMainThread([app, folder]()
+				{
+					app->AddProjectFolder(folder);
+				});
+			}
+		});
+	}
+
+	std::vector<Platform::String ^> openFileTokens;
+	if (root->HasKey("OpenFileTokens"))
+	{
+		Windows::Data::Json::JsonArray ^tokens = root->GetNamedArray("OpenFileTokens");
+		openFileTokens.reserve(tokens->Size);
+
+		for (unsigned int i = 0; i < tokens->Size; i++)
+		{
+			Platform::String ^token = tokens->GetStringAt(i);
+			openFileTokens.push_back(token);
+		}
+	}
+
+	for (Platform::String ^token : openFileTokens)
+	{
+		bool first = (token == openFileTokens.front());
+		auto getTask = concurrency::create_task(
+			::GetFutureAccessList()->GetFileAsync(token,
+				Windows::Storage::AccessCache::AccessCacheOptions::DisallowUserInput));
+
+		getTask.then([app, first](Windows::Storage::StorageFile ^file)
+		{
+			if (file != nullptr)
+			{
+				anim::PostToMainThread([app, file, first]()
+				{
+					app->EditFile(file, first);
+				});
+			}
 		});
 	}
 }
@@ -104,25 +148,60 @@ concurrency::task<void> anim::SaveAppState(std::shared_ptr<AppState> app)
 
 	std::shared_ptr<std::string> text = std::make_shared<std::string>();
 	std::vector<Windows::Storage::StorageFolder ^> projectFolders;
+	std::vector<Windows::Storage::StorageFile ^> openFiles;
 
 	for (std::shared_ptr<ProjectFolder> folder : app->GetProjectFolders())
 	{
 		projectFolders.push_back(folder->GetFolder());
 	}
 
-	auto stringTask = concurrency::create_task([projectFolders, text]()
+	for (std::shared_ptr<OpenFile> file : app->GetOpenFiles())
+	{
+		openFiles.push_back(file->GetFile()->GetFile());
+	}
+
+	auto stringTask = concurrency::create_task([projectFolders, openFiles, text]()
 	{
 		Windows::Data::Json::JsonObject ^root = ref new Windows::Data::Json::JsonObject();
-		Windows::Data::Json::JsonArray ^tokens = ref new Windows::Data::Json::JsonArray();
-		root->SetNamedValue("ProjectFolderTokens", tokens);
+
+		Windows::Data::Json::JsonArray ^projectTokens = ref new Windows::Data::Json::JsonArray();
+		root->SetNamedValue("ProjectFolderTokens", projectTokens);
+
+		Windows::Data::Json::JsonArray ^openFileTokens = ref new Windows::Data::Json::JsonArray();
+		root->SetNamedValue("OpenFileTokens", openFileTokens);
 
 		::GetFutureAccessList()->Clear();
+		unsigned int maxCount = ::GetMaxFutureAccessSize();
+		unsigned int curCount = 0;
 
 		for (Windows::Storage::StorageFolder ^folder : projectFolders)
 		{
-			Platform::String ^token = ::GetFutureAccessList()->Add(folder);
-			Windows::Data::Json::JsonValue ^value = Windows::Data::Json::JsonValue::CreateStringValue(token);
-			tokens->Append(value);
+			if (curCount < maxCount)
+			{
+				Platform::String ^token = ::GetFutureAccessList()->Add(folder);
+				Windows::Data::Json::JsonValue ^value = Windows::Data::Json::JsonValue::CreateStringValue(token);
+				projectTokens->Append(value);
+				curCount++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		for (Windows::Storage::StorageFile ^file : openFiles)
+		{
+			if (curCount < maxCount)
+			{
+				Platform::String ^token = ::GetFutureAccessList()->Add(file);
+				Windows::Data::Json::JsonValue ^value = Windows::Data::Json::JsonValue::CreateStringValue(token);
+				openFileTokens->Append(value);
+				curCount++;
+			}
+			else
+			{
+				break;
+			}
 		}
 
 		*text = anim::ConvertString(root->Stringify());

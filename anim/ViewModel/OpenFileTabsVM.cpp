@@ -74,6 +74,11 @@ Windows::Foundation::Collections::IVector<anim::IOpenFileVM ^> ^anim::OpenFileTa
 	return this->files;
 }
 
+bool anim::OpenFileTabsVM::HasFiles::get()
+{
+	return this->files->Size > 0;
+}
+
 anim::IOpenFileVM ^anim::OpenFileTabsVM::FocusFile::get()
 {
 	return this->focusFile;
@@ -130,7 +135,12 @@ void anim::OpenFileTabsVM::OnFileOpened(std::shared_ptr<OpenFile> file)
 		OpenImageVM ^imageVM = ref new OpenImageVM(imageFile);
 		this->files->Append(imageVM);
 
-		if (this->focusFile == nullptr)
+		if (this->files->Size == 1)
+		{
+			this->NotifyPropertyChanged("HasFiles");
+		}
+
+		if (this->focusFile == this->nullFile)
 		{
 			this->OnFileFocus(file);
 		}
@@ -155,6 +165,12 @@ void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 
 			openFile->Destroy();
 			this->files->RemoveAt(i);
+
+			if (this->files->Size == 0)
+			{
+				this->NotifyPropertyChanged("HasFiles");
+			}
+
 			break;
 		}
 
@@ -207,4 +223,6 @@ void anim::OpenFileTabsVM::ResetFiles()
 	{
 		this->OnFileOpened(file);
 	}
+
+	this->NotifyPropertyChanged();
 }
