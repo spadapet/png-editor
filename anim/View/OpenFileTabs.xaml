@@ -10,6 +10,11 @@
     d:DesignWidth="400"
     d:DataContext="{d:DesignInstance Type=local:OpenFileTabsVM, IsDesignTimeCreatable=True}">
 
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
@@ -91,17 +96,179 @@
             ImageTemplate="{StaticResource ImageUiTemplate}"
             UnknownTemplate="{StaticResource UnknownUiTemplate}"
             NullTemplate="{StaticResource NullUiTemplate}"/>
+
+        <DataTemplate x:Key="TabComboItemTemplate" x:DataType="local:IOpenFileVM">
+            <Grid Unloaded="OnDataTemplateUnloaded">
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="TabComboStyle" TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="ItemTemplate" Value="{StaticResource TabComboItemTemplate}" />
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid x:Name="LayoutRoot" Width="32" Height="32">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxForegroundFocused}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxForegroundFocused}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxDropDownGlyphForegroundFocused}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="FocusedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxForegroundFocusedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxPlaceHolderForegroundFocusedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxDropDownGlyphForegroundFocusedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                    <VisualState x:Name="FocusedDropDown">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PopupBorder" Storyboard.TargetProperty="Visibility" Duration="0">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DropDownStates">
+                                    <VisualState x:Name="Opened">
+                                        <Storyboard>
+                                            <SplitOpenThemeAnimation
+                                                OpenedTargetName="PopupBorder"
+                                                ClosedTargetName="ContentPresenter"
+                                                OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Closed">
+                                        <Storyboard>
+                                            <SplitCloseThemeAnimation
+                                                OpenedTargetName="PopupBorder"
+                                                ClosedTargetName="ContentPresenter"
+                                                OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border
+                                x:Name="Background"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter x:Name="ContentPresenter" Content="{x:Null}" Visibility="Collapsed" />
+                            <TextBlock x:Name="PlaceholderTextBlock" Visibility="Collapsed" />
+                            <FontIcon
+                                x:Name="DropDownGlyph"
+                                IsHitTestVisible="False"
+                                Foreground="{ThemeResource ComboBoxDropDownGlyphForeground}"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                FontSize="12"
+                                Glyph="&#xE0E5;"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw" />
+                            <Popup x:Name="Popup">
+                                <Border
+                                    x:Name="PopupBorder"
+                                    Background="{ThemeResource ComboBoxDropDownBackground}"
+                                    BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}"
+                                    BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}"
+                                    Margin="0,-1,0,-1"
+                                    HorizontalAlignment="Stretch">
+                                    <ScrollViewer
+                                        x:Name="ScrollViewer"
+                                        Foreground="{ThemeResource ComboBoxDropDownForeground}"
+                                        MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        VerticalSnapPointsType="OptionalSingle"
+                                        VerticalSnapPointsAlignment="Near"
+                                        HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                        VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                        IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                        IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                        BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                        ZoomMode="Disabled"
+                                        AutomationProperties.AccessibilityView="Raw">
+                                        <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
     </Grid.Resources>
 
     <ListBox
         x:Name="TabsList"
+        Grid.Column="0"
         Grid.Row="0"
         ItemsSource="{x:Bind State.Files}"
         SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
         Style="{StaticResource TabListStyle}"
-        Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"/>
+        Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
+
+    <ComboBox
+        Grid.Column="1"
+        Grid.Row="0"
+        ItemsSource="{x:Bind State.Files}"
+        SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
+        Style="{StaticResource TabComboStyle}"
+        Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
 
     <ContentControl
+        Grid.Column="0"
+        Grid.ColumnSpan="2"
         Grid.Row="1"
         Content="{x:Bind State.FocusFile, Mode=OneWay}"
         ContentTemplateSelector="{StaticResource FileUiTemplateSelector}"
