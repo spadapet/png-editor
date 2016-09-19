@@ -45,7 +45,6 @@ void anim::ProjectFile::SetFile(Windows::Storage::StorageFile ^file)
 	{
 		this->file = file;
 		ProjectItem::SetItem(file);
-		this->PropertyChanged.Notify("File");
 	}
 }
 

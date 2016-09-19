@@ -261,9 +261,9 @@ std::shared_ptr<anim::ProjectItem> anim::AppState::RegisterProjectItem(std::shar
 	return model;
 }
 
-void anim::AppState::UnregisterProjectItem(Windows::Storage::IStorageItem ^item)
+void anim::AppState::UnregisterProjectItem(Platform::String ^path)
 {
-	std::string name = anim::ConvertString(item->Path);
+	std::string name = anim::ConvertString(path);
 	auto i = this->itemCache.find(name);
 
 	if (i != this->itemCache.end())

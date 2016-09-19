@@ -69,7 +69,6 @@ void anim::ProjectFolder::SetFolder(Windows::Storage::StorageFolder ^folder)
 	{
 		this->folder = folder;
 		ProjectItem::SetItem(folder);
-		this->PropertyChanged.Notify("Folder");
 	}
 }
 
@@ -190,18 +189,19 @@ void anim::ProjectFolder::Merge(std::vector<Windows::Storage::IStorageItem ^> ne
 		if (old != this->items.end())
 		{
 			Windows::Storage::IStorageItem ^oldItem = (*old)->GetItem();
-			if (*i != oldItem)
+			if (*i == oldItem)
 			{
-				if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
-				{
-					*old = this->MakeItem(*i);
-					changed = true;
-				}
-				else
-				{
-					old = this->items.insert(old, this->MakeItem(*i));
-					changed = true;
-				}
+				(*old)->UpdateItem();
+			}
+			else if (std::find(i + 1, newItems.end(), oldItem) == newItems.end())
+			{
+				*old = this->MakeItem(*i);
+				changed = true;
+			}
+			else
+			{
+				old = this->items.insert(old, this->MakeItem(*i));
+				changed = true;
 			}
 		}
 		else

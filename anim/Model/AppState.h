@@ -48,7 +48,7 @@ namespace anim
 		void CloseFile(std::shared_ptr<OpenFile> openFile);
 
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
-		void UnregisterProjectItem(Windows::Storage::IStorageItem ^item);
+		void UnregisterProjectItem(Platform::String ^path);
 
 	private:
 		void Initialize();

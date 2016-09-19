@@ -102,18 +102,17 @@ Platform::String ^anim::ProjectFolderVM::DisplayName::get()
 
 	if (this->Level == 0)
 	{
-		Windows::Storage::StorageFolder ^folder = this->folder->GetFolder();
 		std::wostringstream str;
-		str << folder->Name->Data() << L" (" << folder->Path->Data() << L")";
+		str << this->folder->GetName()->Data() << L" (" << this->folder->GetPath()->Data() << L")";
 		return ref new Platform::String(str.str().c_str());
 	}
 
-	return this->folder->GetFolder()->Name;
+	return this->folder->GetName();
 }
 
 Platform::String ^anim::ProjectFolderVM::FullPath::get()
 {
-	return (this->folder != nullptr) ? this->folder->GetFolder()->Path : "<null>";
+	return (this->folder != nullptr) ? this->folder->GetPath() : "<null>";
 }
 
 int anim::ProjectFolderVM::Level::get()

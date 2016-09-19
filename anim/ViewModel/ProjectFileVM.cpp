@@ -63,12 +63,12 @@ Windows::Storage::IStorageItem ^anim::ProjectFileVM::Item::get()
 
 Platform::String ^anim::ProjectFileVM::DisplayName::get()
 {
-	return (this->file != nullptr) ? this->file->GetFile()->Name : "<null>";
+	return (this->file != nullptr) ? this->file->GetName() : "<null>";
 }
 
 Platform::String ^anim::ProjectFileVM::FullPath::get()
 {
-	return (this->file != nullptr) ? this->file->GetItem()->Path : "<null>";
+	return (this->file != nullptr) ? this->file->GetPath() : "<null>";
 }
 
 int anim::ProjectFileVM::Level::get()
