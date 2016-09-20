@@ -51,7 +51,7 @@ void anim::ProjectItem::SetItem(Windows::Storage::IStorageItem ^item)
 {
 	if (item != this->item)
 	{
-		this->item = item;
+		this->item = safe_cast<Windows::Storage::IStorageItem2 ^>(item);
 		this->PropertyChanged.Notify(nullptr);
 	}
 }
