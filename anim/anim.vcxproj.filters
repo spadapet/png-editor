@@ -44,6 +44,9 @@
     <Filter Include="View\Utility\Selectors">
       <UniqueIdentifier>{4edb86e1-a8db-4d61-a8b9-f1520366dba6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="View\Utility\Controls">
+      <UniqueIdentifier>{89bf349e-ae27-4a15-919e-f81f33f32279}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
       <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\OpenFileComboBox.cpp">
+      <Filter>View\Utility\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="ViewModel\OpenFileTabsVM.h">
       <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\OpenFileComboBox.h">
+      <Filter>View\Utility\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

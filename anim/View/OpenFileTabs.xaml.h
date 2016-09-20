@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "View/OpenFileTabs.g.h"
+#include "View/Utility/OpenFileComboBox.h"
 #include "View/Utility/OpenFileUiTemplateSelector.h"
 #include "ViewModel/IOpenFileVM.h"
 #include "ViewModel/OpenFileTabsVM.h"
@@ -33,3 +34,4 @@ namespace anim
 		OpenFileTabsVM ^state;
 	};
 }
+

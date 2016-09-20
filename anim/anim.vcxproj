@@ -54,6 +54,7 @@
     <ClCompile Include="View\Utility\FlatProjectItems.cpp" />
     <ClCompile Include="View\Utility\FlatProjectList.cpp" />
     <ClCompile Include="View\Utility\LevelToIndentConverter.cpp" />
+    <ClCompile Include="View\Utility\OpenFileComboBox.cpp" />
     <ClCompile Include="View\Utility\OpenFileUiTemplateSelector.cpp" />
     <ClCompile Include="View\Utility\ProjectItemContainerStyleSelector.cpp" />
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="View\Utility\FlatProjectItems.h" />
     <ClInclude Include="View\Utility\FlatProjectList.h" />
     <ClInclude Include="View\Utility\LevelToIndentConverter.h" />
+    <ClInclude Include="View\Utility\OpenFileComboBox.h" />
     <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
