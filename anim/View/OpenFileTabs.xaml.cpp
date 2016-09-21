@@ -54,3 +54,21 @@ void anim::OpenFileTabs::OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink
 	anim::AppController controller(this->state->GetApp());
 	controller.OpenFile();
 }
+
+void anim::OpenFileTabs::OnClickDropDown(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	this->TabsPopup->IsOpen = true;
+}
+
+void anim::OpenFileTabs::OnTabsPopupOpened(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	Windows::UI::Xaml::Controls::Primitives::Popup ^popup =
+		safe_cast<Windows::UI::Xaml::Controls::Primitives::Popup ^>(sender);
+
+	if (popup->IsOpen)
+	{
+		Windows::UI::Xaml::Controls::Control ^child = safe_cast<Windows::UI::Xaml::Controls::Control ^>(popup->Child);
+		popup->HorizontalOffset = -(child->ActualWidth - 32);
+		child->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+	}
+}

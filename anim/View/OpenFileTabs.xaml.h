@@ -30,6 +30,8 @@ namespace anim
 		void OnTabPointerEntered(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
 		void OnTabPointerExited(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args);
 		void OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
+		void OnClickDropDown(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
+		void OnTabsPopupOpened(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
 
 		OpenFileTabsVM ^state;
 	};

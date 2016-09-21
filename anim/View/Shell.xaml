@@ -93,7 +93,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{Binding ActivePane.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4,0,0,0" />
-                    <Button Name="ClosePaneButton" Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" VerticalAlignment="Center" Command="{Binding ActivePane.ToggleActiveCommand}">
+                    <Button Name="ClosePaneButton" Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" VerticalAlignment="Center" Command="{Binding ActivePane.ToggleActiveCommand}" IsTabStop="False">
                         <Image Source="/Assets/Icons/close_simple.png" Width="16" Height="16" />
                     </Button>
                 </Grid>
