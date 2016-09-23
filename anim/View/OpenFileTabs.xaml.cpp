@@ -79,9 +79,24 @@ void anim::OpenFileTabs::OnTabsPopupOpened(Platform::Object ^sender, Windows::UI
 	});
 }
 
+void anim::OpenFileTabs::OnTabsPopupClosed(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	Windows::UI::Xaml::Controls::Primitives::Popup ^popup =
+		safe_cast<Windows::UI::Xaml::Controls::Primitives::Popup ^>(sender);
+	Windows::UI::Xaml::Controls::Button ^button = this->DropTabsButton;
+
+	anim::PostToMainThread([popup, button]()
+	{
+		if (!popup->IsOpen)
+		{
+			button->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+		}
+	});
+}
+
 void anim::OpenFileTabs::OnDropDownButtonKeyDown(Platform::Object ^sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^args)
 {
-	if (!args->Handled && !this->DropTabsPopup->IsOpen)
+	if (!args->Handled && args->Key == Windows::System::VirtualKey::Down && !this->DropTabsPopup->IsOpen)
 	{
 		this->DropTabsPopup->IsOpen = true;
 		args->Handled = true;

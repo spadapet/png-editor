@@ -2,6 +2,7 @@
 #include "Core/Thread.h"
 #include "Model/AppState.h"
 #include "Model/OpenImageFile.h"
+#include "Model/ProjectFile.h"
 #include "ViewModel/IOpenFileVM.h"
 #include "ViewModel/OpenFileTabsVM.h"
 #include "ViewModel/OpenImageVM.h"
@@ -152,12 +153,10 @@ void anim::OpenFileTabsVM::OnFileOpened(std::shared_ptr<OpenFile> file)
 
 void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 {
-	std::shared_ptr<OpenImageFile> imageFile = std::dynamic_pointer_cast<OpenImageFile>(file);
-
 	unsigned int i = 0;
 	for (IOpenFileVM ^openFile : this->files)
 	{
-		if (imageFile != nullptr && openFile->AsImage != nullptr && openFile->AsImage->Model == imageFile)
+		if (file->GetFile()->Equals(openFile->File))
 		{
 			if (this->focusFile == openFile)
 			{
@@ -183,11 +182,9 @@ void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 
 bool anim::OpenFileTabsVM::OnFileFocus(std::shared_ptr<OpenFile> file)
 {
-	std::shared_ptr<OpenImageFile> imageFile = std::dynamic_pointer_cast<OpenImageFile>(file);
-
 	for (IOpenFileVM ^openFile : this->files)
 	{
-		if (imageFile != nullptr && openFile->AsImage != nullptr && openFile->AsImage->Model == imageFile)
+		if (file->GetFile()->Equals(openFile->File))
 		{
 			this->FocusFile = openFile;
 

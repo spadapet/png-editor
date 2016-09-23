@@ -124,6 +124,7 @@
             Style="{StaticResource TabListStyle}" />
 
         <Button
+            x:Name="DropTabsButton"
             Grid.Column="1"
             Style="{StaticResource ToolbarButtonStyle}"
             Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
@@ -139,7 +140,8 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     VerticalOffset="4"
-                    Opened="OnTabsPopupOpened">
+                    Opened="OnTabsPopupOpened"
+                    Closed="OnTabsPopupClosed">
                     <local:OpenFileListBox
                         x:Name="DropTabsList"
                         MaxHeight="512"
