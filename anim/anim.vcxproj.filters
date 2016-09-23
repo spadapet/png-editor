@@ -161,7 +161,10 @@
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
-    <ClCompile Include="View\Utility\OpenFileComboBox.cpp">
+    <ClCompile Include="View\Utility\OpenFileListBox.cpp">
+      <Filter>View\Utility\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="View\Utility\OpenFileListItem.cpp">
       <Filter>View\Utility\Controls</Filter>
     </ClCompile>
   </ItemGroup>
@@ -281,7 +284,10 @@
     <ClInclude Include="ViewModel\OpenFileTabsVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
-    <ClInclude Include="View\Utility\OpenFileComboBox.h">
+    <ClInclude Include="View\Utility\OpenFileListBox.h">
+      <Filter>View\Utility\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Utility\OpenFileListItem.h">
       <Filter>View\Utility\Controls</Filter>
     </ClInclude>
   </ItemGroup>

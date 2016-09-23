@@ -42,9 +42,14 @@
 
         <DataTemplate x:Key="DropTabItemTemplate" x:DataType="local:IOpenFileVM">
             <Grid ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}" Unloaded="OnDataTemplateUnloaded">
-                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" TextTrimming="CharacterEllipsis" MaxWidth="256" />
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" MaxWidth="256" TextTrimming="CharacterEllipsis" />
             </Grid>
         </DataTemplate>
+
+        <Style x:Key="DropTabItemContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
 
         <ItemsPanelTemplate x:Key="TabListPanelTemplate">
             <VirtualizingStackPanel Orientation="Horizontal" />
@@ -97,12 +102,6 @@
             UnknownTemplate="{StaticResource UnknownUiTemplate}"
             NullTemplate="{StaticResource NullUiTemplate}"/>
 
-        <DataTemplate x:Key="TabComboItemTemplate" x:DataType="local:IOpenFileVM">
-            <Grid Unloaded="OnDataTemplateUnloaded">
-                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-            </Grid>
-        </DataTemplate>
-
     </Grid.Resources>
 
     <Grid
@@ -124,22 +123,33 @@
             SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
             Style="{StaticResource TabListStyle}" />
 
-        <Button Grid.Column="1" Style="{StaticResource ToolbarButtonStyle}" Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnClickDropDown">
+        <Button
+            Grid.Column="1"
+            Style="{StaticResource ToolbarButtonStyle}"
+            Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Click="OnClickDropDown"
+            KeyDown="OnDropDownButtonKeyDown">
             <Grid>
                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="{StaticResource UiFontSize}" Glyph="&#xE0E5;" />
                 <Popup
-                    x:Name="TabsPopup"
+                    x:Name="DropTabsPopup"
                     IsLightDismissEnabled="True"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     VerticalOffset="4"
                     Opened="OnTabsPopupOpened">
-                    <ListBox
+                    <local:OpenFileListBox
+                        x:Name="DropTabsList"
+                        MaxHeight="512"
+                        PointerReleased="OnTabPointerExited"
                         BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}"
                         BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}"
                         Background="{ThemeResource ComboBoxDropDownBackground}"
                         ItemsSource="{x:Bind State.Files}"
                         ItemTemplate="{StaticResource DropTabItemTemplate}"
+                        ItemContainerStyle="{StaticResource DropTabItemContainerStyle}"
                         SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}" />
                 </Popup>
             </Grid>

@@ -47,6 +47,11 @@ void anim::OpenImageVM::Destroy()
 	}
 }
 
+Windows::Storage::StorageFile ^anim::OpenImageVM::File::get()
+{
+	return (this->file != nullptr) ? this->file->GetFile()->GetFile() : nullptr;
+}
+
 std::shared_ptr<anim::OpenImageFile> anim::OpenImageVM::Model::get()
 {
 	return this->file;

@@ -9,6 +9,7 @@ namespace anim
 	{
 		void Destroy();
 
+		property Windows::Storage::StorageFile ^File { Windows::Storage::StorageFile ^get(); }
 		property Platform::String ^Name { Platform::String ^get(); }
 		property Platform::String ^Tooltip { Platform::String ^get(); }
 		property Platform::String ^Path { Platform::String ^get(); }

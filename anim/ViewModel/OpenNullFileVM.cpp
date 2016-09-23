@@ -14,6 +14,11 @@ void anim::OpenNullFileVM::Destroy()
 {
 }
 
+Windows::Storage::StorageFile ^anim::OpenNullFileVM::File::get()
+{
+	return nullptr;
+}
+
 Platform::String ^anim::OpenNullFileVM::Name::get()
 {
 	return "";

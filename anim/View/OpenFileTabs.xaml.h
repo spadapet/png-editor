@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "View/OpenFileTabs.g.h"
-#include "View/Utility/OpenFileComboBox.h"
+#include "View/Utility/OpenFileListBox.h"
+#include "View/Utility/OpenFileListItem.h"
 #include "View/Utility/OpenFileUiTemplateSelector.h"
 #include "ViewModel/IOpenFileVM.h"
 #include "ViewModel/OpenFileTabsVM.h"
@@ -32,6 +33,7 @@ namespace anim
 		void OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink ^sender, Windows::UI::Xaml::Documents::HyperlinkClickEventArgs ^args);
 		void OnClickDropDown(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
 		void OnTabsPopupOpened(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
+		void OnDropDownButtonKeyDown(Platform::Object ^sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^args);
 
 		OpenFileTabsVM ^state;
 	};

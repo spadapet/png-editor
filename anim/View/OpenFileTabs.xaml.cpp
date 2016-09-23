@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Controller/AppController.h"
 #include "Core/Xaml.h"
+#include "Core/Thread.h"
 #include "Model/AppState.h"
 #include "View/OpenFileTabs.xaml.h"
 #include "ViewModel/OpenFileTabsVM.h"
@@ -9,6 +10,7 @@ anim::OpenFileTabs::OpenFileTabs(std::shared_ptr<AppState> app)
 	: state(ref new OpenFileTabsVM(app))
 {
 	this->InitializeComponent();
+	this->DropTabsList->SetPopup(this->DropTabsPopup);
 	this->state->TabsList = this->TabsList;
 }
 
@@ -57,7 +59,7 @@ void anim::OpenFileTabs::OnClickOpenFile(Windows::UI::Xaml::Documents::Hyperlink
 
 void anim::OpenFileTabs::OnClickDropDown(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	this->TabsPopup->IsOpen = true;
+	this->DropTabsPopup->IsOpen = true;
 }
 
 void anim::OpenFileTabs::OnTabsPopupOpened(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
@@ -65,10 +67,23 @@ void anim::OpenFileTabs::OnTabsPopupOpened(Platform::Object ^sender, Windows::UI
 	Windows::UI::Xaml::Controls::Primitives::Popup ^popup =
 		safe_cast<Windows::UI::Xaml::Controls::Primitives::Popup ^>(sender);
 
-	if (popup->IsOpen)
+	anim::PostToMainThread([popup]()
 	{
-		Windows::UI::Xaml::Controls::Control ^child = safe_cast<Windows::UI::Xaml::Controls::Control ^>(popup->Child);
-		popup->HorizontalOffset = -(child->ActualWidth - 32);
-		child->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+		if (popup->IsOpen)
+		{
+			Windows::UI::Xaml::Controls::Control ^child = safe_cast<Windows::UI::Xaml::Controls::Control ^>(popup->Child);
+			child->UpdateLayout();
+			popup->HorizontalOffset = -child->ActualWidth + 28;
+			child->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+		}
+	});
+}
+
+void anim::OpenFileTabs::OnDropDownButtonKeyDown(Platform::Object ^sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^args)
+{
+	if (!args->Handled && !this->DropTabsPopup->IsOpen)
+	{
+		this->DropTabsPopup->IsOpen = true;
+		args->Handled = true;
 	}
 }

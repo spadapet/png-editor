@@ -20,6 +20,7 @@ namespace anim
 
 		// IOpenFileVM
 		virtual void Destroy();
+		virtual property Windows::Storage::StorageFile ^File { Windows::Storage::StorageFile ^get(); }
 		virtual property Platform::String ^Name { Platform::String ^get(); }
 		virtual property Platform::String ^Tooltip { Platform::String ^get(); }
 		virtual property Platform::String ^Path { Platform::String ^get(); }

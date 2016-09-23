@@ -109,7 +109,10 @@ anim::IOpenFileVM ^anim::OpenFileTabsVM::FocusFileOrNull::get()
 
 void anim::OpenFileTabsVM::FocusFileOrNull::set(IOpenFileVM ^value)
 {
-	this->FocusFile = value;
+	if (value != nullptr)
+	{
+		this->app->EditFile(value->File);
+	}
 }
 
 Windows::UI::Xaml::Controls::ListBox ^anim::OpenFileTabsVM::TabsList::get()
