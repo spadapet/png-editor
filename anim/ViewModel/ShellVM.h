@@ -13,6 +13,7 @@ namespace anim
 	{
 	internal:
 		ShellVM(std::shared_ptr<AppState> app);
+		std::shared_ptr<AppState> GetApp() const;
 
 	public:
 		ShellVM();

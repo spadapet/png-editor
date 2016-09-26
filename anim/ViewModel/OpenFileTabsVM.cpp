@@ -13,6 +13,7 @@ anim::OpenFileTabsVM::OpenFileTabsVM(std::shared_ptr<AppState> app)
 	, files(ref new Platform::Collections::Vector<IOpenFileVM ^>())
 	, nullFile(ref new OpenNullFileVM())
 {
+	this->currentTabOrder = this->tabOrder.end();
 	this->focusFile = this->nullFile;
 	this->focusFile->IsActive = true;
 
@@ -63,6 +64,14 @@ anim::OpenFileTabsVM::~OpenFileTabsVM()
 	this->app->FileOpened.Remove(this->fileOpenedCookie);
 	this->app->FileClosed.Remove(this->fileClosedCookie);
 	this->app->FileFocus.Remove(this->fileFocusCookie);
+}
+
+void anim::OpenFileTabsVM::CycleTabs(bool reverse)
+{
+}
+
+void anim::OpenFileTabsVM::StopCycleTabs()
+{
 }
 
 std::shared_ptr<anim::AppState> anim::OpenFileTabsVM::GetApp() const

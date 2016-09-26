@@ -34,6 +34,11 @@ anim::ShellVM::~ShellVM()
 	this->app->PropertyChanged.Remove(this->appChangedCookie);
 }
 
+std::shared_ptr<anim::AppState> anim::ShellVM::GetApp() const
+{
+	return this->app;
+}
+
 Windows::Foundation::Collections::IVector<anim::PaneInfoVM ^> ^anim::ShellVM::Panes::get()
 {
 	return this->panes;

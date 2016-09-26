@@ -167,6 +167,12 @@
     <ClCompile Include="View\Utility\OpenFileListItem.cpp">
       <Filter>View\Utility\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\IOpenFileVM\IOpenFileVM.cpp">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Windows.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -289,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="View\Utility\OpenFileListItem.h">
       <Filter>View\Utility\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Windows.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

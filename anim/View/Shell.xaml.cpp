@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "Core/Windows.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
 #include "View/OpenFileTabs.xaml.h"
@@ -34,9 +35,70 @@ anim::ShellVM ^anim::Shell::State::get()
 	return this->state;
 }
 
+anim::OpenFileTabs ^anim::Shell::ActiveOpenFiles::get()
+{
+	return this->openFiles;
+}
+
+anim::IOpenFileVM ^anim::Shell::ActiveOpenFile::get()
+{
+	return (this->ActiveOpenFiles != nullptr)
+		? this->ActiveOpenFiles->State->FocusFileOrNull
+		: nullptr;
+}
+
 void anim::Shell::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
 	anim::DisconnectDataTemplateBindings(sender);
+}
+
+void anim::Shell::OnLoaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	this->keyDownCookie = Windows::UI::Xaml::Window::Current->CoreWindow->KeyDown +=
+		ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>(
+			this, &anim::Shell::OnWindowKeyDown);
+}
+
+void anim::Shell::OnUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
+{
+	if (this->keyDownCookie.Value != 0)
+	{
+		Windows::UI::Xaml::Window::Current->CoreWindow->KeyDown -= this->keyDownCookie;
+		this->keyDownCookie.Value = 0;
+	}
+}
+
+void anim::Shell::OnWindowKeyDown(Windows::UI::Core::CoreWindow ^sender, Windows::UI::Core::KeyEventArgs ^args)
+{
+	Windows::UI::Core::CoreWindow ^window = Windows::UI::Xaml::Window::Current->CoreWindow;
+	bool ctrl = anim::IsKeyDown(window, Windows::System::VirtualKey::Control);
+	bool shift = anim::IsKeyDown(window, Windows::System::VirtualKey::Shift);
+
+	switch (args->VirtualKey)
+	{
+	case Windows::System::VirtualKey::F4:
+		if (ctrl && this->ActiveOpenFile != nullptr)
+		{
+			this->state->GetApp()->CloseFile(anim::GetOpenFileModel(this->ActiveOpenFile));
+			args->Handled = true;
+		}
+		break;
+
+	case Windows::System::VirtualKey::Tab:
+		if (ctrl && this->ActiveOpenFiles != nullptr)
+		{
+			this->ActiveOpenFiles->State->CycleTabs(shift);
+			args->Handled = true;
+		}
+		break;
+
+	case Windows::System::VirtualKey::Control:
+		if (args->KeyStatus.IsKeyReleased && this->ActiveOpenFiles != nullptr)
+		{
+			this->ActiveOpenFiles->State->StopCycleTabs();
+		}
+		break;
+	}
 }
 
 void anim::Shell::ResizeBorder_PointerCanceled(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)

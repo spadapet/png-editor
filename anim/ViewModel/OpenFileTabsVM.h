@@ -19,6 +19,9 @@ namespace anim
 		OpenFileTabsVM();
 		virtual ~OpenFileTabsVM();
 
+		void CycleTabs(bool reverse);
+		void StopCycleTabs();
+
 		// INotifyPropertyChanged
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
@@ -40,6 +43,8 @@ namespace anim
 		EventCookie fileClosedCookie;
 		EventCookie fileFocusCookie;
 		Platform::Collections::Vector<IOpenFileVM ^> ^files;
+		std::list<IOpenFileVM ^> tabOrder;
+		std::list<IOpenFileVM ^>::iterator currentTabOrder;
 		Windows::Foundation::EventRegistrationToken focusFilePropertyChangedCookie;
 		IOpenFileVM ^focusFile;
 		OpenNullFileVM ^nullFile;

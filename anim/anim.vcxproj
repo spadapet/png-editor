@@ -12,6 +12,7 @@
     <ClCompile Include="Controller\AppController.cpp" />
     <ClCompile Include="Controller\AppPersist.cpp" />
     <ClCompile Include="Core\Command.cpp" />
+    <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="Core\Xaml.cpp" />
     <ClCompile Include="Core\Event.cpp" />
     <ClCompile Include="Core\Properties.cpp" />
@@ -24,6 +25,7 @@
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="Model\ProjectItem.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
+    <ClCompile Include="ViewModel\IOpenFileVM\IOpenFileVM.cpp" />
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp" />
     <ClCompile Include="ViewModel\OpenImageVM.cpp" />
     <ClCompile Include="ViewModel\OpenNullFileVM.cpp" />
@@ -62,6 +64,7 @@
     <ClInclude Include="Controller\AppController.h" />
     <ClInclude Include="Controller\AppPersist.h" />
     <ClInclude Include="Core\Command.h" />
+    <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="Core\Xaml.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\Properties.h" />

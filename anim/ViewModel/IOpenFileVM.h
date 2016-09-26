@@ -2,6 +2,7 @@
 
 namespace anim
 {
+	class OpenFile;
 	ref class OpenImageVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -22,4 +23,6 @@ namespace anim
 
 		property OpenImageVM ^AsImage { OpenImageVM ^get(); }
 	};
+
+	std::shared_ptr<OpenFile> GetOpenFileModel(IOpenFileVM ^file);
 }
