@@ -87,6 +87,12 @@ void anim::OpenImageVM::IsActive::set(bool value)
 	if (this->active != value)
 	{
 		this->active = value;
+
+		if (this->active && this->file != nullptr)
+		{
+			this->file->Initialize();
+		}
+
 		this->NotifyPropertyChanged("IsActive");
 		this->NotifyPropertyChanged("ShowCloseButton");
 	}

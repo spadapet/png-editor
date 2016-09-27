@@ -11,6 +11,9 @@
 #include <ppltasks.h>
 #include <windows.foundation.collections.h>
 
+#include "../libpng/png.h"
+#include "../zlib/zlib.h"
+
 namespace anim
 {
 	static const size_t INVALID_SIZE = (size_t)-1;

@@ -20,6 +20,7 @@ namespace anim
 
 		std::shared_ptr<ProjectFile> GetFile() const;
 		virtual bool IsDirty() const = 0;
+		virtual bool IsLoaded() const = 0;
 
 	private:
 		std::shared_ptr<ProjectFile> file;

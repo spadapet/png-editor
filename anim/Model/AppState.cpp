@@ -165,7 +165,6 @@ std::shared_ptr<anim::OpenFile> anim::AppState::EditFile(std::shared_ptr<Project
 	if (openFile == nullptr)
 	{
 		openFile = std::make_shared<OpenImageFile>(file);
-		openFile->Initialize();
 
 		bool modeChange = this->openFiles.empty();
 		this->openFiles.push_back(openFile);

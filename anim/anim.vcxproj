@@ -7,7 +7,7 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
   </PropertyGroup>
-  <Import Project="../cpp.props" />
+  <Import Project="..\cpp.props" />
   <ItemGroup>
     <ClCompile Include="Controller\AppController.cpp" />
     <ClCompile Include="Controller\AppPersist.cpp" />
@@ -183,6 +183,14 @@
     </Page>
     <Page Include="View\Shell.xaml" />
     <Page Include="View\Theme.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libpng\libpng.vcxproj">
+      <Project>{3cf4a670-c800-4548-804d-1d4789e0a9d6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\zlib\zlib.vcxproj">
+      <Project>{49f8c1b7-6d04-44b7-82ba-a813d826b2f1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
