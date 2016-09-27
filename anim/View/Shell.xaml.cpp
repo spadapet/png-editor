@@ -54,18 +54,23 @@ void anim::Shell::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::
 
 void anim::Shell::OnLoaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	this->keyDownCookie = Windows::UI::Xaml::Window::Current->CoreWindow->KeyDown +=
+	Windows::UI::Core::CoreWindow ^window = Windows::UI::Xaml::Window::Current->CoreWindow;
+
+	this->keyDownCookie = window->KeyDown +=
 		ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>(
 			this, &anim::Shell::OnWindowKeyDown);
+
+	this->keyUpCookie = window->KeyUp +=
+		ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>(
+			this, &anim::Shell::OnWindowKeyUp);
 }
 
 void anim::Shell::OnUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
-	if (this->keyDownCookie.Value != 0)
-	{
-		Windows::UI::Xaml::Window::Current->CoreWindow->KeyDown -= this->keyDownCookie;
-		this->keyDownCookie.Value = 0;
-	}
+	Windows::UI::Core::CoreWindow ^window = Windows::UI::Xaml::Window::Current->CoreWindow;
+
+	window->KeyDown -= this->keyDownCookie;
+	window->KeyUp -= this->keyUpCookie;
 }
 
 void anim::Shell::OnWindowKeyDown(Windows::UI::Core::CoreWindow ^sender, Windows::UI::Core::KeyEventArgs ^args)
@@ -91,9 +96,15 @@ void anim::Shell::OnWindowKeyDown(Windows::UI::Core::CoreWindow ^sender, Windows
 			args->Handled = true;
 		}
 		break;
+	}
+}
 
+void anim::Shell::OnWindowKeyUp(Windows::UI::Core::CoreWindow ^sender, Windows::UI::Core::KeyEventArgs ^args)
+{
+	switch (args->VirtualKey)
+	{
 	case Windows::System::VirtualKey::Control:
-		if (args->KeyStatus.IsKeyReleased && this->ActiveOpenFiles != nullptr)
+		if (this->ActiveOpenFiles != nullptr)
 		{
 			this->ActiveOpenFiles->State->StopCycleTabs();
 		}

@@ -35,7 +35,8 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void OnFileOpened(std::shared_ptr<OpenFile> file);
 		void OnFileClosed(std::shared_ptr<OpenFile> file);
-		bool OnFileFocus(std::shared_ptr<OpenFile> file);
+		bool OnFileFocus(std::shared_ptr<OpenFile> file, bool tabCycle);
+		bool OnFileFocus(IOpenFileVM ^file, bool tabCycle);
 		void ResetFiles();
 
 		std::shared_ptr<AppState> app;

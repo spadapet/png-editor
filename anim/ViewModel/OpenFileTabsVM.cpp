@@ -44,7 +44,7 @@ anim::OpenFileTabsVM::OpenFileTabsVM(std::shared_ptr<AppState> app)
 			OpenFileTabsVM ^owner = weakOwner.Resolve<OpenFileTabsVM>();
 			if (owner != nullptr)
 			{
-				handled = owner->OnFileFocus(file);
+				handled = owner->OnFileFocus(file, false);
 			}
 		}
 	});
@@ -68,10 +68,41 @@ anim::OpenFileTabsVM::~OpenFileTabsVM()
 
 void anim::OpenFileTabsVM::CycleTabs(bool reverse)
 {
+	if (this->currentTabOrder != this->tabOrder.end())
+	{
+		if (reverse)
+		{
+			if (this->currentTabOrder == this->tabOrder.begin())
+			{
+				this->currentTabOrder = this->tabOrder.end();
+			}
+
+			this->currentTabOrder--;
+		}
+		else
+		{
+			this->currentTabOrder++;
+
+			if (this->currentTabOrder == this->tabOrder.end())
+			{
+				this->currentTabOrder = this->tabOrder.begin();
+			}
+		}
+
+		this->OnFileFocus(*this->currentTabOrder, true);
+	}
 }
 
 void anim::OpenFileTabsVM::StopCycleTabs()
 {
+	if (this->currentTabOrder != this->tabOrder.begin() &&
+		this->currentTabOrder != this->tabOrder.end())
+	{
+		IOpenFileVM ^file = *this->currentTabOrder;
+		this->tabOrder.erase(this->currentTabOrder);
+		this->tabOrder.push_front(file);
+		this->currentTabOrder = this->tabOrder.begin();
+	}
 }
 
 std::shared_ptr<anim::AppState> anim::OpenFileTabsVM::GetApp() const
@@ -119,9 +150,9 @@ anim::IOpenFileVM ^anim::OpenFileTabsVM::FocusFileOrNull::get()
 
 void anim::OpenFileTabsVM::FocusFileOrNull::set(IOpenFileVM ^value)
 {
-	if (value != nullptr)
+	if (value != nullptr && this->focusFile != value)
 	{
-		this->app->EditFile(value->File);
+		this->OnFileFocus(value, false);
 	}
 }
 
@@ -147,6 +178,8 @@ void anim::OpenFileTabsVM::OnFileOpened(std::shared_ptr<OpenFile> file)
 	{
 		OpenImageVM ^imageVM = ref new OpenImageVM(imageFile);
 		this->files->Append(imageVM);
+		this->tabOrder.push_front(imageVM);
+		this->currentTabOrder = this->tabOrder.begin();
 
 		if (this->files->Size == 1)
 		{
@@ -155,7 +188,7 @@ void anim::OpenFileTabsVM::OnFileOpened(std::shared_ptr<OpenFile> file)
 
 		if (this->focusFile == this->nullFile)
 		{
-			this->OnFileFocus(file);
+			this->OnFileFocus(file, false);
 		}
 	}
 }
@@ -177,6 +210,15 @@ void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 			openFile->Destroy();
 			this->files->RemoveAt(i);
 
+			auto tabIter = std::find(this->tabOrder.begin(), this->tabOrder.end(), openFile);
+			bool currentTab = (this->currentTabOrder == tabIter);
+			this->tabOrder.erase(tabIter);
+
+			if (currentTab)
+			{
+				this->currentTabOrder = this->tabOrder.begin();
+			}
+
 			if (this->files->Size == 0)
 			{
 				this->NotifyPropertyChanged("HasFiles");
@@ -189,32 +231,53 @@ void anim::OpenFileTabsVM::OnFileClosed(std::shared_ptr<OpenFile> file)
 	}
 }
 
-bool anim::OpenFileTabsVM::OnFileFocus(std::shared_ptr<OpenFile> file)
+bool anim::OpenFileTabsVM::OnFileFocus(std::shared_ptr<OpenFile> file, bool tabCycle)
 {
+	bool success = false;
+
 	for (IOpenFileVM ^openFile : this->files)
 	{
 		if (file->GetFile()->Equals(openFile->File))
 		{
-			this->FocusFile = openFile;
-
-			Windows::UI::Xaml::Controls::ListBox ^list = this->TabsList;
-			if (list != nullptr)
-			{
-				anim::PostToMainThread([list, openFile]()
-				{
-					if (list->SelectedItem == openFile)
-					{
-						list->UpdateLayout();
-						list->ScrollIntoView(openFile);
-					}
-				});
-			}
-
-			return true;
+			success = this->OnFileFocus(openFile, tabCycle);
+			break;
 		}
 	}
 
-	return false;
+	return success;
+}
+
+bool anim::OpenFileTabsVM::OnFileFocus(IOpenFileVM ^file, bool tabCycle)
+{
+	auto iter = std::find(this->tabOrder.begin(), this->tabOrder.end(), file);
+	if (iter == this->tabOrder.end())
+	{
+		assert(false);
+		return false;
+	}
+
+	this->FocusFile = file;
+	this->currentTabOrder = iter;
+
+	if (!tabCycle)
+	{
+		this->StopCycleTabs();
+	}
+
+	Windows::UI::Xaml::Controls::ListBox ^list = this->TabsList;
+	if (list != nullptr)
+	{
+		anim::PostToMainThread([list, file]()
+		{
+			if (list->SelectedItem == file)
+			{
+				list->UpdateLayout();
+				list->ScrollIntoView(file);
+			}
+		});
+	}
+
+	return true;
 }
 
 void anim::OpenFileTabsVM::ResetFiles()
