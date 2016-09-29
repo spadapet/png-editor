@@ -126,6 +126,9 @@
   <data name="ColorPaneName.Text" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="ErrorNullImage" xml:space="preserve">
+    <value>Image file is invalid</value>
+  </data>
   <data name="FilesPaneName.Text" xml:space="preserve">
     <value>Explorer</value>
   </data>

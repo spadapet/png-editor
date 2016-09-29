@@ -19,6 +19,7 @@
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
     <ClCompile Include="Model\OpenFile.cpp" />
+    <ClCompile Include="Model\Image.cpp" />
     <ClCompile Include="Model\OpenImageFile.cpp" />
     <ClCompile Include="Model\PaneInfo.cpp" />
     <ClCompile Include="Model\ProjectFile.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Core\Thread.h" />
     <ClInclude Include="Model\OpenFile.h" />
+    <ClInclude Include="Model\Image.h" />
     <ClInclude Include="Model\OpenImageFile.h" />
     <ClInclude Include="Model\PaneInfo.h" />
     <ClInclude Include="Model\AppState.h" />
