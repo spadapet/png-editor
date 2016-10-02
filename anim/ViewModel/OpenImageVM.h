@@ -42,7 +42,7 @@ namespace anim
 
 		std::shared_ptr<OpenImageFile> file;
 		EventCookie fileChangedCookie;
-		Windows::UI::Xaml::UIElement ^control;
+		Platform::WeakReference control;
 		bool active;
 		bool hover;
 	};

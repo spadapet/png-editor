@@ -4,6 +4,7 @@
 #include "Model/AppState.h"
 #include "Model/OpenImageFile.h"
 #include "Model/ProjectFile.h"
+#include "View/ImageEditor.xaml.h"
 #include "ViewModel/OpenImageVM.h"
 
 static Windows::UI::Xaml::Input::ICommand ^closeCommand = nullptr;
@@ -120,14 +121,15 @@ bool anim::OpenImageVM::ShowCloseButton::get()
 
 Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 {
-	if (this->control == nullptr)
+	Windows::UI::Xaml::UIElement ^control = this->control.Resolve<Windows::UI::Xaml::UIElement>();
+
+	if (control == nullptr)
 	{
-		Windows::UI::Xaml::Controls::Grid ^grid = ref new Windows::UI::Xaml::Controls::Grid();
-		grid->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(255, 32, 0, 64));
-		this->control = grid;
+		control = ref new ImageEditor(this);
+		this->control = control;
 	}
 
-	return this->control;
+	return control;
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::OpenImageVM::CloseCommand::get()
