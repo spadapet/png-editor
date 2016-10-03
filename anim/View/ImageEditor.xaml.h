@@ -19,6 +19,8 @@ namespace anim
 		property OpenImageVM ^State { OpenImageVM ^get(); }
 
 	private:
+		void OnRegionsInvalidated(Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender, Microsoft::Graphics::Canvas::UI::Xaml::CanvasRegionsInvalidatedEventArgs ^args);
+
 		OpenImageVM ^image;
 	};
 }

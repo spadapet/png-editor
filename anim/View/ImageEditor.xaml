@@ -14,7 +14,21 @@
         HorizontalScrollBarVisibility="Auto"
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollMode="Auto"
-        VerticalScrollMode="Auto">
-        <canvas:CanvasVirtualControl ClearColor="Black" UseSharedDevice="True" Width="1000" Height="1000" />
+        VerticalScrollMode="Auto"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"
+        ZoomMode="Enabled"
+        MaxZoomFactor="8"
+        MinZoomFactor="0.25"
+        Background="Bisque">
+        <canvas:CanvasVirtualControl
+            BorderBrush="Red"
+            BorderThickness="1"
+            Margin="32"
+            ClearColor="Black"
+            UseSharedDevice="True"
+            Width="1000"
+            Height="600"
+            RegionsInvalidated="OnRegionsInvalidated" />
     </ScrollViewer>
 </Grid>
