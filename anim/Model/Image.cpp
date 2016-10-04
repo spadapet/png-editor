@@ -1,10 +1,13 @@
 #include "pch.h"
+#include "Core/String.h"
 #include "Model/Image.h"
 
 anim::Image::Image()
 	: pngStruct(nullptr)
 	, pngInfo(nullptr)
 	, pngEndInfo(nullptr)
+	, readBytes(nullptr)
+	, endReadBytes(nullptr)
 {
 }
 
@@ -16,22 +19,30 @@ anim::Image::~Image()
 	}
 }
 
-bool anim::Image::Initialize(const void * bytes, size_t byteSize, std::string &errorText)
+bool anim::Image::Initialize(const void *bytes, size_t byteSize, std::string &errorText)
 {
+	this->readBytes = (const unsigned char *)bytes;
+	this->endReadBytes = this->readBytes + byteSize;
+
 	if (::png_sig_cmp((const unsigned char *)bytes, 0, byteSize) != 0)
 	{
-		assert(false);
+		errorText = anim::ConvertString(anim::Resource::GetString("ErrorInvalidPng"));
 		return false;
 	}
 
 	this->pngStruct = ::png_create_read_struct(PNG_LIBPNG_VER_STRING, this, &Image::PngErrorCallback, &Image::PngWarningCallback);
-	if (this->pngStruct == nullptr)
+	this->pngInfo = ::png_create_info_struct(this->pngStruct);
+	this->pngEndInfo = ::png_create_info_struct(this->pngStruct);
+
+	::png_set_chunk_malloc_max(this->pngStruct, 0x10000000);
+	::png_set_read_user_chunk_fn(this->pngStruct, this, &Image::PngUnknownChunkCallback);
+	::png_set_read_fn(this->pngStruct, this, &Image::PngReadCallback);
+
+	if (::setjmp(png_jmpbuf(this->pngStruct)))
 	{
-		assert(false);
+		errorText = anim::ConvertString(anim::Resource::GetString("ErrorFailedPng"));
 		return false;
 	}
-
-	::png_set_read_user_chunk_fn(this->pngStruct, this, &Image::PngUnknownChunkCallback);
 
 	return true;
 }
@@ -54,6 +65,12 @@ int anim::Image::PngUnknownChunkCallback(png_struct *pngStruct, png_unknown_chun
 	return owner->OnPngUnknownChunk(pngStruct, chunk);
 }
 
+void anim::Image::PngReadCallback(png_struct *pngStruct, unsigned char *data, size_t size)
+{
+	Image *owner = (Image *)::png_get_io_ptr(pngStruct);
+	owner->OnPngRead(pngStruct, data, size);
+}
+
 void anim::Image::OnPngError(png_struct *pngStruct, const char *text)
 {
 }
@@ -65,4 +82,8 @@ void anim::Image::OnPngWarning(png_struct *pngStruct, const char *text)
 int anim::Image::OnPngUnknownChunk(png_struct *pngStruct, png_unknown_chunk *chunk)
 {
 	return 0;
+}
+
+void anim::Image::OnPngRead(png_struct *pngStruct, unsigned char *data, size_t size)
+{
 }

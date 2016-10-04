@@ -126,6 +126,12 @@
   <data name="ColorPaneName.Text" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="ErrorFailedPng" xml:space="preserve">
+    <value>Failed to load PNG file</value>
+  </data>
+  <data name="ErrorInvalidPng" xml:space="preserve">
+    <value>Invalid PNG file</value>
+  </data>
   <data name="ErrorNullImage" xml:space="preserve">
     <value>Image file is invalid</value>
   </data>
