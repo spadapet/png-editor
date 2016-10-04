@@ -35,3 +35,9 @@ void anim::ImageEditor::OnRegionsInvalidated(
 		Microsoft::Graphics::Canvas::CanvasDrawingSession ^session = sender->CreateDrawingSession(rect);
 	}
 }
+
+void anim::ImageEditor::OnCreateResources(
+	Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender,
+	Microsoft::Graphics::Canvas::UI::CanvasCreateResourcesEventArgs ^args)
+{
+}

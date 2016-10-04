@@ -20,6 +20,7 @@ namespace anim
 
 	private:
 		void OnRegionsInvalidated(Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender, Microsoft::Graphics::Canvas::UI::Xaml::CanvasRegionsInvalidatedEventArgs ^args);
+		void OnCreateResources(Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender, Microsoft::Graphics::Canvas::UI::CanvasCreateResourcesEventArgs ^args);
 
 		OpenImageVM ^image;
 	};

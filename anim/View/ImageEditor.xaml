@@ -29,6 +29,7 @@
             UseSharedDevice="True"
             Width="1000"
             Height="600"
-            RegionsInvalidated="OnRegionsInvalidated" />
+            RegionsInvalidated="OnRegionsInvalidated"
+            CreateResources="OnCreateResources" />
     </ScrollViewer>
 </Grid>

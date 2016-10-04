@@ -52,29 +52,37 @@ void anim::OpenImageFile::Initialize()
 		return input->ReadAsync(buffer, (unsigned int)stream->Size, Windows::Storage::Streams::InputStreamOptions::None);
 	});
 
-	auto imageTask = readTask.then([](Windows::Storage::Streams::IBuffer ^buffer) -> std::shared_ptr<Image>
-	{
-		Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-		Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
-
-		reader->ReadBytes(bytes);
-		return std::make_shared<Image>(bytes->Data, bytes->Length);
-	});
-
 	struct Result
 	{
 		std::string fatalError;
 		std::shared_ptr<Image> image;
 	};
 
-	auto resultTask = imageTask.then([](concurrency::task<std::shared_ptr<Image>> prevTask) -> Result
+	auto imageTask = readTask.then([](Windows::Storage::Streams::IBuffer ^buffer) -> Result
+	{
+		Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+		Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
+
+		reader->ReadBytes(bytes);
+		std::shared_ptr<Image> image = std::make_shared<Image>();
+
+		Result result;
+		if (image->Initialize(bytes->Data, bytes->Length, result.fatalError))
+		{
+			result.image = image;
+		}
+
+		return result;
+	});
+
+	auto resultTask = imageTask.then([](concurrency::task<Result> prevTask) -> Result
 	{
 		Result result;
 
 		try
 		{
-			result.image = prevTask.get();
-			if (result.image == nullptr)
+			result = prevTask.get();
+			if (result.image == nullptr && result.fatalError.empty())
 			{
 				throw ref new Platform::Exception(E_FAIL, anim::Resource::GetString("ErrorNullImage"));
 			}
