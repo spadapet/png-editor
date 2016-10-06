@@ -21,7 +21,10 @@ namespace anim
 		// Reading
 		const unsigned char *readPos;
 		const unsigned char *endPos;
-		unsigned char *rowBuf;
+		std::vector<unsigned char> data;
+		std::vector<unsigned char *> rows;
+		size_t rowStride;
+		bool hasAlpha;
 
 		// Properties
 		unsigned int width;
@@ -29,6 +32,8 @@ namespace anim
 		int bitDepth;
 		int colorType;
 		int interlaceMethod;
+
+		// Palette
 		png_color *palette;
 		int paletteSize;
 		unsigned char *transPalette;
@@ -39,10 +44,14 @@ namespace anim
 
 anim::ReadInfo::ReadInfo(Image *image, const unsigned char *bytes, size_t size, std::string &errorText)
 	: image(image)
+	, png(nullptr)
+	, info(nullptr)
+	, endInfo(nullptr)
+	, errorText(errorText)
 	, readPos(bytes)
 	, endPos(bytes + size)
-	, rowBuf(nullptr)
-	, errorText(errorText)
+	, rowStride(0)
+	, hasAlpha(false)
 	, width(0)
 	, height(0)
 	, bitDepth(0)
@@ -61,11 +70,6 @@ anim::ReadInfo::ReadInfo(Image *image, const unsigned char *bytes, size_t size, 
 
 anim::ReadInfo::~ReadInfo()
 {
-	if (this->rowBuf != nullptr)
-	{
-		::png_free(this->png, this->rowBuf);
-	}
-
 	::png_destroy_read_struct(&this->png, &this->info, &this->endInfo);
 }
 
@@ -102,9 +106,37 @@ bool anim::ReadInfo::Read()
 
 	// Palette
 	::png_get_PLTE(this->png, this->info, &this->palette, &this->paletteSize);
-	::png_get_tRNS(this->png, this->info, &this->transPalette, &this->transPaletteSize, &this->transColor);
+	bool has_tRNS = ::png_get_tRNS(this->png, this->info, &this->transPalette, &this->transPaletteSize, &this->transColor) != 0;
+	this->hasAlpha = has_tRNS || (this->colorType & PNG_COLOR_MASK_ALPHA) == PNG_COLOR_MASK_ALPHA;
 
-	this->rowBuf = (unsigned char *)::png_malloc(this->png, ::png_get_rowbytes(this->png, this->info));
+	if (this->colorType == PNG_COLOR_TYPE_GRAY || this->colorType == PNG_COLOR_TYPE_GRAY_ALPHA)
+	{
+		::png_set_gray_to_rgb(this->png);
+	}
+
+	if (this->hasAlpha)
+	{
+		::png_set_swap_alpha(this->png);
+	}
+	else
+	{
+		::png_set_add_alpha(this->png, 0xFFFF, PNG_FILLER_BEFORE);
+	}
+
+	::png_set_bgr(this->png);
+	::png_set_expand_16(this->png);
+
+	this->rowStride = 8 * this->width; // always AABBGGRR
+	this->data.resize(this->rowStride * this->height);
+	this->rows.resize(this->height);
+
+	for (unsigned int i = 0; i < this->height; i++)
+	{
+		this->rows[i] = this->data.data() + this->rowStride * i;
+	}
+
+	::png_read_image(this->png, this->rows.data());
+	::png_read_end(this->png, this->endInfo);
 
 	return true;
 }
@@ -175,11 +207,7 @@ int anim::Image::OnPngUnknownChunk(ReadInfo &info, png_unknown_chunk *chunk)
 
 void anim::Image::OnPngRead(ReadInfo &info, unsigned char *data, size_t size)
 {
-	if (size > (size_t)(info.endPos - info.readPos))
-	{
-		size = info.endPos - info.readPos;
-	}
-
+	size = std::min<size_t>(size, info.endPos - info.readPos);
 	::memcpy(data, info.readPos, size);
 	info.readPos += size;
 }
