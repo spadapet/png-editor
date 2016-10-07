@@ -28,6 +28,11 @@ void anim::OpenImageFile::Reset(std::shared_ptr<Image> image, std::string fatalE
 	this->PropertyChanged.Notify(nullptr);
 }
 
+std::shared_ptr<anim::Image> anim::OpenImageFile::GetImage()
+{
+	return this->image;
+}
+
 void anim::OpenImageFile::Initialize()
 {
 	if (this->initialized)

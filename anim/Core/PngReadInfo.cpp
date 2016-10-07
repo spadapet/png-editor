@@ -66,14 +66,21 @@ size_t anim::PngReadInfo::GetHeight() const
 	return this->height;
 }
 
-const short int *anim::PngReadInfo::GetRow(size_t row) const
+const anim::PngColor *anim::PngReadInfo::GetRow(size_t row) const
 {
-	return (const short int *)this->rows[row];
+	return this->rows[row];
 }
 
 std::string anim::PngReadInfo::GetErrorText() const
 {
 	return this->errorText;
+}
+
+std::vector<anim::PngColor> anim::PngReadInfo::TakeData()
+{
+	this->rows.clear();
+	this->rows.shrink_to_fit();
+	return std::move(this->data);
 }
 
 bool anim::PngReadInfo::InternalRead()
@@ -129,15 +136,15 @@ bool anim::PngReadInfo::InternalRead()
 	::png_set_expand_16(this->png);
 
 	this->rowStride = 8 * this->width; // always AABBGGRR
-	this->data.resize(this->rowStride * this->height);
+	this->data.resize(this->width * this->height);
 	this->rows.resize(this->height);
 
 	for (unsigned int i = 0; i < this->height; i++)
 	{
-		this->rows[i] = this->data.data() + this->rowStride * i;
+		this->rows[i] = &this->data[this->width * i];
 	}
 
-	::png_read_image(this->png, this->rows.data());
+	::png_read_image(this->png, (unsigned char **)this->rows.data());
 	::png_read_end(this->png, this->endInfo);
 
 	return true;

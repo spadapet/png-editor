@@ -13,6 +13,7 @@ namespace anim
 		~OpenImageFile();
 
 		void Reset(std::shared_ptr<Image> image, std::string fatalError);
+		std::shared_ptr<Image> GetImage();
 
 		virtual void Initialize() override;
 		virtual void Destroy() override;

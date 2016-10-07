@@ -19,6 +19,7 @@
     <ClCompile Include="Core\Properties.cpp" />
     <ClCompile Include="Core\String.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
+    <ClCompile Include="Model\Layer.cpp" />
     <ClCompile Include="Model\OpenFile.cpp" />
     <ClCompile Include="Model\Image.cpp" />
     <ClCompile Include="Model\OpenImageFile.cpp" />
@@ -26,8 +27,11 @@
     <ClCompile Include="Model\ProjectFile.cpp" />
     <ClCompile Include="Model\ProjectFolder.cpp" />
     <ClCompile Include="Model\ProjectItem.cpp" />
+    <ClCompile Include="Model\RasterLayer.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
-    <ClCompile Include="ViewModel\IOpenFileVM\IOpenFileVM.cpp" />
+    <ClCompile Include="ViewModel\ImageVM.cpp" />
+    <ClCompile Include="ViewModel\IOpenFileVM.cpp" />
+    <ClCompile Include="ViewModel\LayerVM.cpp" />
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp" />
     <ClCompile Include="ViewModel\OpenImageVM.cpp" />
     <ClCompile Include="ViewModel\OpenNullFileVM.cpp" />
@@ -73,6 +77,7 @@
     <ClInclude Include="Core\Properties.h" />
     <ClInclude Include="Core\String.h" />
     <ClInclude Include="Core\Thread.h" />
+    <ClInclude Include="Model\Layer.h" />
     <ClInclude Include="Model\OpenFile.h" />
     <ClInclude Include="Model\Image.h" />
     <ClInclude Include="Model\OpenImageFile.h" />
@@ -81,6 +86,7 @@
     <ClInclude Include="Model\ProjectFile.h" />
     <ClInclude Include="Model\ProjectFolder.h" />
     <ClInclude Include="Model\ProjectItem.h" />
+    <ClInclude Include="Model\RasterLayer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -89,8 +95,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
+    <ClInclude Include="ViewModel\ILayerVM.h" />
+    <ClInclude Include="ViewModel\ImageVM.h" />
     <ClInclude Include="ViewModel\IOpenFileVM.h" />
     <ClInclude Include="ViewModel\IProjectItemVM.h" />
+    <ClInclude Include="ViewModel\LayerVM.h" />
     <ClInclude Include="ViewModel\OpenFileTabsVM.h" />
     <ClInclude Include="ViewModel\OpenImageVM.h" />
     <ClInclude Include="ViewModel\OpenNullFileVM.h" />

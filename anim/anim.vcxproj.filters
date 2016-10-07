@@ -47,6 +47,18 @@
     <Filter Include="View\Utility\Controls">
       <UniqueIdentifier>{89bf349e-ae27-4a15-919e-f81f33f32279}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model\Project">
+      <UniqueIdentifier>{9bca04e1-686a-4a3f-aaee-456e328bfff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\Document">
+      <UniqueIdentifier>{a24b6742-419c-44ee-9f1d-1fed960e9ee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\OpenFiles">
+      <UniqueIdentifier>{d69317ee-f933-4a13-a568-05dd4b4adaaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ViewModel\Document">
+      <UniqueIdentifier>{56d129d5-cb53-4476-803a-288d452d3b89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -84,9 +96,6 @@
     <ClCompile Include="Core\Properties.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ProjectFolder.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Thread.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -99,20 +108,8 @@
     <ClCompile Include="Controller\AppPersist.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ProjectFile.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\ProjectItem.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Xaml.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\OpenFile.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\OpenImageFile.cpp">
-      <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="View\ImageEditor.xaml.cpp" />
     <ClCompile Include="View\OpenFileTabs.xaml.cpp" />
@@ -158,26 +155,53 @@
     <ClCompile Include="View\Utility\ProjectItemTemplateSelector.cpp">
       <Filter>View\Utility\Selectors</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
     <ClCompile Include="View\Utility\OpenFileListBox.cpp">
       <Filter>View\Utility\Controls</Filter>
     </ClCompile>
     <ClCompile Include="View\Utility\OpenFileListItem.cpp">
       <Filter>View\Utility\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\IOpenFileVM\IOpenFileVM.cpp">
-      <Filter>ViewModel\OpenFiles</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Windows.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Model\Image.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Core\PngReadInfo.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Image.cpp">
+      <Filter>Model\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Layer.cpp">
+      <Filter>Model\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\OpenFile.cpp">
+      <Filter>Model\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\OpenImageFile.cpp">
+      <Filter>Model\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ProjectFile.cpp">
+      <Filter>Model\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ProjectFolder.cpp">
+      <Filter>Model\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ProjectItem.cpp">
+      <Filter>Model\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\OpenFileTabsVM.cpp">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\RasterLayer.cpp">
+      <Filter>Model\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\ImageVM.cpp">
+      <Filter>ViewModel\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\LayerVM.cpp">
+      <Filter>ViewModel\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\IOpenFileVM.cpp">
+      <Filter>ViewModel\OpenFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +237,6 @@
     <ClInclude Include="Core\Properties.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ProjectFolder.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Thread.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -228,20 +249,8 @@
     <ClInclude Include="Controller\AppPersist.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ProjectFile.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\ProjectItem.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Xaml.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\OpenFile.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\OpenImageFile.h">
-      <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="View\ImageEditor.xaml.h" />
     <ClInclude Include="View\OpenFileTabs.xaml.h" />
@@ -293,9 +302,6 @@
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h">
       <Filter>View\Utility\Selectors</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\OpenFileTabsVM.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
     <ClInclude Include="View\Utility\OpenFileListBox.h">
       <Filter>View\Utility\Controls</Filter>
     </ClInclude>
@@ -305,11 +311,44 @@
     <ClInclude Include="Core\Windows.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Model\Image.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Core\PngReadInfo.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Image.h">
+      <Filter>Model\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Layer.h">
+      <Filter>Model\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\OpenFile.h">
+      <Filter>Model\OpenFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\OpenImageFile.h">
+      <Filter>Model\OpenFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ProjectFile.h">
+      <Filter>Model\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ProjectFolder.h">
+      <Filter>Model\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ProjectItem.h">
+      <Filter>Model\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\OpenFileTabsVM.h">
+      <Filter>ViewModel\OpenFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\RasterLayer.h">
+      <Filter>Model\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ImageVM.h">
+      <Filter>ViewModel\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\LayerVM.h">
+      <Filter>ViewModel\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ILayerVM.h">
+      <Filter>ViewModel\Document</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

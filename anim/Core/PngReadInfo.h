@@ -2,6 +2,14 @@
 
 namespace anim
 {
+	struct PngColor
+	{
+		unsigned short a;
+		unsigned short b;
+		unsigned short g;
+		unsigned short r;
+	};
+
 	class PngReadInfo
 	{
 	public:
@@ -12,8 +20,9 @@ namespace anim
 
 		size_t GetWidth() const;
 		size_t GetHeight() const;
-		const short int *GetRow(size_t row) const;
+		const PngColor *GetRow(size_t row) const;
 		std::string GetErrorText() const;
+		std::vector<PngColor> TakeData();
 
 	private:
 		// Data
@@ -25,8 +34,8 @@ namespace anim
 		// Reading
 		const unsigned char *readPos;
 		const unsigned char *endPos;
-		std::vector<unsigned char> data;
-		std::vector<unsigned char *> rows;
+		std::vector<PngColor> data;
+		std::vector<PngColor *> rows;
 		size_t rowStride;
 		bool hasAlpha;
 
