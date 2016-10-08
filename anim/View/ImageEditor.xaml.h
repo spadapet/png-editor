@@ -1,6 +1,9 @@
 ﻿#pragma once
 
 #include "View/ImageEditor.g.h"
+#include "ViewModel/ILayerVM.h"
+#include "ViewModel/ImageVM.h"
+#include "ViewModel/RasterLayerVM.h"
 
 namespace anim
 {

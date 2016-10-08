@@ -6,6 +6,7 @@
 namespace anim
 {
 	class OpenImageFile;
+	ref class ImageVM;
 
 	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -18,6 +19,8 @@ namespace anim
 	public:
 		OpenImageVM();
 		virtual ~OpenImageVM();
+
+		property ImageVM ^Image { ImageVM ^get(); }
 
 		// INotifyPropertyChanged
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
@@ -43,6 +46,7 @@ namespace anim
 		std::shared_ptr<OpenImageFile> file;
 		EventCookie fileChangedCookie;
 		Platform::WeakReference control;
+		ImageVM ^image;
 		bool active;
 		bool hover;
 	};

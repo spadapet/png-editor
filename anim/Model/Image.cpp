@@ -28,14 +28,9 @@ bool anim::Image::Initialize(const void *bytes, size_t byteSize, std::string &er
 	return true;
 }
 
-size_t anim::Image::GetLayerCount() const
+const std::vector<std::shared_ptr<anim::Layer>> &anim::Image::GetLayers() const
 {
-	return this->layers.size();
-}
-
-std::shared_ptr<anim::Layer> anim::Image::GetLayer(size_t index) const
-{
-	return this->layers[index];
+	return this->layers;
 }
 
 void anim::Image::AddLayer(std::shared_ptr<Layer> layer, std::shared_ptr<Layer> aboveLayer)
@@ -50,6 +45,7 @@ void anim::Image::AddLayer(std::shared_ptr<Layer> layer, std::shared_ptr<Layer> 
 
 		iter = this->layers.insert(iter, layer);
 		this->LayerAdded.Notify(layer, iter - this->layers.begin());
+		this->PropertyChanged.Notify("Layers");
 	}
 }
 
@@ -61,6 +57,7 @@ void anim::Image::RemoveLayer(std::shared_ptr<Layer> layer)
 		{
 			this->layers.erase(this->layers.begin() + i);
 			this->LayerRemoved.Notify(layer, i);
+			this->PropertyChanged.Notify("Layers");
 		}
 	}
 }

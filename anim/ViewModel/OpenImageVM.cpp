@@ -5,6 +5,7 @@
 #include "Model/OpenImageFile.h"
 #include "Model/ProjectFile.h"
 #include "View/ImageEditor.xaml.h"
+#include "ViewModel/ImageVM.h"
 #include "ViewModel/OpenImageVM.h"
 
 static Windows::UI::Xaml::Input::ICommand ^closeCommand = nullptr;
@@ -24,6 +25,11 @@ anim::OpenImageVM::OpenImageVM(std::shared_ptr<OpenImageFile> file)
 			owner->FilePropertyChanged(name);
 		}
 	});
+
+	if (this->file->GetImage() != nullptr)
+	{
+		this->image = ref new ImageVM(this->file->GetImage());
+	}
 }
 
 anim::OpenImageVM::OpenImageVM()
@@ -46,6 +52,11 @@ void anim::OpenImageVM::Destroy()
 		this->file->PropertyChanged.Remove(this->fileChangedCookie);
 		this->file = nullptr;
 	}
+}
+
+anim::ImageVM ^anim::OpenImageVM::Image::get()
+{
+	return this->image;
 }
 
 Windows::Storage::StorageFile ^anim::OpenImageVM::File::get()
@@ -167,5 +178,11 @@ void anim::OpenImageVM::FilePropertyChanged(const char *name)
 	if (allChanged || strcmp(name, "IsDirty") == 0)
 	{
 		this->NotifyPropertyChanged("IsDirty");
+	}
+
+	if (allChanged || strcmp(name, "Image") == 0)
+	{
+		this->image = ref new ImageVM(this->file->GetImage());
+		this->NotifyPropertyChanged("Image");
 	}
 }

@@ -19,8 +19,7 @@ namespace anim
 		bool Initialize(const void *bytes, size_t byteSize, std::string &errorText);
 
 		// Layers
-		size_t GetLayerCount() const;
-		std::shared_ptr<Layer> GetLayer(size_t index) const;
+		const std::vector<std::shared_ptr<Layer>> &GetLayers() const;
 		void AddLayer(std::shared_ptr<Layer> layer, std::shared_ptr<Layer> aboveLayer);
 		void RemoveLayer(std::shared_ptr<Layer> layer);
 

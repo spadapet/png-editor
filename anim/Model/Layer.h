@@ -6,6 +6,6 @@ namespace anim
 	{
 	public:
 		Layer();
-		~Layer();
+		virtual ~Layer();
 	};
 }

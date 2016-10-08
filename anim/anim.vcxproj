@@ -31,7 +31,7 @@
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
     <ClCompile Include="ViewModel\ImageVM.cpp" />
     <ClCompile Include="ViewModel\IOpenFileVM.cpp" />
-    <ClCompile Include="ViewModel\LayerVM.cpp" />
+    <ClCompile Include="ViewModel\RasterLayerVM.cpp" />
     <ClCompile Include="ViewModel\OpenFileTabsVM.cpp" />
     <ClCompile Include="ViewModel\OpenImageVM.cpp" />
     <ClCompile Include="ViewModel\OpenNullFileVM.cpp" />
@@ -99,7 +99,7 @@
     <ClInclude Include="ViewModel\ImageVM.h" />
     <ClInclude Include="ViewModel\IOpenFileVM.h" />
     <ClInclude Include="ViewModel\IProjectItemVM.h" />
-    <ClInclude Include="ViewModel\LayerVM.h" />
+    <ClInclude Include="ViewModel\RasterLayerVM.h" />
     <ClInclude Include="ViewModel\OpenFileTabsVM.h" />
     <ClInclude Include="ViewModel\OpenImageVM.h" />
     <ClInclude Include="ViewModel\OpenNullFileVM.h" />

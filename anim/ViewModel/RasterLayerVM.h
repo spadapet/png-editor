@@ -19,9 +19,12 @@ namespace anim
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
+		property Microsoft::Graphics::Canvas::CanvasBitmap ^Bitmap { Microsoft::Graphics::Canvas::CanvasBitmap ^get(); }
+
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
 		std::shared_ptr<RasterLayer> layer;
+		Microsoft::Graphics::Canvas::CanvasBitmap ^bitmap;
 	};
 }

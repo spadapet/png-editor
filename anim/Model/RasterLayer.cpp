@@ -11,3 +11,18 @@ anim::RasterLayer::RasterLayer(size_t width, size_t height, std::vector<PngColor
 anim::RasterLayer::~RasterLayer()
 {
 }
+
+size_t anim::RasterLayer::GetWidth() const
+{
+	return this->width;
+}
+
+size_t anim::RasterLayer::GetHeight() const
+{
+	return this->height;
+}
+
+const anim::PngColor *anim::RasterLayer::GetRow(size_t row) const
+{
+	return &this->data[this->width * row];
+}

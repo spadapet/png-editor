@@ -197,11 +197,11 @@
     <ClCompile Include="ViewModel\ImageVM.cpp">
       <Filter>ViewModel\Document</Filter>
     </ClCompile>
-    <ClCompile Include="ViewModel\LayerVM.cpp">
-      <Filter>ViewModel\Document</Filter>
-    </ClCompile>
     <ClCompile Include="ViewModel\IOpenFileVM.cpp">
       <Filter>ViewModel\OpenFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewModel\RasterLayerVM.cpp">
+      <Filter>ViewModel\Document</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,10 +344,10 @@
     <ClInclude Include="ViewModel\ImageVM.h">
       <Filter>ViewModel\Document</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\LayerVM.h">
+    <ClInclude Include="ViewModel\ILayerVM.h">
       <Filter>ViewModel\Document</Filter>
     </ClInclude>
-    <ClInclude Include="ViewModel\ILayerVM.h">
+    <ClInclude Include="ViewModel\RasterLayerVM.h">
       <Filter>ViewModel\Document</Filter>
     </ClInclude>
   </ItemGroup>
