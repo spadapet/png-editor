@@ -9,5 +9,6 @@ namespace anim
 	namespace Resource
 	{
 		Platform::String ^GetString(Platform::String ^id);
+		std::string GetStdString(Platform::String ^id);
 	}
 }

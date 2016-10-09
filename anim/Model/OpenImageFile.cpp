@@ -89,7 +89,7 @@ void anim::OpenImageFile::Initialize()
 			result = prevTask.get();
 			if (result.image == nullptr && result.fatalError.empty())
 			{
-				throw ref new Platform::Exception(E_FAIL, anim::Resource::GetString("ErrorNullImage"));
+				throw ref new Platform::Exception(E_FAIL, anim::Resource::GetString("ErrorInvalidPng"));
 			}
 		}
 		catch (Platform::Exception ^ex)

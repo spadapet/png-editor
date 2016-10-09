@@ -18,6 +18,10 @@ namespace anim
 
 		bool Initialize(const void *bytes, size_t byteSize, std::string &errorText);
 
+		// Properties
+		size_t GetWidth() const;
+		size_t GetHeight() const;
+
 		// Layers
 		const std::vector<std::shared_ptr<Layer>> &GetLayers() const;
 		void AddLayer(std::shared_ptr<Layer> layer, std::shared_ptr<Layer> aboveLayer);
@@ -25,5 +29,7 @@ namespace anim
 
 	private:
 		std::vector<std::shared_ptr<Layer>> layers;
+		size_t width;
+		size_t height;
 	};
 }

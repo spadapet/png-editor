@@ -54,3 +54,8 @@ Platform::String ^anim::Resource::GetString(Platform::String ^id)
 
 	return loader->GetString(id);
 }
+
+std::string anim::Resource::GetStdString(Platform::String ^id)
+{
+	return anim::ConvertString(anim::Resource::GetString(id));
+}

@@ -15,7 +15,7 @@ anim::RasterLayerVM::RasterLayerVM(std::shared_ptr<RasterLayer> layer)
 
 		this->bitmap = Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
 			device, bytes, (unsigned int)layer->GetWidth(), (unsigned int)layer->GetHeight(),
-			Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16Int);
+			Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16UIntNormalized);
 	}
 }
 

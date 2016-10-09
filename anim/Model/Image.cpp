@@ -5,6 +5,8 @@
 #include "Model/RasterLayer.h"
 
 anim::Image::Image()
+	: width(0)
+	, height(0)
 {
 }
 
@@ -18,7 +20,18 @@ bool anim::Image::Initialize(const void *bytes, size_t byteSize, std::string &er
 
 	if (!info.Read())
 	{
-		errorText = info.GetErrorText();
+		errorText = info.GetErrorText().empty()
+			? anim::Resource::GetStdString("ErrorInvalidPng")
+			: info.GetErrorText();
+		return false;
+	}
+
+	this->width = info.GetWidth();
+	this->height = info.GetHeight();
+
+	if (this->width == 0 || this->height == 0)
+	{
+		errorText = anim::Resource::GetStdString("ErrorImageSize");
 		return false;
 	}
 

@@ -41,7 +41,7 @@ bool anim::PngReadInfo::Read()
 		{
 			if (this->errorText.empty())
 			{
-				this->errorText = anim::ConvertString(anim::Resource::GetString("ErrorInvalidPng"));
+				this->errorText = anim::Resource::GetStdString("ErrorInvalidPng");
 			}
 
 			status = false;
@@ -129,10 +129,9 @@ bool anim::PngReadInfo::InternalRead()
 	}
 	else
 	{
-		::png_set_add_alpha(this->png, 0xFFFF, PNG_FILLER_BEFORE);
+		::png_set_add_alpha(this->png, 0xFFFF, PNG_FILLER_AFTER);
 	}
 
-	::png_set_bgr(this->png);
 	::png_set_expand_16(this->png);
 
 	this->rowStride = 8 * this->width; // always AABBGGRR
@@ -182,7 +181,7 @@ void anim::PngReadInfo::PngReadStatusCallback(png_struct *png, unsigned int row,
 
 void anim::PngReadInfo::OnPngError(const char *text)
 {
-	throw ref new Platform::Exception(E_FAIL, anim::Resource::GetString("ErrorFailedPng"));
+	throw ref new Platform::Exception(E_FAIL, anim::Resource::GetString("ErrorInvalidPng"));
 }
 
 void anim::PngReadInfo::OnPngWarning(const char *text)
