@@ -82,7 +82,7 @@ void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
 	std::shared_ptr<RasterLayer> rasterLayer = std::dynamic_pointer_cast<RasterLayer>(layer);
 	if (rasterLayer != nullptr)
 	{
-		this->layers->InsertAt(index, ref new RasterLayerVM(rasterLayer));
+		this->layers->InsertAt((unsigned int)index, ref new RasterLayerVM(rasterLayer));
 	}
 	else
 	{
@@ -92,5 +92,5 @@ void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
 
 void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index)
 {
-	this->layers->RemoveAt(index);
+	this->layers->RemoveAt((unsigned int)index);
 }

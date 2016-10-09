@@ -11,10 +11,10 @@ anim::RasterLayerVM::RasterLayerVM(std::shared_ptr<RasterLayer> layer)
 
 		Platform::ArrayReference<unsigned char> bytes(
 			(unsigned char *)layer->GetRow(0),
-			layer->GetWidth() * layer->GetHeight() * 8);
+			(unsigned int)(layer->GetWidth() * layer->GetHeight() * 8));
 
 		this->bitmap = Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
-			device, bytes, layer->GetWidth(), layer->GetHeight(),
+			device, bytes, (unsigned int)layer->GetWidth(), (unsigned int)layer->GetHeight(),
 			Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16Int);
 	}
 }
