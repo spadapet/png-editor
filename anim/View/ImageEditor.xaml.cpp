@@ -33,6 +33,11 @@ void anim::ImageEditor::OnRegionsInvalidated(
 	for (Windows::Foundation::Rect rect : args->InvalidatedRegions)
 	{
 		Microsoft::Graphics::Canvas::CanvasDrawingSession ^session = sender->CreateDrawingSession(rect);
+
+		for (ILayerVM ^layer : this->image->Image->Layers)
+		{
+			layer->Draw(session, rect);
+		}
 	}
 }
 

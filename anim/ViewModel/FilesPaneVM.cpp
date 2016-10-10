@@ -135,12 +135,13 @@ void anim::FilesPaneVM::AppPropertyChanged(const char *name)
 
 void anim::FilesPaneVM::ResetProjectFolders()
 {
-	this->projectFolders->Clear();
+	std::vector<IProjectItemVM ^> folders;
 
 	for (std::shared_ptr<ProjectFolder> folder : app->GetProjectFolders())
 	{
-		this->projectFolders->Append(ref new ProjectFolderVM(folder, nullptr));
+		folders.push_back(ref new ProjectFolderVM(folder, nullptr));
 	}
 
+	this->projectFolders->ReplaceAll(Platform::ArrayReference<IProjectItemVM ^>(folders.data(), folders.size()));
 	this->NotifyPropertyChanged("HasProjectFolders");
 }

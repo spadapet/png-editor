@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Event.h"
+
 namespace anim
 {
 	class Layer
@@ -7,5 +9,7 @@ namespace anim
 	public:
 		Layer();
 		virtual ~Layer();
+
+		ChangedEvent PropertyChanged;
 	};
 }

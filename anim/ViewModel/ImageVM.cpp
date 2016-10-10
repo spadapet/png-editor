@@ -37,10 +37,7 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 		}
 	});
 
-	for (std::shared_ptr<Layer> layer : this->image->GetLayers())
-	{
-		this->ImageLayerAdded(layer, this->layers->Size);
-	}
+	this->ResetLayers();
 }
 
 anim::ImageVM::~ImageVM()
@@ -51,6 +48,26 @@ anim::ImageVM::~ImageVM()
 		this->image->LayerAdded.Remove(this->layerAddedCookie);
 		this->image->LayerRemoved.Remove(this->layerRemovedCookie);
 	}
+}
+
+unsigned int anim::ImageVM::Width::get()
+{
+	return (unsigned int)this->image->GetWidth();
+}
+
+unsigned int anim::ImageVM::Height::get()
+{
+	return (unsigned int)this->image->GetHeight();
+}
+
+double anim::ImageVM::WidthD::get()
+{
+	return (double)this->image->GetWidth();
+}
+
+double anim::ImageVM::HeightD::get()
+{
+	return (double)this->image->GetHeight();
 }
 
 Windows::Foundation::Collections::IVector<anim::ILayerVM ^> ^anim::ImageVM::Layers::get()
@@ -74,23 +91,52 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 
 	if (allChanged || strcmp(name, "Layers") == 0)
 	{
+		this->ResetLayers();
+	}
+
+	if (allChanged || strcmp(name, "Width") == 0)
+	{
+		this->NotifyPropertyChanged("Width");
+		this->NotifyPropertyChanged("WidthD");
+	}
+
+	if (allChanged || strcmp(name, "Height") == 0)
+	{
+		this->NotifyPropertyChanged("Height");
+		this->NotifyPropertyChanged("HeightD");
 	}
 }
 
 void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
 {
-	std::shared_ptr<RasterLayer> rasterLayer = std::dynamic_pointer_cast<RasterLayer>(layer);
-	if (rasterLayer != nullptr)
-	{
-		this->layers->InsertAt((unsigned int)index, ref new RasterLayerVM(rasterLayer));
-	}
-	else
-	{
-		assert(false);
-	}
+	this->layers->InsertAt((unsigned int)index, this->CreateLayer(layer));
 }
 
 void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index)
 {
 	this->layers->RemoveAt((unsigned int)index);
+}
+
+void anim::ImageVM::ResetLayers()
+{
+	std::vector<ILayerVM ^> layers;
+
+	for (std::shared_ptr<Layer> layer : this->image->GetLayers())
+	{
+		layers.push_back(this->CreateLayer(layer));
+	}
+
+	this->layers->ReplaceAll(Platform::ArrayReference<ILayerVM ^>(layers.data(), layers.size()));
+}
+
+anim::ILayerVM ^anim::ImageVM::CreateLayer(std::shared_ptr<Layer> layer)
+{
+	std::shared_ptr<RasterLayer> rasterLayer = std::dynamic_pointer_cast<RasterLayer>(layer);
+	if (rasterLayer != nullptr)
+	{
+		return ref new RasterLayerVM(rasterLayer);
+	}
+
+	assert(false);
+	return nullptr;
 }

@@ -41,6 +41,16 @@ bool anim::Image::Initialize(const void *bytes, size_t byteSize, std::string &er
 	return true;
 }
 
+size_t anim::Image::GetWidth() const
+{
+	return this->width;
+}
+
+size_t anim::Image::GetHeight() const
+{
+	return this->height;
+}
+
 const std::vector<std::shared_ptr<anim::Layer>> &anim::Image::GetLayers() const
 {
 	return this->layers;

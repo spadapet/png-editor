@@ -20,6 +20,10 @@ namespace anim
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
+		property unsigned int Width { unsigned int get(); }
+		property unsigned int Height { unsigned int get(); }
+		property double WidthD { double get(); }
+		property double HeightD { double get(); }
 		property Windows::Foundation::Collections::IVector<ILayerVM ^> ^Layers { Windows::Foundation::Collections::IVector<ILayerVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableLayers { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 
@@ -28,6 +32,9 @@ namespace anim
 		void ImagePropertyChanged(const char *name);
 		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
 		void ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index);
+
+		void ResetLayers();
+		ILayerVM ^CreateLayer(std::shared_ptr<Layer> layer);
 
 		std::shared_ptr<Image> image;
 		Platform::Collections::Vector<ILayerVM ^> ^layers;

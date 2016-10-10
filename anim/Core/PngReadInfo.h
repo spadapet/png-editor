@@ -4,10 +4,10 @@ namespace anim
 {
 	struct PngColor
 	{
-		unsigned short a;
-		unsigned short b;
-		unsigned short g;
 		unsigned short r;
+		unsigned short g;
+		unsigned short b;
+		unsigned short a;
 	};
 
 	class PngReadInfo

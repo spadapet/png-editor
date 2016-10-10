@@ -20,16 +20,14 @@
         ZoomMode="Enabled"
         MaxZoomFactor="8"
         MinZoomFactor="0.25"
-        Background="Bisque">
-        <canvas:CanvasVirtualControl
-            BorderBrush="Red"
-            BorderThickness="1"
-            Margin="32"
-            ClearColor="Black"
-            UseSharedDevice="True"
-            Width="1000"
-            Height="600"
-            RegionsInvalidated="OnRegionsInvalidated"
-            CreateResources="OnCreateResources" />
+        Background="Gray">
+        <Border Margin="32" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <canvas:CanvasVirtualControl
+                UseSharedDevice="True"
+                Width="{x:Bind State.Image.WidthD, Mode=OneWay}"
+                Height="{x:Bind State.Image.HeightD, Mode=OneWay}"
+                RegionsInvalidated="OnRegionsInvalidated"
+                CreateResources="OnCreateResources" />
+        </Border>
     </ScrollViewer>
 </Grid>

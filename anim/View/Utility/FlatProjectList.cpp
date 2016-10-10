@@ -14,8 +14,10 @@ anim::FlatProjectList::~FlatProjectList()
 
 void anim::FlatProjectList::SelectSingle(IProjectItemVM ^item)
 {
-	this->SelectedItems->Clear();
-	this->SelectedItems->Append(item);
+	Platform::Object ^obj = item;
+	Platform::ArrayReference<Platform::Object ^> items(&obj, 1);
+
+	this->SelectedItems->ReplaceAll(items);
 	this->ScrollIntoView(item);
 }
 
