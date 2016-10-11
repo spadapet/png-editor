@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/GraphDevice.h"
 #include "Core/String.h"
 #include "Core/Xaml.h"
 #include "Model/AppState.h"
@@ -117,6 +118,11 @@ anim::AppMode anim::AppState::GetMode() const
 	return this->openFiles.empty()
 		? AppMode::None
 		: AppMode::Edit;
+}
+
+std::shared_ptr<anim::GraphDevice> anim::AppState::GetGraphDevice() const
+{
+	return this->graph;
 }
 
 void anim::AppState::AddProjectFolder(Windows::Storage::StorageFolder ^folder)

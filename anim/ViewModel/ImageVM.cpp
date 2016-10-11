@@ -126,7 +126,7 @@ void anim::ImageVM::ResetLayers()
 		layers.push_back(this->CreateLayer(layer));
 	}
 
-	this->layers->ReplaceAll(Platform::ArrayReference<ILayerVM ^>(layers.data(), layers.size()));
+	this->layers->ReplaceAll(Platform::ArrayReference<ILayerVM ^>(layers.data(), (unsigned int)layers.size()));
 }
 
 anim::ILayerVM ^anim::ImageVM::CreateLayer(std::shared_ptr<Layer> layer)

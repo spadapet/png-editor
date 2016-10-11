@@ -2,17 +2,27 @@
 
 #define NOMINMAX
 
+// CRT
 #include <algorithm>
 #include <cassert>
 #include <forward_list>
 #include <sstream>
 
+// Windows
 #include <collection.h>
 #include <ppltasks.h>
 #include <windows.foundation.collections.h>
+#include <wrl.h>
 
+// DirectX
+#include <dxgi1_5.h>
+#include <d3d11_4.h>
+
+// Libraries
 #include "../libpng/png.h"
 #include "../zlib/zlib.h"
+
+using Microsoft::WRL::ComPtr;
 
 namespace anim
 {

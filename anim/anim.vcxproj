@@ -12,6 +12,7 @@
     <ClCompile Include="Controller\AppController.cpp" />
     <ClCompile Include="Controller\AppPersist.cpp" />
     <ClCompile Include="Core\Command.cpp" />
+    <ClCompile Include="Core\GraphDevice.cpp" />
     <ClCompile Include="Core\PngReadInfo.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="Core\Xaml.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="Controller\AppController.h" />
     <ClInclude Include="Controller\AppPersist.h" />
     <ClInclude Include="Core\Command.h" />
+    <ClInclude Include="Core\GraphDevice.h" />
     <ClInclude Include="Core\PngReadInfo.h" />
     <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="Core\Xaml.h" />

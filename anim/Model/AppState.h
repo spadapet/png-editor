@@ -4,6 +4,7 @@
 
 namespace anim
 {
+	class GraphDevice;
 	class OpenFile;
 	class PaneInfo;
 	class ProjectFile;
@@ -39,6 +40,7 @@ namespace anim
 		const std::vector<std::shared_ptr<anim::ProjectFolder>> &GetProjectFolders() const;
 		std::shared_ptr<PaneInfo> GetNonePane() const;
 		AppMode GetMode() const;
+		std::shared_ptr<GraphDevice> GetGraphDevice() const;
 
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);
@@ -60,5 +62,6 @@ namespace anim
 		std::vector<std::shared_ptr<ProjectFolder>> projectFolders;
 		std::vector<std::shared_ptr<OpenFile>> openFiles;
 		std::unordered_map<std::string, std::weak_ptr<ProjectItem>> itemCache;
+		std::shared_ptr<GraphDevice> graph;
 	};
 }

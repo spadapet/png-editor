@@ -203,6 +203,9 @@
     <ClCompile Include="ViewModel\RasterLayerVM.cpp">
       <Filter>ViewModel\Document</Filter>
     </ClCompile>
+    <ClCompile Include="Core\GraphDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="ViewModel\RasterLayerVM.h">
       <Filter>ViewModel\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GraphDevice.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

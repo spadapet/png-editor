@@ -142,6 +142,6 @@ void anim::FilesPaneVM::ResetProjectFolders()
 		folders.push_back(ref new ProjectFolderVM(folder, nullptr));
 	}
 
-	this->projectFolders->ReplaceAll(Platform::ArrayReference<IProjectItemVM ^>(folders.data(), folders.size()));
+	this->projectFolders->ReplaceAll(Platform::ArrayReference<IProjectItemVM ^>(folders.data(), (unsigned int)folders.size()));
 	this->NotifyPropertyChanged("HasProjectFolders");
 }
