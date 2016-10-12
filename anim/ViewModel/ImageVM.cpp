@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/GraphDevice.h"
 #include "Model/Image.h"
 #include "Model/RasterLayer.h"
 #include "ViewModel/ImageVM.h"
@@ -70,6 +71,28 @@ double anim::ImageVM::HeightD::get()
 	return (double)this->image->GetHeight();
 }
 
+Windows::UI::Xaml::Media::ImageSource ^anim::ImageVM::Source::get()
+{
+	if (this->imageSource == nullptr && this->image->GetGraph()->IsValid())
+	{
+		this->imageSource = ref new Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource(
+			(int)this->image->GetWidth(), (int)this->image->GetHeight(), false);
+
+		if (SUCCEEDED(((IUnknown *)this->imageSource)->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &this->imageSourceNative)))
+		{
+			this->imageSourceNative->SetDevice(this->image->GetGraph()->GetDevice());
+		}
+		else
+		{
+			this->imageSource = nullptr;
+		}
+
+		// this->imageSourceNative->RegisterForUpdatesNeeded(IVirtualSurfaceUpdatesCallbackNative
+	}
+
+	return this->imageSource;
+}
+
 Windows::Foundation::Collections::IVector<anim::ILayerVM ^> ^anim::ImageVM::Layers::get()
 {
 	return this->layers;
@@ -88,6 +111,7 @@ void anim::ImageVM::NotifyPropertyChanged(Platform::String ^name)
 void anim::ImageVM::ImagePropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
+	bool newImage = false;
 
 	if (allChanged || strcmp(name, "Layers") == 0)
 	{
@@ -98,12 +122,21 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 	{
 		this->NotifyPropertyChanged("Width");
 		this->NotifyPropertyChanged("WidthD");
+		newImage = true;
 	}
 
 	if (allChanged || strcmp(name, "Height") == 0)
 	{
 		this->NotifyPropertyChanged("Height");
 		this->NotifyPropertyChanged("HeightD");
+		newImage = true;
+	}
+
+	if (newImage)
+	{
+		this->imageSourceNative.Reset();
+		this->imageSource = nullptr;
+		this->NotifyPropertyChanged("Source");
 	}
 }
 

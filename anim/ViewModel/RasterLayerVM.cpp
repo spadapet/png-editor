@@ -15,35 +15,14 @@ anim::RasterLayerVM::RasterLayerVM(std::shared_ptr<RasterLayer> layer)
 			owner->LayerPropertyChanged(name);
 		}
 	});
-
-	Microsoft::Graphics::Canvas::CanvasDevice ^device = Microsoft::Graphics::Canvas::CanvasDevice::GetSharedDevice();
-
-	Platform::ArrayReference<unsigned char> bytes(
-		(unsigned char *)layer->GetRow(0),
-		(unsigned int)(layer->GetWidth() * layer->GetHeight() * 8));
-
-	this->bitmap = Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
-		device, bytes, (unsigned int)layer->GetWidth(), (unsigned int)layer->GetHeight(),
-		Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16UIntNormalized,
-		96, // dpi
-		Microsoft::Graphics::Canvas::CanvasAlphaMode::Premultiplied); // Straight);
 }
 
 anim::RasterLayerVM::~RasterLayerVM()
 {
 }
 
-Microsoft::Graphics::Canvas::CanvasBitmap ^anim::RasterLayerVM::Bitmap::get()
+void anim::RasterLayerVM::Draw()
 {
-	return this->bitmap;
-}
-
-void anim::RasterLayerVM::Draw(Microsoft::Graphics::Canvas::CanvasDrawingSession ^session, Windows::Foundation::Rect rect)
-{
-	if (this->bitmap != nullptr)
-	{
-		session->DrawImage(this->bitmap);
-	}
 }
 
 void anim::RasterLayerVM::NotifyPropertyChanged(Platform::String ^name)

@@ -467,7 +467,6 @@
     <None Include="TemporaryKey.pfx">
       <Filter>Package</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources.resw">

@@ -4,12 +4,13 @@
 
 namespace anim
 {
+	class GraphDevice;
 	class Layer;
 
 	class Image
 	{
 	public:
-		Image();
+		Image(std::shared_ptr<GraphDevice> graph);
 		~Image();
 
 		ChangedEvent PropertyChanged;
@@ -21,6 +22,7 @@ namespace anim
 		// Properties
 		size_t GetWidth() const;
 		size_t GetHeight() const;
+		std::shared_ptr<GraphDevice> GetGraph() const;
 
 		// Layers
 		const std::vector<std::shared_ptr<Layer>> &GetLayers() const;
@@ -28,6 +30,7 @@ namespace anim
 		void RemoveLayer(std::shared_ptr<Layer> layer);
 
 	private:
+		std::shared_ptr<GraphDevice> graph;
 		std::vector<std::shared_ptr<Layer>> layers;
 		size_t width;
 		size_t height;

@@ -1,6 +1,8 @@
 #include "pch.h"
+#include "Core/GraphDevice.h"
 #include "Core/String.h"
 #include "Core/Thread.h"
+#include "Model/AppState.h"
 #include "Model/Image.h"
 #include "Model/OpenImageFile.h"
 #include "Model/ProjectFile.h"
@@ -63,13 +65,15 @@ void anim::OpenImageFile::Initialize()
 		std::shared_ptr<Image> image;
 	};
 
-	auto imageTask = readTask.then([](Windows::Storage::Streams::IBuffer ^buffer) -> Result
+	std::shared_ptr<GraphDevice> graph = this->GetFile()->GetAppState()->GetGraph();
+
+	auto imageTask = readTask.then([graph](Windows::Storage::Streams::IBuffer ^buffer) -> Result
 	{
 		Windows::Storage::Streams::DataReader ^reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
 		Platform::Array<unsigned char> ^bytes = ref new Platform::Array<unsigned char>(buffer->Length);
 
 		reader->ReadBytes(bytes);
-		std::shared_ptr<Image> image = std::make_shared<Image>();
+		std::shared_ptr<Image> image = std::make_shared<Image>(graph);
 
 		Result result;
 		if (image->Initialize(bytes->Data, bytes->Length, result.fatalError))

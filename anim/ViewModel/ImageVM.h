@@ -24,6 +24,7 @@ namespace anim
 		property unsigned int Height { unsigned int get(); }
 		property double WidthD { double get(); }
 		property double HeightD { double get(); }
+		property Windows::UI::Xaml::Media::ImageSource ^Source { Windows::UI::Xaml::Media::ImageSource ^get(); }
 		property Windows::Foundation::Collections::IVector<ILayerVM ^> ^Layers { Windows::Foundation::Collections::IVector<ILayerVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableLayers { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 
@@ -38,6 +39,8 @@ namespace anim
 
 		std::shared_ptr<Image> image;
 		Platform::Collections::Vector<ILayerVM ^> ^layers;
+		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
+		ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
 		EventCookie imageChangedCookie;
 		EventCookie layerAddedCookie;
 		EventCookie layerRemovedCookie;

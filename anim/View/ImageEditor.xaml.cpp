@@ -22,27 +22,3 @@ anim::OpenImageVM ^anim::ImageEditor::State::get()
 {
 	return this->image;
 }
-
-
-void anim::ImageEditor::OnRegionsInvalidated(
-	Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender,
-	Microsoft::Graphics::Canvas::UI::Xaml::CanvasRegionsInvalidatedEventArgs ^args)
-{
-	Windows::Foundation::Rect visibleRect = args->VisibleRegion;
-
-	for (Windows::Foundation::Rect rect : args->InvalidatedRegions)
-	{
-		Microsoft::Graphics::Canvas::CanvasDrawingSession ^session = sender->CreateDrawingSession(rect);
-
-		for (ILayerVM ^layer : this->image->Image->Layers)
-		{
-			layer->Draw(session, rect);
-		}
-	}
-}
-
-void anim::ImageEditor::OnCreateResources(
-	Microsoft::Graphics::Canvas::UI::Xaml::CanvasVirtualControl ^sender,
-	Microsoft::Graphics::Canvas::UI::CanvasCreateResourcesEventArgs ^args)
-{
-}

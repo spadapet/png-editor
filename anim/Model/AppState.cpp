@@ -39,6 +39,9 @@ std::shared_ptr<anim::AppState> anim::AppState::CreateForDesigner()
 
 void anim::AppState::Initialize()
 {
+	this->graph = std::make_shared<GraphDevice>();
+	this->graph->Initialize();
+
 	this->ResetPanes();
 }
 
@@ -120,7 +123,7 @@ anim::AppMode anim::AppState::GetMode() const
 		: AppMode::Edit;
 }
 
-std::shared_ptr<anim::GraphDevice> anim::AppState::GetGraphDevice() const
+std::shared_ptr<anim::GraphDevice> anim::AppState::GetGraph() const
 {
 	return this->graph;
 }

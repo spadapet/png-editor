@@ -140,7 +140,6 @@
     <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
-    <None Include="packages.config" />
     <None Include="TemporaryKey.pfx" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
@@ -209,11 +208,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="..\packages\Win2D.uwp.1.19.0\build\native\Win2D.uwp.targets" Condition="Exists('..\packages\Win2D.uwp.1.19.0\build\native\Win2D.uwp.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Win2D.uwp.1.19.0\build\native\Win2D.uwp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Win2D.uwp.1.19.0\build\native\Win2D.uwp.targets'))" />
-  </Target>
 </Project>

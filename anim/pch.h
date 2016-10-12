@@ -12,11 +12,13 @@
 #include <collection.h>
 #include <ppltasks.h>
 #include <windows.foundation.collections.h>
+#include <windows.ui.xaml.media.dxinterop.h>
 #include <wrl.h>
 
 // DirectX
 #include <dxgi1_5.h>
 #include <d3d11_4.h>
+#include <d2d1_3.h>
 
 // Libraries
 #include "../libpng/png.h"

@@ -40,7 +40,7 @@ namespace anim
 		const std::vector<std::shared_ptr<anim::ProjectFolder>> &GetProjectFolders() const;
 		std::shared_ptr<PaneInfo> GetNonePane() const;
 		AppMode GetMode() const;
-		std::shared_ptr<GraphDevice> GetGraphDevice() const;
+		std::shared_ptr<GraphDevice> GetGraph() const;
 
 		// Methods
 		void AddProjectFolder(Windows::Storage::StorageFolder ^folder);

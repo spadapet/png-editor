@@ -1,11 +1,13 @@
 #include "pch.h"
+#include "Core/GraphDevice.h"
 #include "Core/PngReadInfo.h"
 #include "Core/String.h"
 #include "Model/Image.h"
 #include "Model/RasterLayer.h"
 
-anim::Image::Image()
-	: width(0)
+anim::Image::Image(std::shared_ptr<GraphDevice> graph)
+	: graph(graph)
+	, width(0)
 	, height(0)
 {
 }
@@ -49,6 +51,11 @@ size_t anim::Image::GetWidth() const
 size_t anim::Image::GetHeight() const
 {
 	return this->height;
+}
+
+std::shared_ptr<anim::GraphDevice> anim::Image::GetGraph() const
+{
+	return this->graph;
 }
 
 const std::vector<std::shared_ptr<anim::Layer>> &anim::Image::GetLayers() const
