@@ -9,6 +9,7 @@
 anim::OpenFileTabs::OpenFileTabs(std::shared_ptr<AppState> app)
 	: state(ref new OpenFileTabsVM(app))
 {
+	this->DataContext = this->state;
 	this->InitializeComponent();
 	this->DropTabsList->SetPopup(this->DropTabsPopup);
 	this->state->TabsList = this->TabsList;

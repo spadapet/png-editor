@@ -19,9 +19,14 @@ namespace anim
 		ImageEditor();
 		virtual ~ImageEditor();
 
+		void Destroy();
+
 		property ImageVM ^State { ImageVM ^get(); }
 
 	private:
+		void OnImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
+
 		ImageVM ^image;
+		Windows::Foundation::EventRegistrationToken imageChangedToken;
 	};
 }

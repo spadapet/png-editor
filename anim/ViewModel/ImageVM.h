@@ -18,8 +18,12 @@ namespace anim
 	public:
 		virtual ~ImageVM();
 
+		void Destroy();
+		void ImageSourceUpdatesNeeded();
+
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 
+		property bool IsActive { bool get(); void set(bool value); }
 		property unsigned int Width { unsigned int get(); }
 		property unsigned int Height { unsigned int get(); }
 		property double WidthD { double get(); }
@@ -27,8 +31,6 @@ namespace anim
 		property Windows::UI::Xaml::Media::ImageSource ^Source { Windows::UI::Xaml::Media::ImageSource ^get(); }
 		property Windows::Foundation::Collections::IVector<ILayerVM ^> ^Layers { Windows::Foundation::Collections::IVector<ILayerVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableLayers { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
-
-		void ImageSourceUpdatesNeeded();
 
 	private:
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
@@ -49,5 +51,6 @@ namespace anim
 		EventCookie imageChangedCookie;
 		EventCookie layerAddedCookie;
 		EventCookie layerRemovedCookie;
+		bool active;
 	};
 }

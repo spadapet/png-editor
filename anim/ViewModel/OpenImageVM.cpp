@@ -26,10 +26,7 @@ anim::OpenImageVM::OpenImageVM(std::shared_ptr<OpenImageFile> file)
 		}
 	});
 
-	if (this->file->GetImage() != nullptr)
-	{
-		this->image = ref new ImageVM(this->file->GetImage());
-	}
+	this->ResetImage();
 }
 
 anim::OpenImageVM::OpenImageVM()
@@ -39,19 +36,32 @@ anim::OpenImageVM::OpenImageVM()
 
 anim::OpenImageVM::~OpenImageVM()
 {
-	if (this->file != nullptr)
-	{
-		this->file->PropertyChanged.Remove(this->fileChangedCookie);
-	}
+	this->Destroy();
 }
 
 void anim::OpenImageVM::Destroy()
 {
+	this->active = false;
+
 	if (this->file != nullptr)
 	{
 		this->file->PropertyChanged.Remove(this->fileChangedCookie);
 		this->file = nullptr;
 	}
+
+	if (this->imageEditor != nullptr)
+	{
+		this->imageEditor->Destroy();
+		this->imageEditor = nullptr;
+	}
+
+	if (this->image != nullptr)
+	{
+		this->image->Destroy();
+		this->image = nullptr;
+	}
+
+	this->NotifyPropertyChanged();
 }
 
 anim::ImageVM ^anim::OpenImageVM::Image::get()
@@ -132,12 +142,12 @@ bool anim::OpenImageVM::ShowCloseButton::get()
 
 Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 {
-	if (this->control == nullptr)
+	if (this->imageEditor == nullptr && this->image != nullptr)
 	{
-		this->control = ref new ImageEditor(this->image);
+		this->imageEditor = ref new ImageEditor(this->image);
 	}
 
-	return control;
+	return imageEditor;
 }
 
 Windows::UI::Xaml::Input::ICommand ^anim::OpenImageVM::CloseCommand::get()
@@ -179,7 +189,21 @@ void anim::OpenImageVM::FilePropertyChanged(const char *name)
 
 	if (allChanged || strcmp(name, "Image") == 0)
 	{
-		this->image = ref new ImageVM(this->file->GetImage());
-		this->NotifyPropertyChanged("Image");
+		this->ResetImage();
 	}
+}
+
+void anim::OpenImageVM::ResetImage()
+{
+	this->image = nullptr;
+	this->imageEditor = nullptr;
+
+	if (this->file->GetImage() != nullptr)
+	{
+		this->image = ref new ImageVM(this->file->GetImage());
+		this->image->IsActive = this->active;
+	}
+
+	this->NotifyPropertyChanged("Image");
+	this->NotifyPropertyChanged("UserInterface");
 }

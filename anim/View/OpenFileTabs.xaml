@@ -83,7 +83,7 @@
             <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8">
                     <Run Text="Can't edit this type of file." /><LineBreak />
-                    <Run Text="Path: " /><Run Text="{Binding Path}" />
+                    <Run Text="Path: " /><Run Text="{x:Bind Path}" />
                 </TextBlock>
             </Grid>
         </DataTemplate>
@@ -108,7 +108,7 @@
         Grid.Row="0"
         Height="32"
         Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-        Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}">
+        Visibility="{Binding HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -119,15 +119,15 @@
             x:Name="TabsList"
             Grid.Column="0"
             Background="Transparent"
-            ItemsSource="{x:Bind State.Files}"
-            SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}"
+            ItemsSource="{Binding Files, Mode=OneTime}"
+            SelectedItem="{Binding FocusFileOrNull, Mode=TwoWay}"
             Style="{StaticResource TabListStyle}" />
 
         <Button
             x:Name="DropTabsButton"
             Grid.Column="1"
             Style="{StaticResource ToolbarButtonStyle}"
-            Visibility="{x:Bind State.HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
+            Visibility="{Binding HasFiles, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Click="OnClickDropDown"
@@ -149,10 +149,10 @@
                         BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}"
                         BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}"
                         Background="{ThemeResource ComboBoxDropDownBackground}"
-                        ItemsSource="{x:Bind State.Files}"
+                        ItemsSource="{Binding Files, Mode=OneTime}"
                         ItemTemplate="{StaticResource DropTabItemTemplate}"
                         ItemContainerStyle="{StaticResource DropTabItemContainerStyle}"
-                        SelectedItem="{x:Bind State.FocusFileOrNull, Mode=TwoWay}" />
+                        SelectedItem="{Binding FocusFileOrNull, Mode=TwoWay}" />
                 </Popup>
             </Grid>
         </Button>
@@ -161,7 +161,7 @@
     
     <ContentControl
         Grid.Row="1"
-        Content="{x:Bind State.FocusFile, Mode=OneWay}"
+        Content="{Binding FocusFile, Mode=OneWay}"
         ContentTemplateSelector="{StaticResource FileUiTemplateSelector}"
         Style="{StaticResource SimpleContentControlStyle}" />
 

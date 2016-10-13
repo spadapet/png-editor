@@ -18,6 +18,7 @@ namespace anim
 		virtual ~RasterLayerVM();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
+		virtual void Destroy();
 		virtual void Draw();
 
 	private:

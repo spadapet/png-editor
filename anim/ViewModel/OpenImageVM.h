@@ -43,10 +43,11 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void FilePropertyChanged(const char *name);
+		void ResetImage();
 
 		std::shared_ptr<OpenImageFile> file;
 		EventCookie fileChangedCookie;
-		ImageEditor ^control;
+		ImageEditor ^imageEditor;
 		ImageVM ^image;
 		bool active;
 		bool hover;

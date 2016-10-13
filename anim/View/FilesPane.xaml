@@ -210,11 +210,11 @@
         ScrollViewer.HorizontalScrollMode="Auto"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
         ScrollViewer.VerticalScrollMode="Auto"
-        ItemsSource="{x:Bind State.BindableFlatItems}"
+        ItemsSource="{Binding BindableFlatItems, Mode=OneTime}"
         Style="{StaticResource ProjectFolderListStyle}"
-        Visibility="{x:Bind State.HasProjectFolders, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
+        Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
 
-    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{x:Bind State.HasProjectFolders, Converter={StaticResource BoolToInvisible}, Mode=OneWay}">
+    <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding HasProjectFolders, Converter={StaticResource BoolToInvisible}, Mode=OneWay}">
         <Run Text="To add a project folder, " /><Hyperlink Click="OnClickAddFolderLink"><Run Text="click here." /></Hyperlink>
     </TextBlock>
 </Grid>

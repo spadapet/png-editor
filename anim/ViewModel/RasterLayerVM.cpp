@@ -19,6 +19,18 @@ anim::RasterLayerVM::RasterLayerVM(std::shared_ptr<RasterLayer> layer)
 
 anim::RasterLayerVM::~RasterLayerVM()
 {
+	this->Destroy();
+}
+
+void anim::RasterLayerVM::Destroy()
+{
+	if (this->layer != nullptr)
+	{
+		this->layer->PropertyChanged.Remove(this->layerChangedCookie);
+		this->layer = nullptr;
+
+		this->NotifyPropertyChanged();
+	}
 }
 
 void anim::RasterLayerVM::Draw()

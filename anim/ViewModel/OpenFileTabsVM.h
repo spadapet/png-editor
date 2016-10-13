@@ -8,6 +8,7 @@ namespace anim
 	interface class IOpenFileVM;
 	ref class OpenNullFileVM;
 
+	[Windows::UI::Xaml::Data::Bindable]
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class OpenFileTabsVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{

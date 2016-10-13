@@ -74,6 +74,7 @@ ULONG ImageCallback::Release()
 anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 	: image(image)
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
+	, active(false)
 {
 	Platform::WeakReference weakOwner(this);
 
@@ -111,32 +112,69 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 
 anim::ImageVM::~ImageVM()
 {
+	this->Destroy();
+}
+
+void anim::ImageVM::Destroy()
+{
+	for (ILayerVM ^layer : this->layers)
+	{
+		layer->Destroy();
+	}
+
+	this->layers->Clear();
+
 	if (this->image != nullptr)
 	{
 		this->image->PropertyChanged.Remove(this->imageChangedCookie);
 		this->image->LayerAdded.Remove(this->layerAddedCookie);
 		this->image->LayerRemoved.Remove(this->layerRemovedCookie);
+		this->image = nullptr;
+
+		this->active = false;
+		this->imageSource = nullptr;
+		this->imageSourceNative.Reset();
+
+		this->NotifyPropertyChanged();
+	}
+}
+
+void anim::ImageVM::ImageSourceUpdatesNeeded()
+{
+}
+
+bool anim::ImageVM::IsActive::get()
+{
+	return this->active;
+}
+
+void anim::ImageVM::IsActive::set(bool value)
+{
+	if (this->active != value)
+	{
+		this->active = value;
+		this->NotifyPropertyChanged("IsActive");
 	}
 }
 
 unsigned int anim::ImageVM::Width::get()
 {
-	return (unsigned int)this->image->GetWidth();
+	return (this->image != nullptr) ? (unsigned int)this->image->GetWidth() : 0;
 }
 
 unsigned int anim::ImageVM::Height::get()
 {
-	return (unsigned int)this->image->GetHeight();
+	return (this->image != nullptr) ? (unsigned int)this->image->GetHeight() : 0;
 }
 
 double anim::ImageVM::WidthD::get()
 {
-	return (double)this->image->GetWidth();
+	return (double)this->Width;
 }
 
 double anim::ImageVM::HeightD::get()
 {
-	return (double)this->image->GetHeight();
+	return (double)this->Height;
 }
 
 Windows::UI::Xaml::Media::ImageSource ^anim::ImageVM::Source::get()
@@ -159,13 +197,9 @@ Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ImageVM::BindableLa
 	return this->layers;
 }
 
-void anim::ImageVM::ImageSourceUpdatesNeeded()
+Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageVM::CreateImageSource(IVirtualSurfaceImageSourceNative **outNative)
 {
-}
-
-Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^ anim::ImageVM::CreateImageSource(IVirtualSurfaceImageSourceNative **outNative)
-{
-	if (!this->image->GetGraph()->IsValid())
+	if (this->image == nullptr || !this->image->GetGraph()->IsValid())
 	{
 		return nullptr;
 	}
