@@ -28,7 +28,11 @@ namespace anim
 		property Windows::Foundation::Collections::IVector<ILayerVM ^> ^Layers { Windows::Foundation::Collections::IVector<ILayerVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableLayers { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 
+		void ImageSourceUpdatesNeeded();
+
 	private:
+		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
+
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void ImagePropertyChanged(const char *name);
 		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
@@ -41,6 +45,7 @@ namespace anim
 		Platform::Collections::Vector<ILayerVM ^> ^layers;
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
 		ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
+		ComPtr<IVirtualSurfaceUpdatesCallbackNative> imageSourceCallback;
 		EventCookie imageChangedCookie;
 		EventCookie layerAddedCookie;
 		EventCookie layerRemovedCookie;

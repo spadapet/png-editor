@@ -6,6 +6,7 @@
 namespace anim
 {
 	class OpenImageFile;
+	ref class ImageEditor;
 	ref class ImageVM;
 
 	[Windows::UI::Xaml::Data::Bindable]
@@ -45,7 +46,7 @@ namespace anim
 
 		std::shared_ptr<OpenImageFile> file;
 		EventCookie fileChangedCookie;
-		Platform::WeakReference control;
+		ImageEditor ^control;
 		ImageVM ^image;
 		bool active;
 		bool hover;

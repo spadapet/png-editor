@@ -5,11 +5,79 @@
 #include "ViewModel/ImageVM.h"
 #include "ViewModel/RasterLayerVM.h"
 
+class ImageCallback : public IVirtualSurfaceUpdatesCallbackNative
+{
+public:
+	ImageCallback(anim::ImageVM ^owner);
+	~ImageCallback();
+
+	virtual HRESULT STDMETHODCALLTYPE UpdatesNeeded() override;
+	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject) override;
+	virtual ULONG STDMETHODCALLTYPE AddRef() override;
+	virtual ULONG STDMETHODCALLTYPE Release() override;
+
+private:
+	long refs;
+	Platform::WeakReference weakOwner;
+};
+
+ImageCallback::ImageCallback(anim::ImageVM ^owner)
+	: weakOwner(owner)
+	, refs(0)
+{
+}
+
+ImageCallback::~ImageCallback()
+{
+	assert(this->refs == 0);
+}
+
+HRESULT ImageCallback::UpdatesNeeded()
+{
+	anim::ImageVM ^owner = this->weakOwner.Resolve<anim::ImageVM>();
+	if (owner != nullptr)
+	{
+		owner->ImageSourceUpdatesNeeded();
+	}
+
+	return S_OK;
+}
+
+HRESULT ImageCallback::QueryInterface(REFIID riid, void **ppvObject)
+{
+	if (ppvObject != nullptr && (riid == IID_IUnknown || riid == __uuidof(IVirtualSurfaceUpdatesCallbackNative)))
+	{
+		this->AddRef();
+		*ppvObject = (IVirtualSurfaceUpdatesCallbackNative *)this;
+		return S_OK;
+	}
+
+	return E_NOINTERFACE;
+}
+
+ULONG ImageCallback::AddRef()
+{
+	return ::InterlockedIncrement(&this->refs);
+}
+
+ULONG ImageCallback::Release()
+{
+	ULONG refs = ::InterlockedDecrement(&this->refs);
+	if (refs == 0)
+	{
+		delete this;
+	}
+
+	return refs;
+}
+
 anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 	: image(image)
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
 {
 	Platform::WeakReference weakOwner(this);
+
+	this->imageSourceCallback = new ImageCallback(this);
 
 	this->imageChangedCookie = this->image->PropertyChanged.Add([weakOwner](const char *name)
 	{
@@ -73,21 +141,9 @@ double anim::ImageVM::HeightD::get()
 
 Windows::UI::Xaml::Media::ImageSource ^anim::ImageVM::Source::get()
 {
-	if (this->imageSource == nullptr && this->image->GetGraph()->IsValid())
+	if (this->imageSource == nullptr)
 	{
-		this->imageSource = ref new Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource(
-			(int)this->image->GetWidth(), (int)this->image->GetHeight(), false);
-
-		if (SUCCEEDED(((IUnknown *)this->imageSource)->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &this->imageSourceNative)))
-		{
-			this->imageSourceNative->SetDevice(this->image->GetGraph()->GetDevice());
-		}
-		else
-		{
-			this->imageSource = nullptr;
-		}
-
-		// this->imageSourceNative->RegisterForUpdatesNeeded(IVirtualSurfaceUpdatesCallbackNative
+		this->imageSource = this->CreateImageSource(&this->imageSourceNative);
 	}
 
 	return this->imageSource;
@@ -101,6 +157,40 @@ Windows::Foundation::Collections::IVector<anim::ILayerVM ^> ^anim::ImageVM::Laye
 Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ImageVM::BindableLayers::get()
 {
 	return this->layers;
+}
+
+void anim::ImageVM::ImageSourceUpdatesNeeded()
+{
+}
+
+Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^ anim::ImageVM::CreateImageSource(IVirtualSurfaceImageSourceNative **outNative)
+{
+	if (!this->image->GetGraph()->IsValid())
+	{
+		return nullptr;
+	}
+
+	Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource =
+		ref new Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource(
+			(int)this->image->GetWidth(),
+			(int)this->image->GetHeight(),
+			false); // opaque
+
+	IUnknown *unknownSource = (IUnknown *)imageSource;
+	ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
+
+	if (FAILED(unknownSource->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &imageSourceNative)) ||
+		FAILED(imageSourceNative->RegisterForUpdatesNeeded(this->imageSourceCallback.Get())))
+	{
+		return nullptr;
+	}
+
+	if (outNative != nullptr)
+	{
+		imageSourceNative.CopyTo(outNative);
+	}
+
+	return imageSource;
 }
 
 void anim::ImageVM::NotifyPropertyChanged(Platform::String ^name)

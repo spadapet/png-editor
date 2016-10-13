@@ -13,15 +13,15 @@ namespace anim
 	public ref class ImageEditor sealed
 	{
 	internal:
-		ImageEditor(OpenImageVM ^image);
+		ImageEditor(ImageVM ^image);
 
 	public:
 		ImageEditor();
 		virtual ~ImageEditor();
 
-		property OpenImageVM ^State { OpenImageVM ^get(); }
+		property ImageVM ^State { ImageVM ^get(); }
 
 	private:
-		OpenImageVM ^image;
+		ImageVM ^image;
 	};
 }

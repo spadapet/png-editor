@@ -76,11 +76,11 @@ bool anim::GraphDevice::InternalInitialize()
 {
 #ifdef _DEBUG
 	UINT factoryFlags = DXGI_CREATE_FACTORY_DEBUG;
-	UINT deviceFlags = D3D11_CREATE_DEVICE_DEBUG;
+	UINT deviceFlags = D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 	D2D1_DEBUG_LEVEL debugLevel = D2D1_DEBUG_LEVEL_WARNING;
 #else
 	UINT factoryFlags = 0;
-	UINT deviceFlags = 0;
+	UINT deviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 	D2D1_DEBUG_LEVEL debugLevel = D2D1_DEBUG_LEVEL_NONE;
 #endif
 

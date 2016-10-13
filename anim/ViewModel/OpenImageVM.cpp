@@ -132,12 +132,9 @@ bool anim::OpenImageVM::ShowCloseButton::get()
 
 Windows::UI::Xaml::UIElement ^anim::OpenImageVM::UserInterface::get()
 {
-	Windows::UI::Xaml::UIElement ^control = this->control.Resolve<Windows::UI::Xaml::UIElement>();
-
-	if (control == nullptr)
+	if (this->control == nullptr)
 	{
-		control = ref new ImageEditor(this);
-		this->control = control;
+		this->control = ref new ImageEditor(this->image);
 	}
 
 	return control;

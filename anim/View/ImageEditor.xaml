@@ -22,9 +22,9 @@
         Background="Gray">
         <Border Margin="32" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image
-                Width="{x:Bind State.Image.WidthD, Mode=OneWay}"
-                Height="{x:Bind State.Image.HeightD, Mode=OneWay}"
-                Source="{x:Bind State.Image.Source, Mode=OneWay}" />
+                Width="{x:Bind State.WidthD, Mode=OneWay}"
+                Height="{x:Bind State.HeightD, Mode=OneWay}"
+                Source="{x:Bind State.Source, Mode=OneWay}" />
         </Border>
     </ScrollViewer>
 </Grid>

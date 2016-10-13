@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
+#include "Core/GraphDevice.h"
+#include "Model/Image.h"
 #include "View/ImageEditor.xaml.h"
-#include "ViewModel/OpenImageVM.h"
+#include "ViewModel/ImageVM.h"
 
-anim::ImageEditor::ImageEditor(OpenImageVM ^image)
+anim::ImageEditor::ImageEditor(ImageVM ^image)
 	: image(image)
 {
 	this->DataContext = image;
@@ -10,7 +12,7 @@ anim::ImageEditor::ImageEditor(OpenImageVM ^image)
 }
 
 anim::ImageEditor::ImageEditor()
-	: ImageEditor(ref new OpenImageVM())
+	: ImageEditor(ref new ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>())))
 {
 }
 
@@ -18,7 +20,7 @@ anim::ImageEditor::~ImageEditor()
 {
 }
 
-anim::OpenImageVM ^anim::ImageEditor::State::get()
+anim::ImageVM ^anim::ImageEditor::State::get()
 {
 	return this->image;
 }
