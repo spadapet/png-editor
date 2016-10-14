@@ -16,6 +16,7 @@ namespace anim
 		ImageVM(std::shared_ptr<Image> image, bool active);
 
 	public:
+		ImageVM();
 		virtual ~ImageVM();
 
 		void Destroy();

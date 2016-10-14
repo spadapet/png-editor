@@ -110,6 +110,11 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image, bool active)
 	this->ResetLayers();
 }
 
+anim::ImageVM::ImageVM()
+	: ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()), true)
+{
+}
+
 anim::ImageVM::~ImageVM()
 {
 	this->Destroy();

@@ -2,11 +2,13 @@
 
 #include "View/ImageEditor.g.h"
 #include "ViewModel/ILayerVM.h"
+#include "ViewModel/ImageEditorVM.h"
 #include "ViewModel/ImageVM.h"
 #include "ViewModel/RasterLayerVM.h"
 
 namespace anim
 {
+	ref class ImageEditorVM;
 	ref class OpenImageVM;
 
 	[Windows::Foundation::Metadata::WebHostHidden]
@@ -21,12 +23,11 @@ namespace anim
 
 		void Destroy();
 
-		property ImageVM ^State { ImageVM ^get(); }
+		property ImageEditorVM ^State { ImageEditorVM ^get(); }
 
 	private:
 		void OnImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
 
-		ImageVM ^image;
-		Windows::Foundation::EventRegistrationToken imageChangedToken;
+		ImageEditorVM ^state;
 	};
 }

@@ -30,6 +30,7 @@
     <ClCompile Include="Model\ProjectItem.cpp" />
     <ClCompile Include="Model\RasterLayer.cpp" />
     <ClCompile Include="ViewModel\FilesPaneVM.cpp" />
+    <ClCompile Include="ViewModel\ImageEditorVM.cpp" />
     <ClCompile Include="ViewModel\ImageVM.cpp" />
     <ClCompile Include="ViewModel\IOpenFileVM.cpp" />
     <ClCompile Include="ViewModel\RasterLayerVM.cpp" />
@@ -98,6 +99,7 @@
     </ApplicationDefinition>
     <ClInclude Include="ViewModel\FilesPaneVM.h" />
     <ClInclude Include="ViewModel\ILayerVM.h" />
+    <ClInclude Include="ViewModel\ImageEditorVM.h" />
     <ClInclude Include="ViewModel\ImageVM.h" />
     <ClInclude Include="ViewModel\IOpenFileVM.h" />
     <ClInclude Include="ViewModel\IProjectItemVM.h" />

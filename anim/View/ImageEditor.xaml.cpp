@@ -5,18 +5,14 @@
 #include "ViewModel/ImageVM.h"
 
 anim::ImageEditor::ImageEditor(ImageVM ^image)
-	: image(image)
+	: state(ref new ImageEditorVM(image))
 {
-	this->imageChangedToken = this->image->PropertyChanged +=
-		ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(
-			this, &ImageEditor::OnImagePropertyChanged);
-
-	this->DataContext = image;
+	this->DataContext = this->state;
 	this->InitializeComponent();
 }
 
 anim::ImageEditor::ImageEditor()
-	: ImageEditor(ref new ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()), true))
+	: ImageEditor(ref new ImageVM())
 {
 }
 
@@ -27,16 +23,12 @@ anim::ImageEditor::~ImageEditor()
 
 void anim::ImageEditor::Destroy()
 {
-	if (this->image != nullptr)
-	{
-		this->image->PropertyChanged -= this->imageChangedToken;
-		this->image = nullptr;
-	}
+	this->state->Destroy();
 }
 
-anim::ImageVM ^anim::ImageEditor::State::get()
+anim::ImageEditorVM ^anim::ImageEditor::State::get()
 {
-	return this->image;
+	return this->state;
 }
 
 void anim::ImageEditor::OnImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args)

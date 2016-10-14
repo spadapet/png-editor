@@ -206,6 +206,9 @@
     <ClCompile Include="Core\GraphDevice.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="ViewModel\ImageEditorVM.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -355,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Core\GraphDevice.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewModel\ImageEditorVM.h">
+      <Filter>ViewModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
