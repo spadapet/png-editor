@@ -200,8 +200,7 @@ void anim::OpenImageVM::ResetImage()
 
 	if (this->file->GetImage() != nullptr)
 	{
-		this->image = ref new ImageVM(this->file->GetImage());
-		this->image->IsActive = this->active;
+		this->image = ref new ImageVM(this->file->GetImage(), this->active);
 	}
 
 	this->NotifyPropertyChanged("Image");

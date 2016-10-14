@@ -16,7 +16,7 @@ anim::ImageEditor::ImageEditor(ImageVM ^image)
 }
 
 anim::ImageEditor::ImageEditor()
-	: ImageEditor(ref new ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>())))
+	: ImageEditor(ref new ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()), true))
 {
 }
 

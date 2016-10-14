@@ -13,7 +13,7 @@ namespace anim
 	public ref class ImageVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		ImageVM(std::shared_ptr<Image> image);
+		ImageVM(std::shared_ptr<Image> image, bool active);
 
 	public:
 		virtual ~ImageVM();

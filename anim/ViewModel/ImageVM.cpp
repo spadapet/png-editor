@@ -71,7 +71,7 @@ ULONG ImageCallback::Release()
 	return refs;
 }
 
-anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
+anim::ImageVM::ImageVM(std::shared_ptr<Image> image, bool active)
 	: image(image)
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
 	, active(false)
@@ -141,6 +141,7 @@ void anim::ImageVM::Destroy()
 
 void anim::ImageVM::ImageSourceUpdatesNeeded()
 {
+	// TODO: Create a task to render the dirty part of the image
 }
 
 bool anim::ImageVM::IsActive::get()
@@ -208,7 +209,7 @@ Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageVM::Cre
 		ref new Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource(
 			(int)this->image->GetWidth(),
 			(int)this->image->GetHeight(),
-			false); // opaque
+			false); // not opaque
 
 	IUnknown *unknownSource = (IUnknown *)imageSource;
 	ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
@@ -235,7 +236,7 @@ void anim::ImageVM::NotifyPropertyChanged(Platform::String ^name)
 void anim::ImageVM::ImagePropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
-	bool newImage = false;
+	bool newImage = allChanged;
 
 	if (allChanged || strcmp(name, "Layers") == 0)
 	{
@@ -271,12 +272,19 @@ void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
 
 void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index)
 {
+	ILayerVM ^layerVM = this->layers->GetAt((unsigned int)index);
 	this->layers->RemoveAt((unsigned int)index);
+	layerVM->Destroy();
 }
 
 void anim::ImageVM::ResetLayers()
 {
 	std::vector<ILayerVM ^> layers;
+
+	for (ILayerVM ^layer : this->layers)
+	{
+		layer->Destroy();
+	}
 
 	for (std::shared_ptr<Layer> layer : this->image->GetLayers())
 	{
@@ -294,6 +302,7 @@ anim::ILayerVM ^anim::ImageVM::CreateLayer(std::shared_ptr<Layer> layer)
 		return ref new RasterLayerVM(rasterLayer);
 	}
 
+	// Unknown type of layer
 	assert(false);
 	return nullptr;
 }
