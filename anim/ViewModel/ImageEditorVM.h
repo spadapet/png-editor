@@ -23,8 +23,13 @@ namespace anim
 		property ImageVM ^Image { ImageVM ^get(); }
 
 	private:
+		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
+
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 
 		ImageVM ^image;
+		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
+		ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
+		ComPtr<IVirtualSurfaceUpdatesCallbackNative> imageSourceCallback;
 	};
 }
