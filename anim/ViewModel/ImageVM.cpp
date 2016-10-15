@@ -73,6 +73,7 @@ ULONG ImageCallback::Release()
 
 anim::ImageVM::ImageVM(std::shared_ptr<Image> image, bool active)
 	: image(image)
+	, graph(image->GetGraph())
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
 	, active(false)
 {
@@ -104,6 +105,15 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image, bool active)
 		if (owner != nullptr)
 		{
 			owner->ImageLayerRemoved(layer, index);
+		}
+	});
+
+	this->graphResetCookie = this->graph->DeviceReset.Add([weakOwner]()
+	{
+		ImageVM ^owner = weakOwner.Resolve<ImageVM>();
+		if (owner != nullptr)
+		{
+			owner->GraphDeviceReset();
 		}
 	});
 
@@ -139,14 +149,26 @@ void anim::ImageVM::Destroy()
 		this->active = false;
 		this->imageSource = nullptr;
 		this->imageSourceNative.Reset();
-
-		this->NotifyPropertyChanged();
 	}
+
+	if (this->graph != nullptr)
+	{
+		this->graph->DeviceReset.Remove(this->graphResetCookie);
+		this->graph = nullptr;
+	}
+
+	this->NotifyPropertyChanged();
 }
 
 void anim::ImageVM::ImageSourceUpdatesNeeded()
 {
-	// TODO: Create a task to render the dirty part of the image
+	if (this->imageSourceNative == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
+	// this->imageSourceNative->
 }
 
 bool anim::ImageVM::IsActive::get()
@@ -205,7 +227,7 @@ Windows::UI::Xaml::Interop::IBindableObservableVector ^anim::ImageVM::BindableLa
 
 Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageVM::CreateImageSource(IVirtualSurfaceImageSourceNative **outNative)
 {
-	if (this->image == nullptr || !this->image->GetGraph()->IsValid())
+	if (this->graph == nullptr || !this->graph->IsValid())
 	{
 		return nullptr;
 	}
@@ -242,6 +264,7 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
 	bool newImage = allChanged;
+	bool newSize = allChanged;
 
 	if (allChanged || strcmp(name, "Layers") == 0)
 	{
@@ -252,14 +275,14 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 	{
 		this->NotifyPropertyChanged("Width");
 		this->NotifyPropertyChanged("WidthD");
-		newImage = true;
+		newSize = true;
 	}
 
 	if (allChanged || strcmp(name, "Height") == 0)
 	{
 		this->NotifyPropertyChanged("Height");
 		this->NotifyPropertyChanged("HeightD");
-		newImage = true;
+		newSize = true;
 	}
 
 	if (newImage)
@@ -267,6 +290,10 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 		this->imageSourceNative.Reset();
 		this->imageSource = nullptr;
 		this->NotifyPropertyChanged("Source");
+	}
+	else if (newSize && this->imageSourceNative != nullptr)
+	{
+		this->imageSourceNative->Resize((int)this->Width, (int)this->Height);
 	}
 }
 
@@ -280,6 +307,12 @@ void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index
 	ILayerVM ^layerVM = this->layers->GetAt((unsigned int)index);
 	this->layers->RemoveAt((unsigned int)index);
 	layerVM->Destroy();
+}
+
+void anim::ImageVM::GraphDeviceReset()
+{
+	// This will recreate all graphic device stuff
+	this->ImagePropertyChanged(nullptr);
 }
 
 void anim::ImageVM::ResetLayers()

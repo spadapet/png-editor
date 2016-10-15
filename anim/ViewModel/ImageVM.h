@@ -4,6 +4,7 @@
 
 namespace anim
 {
+	class GraphDevice;
 	class Image;
 	class Layer;
 	interface class ILayerVM;
@@ -40,11 +41,13 @@ namespace anim
 		void ImagePropertyChanged(const char *name);
 		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
 		void ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index);
+		void GraphDeviceReset();
 
 		void ResetLayers();
 		ILayerVM ^CreateLayer(std::shared_ptr<Layer> layer);
 
 		std::shared_ptr<Image> image;
+		std::shared_ptr<GraphDevice> graph;
 		Platform::Collections::Vector<ILayerVM ^> ^layers;
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
 		ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
@@ -52,6 +55,7 @@ namespace anim
 		EventCookie imageChangedCookie;
 		EventCookie layerAddedCookie;
 		EventCookie layerRemovedCookie;
+		EventCookie graphResetCookie;
 		bool active;
 	};
 }
