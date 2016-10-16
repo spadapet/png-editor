@@ -1,11 +1,13 @@
 #include "pch.h"
+#include "Core/GraphDevice.h"
+#include "Model/Image.h"
 #include "ViewModel/ImageEditorVM.h"
 #include "ViewModel/ImageVM.h"
 
 class ImageCallback : public IVirtualSurfaceUpdatesCallbackNative
 {
 public:
-	ImageCallback(anim::ImageVM ^owner);
+	ImageCallback(anim::ImageEditorVM ^owner);
 	~ImageCallback();
 
 	virtual HRESULT STDMETHODCALLTYPE UpdatesNeeded() override;
@@ -18,7 +20,7 @@ private:
 	Platform::WeakReference weakOwner;
 };
 
-ImageCallback::ImageCallback(anim::ImageVM ^owner)
+ImageCallback::ImageCallback(anim::ImageEditorVM ^owner)
 	: weakOwner(owner)
 	, refs(0)
 {
@@ -31,7 +33,7 @@ ImageCallback::~ImageCallback()
 
 HRESULT ImageCallback::UpdatesNeeded()
 {
-	anim::ImageVM ^owner = this->weakOwner.Resolve<anim::ImageVM>();
+	anim::ImageEditorVM ^owner = this->weakOwner.Resolve<anim::ImageEditorVM>();
 	if (owner != nullptr)
 	{
 		owner->ImageSourceUpdatesNeeded();
@@ -70,8 +72,20 @@ ULONG ImageCallback::Release()
 
 anim::ImageEditorVM::ImageEditorVM(ImageVM ^image)
 	: image(image)
+	, graph(image->GetImage()->GetGraph())
 {
+	Platform::WeakReference weakOwner(this);
+
 	this->imageSourceCallback = new ImageCallback(this);
+
+	this->graphResetCookie = this->graph->DeviceReset.Add([weakOwner]()
+	{
+		ImageEditorVM ^owner = weakOwner.Resolve<ImageEditorVM>();
+		if (owner != nullptr)
+		{
+			owner->GraphDeviceReset();
+		}
+	});
 }
 
 anim::ImageEditorVM::ImageEditorVM()
@@ -81,6 +95,7 @@ anim::ImageEditorVM::ImageEditorVM()
 
 anim::ImageEditorVM::~ImageEditorVM()
 {
+	this->Destroy();
 }
 
 void anim::ImageEditorVM::Destroy()
@@ -90,9 +105,26 @@ void anim::ImageEditorVM::Destroy()
 		this->image = nullptr;
 		this->imageSource = nullptr;
 		this->imageSourceNative.Reset();
-
-		this->NotifyPropertyChanged();
 	}
+
+	if (this->graph != nullptr)
+	{
+		this->graph->DeviceReset.Remove(this->graphResetCookie);
+		this->graph = nullptr;
+	}
+
+	this->NotifyPropertyChanged();
+}
+
+void anim::ImageEditorVM::ImageSourceUpdatesNeeded()
+{
+	if (this->imageSourceNative == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
+	// this->imageSourceNative->
 }
 
 anim::ImageVM ^anim::ImageEditorVM::Image::get()
@@ -100,18 +132,29 @@ anim::ImageVM ^anim::ImageEditorVM::Image::get()
 	return this->image;
 }
 
-Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorVM::CreateImageSource(IVirtualSurfaceImageSourceNative **outNative)
+Windows::UI::Xaml::Media::ImageSource ^anim::ImageEditorVM::Source::get()
 {
-	if (this->image == nullptr || !this->image->GetGraph()->IsValid())
+	if (this->imageSource == nullptr)
+	{
+		this->imageSource = this->CreateImageSource(&this->imageSourceNative);
+	}
+
+	return this->imageSource;
+}
+
+Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorVM::CreateImageSource(
+	IVirtualSurfaceImageSourceNative **outNative)
+{
+	if (this->graph == nullptr || !this->graph->IsValid())
 	{
 		return nullptr;
 	}
 
 	Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource =
 		ref new Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource(
-		(int)this->image->GetWidth(),
-			(int)this->image->GetHeight(),
-			false); // not opaque
+		(int)this->image->Width,
+		(int)this->image->Height,
+		false); // not opaque
 
 	IUnknown *unknownSource = (IUnknown *)imageSource;
 	ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
@@ -128,6 +171,13 @@ Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorV
 	}
 
 	return imageSource;
+}
+
+void anim::ImageEditorVM::GraphDeviceReset()
+{
+	this->imageSourceNative.Reset();
+	this->imageSource = nullptr;
+	this->NotifyPropertyChanged("Source");
 }
 
 void anim::ImageEditorVM::NotifyPropertyChanged(Platform::String ^name)

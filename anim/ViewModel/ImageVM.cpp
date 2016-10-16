@@ -5,11 +5,10 @@
 #include "ViewModel/ImageVM.h"
 #include "ViewModel/RasterLayerVM.h"
 
-anim::ImageVM::ImageVM(std::shared_ptr<Image> image, bool active)
+anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 	: image(image)
 	, graph(image->GetGraph())
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
-	, active(false)
 {
 	Platform::WeakReference weakOwner(this);
 
@@ -77,9 +76,8 @@ void anim::ImageVM::Destroy()
 		this->image->LayerAdded.Remove(this->layerAddedCookie);
 		this->image->LayerRemoved.Remove(this->layerRemovedCookie);
 		this->image = nullptr;
-
-		this->active = false;
 	}
+
 	if (this->graph != nullptr)
 	{
 		this->graph->DeviceReset.Remove(this->graphResetCookie);
@@ -89,29 +87,9 @@ void anim::ImageVM::Destroy()
 	this->NotifyPropertyChanged();
 }
 
-void anim::ImageVM::ImageSourceUpdatesNeeded()
+std::shared_ptr<anim::Image> anim::ImageVM::GetImage()
 {
-	if (this->imageSourceNative == nullptr)
-	{
-		assert(false);
-		return;
-	}
-
-	// this->imageSourceNative->
-}
-
-bool anim::ImageVM::IsActive::get()
-{
-	return this->active;
-}
-
-void anim::ImageVM::IsActive::set(bool value)
-{
-	if (this->active != value)
-	{
-		this->active = value;
-		this->NotifyPropertyChanged("IsActive");
-	}
+	return this->image;
 }
 
 unsigned int anim::ImageVM::Width::get()
@@ -134,16 +112,6 @@ double anim::ImageVM::HeightD::get()
 	return (double)this->Height;
 }
 
-Windows::UI::Xaml::Media::ImageSource ^anim::ImageVM::Source::get()
-{
-	if (this->imageSource == nullptr)
-	{
-		this->imageSource = this->CreateImageSource(&this->imageSourceNative);
-	}
-
-	return this->imageSource;
-}
-
 Windows::Foundation::Collections::IVector<anim::ILayerVM ^> ^anim::ImageVM::Layers::get()
 {
 	return this->layers;
@@ -162,8 +130,6 @@ void anim::ImageVM::NotifyPropertyChanged(Platform::String ^name)
 void anim::ImageVM::ImagePropertyChanged(const char *name)
 {
 	bool allChanged = (name == nullptr || *name == 0);
-	bool newImage = allChanged;
-	bool newSize = allChanged;
 
 	if (allChanged || strcmp(name, "Layers") == 0)
 	{
@@ -174,25 +140,12 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 	{
 		this->NotifyPropertyChanged("Width");
 		this->NotifyPropertyChanged("WidthD");
-		newSize = true;
 	}
 
 	if (allChanged || strcmp(name, "Height") == 0)
 	{
 		this->NotifyPropertyChanged("Height");
 		this->NotifyPropertyChanged("HeightD");
-		newSize = true;
-	}
-
-	if (newImage)
-	{
-		this->imageSourceNative.Reset();
-		this->imageSource = nullptr;
-		this->NotifyPropertyChanged("Source");
-	}
-	else if (newSize && this->imageSourceNative != nullptr)
-	{
-		this->imageSourceNative->Resize((int)this->Width, (int)this->Height);
 	}
 }
 
