@@ -33,12 +33,12 @@ namespace anim
 	private:
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		void ImagePropertyChanged(const char *name);
-		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
-		void ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index);
 		void GraphDeviceReset();
 
 		void ResetLayers();
 		ILayerVM ^CreateLayer(std::shared_ptr<Layer> layer);
+		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
+		void ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index);
 
 		std::shared_ptr<Image> image;
 		std::shared_ptr<GraphDevice> graph;

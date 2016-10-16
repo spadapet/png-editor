@@ -52,7 +52,7 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 }
 
 anim::ImageVM::ImageVM()
-	: ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()), true)
+	: ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()))
 {
 }
 
@@ -139,18 +139,6 @@ void anim::ImageVM::ImagePropertyChanged(const char *name)
 	}
 }
 
-void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
-{
-	this->layers->InsertAt((unsigned int)index, this->CreateLayer(layer));
-}
-
-void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index)
-{
-	ILayerVM ^layerVM = this->layers->GetAt((unsigned int)index);
-	this->layers->RemoveAt((unsigned int)index);
-	layerVM->Destroy();
-}
-
 void anim::ImageVM::GraphDeviceReset()
 {
 	// This will recreate all graphic device stuff
@@ -185,4 +173,16 @@ anim::ILayerVM ^anim::ImageVM::CreateLayer(std::shared_ptr<Layer> layer)
 	// Unknown type of layer
 	assert(false);
 	return nullptr;
+}
+
+void anim::ImageVM::ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index)
+{
+	this->layers->InsertAt((unsigned int)index, this->CreateLayer(layer));
+}
+
+void anim::ImageVM::ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index)
+{
+	ILayerVM ^layerVM = this->layers->GetAt((unsigned int)index);
+	this->layers->RemoveAt((unsigned int)index);
+	layerVM->Destroy();
 }
