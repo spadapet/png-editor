@@ -27,8 +27,6 @@ namespace anim
 
 		property unsigned int Width { unsigned int get(); }
 		property unsigned int Height { unsigned int get(); }
-		property double WidthD { double get(); }
-		property double HeightD { double get(); }
 		property Windows::Foundation::Collections::IVector<ILayerVM ^> ^Layers { Windows::Foundation::Collections::IVector<ILayerVM ^> ^get(); }
 		property Windows::UI::Xaml::Interop::IBindableObservableVector ^BindableLayers { Windows::UI::Xaml::Interop::IBindableObservableVector ^get(); }
 

@@ -36,7 +36,7 @@ HRESULT ImageCallback::UpdatesNeeded()
 	anim::ImageEditorVM ^owner = this->weakOwner.Resolve<anim::ImageEditorVM>();
 	if (owner != nullptr)
 	{
-		owner->ImageSourceUpdatesNeeded();
+		owner->UpdateVirtualImage();
 	}
 
 	return S_OK;
@@ -78,6 +78,18 @@ anim::ImageEditorVM::ImageEditorVM(ImageVM ^image)
 
 	this->imageSourceCallback = new ImageCallback(this);
 
+	this->imageChangedToken = this->image->PropertyChanged +=
+		ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(this, &ImageEditorVM::ImagePropertyChanged);
+
+	this->imageDamagedCookie = this->image->GetImage()->Damaged.Add([weakOwner]()
+	{
+		ImageEditorVM ^owner = weakOwner.Resolve<ImageEditorVM>();
+		if (owner != nullptr)
+		{
+			owner->ImageDamaged();
+		}
+	});
+
 	this->graphResetCookie = this->graph->DeviceReset.Add([weakOwner]()
 	{
 		ImageEditorVM ^owner = weakOwner.Resolve<ImageEditorVM>();
@@ -102,6 +114,7 @@ void anim::ImageEditorVM::Destroy()
 {
 	if (this->image != nullptr)
 	{
+		this->image->PropertyChanged -= this->imageChangedToken;
 		this->image = nullptr;
 		this->imageSource = nullptr;
 		this->imageSourceNative.Reset();
@@ -116,7 +129,7 @@ void anim::ImageEditorVM::Destroy()
 	this->NotifyPropertyChanged();
 }
 
-void anim::ImageEditorVM::ImageSourceUpdatesNeeded()
+void anim::ImageEditorVM::UpdateVirtualImage()
 {
 	if (this->imageSourceNative == nullptr)
 	{
@@ -124,7 +137,22 @@ void anim::ImageEditorVM::ImageSourceUpdatesNeeded()
 		return;
 	}
 
-	// this->imageSourceNative->
+	DWORD count = 0;
+	if (SUCCEEDED(this->imageSourceNative->GetUpdateRectCount(&count)))
+	{
+		std::vector<RECT> rects;
+		rects.resize(count);
+
+		RECT visibleRect;
+		if (SUCCEEDED(this->imageSourceNative->GetUpdateRects(rects.data(), count)) &&
+			SUCCEEDED(this->imageSourceNative->GetVisibleBounds(&visibleRect)))
+		{
+			for (RECT rect : rects)
+			{
+				// this->imageSourceNative->BeginDraw(rect, &surface
+			}
+		}
+	}
 }
 
 anim::ImageVM ^anim::ImageEditorVM::Image::get()
@@ -132,7 +160,17 @@ anim::ImageVM ^anim::ImageEditorVM::Image::get()
 	return this->image;
 }
 
-Windows::UI::Xaml::Media::ImageSource ^anim::ImageEditorVM::Source::get()
+double anim::ImageEditorVM::ImageWidth::get()
+{
+	return (this->image != nullptr) ? (double)this->image->Width : 0.0;
+}
+
+double anim::ImageEditorVM::ImageHeight::get()
+{
+	return (this->image != nullptr) ? (double)this->image->Height : 0.0;
+}
+
+Windows::UI::Xaml::Media::ImageSource ^anim::ImageEditorVM::ImageSource::get()
 {
 	if (this->imageSource == nullptr)
 	{
@@ -142,10 +180,15 @@ Windows::UI::Xaml::Media::ImageSource ^anim::ImageEditorVM::Source::get()
 	return this->imageSource;
 }
 
+void anim::ImageEditorVM::NotifyPropertyChanged(Platform::String ^name)
+{
+	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
+}
+
 Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorVM::CreateImageSource(
 	IVirtualSurfaceImageSourceNative **outNative)
 {
-	if (this->graph == nullptr || !this->graph->IsValid())
+	if (this->image == nullptr || this->graph == nullptr || !this->graph->IsValid())
 	{
 		return nullptr;
 	}
@@ -173,14 +216,40 @@ Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorV
 	return imageSource;
 }
 
+void anim::ImageEditorVM::ImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args)
+{
+	bool allChanged = args->PropertyName == nullptr || args->PropertyName->Length() == 0;
+	bool sizeChanged = false;
+
+	if (allChanged || args->PropertyName == "Width")
+	{
+		this->NotifyPropertyChanged("ImageWidth");
+		sizeChanged = true;
+	}
+
+	if (allChanged || args->PropertyName == "Height")
+	{
+		this->NotifyPropertyChanged("ImageHeight");
+		sizeChanged = true;
+	}
+
+	if (sizeChanged && this->imageSourceNative != nullptr)
+	{
+		this->imageSourceNative->Resize((int)this->image->Width, (int)this->image->Height);
+	}
+}
+
+void anim::ImageEditorVM::ImageDamaged()
+{
+	if (this->imageSourceNative != nullptr)
+	{
+		this->imageSourceNative->Invalidate(RECT{ 0, 0, (int)this->image->Width, (int)this->image->Height });
+	}
+}
+
 void anim::ImageEditorVM::GraphDeviceReset()
 {
 	this->imageSourceNative.Reset();
 	this->imageSource = nullptr;
 	this->NotifyPropertyChanged("Source");
-}
-
-void anim::ImageEditorVM::NotifyPropertyChanged(Platform::String ^name)
-{
-	this->PropertyChanged(this, ref new Windows::UI::Xaml::Data::PropertyChangedEventArgs(name ? name : ""));
 }

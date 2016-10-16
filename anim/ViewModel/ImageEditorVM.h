@@ -11,25 +11,26 @@ namespace anim
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class ImageEditorVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
-	internal:
-		ImageEditorVM(ImageVM ^image);
-
 	public:
+		ImageEditorVM(ImageVM ^image);
 		ImageEditorVM();
 		virtual ~ImageEditorVM();
 
 		void Destroy();
-		void ImageSourceUpdatesNeeded();
+		void UpdateVirtualImage();
 
 		virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler ^PropertyChanged;
 		property ImageVM ^Image { ImageVM ^get(); }
-		property Windows::UI::Xaml::Media::ImageSource ^Source { Windows::UI::Xaml::Media::ImageSource ^get(); }
+		property double ImageWidth { double get(); }
+		property double ImageHeight { double get(); }
+		property Windows::UI::Xaml::Media::ImageSource ^ImageSource { Windows::UI::Xaml::Media::ImageSource ^get(); }
 
 	private:
-		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
-		void GraphDeviceReset();
-
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
+		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
+		void ImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
+		void ImageDamaged();
+		void GraphDeviceReset();
 
 		ImageVM ^image;
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
@@ -37,6 +38,7 @@ namespace anim
 		ComPtr<IVirtualSurfaceUpdatesCallbackNative> imageSourceCallback;
 		Windows::Foundation::EventRegistrationToken imageChangedToken;
 		std::shared_ptr<GraphDevice> graph;
+		EventCookie imageDamagedCookie;
 		EventCookie graphResetCookie;
 	};
 }

@@ -102,16 +102,6 @@ unsigned int anim::ImageVM::Height::get()
 	return (this->image != nullptr) ? (unsigned int)this->image->GetHeight() : 0;
 }
 
-double anim::ImageVM::WidthD::get()
-{
-	return (double)this->Width;
-}
-
-double anim::ImageVM::HeightD::get()
-{
-	return (double)this->Height;
-}
-
 Windows::Foundation::Collections::IVector<anim::ILayerVM ^> ^anim::ImageVM::Layers::get()
 {
 	return this->layers;
