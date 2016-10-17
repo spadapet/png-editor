@@ -72,14 +72,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Condition=" '$(AppType)' == 'Metro' " Include="Debug|ARM">
+    <!--<ProjectConfiguration Condition=" '$(AppType)' == 'Metro' " Include="Debug|ARM">
       <Configuration>Debug</Configuration>
       <Platform>ARM</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Condition=" '$(AppType)' == 'Metro' " Include="Release|ARM">
       <Configuration>Release</Configuration>
       <Platform>ARM</Platform>
-    </ProjectConfiguration>
+    </ProjectConfiguration>-->
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
