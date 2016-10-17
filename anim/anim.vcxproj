@@ -74,6 +74,8 @@
     <ClInclude Include="Core\Command.h" />
     <ClInclude Include="Core\GraphDevice.h" />
     <ClInclude Include="Core\PngReadInfo.h" />
+    <ClInclude Include="Core\Point.h" />
+    <ClInclude Include="Core\Rect.h" />
     <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="Core\Xaml.h" />
     <ClInclude Include="Core\Event.h" />

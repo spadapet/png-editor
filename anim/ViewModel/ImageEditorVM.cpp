@@ -81,12 +81,12 @@ anim::ImageEditorVM::ImageEditorVM(ImageVM ^image)
 	this->imageChangedToken = this->image->PropertyChanged +=
 		ref new Windows::UI::Xaml::Data::PropertyChangedEventHandler(this, &ImageEditorVM::ImagePropertyChanged);
 
-	this->imageDamagedCookie = this->image->GetImage()->Damaged.Add([weakOwner]()
+	this->imageDamagedCookie = this->image->GetImage()->Damaged.Add([weakOwner](RectInt rect)
 	{
 		ImageEditorVM ^owner = weakOwner.Resolve<ImageEditorVM>();
 		if (owner != nullptr)
 		{
-			owner->ImageDamaged();
+			owner->ImageDamaged(rect);
 		}
 	});
 
@@ -149,7 +149,21 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 		{
 			for (RECT rect : rects)
 			{
-				// this->imageSourceNative->BeginDraw(rect, &surface
+				POINT offset{ 0, 0 };
+				ComPtr<IDXGISurface> surface;
+				if (SUCCEEDED(this->imageSourceNative->BeginDraw(rect, &surface, &offset)))
+				{
+					ComPtr<ID3D11Texture2D> texture;
+					if (SUCCEEDED(surface.As(&texture)))
+					{
+						D3D11_TEXTURE2D_DESC desc;
+						texture->GetDesc(&desc);
+
+						desc = desc;
+					}
+
+					this->imageSourceNative->EndDraw();
+				}
 			}
 		}
 	}
@@ -239,11 +253,11 @@ void anim::ImageEditorVM::ImagePropertyChanged(Platform::Object ^sender, Windows
 	}
 }
 
-void anim::ImageEditorVM::ImageDamaged()
+void anim::ImageEditorVM::ImageDamaged(RectInt rect)
 {
 	if (this->imageSourceNative != nullptr)
 	{
-		this->imageSourceNative->Invalidate(RECT{ 0, 0, (int)this->image->Width, (int)this->image->Height });
+		this->imageSourceNative->Invalidate(rect.ToRECT());
 	}
 }
 

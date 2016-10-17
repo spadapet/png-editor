@@ -24,6 +24,10 @@
 #include "../libpng/png.h"
 #include "../zlib/zlib.h"
 
+// Anim
+#include "Core/Point.h"
+#include "Core/Rect.h"
+
 using Microsoft::WRL::ComPtr;
 
 namespace anim

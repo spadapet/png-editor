@@ -14,7 +14,7 @@ namespace anim
 		~Image();
 
 		ChangedEvent PropertyChanged;
-		SimpleEvent Damaged;
+		Event<RectInt> Damaged;
 		Event<std::shared_ptr<Layer>, size_t> LayerAdded;
 		Event<std::shared_ptr<Layer>, size_t> LayerRemoved;
 

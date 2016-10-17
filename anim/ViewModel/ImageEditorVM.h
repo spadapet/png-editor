@@ -29,7 +29,7 @@ namespace anim
 		void NotifyPropertyChanged(Platform::String ^name = nullptr);
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^CreateImageSource(IVirtualSurfaceImageSourceNative **outNative);
 		void ImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
-		void ImageDamaged();
+		void ImageDamaged(RectInt rect);
 		void GraphDeviceReset();
 
 		ImageVM ^image;

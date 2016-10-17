@@ -362,6 +362,12 @@
     <ClInclude Include="ViewModel\ImageEditorVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Point.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Rect.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
