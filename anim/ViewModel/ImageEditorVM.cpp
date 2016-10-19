@@ -151,7 +151,7 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 			{
 				POINT offset{ 0, 0 };
 				ComPtr<IDXGISurface> surface;
-				if (SUCCEEDED(this->imageSourceNative->BeginDraw(rect, &surface, &offset)))
+				if (this->imageSourceNative->BeginDraw(rect, &surface, &offset))
 				{
 					ComPtr<ID3D11Texture2D> texture;
 					if (SUCCEEDED(surface.As(&texture)))
@@ -163,6 +163,10 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 					}
 
 					this->imageSourceNative->EndDraw();
+				}
+				else
+				{
+					this->graph->ResetIfNeeded();
 				}
 			}
 		}
@@ -217,6 +221,7 @@ Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^anim::ImageEditorV
 	ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
 
 	if (FAILED(unknownSource->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &imageSourceNative)) ||
+		FAILED(imageSourceNative->SetDevice(this->graph->GetDevice())) ||
 		FAILED(imageSourceNative->RegisterForUpdatesNeeded(this->imageSourceCallback.Get())))
 	{
 		return nullptr;
