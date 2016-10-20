@@ -30,6 +30,7 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 		{
 			this->InitializeGlobals().then([this]()
 			{
+				this->state->SetDpi(this->displayInfo->LogicalDpi);
 				this->InitializeWindow(Windows::UI::Xaml::Window::Current);
 			}, concurrency::task_continuation_context::use_current());
 		}
@@ -40,6 +41,14 @@ void anim::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivate
 void anim::App::InitializeProcess()
 {
 	anim::SetMainThread();
+
+	if (this->displayInfo == nullptr)
+	{
+		this->displayInfo = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		this->dpiChangedToken = this->displayInfo->DpiChanged +=
+			ref new Windows::Foundation::TypedEventHandler<Windows::Graphics::Display::DisplayInformation ^, Platform::Object ^>(
+				this, &App::OnDpiChanged);
+	}
 }
 
 concurrency::task<void> anim::App::InitializeGlobals()
@@ -73,4 +82,12 @@ void anim::App::OnSuspending(Platform::Object ^sender, Windows::ApplicationModel
 
 void anim::App::OnResuming(Platform::Object ^sender, Platform::Object ^arg)
 {
+}
+
+void anim::App::OnDpiChanged(Windows::Graphics::Display::DisplayInformation ^displayInfo, Platform::Object ^args)
+{
+	if (this->state != nullptr)
+	{
+		this->state->SetDpi(this->displayInfo->LogicalDpi);
+	}
 }

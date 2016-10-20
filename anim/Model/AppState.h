@@ -52,6 +52,11 @@ namespace anim
 		std::shared_ptr<ProjectItem> RegisterProjectItem(std::shared_ptr<ProjectItem> parent, Windows::Storage::IStorageItem ^item);
 		void UnregisterProjectItem(Platform::String ^path);
 
+		// Logical DPI
+		void SetDpi(double dpi);
+		double PixelToDip(double pixel);
+		double DipToPixel(double dip);
+
 	private:
 		void Initialize();
 		void InitializeForDesigner();
@@ -63,5 +68,6 @@ namespace anim
 		std::vector<std::shared_ptr<OpenFile>> openFiles;
 		std::unordered_map<std::string, std::weak_ptr<ProjectItem>> itemCache;
 		std::shared_ptr<GraphDevice> graph;
+		double dpiScale;
 	};
 }

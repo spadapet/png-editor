@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/GraphDevice.h"
+#include "Model/AppState.h"
 #include "Model/Image.h"
 #include "ViewModel/ImageEditorVM.h"
 #include "ViewModel/ImageVM.h"
@@ -147,8 +148,22 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 		if (SUCCEEDED(this->imageSourceNative->GetUpdateRects(rects.data(), count)) &&
 			SUCCEEDED(this->imageSourceNative->GetVisibleBounds(&visibleRect)))
 		{
+			RectFloat visibleRectF(visibleRect);
+			std::shared_ptr<AppState> app = this->image->GetAppState();
+
 			for (RECT rect : rects)
 			{
+				RectFloat rectF(rect);
+				rectF.left = (float)app->DipToPixel(rectF.left);
+				rectF.top = (float)app->DipToPixel(rectF.top);
+				rectF.right = (float)app->DipToPixel(rectF.right);
+				rectF.bottom = (float)app->DipToPixel(rectF.bottom);
+
+				rect.left = (int)rectF.left;
+				rect.top = (int)rectF.top;
+				rect.right = (int)rectF.right;
+				rect.bottom = (int)rectF.bottom;
+
 				POINT offset{ 0, 0 };
 				ComPtr<IDXGISurface> surface;
 				if (this->imageSourceNative->BeginDraw(rect, &surface, &offset))
@@ -156,10 +171,6 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 					ComPtr<ID3D11Texture2D> texture;
 					if (SUCCEEDED(surface.As(&texture)))
 					{
-						D3D11_TEXTURE2D_DESC desc;
-						texture->GetDesc(&desc);
-
-						desc = desc;
 					}
 
 					this->imageSourceNative->EndDraw();
@@ -254,7 +265,14 @@ void anim::ImageEditorVM::ImagePropertyChanged(Platform::Object ^sender, Windows
 
 	if (sizeChanged && this->imageSourceNative != nullptr)
 	{
-		this->imageSourceNative->Resize((int)this->image->Width, (int)this->image->Height);
+		std::shared_ptr<AppState> app = this->image->GetAppState();
+		int pixelWidth = (int)this->image->Width;
+		int pixelHeight = (int)this->image->Height;
+		int dipWidth = (int)app->DipToPixel(pixelWidth);
+		int dipHeight = (int)app->DipToPixel(pixelHeight);
+
+		this->imageSourceNative->Resize(dipWidth, dipHeight);
+		this->imageSourceNative->Invalidate(RECT{ 0, 0, pixelWidth, pixelHeight });
 	}
 }
 

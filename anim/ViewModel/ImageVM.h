@@ -4,6 +4,7 @@
 
 namespace anim
 {
+	class AppState;
 	class GraphDevice;
 	class Image;
 	class Layer;
@@ -14,8 +15,9 @@ namespace anim
 	public ref class ImageVM sealed : Windows::UI::Xaml::Data::INotifyPropertyChanged
 	{
 	internal:
-		ImageVM(std::shared_ptr<Image> image);
-		std::shared_ptr<Image> GetImage();
+		ImageVM(std::shared_ptr<AppState> app, std::shared_ptr<Image> image);
+		std::shared_ptr<AppState> GetAppState() const;
+		std::shared_ptr<Image> GetImage() const;
 
 	public:
 		ImageVM();
@@ -40,6 +42,7 @@ namespace anim
 		void ImageLayerAdded(std::shared_ptr<Layer> layer, size_t index);
 		void ImageLayerRemoved(std::shared_ptr<Layer> layer, size_t index);
 
+		std::shared_ptr<AppState> app;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<GraphDevice> graph;
 		Platform::Collections::Vector<ILayerVM ^> ^layers;

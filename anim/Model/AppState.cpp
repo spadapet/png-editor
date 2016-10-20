@@ -16,6 +16,7 @@ static Windows::UI::Xaml::UIElement ^CreateNonePane(anim::PaneType type)
 
 anim::AppState::AppState()
 	: nonePane(std::make_shared<PaneInfo>(PaneType::None, &::CreateNonePane))
+	, dpiScale(1.0)
 {
 }
 
@@ -278,4 +279,19 @@ void anim::AppState::UnregisterProjectItem(Platform::String ^path)
 	{
 		this->itemCache.erase(i);
 	}
+}
+
+void anim::AppState::SetDpi(double dpi)
+{
+	this->dpiScale = dpi / 96.0;
+}
+
+double anim::AppState::PixelToDip(double pixel)
+{
+	return pixel / this->dpiScale;
+}
+
+double anim::AppState::DipToPixel(double dip)
+{
+	return dip * this->dpiScale;
 }

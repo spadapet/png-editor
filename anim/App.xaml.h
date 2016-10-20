@@ -26,7 +26,10 @@ namespace anim
 
 		void OnSuspending(Platform::Object ^sender, Windows::ApplicationModel::SuspendingEventArgs ^args);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^arg);
+		void OnDpiChanged(Windows::Graphics::Display::DisplayInformation ^displayInfo, Platform::Object ^args);
 
 		std::shared_ptr<AppState> state;
+		Windows::Graphics::Display::DisplayInformation ^displayInfo;
+		Windows::Foundation::EventRegistrationToken dpiChangedToken;
 	};
 }

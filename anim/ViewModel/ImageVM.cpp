@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "Core/GraphDevice.h"
+#include "Model/AppState.h"
 #include "Model/Image.h"
 #include "Model/RasterLayer.h"
 #include "ViewModel/ImageVM.h"
 #include "ViewModel/RasterLayerVM.h"
 
-anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
-	: image(image)
+anim::ImageVM::ImageVM(std::shared_ptr<AppState> app, std::shared_ptr<Image> image)
+	: app(app)
+	, image(image)
 	, graph(image->GetGraph())
 	, layers(ref new Platform::Collections::Vector<ILayerVM ^>())
 {
@@ -52,7 +54,7 @@ anim::ImageVM::ImageVM(std::shared_ptr<Image> image)
 }
 
 anim::ImageVM::ImageVM()
-	: ImageVM(std::make_shared<Image>(std::make_shared<GraphDevice>()))
+	: ImageVM(AppState::CreateForDesigner(), std::make_shared<Image>(std::make_shared<GraphDevice>()))
 {
 }
 
@@ -87,7 +89,12 @@ void anim::ImageVM::Destroy()
 	this->NotifyPropertyChanged();
 }
 
-std::shared_ptr<anim::Image> anim::ImageVM::GetImage()
+std::shared_ptr<anim::AppState> anim::ImageVM::GetAppState() const
+{
+	return this->app;
+}
+
+std::shared_ptr<anim::Image> anim::ImageVM::GetImage() const
 {
 	return this->image;
 }
