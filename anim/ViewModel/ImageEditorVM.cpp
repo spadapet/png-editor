@@ -151,26 +151,20 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 			RectFloat visibleRectF(visibleRect);
 			std::shared_ptr<AppState> app = this->image->GetAppState();
 
-			for (RECT rect : rects)
+			for (RECT imageRect : rects)
 			{
-				RectFloat rectF(rect);
-				rectF.left = (float)app->DipToPixel(rectF.left);
-				rectF.top = (float)app->DipToPixel(rectF.top);
-				rectF.right = (float)app->DipToPixel(rectF.right);
-				rectF.bottom = (float)app->DipToPixel(rectF.bottom);
-
-				rect.left = (int)rectF.left;
-				rect.top = (int)rectF.top;
-				rect.right = (int)rectF.right;
-				rect.bottom = (int)rectF.bottom;
+				RectInt pixelRect = app->DipToPixel(RectFloat(imageRect)).ToInt();
 
 				POINT offset{ 0, 0 };
 				ComPtr<IDXGISurface> surface;
-				if (this->imageSourceNative->BeginDraw(rect, &surface, &offset))
+				if (this->imageSourceNative->BeginDraw(pixelRect.ToRECT(), &surface, &offset))
 				{
+					pixelRect.MoveTopLeft(offset.x, offset.y);
+
 					ComPtr<ID3D11Texture2D> texture;
 					if (SUCCEEDED(surface.As(&texture)))
 					{
+						this->Render(RectInt(imageRect), pixelRect, texture.Get());
 					}
 
 					this->imageSourceNative->EndDraw();
@@ -289,4 +283,21 @@ void anim::ImageEditorVM::GraphDeviceReset()
 	this->imageSourceNative.Reset();
 	this->imageSource = nullptr;
 	this->NotifyPropertyChanged("Source");
+}
+
+void anim::ImageEditorVM::Render(const RectInt &imageRect, const RectInt &pixelRect, ID3D11Texture2D *texture)
+{
+	D3D11_TEXTURE2D_DESC textureDesc;
+	texture->GetDesc(&textureDesc);
+
+	D3D11_RENDER_TARGET_VIEW_DESC1 viewDesc;
+	::ZeroMemory(&viewDesc, sizeof(viewDesc));
+	viewDesc.Format = textureDesc.Format;
+	viewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+
+	ComPtr<ID3D11RenderTargetView1> view;
+	if (SUCCEEDED(this->graph->GetDevice3d()->CreateRenderTargetView1(texture, &viewDesc, &view)))
+	{
+		// this->graph->GetContext2d()->Create
+	}
 }

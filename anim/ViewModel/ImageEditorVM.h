@@ -31,6 +31,7 @@ namespace anim
 		void ImagePropertyChanged(Platform::Object ^sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs ^args);
 		void ImageDamaged(RectInt rect);
 		void GraphDeviceReset();
+		void Render(const RectInt &imageRect, const RectInt &pixelRect, ID3D11Texture2D *texture);
 
 		ImageVM ^image;
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;

@@ -295,3 +295,39 @@ double anim::AppState::DipToPixel(double dip)
 {
 	return dip * this->dpiScale;
 }
+
+anim::RectFloat anim::AppState::PixelToDip(RectFloat pixel)
+{
+	return RectFloat(
+		(float)(pixel.left / this->dpiScale),
+		(float)(pixel.top / this->dpiScale),
+		(float)(pixel.right / this->dpiScale),
+		(float)(pixel.bottom / this->dpiScale));
+}
+
+anim::RectFloat anim::AppState::DipToPixel(RectFloat dip)
+{
+	return RectFloat(
+		(float)(dip.left * this->dpiScale),
+		(float)(dip.top * this->dpiScale),
+		(float)(dip.right * this->dpiScale),
+		(float)(dip.bottom * this->dpiScale));
+}
+
+anim::RectDouble anim::AppState::PixelToDip(RectDouble pixel)
+{
+	return RectDouble(
+		pixel.left / this->dpiScale,
+		pixel.top / this->dpiScale,
+		pixel.right / this->dpiScale,
+		pixel.bottom / this->dpiScale);
+}
+
+anim::RectDouble anim::AppState::DipToPixel(RectDouble dip)
+{
+	return RectDouble(
+		dip.left * this->dpiScale,
+		dip.top * this->dpiScale,
+		dip.right * this->dpiScale,
+		dip.bottom * this->dpiScale);
+}

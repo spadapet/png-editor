@@ -56,6 +56,10 @@ namespace anim
 		void SetDpi(double dpi);
 		double PixelToDip(double pixel);
 		double DipToPixel(double dip);
+		RectFloat PixelToDip(RectFloat pixel);
+		RectFloat DipToPixel(RectFloat dip);
+		RectDouble PixelToDip(RectDouble pixel);
+		RectDouble DipToPixel(RectDouble dip);
 
 	private:
 		void Initialize();
