@@ -127,6 +127,8 @@ void anim::ImageEditorVM::Destroy()
 		this->graph = nullptr;
 	}
 
+	this->scratchTexture.Reset();
+
 	this->NotifyPropertyChanged();
 }
 
@@ -280,6 +282,7 @@ void anim::ImageEditorVM::ImageDamaged(RectInt rect)
 
 void anim::ImageEditorVM::GraphDeviceReset()
 {
+	this->scratchTexture.Reset();
 	this->imageSourceNative.Reset();
 	this->imageSource = nullptr;
 	this->NotifyPropertyChanged("Source");
@@ -287,6 +290,35 @@ void anim::ImageEditorVM::GraphDeviceReset()
 
 void anim::ImageEditorVM::Render(const RectInt &imageRect, const RectInt &pixelRect, ID3D11Texture2D *texture)
 {
+	if (this->scratchTexture != nullptr)
+	{
+		D3D11_TEXTURE2D_DESC desc;
+		this->scratchTexture->GetDesc(&desc);
+
+		if ((int)desc.Width < pixelRect.Width() || (int)desc.Height < pixelRect.Height())
+		{
+			this->scratchTexture.Reset();
+		}
+	}
+
+	if (this->scratchTexture == nullptr)
+	{
+		D3D11_TEXTURE2D_DESC desc;
+		::ZeroMemory(&desc, sizeof(desc));
+		desc.Width = pixelRect.Width();
+		desc.Height = pixelRect.Height();
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.Format = DXGI_FORMAT_R16G16B16A16_UNORM;
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+
+		if (FAILED(this->graph->GetDevice3d()->CreateTexture2D(&desc, nullptr, &this->scratchTexture)))
+		{
+			return;
+		}
+	}
+
 	D3D11_TEXTURE2D_DESC textureDesc;
 	texture->GetDesc(&textureDesc);
 

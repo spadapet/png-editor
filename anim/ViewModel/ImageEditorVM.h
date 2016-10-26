@@ -33,13 +33,19 @@ namespace anim
 		void GraphDeviceReset();
 		void Render(const RectInt &imageRect, const RectInt &pixelRect, ID3D11Texture2D *texture);
 
+		// Image document
 		ImageVM ^image;
+		EventCookie imageDamagedCookie;
+		Windows::Foundation::EventRegistrationToken imageChangedToken;
+
+		// Image source for XAML
 		Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource ^imageSource;
 		ComPtr<IVirtualSurfaceImageSourceNative> imageSourceNative;
 		ComPtr<IVirtualSurfaceUpdatesCallbackNative> imageSourceCallback;
-		Windows::Foundation::EventRegistrationToken imageChangedToken;
+
+		// Graphics
 		std::shared_ptr<GraphDevice> graph;
-		EventCookie imageDamagedCookie;
 		EventCookie graphResetCookie;
+		ComPtr<ID3D11Texture2D> scratchTexture;
 	};
 }

@@ -368,6 +368,9 @@
     <ClInclude Include="Core\Rect.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\GraphContextLock.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">

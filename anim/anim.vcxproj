@@ -72,6 +72,7 @@
     <ClInclude Include="Controller\AppController.h" />
     <ClInclude Include="Controller\AppPersist.h" />
     <ClInclude Include="Core\Command.h" />
+    <ClInclude Include="Core\GraphContextLock.h" />
     <ClInclude Include="Core\GraphDevice.h" />
     <ClInclude Include="Core\PngReadInfo.h" />
     <ClInclude Include="Core\Point.h" />

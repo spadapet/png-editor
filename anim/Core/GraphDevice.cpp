@@ -4,10 +4,14 @@
 anim::GraphDevice::GraphDevice()
 	: valid(false)
 {
+	::InitializeCriticalSection(&this->lockContext3d);
+	::InitializeCriticalSection(&this->lockContext2d);
 }
 
 anim::GraphDevice::~GraphDevice()
 {
+	::DeleteCriticalSection(&this->lockContext3d);
+	::DeleteCriticalSection(&this->lockContext2d);
 }
 
 void anim::GraphDevice::Initialize()
@@ -52,9 +56,10 @@ ID3D11Device4 *anim::GraphDevice::GetDevice3d() const
 	return this->device3d.Get();
 }
 
-ID3D11DeviceContext3 *anim::GraphDevice::GetContext3d() const
+anim::GraphContextLock3d anim::GraphDevice::GetContext3d()
 {
-	return this->context3d.Get();
+	::EnterCriticalSection(&this->lockContext3d);
+	return GraphContextLock3d(this->context3d.Get(), this->lockContext3d);
 }
 
 ID2D1Factory3 *anim::GraphDevice::GetFactory2d() const
@@ -67,9 +72,10 @@ ID2D1Device2 *anim::GraphDevice::GetDevice2d() const
 	return this->device2d.Get();
 }
 
-ID2D1DeviceContext2 *anim::GraphDevice::GetContext2d() const
+anim::GraphContextLock2d anim::GraphDevice::GetContext2d()
 {
-	return this->context2d.Get();
+	::EnterCriticalSection(&this->lockContext2d);
+	return GraphContextLock2d(this->context2d.Get(), this->lockContext2d);
 }
 
 bool anim::GraphDevice::InternalInitialize()

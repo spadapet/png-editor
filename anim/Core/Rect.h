@@ -108,6 +108,7 @@ namespace anim
 	};
 
 	typedef RectType<int> RectInt;
+	typedef RectType<unsigned int> RectUInt;
 	typedef RectType<short> RectShort;
 	typedef RectType<float> RectFloat;
 	typedef RectType<double> RectDouble;
