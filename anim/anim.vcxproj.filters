@@ -59,6 +59,9 @@
     <Filter Include="ViewModel\Document">
       <UniqueIdentifier>{56d129d5-cb53-4476-803a-288d452d3b89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Graph">
+      <UniqueIdentifier>{07a59367-4d0d-4919-8dde-5c310c42e9a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -203,11 +206,14 @@
     <ClCompile Include="ViewModel\RasterLayerVM.cpp">
       <Filter>ViewModel\Document</Filter>
     </ClCompile>
-    <ClCompile Include="Core\GraphDevice.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="ViewModel\ImageEditorVM.cpp">
       <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GraphDevice.cpp">
+      <Filter>Core\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Shader.cpp">
+      <Filter>Core\Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +362,6 @@
     <ClInclude Include="ViewModel\RasterLayerVM.h">
       <Filter>ViewModel\Document</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GraphDevice.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="ViewModel\ImageEditorVM.h">
       <Filter>ViewModel</Filter>
     </ClInclude>
@@ -369,7 +372,13 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\GraphContextLock.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GraphDevice.h">
+      <Filter>Core\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Shader.h">
+      <Filter>Core\Graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -482,6 +491,9 @@
     <None Include="TemporaryKey.pfx">
       <Filter>Package</Filter>
     </None>
+    <None Include="Core\Vertex.hlsli">
+      <Filter>Core\Graph</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources.resw">
@@ -507,5 +519,13 @@
     <Page Include="View\OpenFileTabs.xaml">
       <Filter>View</Filter>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Core\TextureVS.hlsl">
+      <Filter>Core\Graph</Filter>
+    </FxCompile>
+    <FxCompile Include="Core\TexturePS.hlsl">
+      <Filter>Core\Graph</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

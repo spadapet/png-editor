@@ -6,7 +6,7 @@ namespace anim
 	class GraphContextLock
 	{
 	public:
-		GraphContextLock(T *context, CRITICAL_SECTION &lock);
+		GraphContextLock(T *context, CRITICAL_SECTION *lock);
 		GraphContextLock(GraphContextLock<T> &&rhs);
 		~GraphContextLock();
 
@@ -22,9 +22,9 @@ namespace anim
 }
 
 template<typename T>
-anim::GraphContextLock<T>::GraphContextLock(T *context, CRITICAL_SECTION &lock)
+anim::GraphContextLock<T>::GraphContextLock(T *context, CRITICAL_SECTION *lock)
 	: context(context)
-	, lock(&lock)
+	, lock(lock)
 {
 }
 

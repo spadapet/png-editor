@@ -21,9 +21,17 @@ namespace anim
 		IDXGIDevice4 *GetDevice() const;
 		ID3D11Device4 *GetDevice3d() const;
 		GraphContextLock3d GetContext3d();
+		GraphContextLock3d TryGetContext3d();
 		ID2D1Factory3 *GetFactory2d() const;
 		ID2D1Device2 *GetDevice2d() const;
 		GraphContextLock2d GetContext2d();
+		GraphContextLock2d TryGetContext2d();
+
+		void RegisterVertexShader(const std::string &name, std::vector<D3D11_INPUT_ELEMENT_DESC> layoutElements);
+		void RegisterPixelShader(const std::string &name);
+		ID3D11VertexShader *GetVertexShader(const std::string &name);
+		ID3D11InputLayout *GetVertexShaderInputLayout(const std::string &name);
+		ID3D11PixelShader *GetPixelShader(const std::string &name);
 
 	private:
 		bool InternalInitialize();

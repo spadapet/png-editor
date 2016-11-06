@@ -46,6 +46,7 @@ namespace anim
 		// Graphics
 		std::shared_ptr<GraphDevice> graph;
 		EventCookie graphResetCookie;
-		ComPtr<ID3D11Texture2D> scratchTexture;
+		ComPtr<ID3D11Texture2D1> scratchTexture;
+		ComPtr<ID3D11RenderTargetView1> scratchRenderTarget;
 	};
 }

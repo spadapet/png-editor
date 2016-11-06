@@ -128,6 +128,7 @@ void anim::ImageEditorVM::Destroy()
 	}
 
 	this->scratchTexture.Reset();
+	this->scratchRenderTarget.Reset();
 
 	this->NotifyPropertyChanged();
 }
@@ -159,7 +160,7 @@ void anim::ImageEditorVM::UpdateVirtualImage()
 
 				POINT offset{ 0, 0 };
 				ComPtr<IDXGISurface> surface;
-				if (this->imageSourceNative->BeginDraw(pixelRect.ToRECT(), &surface, &offset))
+				if (SUCCEEDED(this->imageSourceNative->BeginDraw(pixelRect.ToRECT(), &surface, &offset)))
 				{
 					pixelRect.MoveTopLeft(offset.x, offset.y);
 
@@ -283,6 +284,7 @@ void anim::ImageEditorVM::ImageDamaged(RectInt rect)
 void anim::ImageEditorVM::GraphDeviceReset()
 {
 	this->scratchTexture.Reset();
+	this->scratchRenderTarget.Reset();
 	this->imageSourceNative.Reset();
 	this->imageSource = nullptr;
 	this->NotifyPropertyChanged("Source");
@@ -298,23 +300,22 @@ void anim::ImageEditorVM::Render(const RectInt &imageRect, const RectInt &pixelR
 		if ((int)desc.Width < pixelRect.Width() || (int)desc.Height < pixelRect.Height())
 		{
 			this->scratchTexture.Reset();
+			this->scratchRenderTarget.Reset();
 		}
 	}
 
 	if (this->scratchTexture == nullptr)
 	{
-		D3D11_TEXTURE2D_DESC desc;
-		::ZeroMemory(&desc, sizeof(desc));
-		desc.Width = pixelRect.Width();
-		desc.Height = pixelRect.Height();
-		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		desc.Format = DXGI_FORMAT_R16G16B16A16_UNORM;
-		desc.MipLevels = 1;
-		desc.ArraySize = 1;
+		DXGI_FORMAT format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+		CD3D11_RENDER_TARGET_VIEW_DESC1 viewDesc(D3D11_RTV_DIMENSION_TEXTURE2D, format);
+		CD3D11_TEXTURE2D_DESC1 desc(format, pixelRect.Width(), pixelRect.Height());
+		desc.BindFlags |= D3D11_BIND_RENDER_TARGET;
 
-		if (FAILED(this->graph->GetDevice3d()->CreateTexture2D(&desc, nullptr, &this->scratchTexture)))
+		if (FAILED(this->graph->GetDevice3d()->CreateTexture2D1(&desc, nullptr, &this->scratchTexture)) ||
+			FAILED(this->graph->GetDevice3d()->CreateRenderTargetView1(this->scratchTexture.Get(), &viewDesc, &this->scratchRenderTarget)))
 		{
+			assert(false);
+			this->scratchTexture.Reset();
 			return;
 		}
 	}
@@ -322,14 +323,12 @@ void anim::ImageEditorVM::Render(const RectInt &imageRect, const RectInt &pixelR
 	D3D11_TEXTURE2D_DESC textureDesc;
 	texture->GetDesc(&textureDesc);
 
-	D3D11_RENDER_TARGET_VIEW_DESC1 viewDesc;
-	::ZeroMemory(&viewDesc, sizeof(viewDesc));
-	viewDesc.Format = textureDesc.Format;
-	viewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	CD3D11_RENDER_TARGET_VIEW_DESC1 textureViewDesc(D3D11_RTV_DIMENSION_TEXTURE2D, textureDesc.Format);
 
-	ComPtr<ID3D11RenderTargetView1> view;
-	if (SUCCEEDED(this->graph->GetDevice3d()->CreateRenderTargetView1(texture, &viewDesc, &view)))
+	ComPtr<ID3D11RenderTargetView1> textureView;
+	if (SUCCEEDED(this->graph->GetDevice3d()->CreateRenderTargetView1(texture, &textureViewDesc, &textureView)))
 	{
-		// this->graph->GetContext2d()->Create
+		GraphContextLock3d contextLock = this->graph->GetContext3d();
+		ID3D11DeviceContext3 *context = contextLock.GetContext();
 	}
 }

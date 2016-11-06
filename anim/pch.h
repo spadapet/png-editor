@@ -19,6 +19,7 @@
 #include <dxgi1_5.h>
 #include <d3d11_4.h>
 #include <d2d1_3.h>
+#include <DirectXMath.h>
 
 // Libraries
 #include "../libpng/png.h"

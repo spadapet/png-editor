@@ -59,7 +59,17 @@ ID3D11Device4 *anim::GraphDevice::GetDevice3d() const
 anim::GraphContextLock3d anim::GraphDevice::GetContext3d()
 {
 	::EnterCriticalSection(&this->lockContext3d);
-	return GraphContextLock3d(this->context3d.Get(), this->lockContext3d);
+	return GraphContextLock3d(this->context3d.Get(), &this->lockContext3d);
+}
+
+anim::GraphContextLock3d anim::GraphDevice::TryGetContext3d()
+{
+	if (::TryEnterCriticalSection(&this->lockContext3d))
+	{
+		return GraphContextLock3d(this->context3d.Get(), &this->lockContext3d);
+	}
+
+	return GraphContextLock3d(nullptr, nullptr);
 }
 
 ID2D1Factory3 *anim::GraphDevice::GetFactory2d() const
@@ -75,7 +85,17 @@ ID2D1Device2 *anim::GraphDevice::GetDevice2d() const
 anim::GraphContextLock2d anim::GraphDevice::GetContext2d()
 {
 	::EnterCriticalSection(&this->lockContext2d);
-	return GraphContextLock2d(this->context2d.Get(), this->lockContext2d);
+	return GraphContextLock2d(this->context2d.Get(), &this->lockContext2d);
+}
+
+anim::GraphContextLock2d anim::GraphDevice::TryGetContext2d()
+{
+	if (::TryEnterCriticalSection(&this->lockContext2d))
+	{
+		return GraphContextLock2d(this->context2d.Get(), &this->lockContext2d);
+	}
+
+	return GraphContextLock2d(nullptr, nullptr);
 }
 
 bool anim::GraphDevice::InternalInitialize()
