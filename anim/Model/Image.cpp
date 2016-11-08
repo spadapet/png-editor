@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core/GraphDevice.h"
 #include "Core/PngReadInfo.h"
+#include "Core/Resource.h"
 #include "Core/String.h"
 #include "Model/Image.h"
 #include "Model/RasterLayer.h"

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/PngReadInfo.h"
+#include "Core/Resource.h"
 #include "Core/String.h"
 
 anim::PngReadInfo::PngReadInfo(const unsigned char *bytes, size_t size)

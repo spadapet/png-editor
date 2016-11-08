@@ -14,6 +14,7 @@
     <ClCompile Include="Core\Command.cpp" />
     <ClCompile Include="Core\GraphDevice.cpp" />
     <ClCompile Include="Core\PngReadInfo.cpp" />
+    <ClCompile Include="Core\Resource.cpp" />
     <ClCompile Include="Core\Shader.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="Core\Xaml.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Core\PngReadInfo.h" />
     <ClInclude Include="Core\Point.h" />
     <ClInclude Include="Core\Rect.h" />
+    <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\Shader.h" />
     <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="Core\Xaml.h" />

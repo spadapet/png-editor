@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "Core/Command.h"
-#include "Core/String.h"
+#include "Core/Resource.h"
 #include "Model/PaneInfo.h"
 #include "Model/AppState.h"
 #include "ViewModel/ShellVM.h"
