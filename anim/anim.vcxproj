@@ -2,11 +2,9 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5f708e52-38eb-4751-85e6-a92dc99a51c8}</ProjectGuid>
-    <PackageCertificateKeyFile>anim_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>EACA1554D05ACF1812670D50D3BFE123F094F836</PackageCertificateThumbprint>
   </PropertyGroup>
   <Import Project="..\cpp.props" />
   <ItemGroup>
@@ -150,7 +148,6 @@
     <ClInclude Include="View\Utility\OpenFileUiTemplateSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemContainerStyleSelector.h" />
     <ClInclude Include="View\Utility\ProjectItemTemplateSelector.h" />
-    <None Include="anim_TemporaryKey.pfx" />
     <None Include="Core\Vertex.hlsli" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>

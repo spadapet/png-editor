@@ -497,9 +497,6 @@
     <None Include="Core\Vertex.hlsli">
       <Filter>Core\Graph</Filter>
     </None>
-    <None Include="anim_TemporaryKey.pfx">
-      <Filter>Package</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources.resw">
