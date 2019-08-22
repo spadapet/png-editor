@@ -4,7 +4,6 @@ namespace anim
 {
 	void AssertXamlDesigner();
 	bool IsXamlDesigner();
-	void DisconnectDataTemplateBindings(Platform::Object ^obj);
 
 	template<class T>
 	T ^GetDataFromSender(Platform::Object ^sender);

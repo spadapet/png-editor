@@ -97,7 +97,7 @@
         </Style>
 
         <DataTemplate x:Key="ProjectRootFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Unloaded="OnDataTemplateUnloaded">
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}">
                 <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
                     <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{x:Bind ShowExpanded, Mode=TwoWay}" Visibility="{x:Bind HasItems, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
                 </Border>
@@ -109,7 +109,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="local:ProjectFolderVM">
-            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}}" Unloaded="OnDataTemplateUnloaded">
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}}">
                 <Border Width="{StaticResource RowHeight}" Height="{StaticResource RowHeight}">
                     <ToggleButton Style="{StaticResource ExpanderButtonStyle}" IsChecked="{x:Bind ShowExpanded, Mode=TwoWay}" Visibility="{x:Bind HasItems, Converter={StaticResource BoolToVisible}, Mode=OneWay}" />
                 </Border>
@@ -121,7 +121,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ProjectFileTemplate" x:DataType="local:ProjectFileVM">
-            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}" Unloaded="OnDataTemplateUnloaded">
+            <StackPanel Orientation="Horizontal" Height="{StaticResource RowHeight}" Margin="{x:Bind Level, Converter={StaticResource IndentConverter}, ConverterParameter=1}">
                 <Image Style="{StaticResource ItemIconStyle}" Source="{x:Bind IsOpen, Converter={StaticResource BoolToPicture}, Mode=OneWay}" />
                 <Border Height="{StaticResource RowHeight}" Padding="4,0,0,0" Background="Transparent" ToolTipService.ToolTip="{x:Bind FullPath, Mode=OneWay}">
                     <TextBlock Style="{StaticResource ItemTextStyle}" Text="{x:Bind DisplayName, Mode=OneWay}" />

@@ -26,7 +26,6 @@ namespace anim
 		property IOpenFileVM ^ActiveOpenFile { IOpenFileVM ^get(); }
 
 	private:
-		void OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
 		void OnLoaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
 		void OnUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args);
 		void OnWindowKeyDown(Windows::UI::Core::CoreWindow ^sender, Windows::UI::Core::KeyEventArgs ^args);

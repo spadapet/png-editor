@@ -47,11 +47,6 @@ anim::IOpenFileVM ^anim::Shell::ActiveOpenFile::get()
 		: nullptr;
 }
 
-void anim::Shell::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
-{
-	anim::DisconnectDataTemplateBindings(sender);
-}
-
 void anim::Shell::OnLoaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
 {
 	Windows::UI::Core::CoreWindow ^window = Windows::UI::Xaml::Window::Current->CoreWindow;

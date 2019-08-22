@@ -29,11 +29,6 @@ anim::OpenFileTabsVM ^anim::OpenFileTabs::State::get()
 	return this->state;
 }
 
-void anim::OpenFileTabs::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
-{
-	anim::DisconnectDataTemplateBindings(sender);
-}
-
 void anim::OpenFileTabs::OnTabPointerEntered(Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^args)
 {
 	IOpenFileVM ^file = anim::GetDataFromSender<IOpenFileVM>(sender);

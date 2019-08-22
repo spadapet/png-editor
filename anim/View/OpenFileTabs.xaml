@@ -29,7 +29,7 @@
         </Style>
 
         <DataTemplate x:Key="TabItemTemplate" x:DataType="local:IOpenFileVM">
-            <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="OnTabPointerEntered" PointerExited="OnTabPointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}" Unloaded="OnDataTemplateUnloaded">
+            <StackPanel Orientation="Horizontal" Padding="4" Background="Transparent" PointerEntered="OnTabPointerEntered" PointerExited="OnTabPointerExited" ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" TextTrimming="CharacterEllipsis" MaxWidth="256" />
                 <TextBlock Text="*" Visibility="{x:Bind IsDirty, Converter={StaticResource BoolToVisible}, Mode=OneWay}" Style="{StaticResource TabTextStyle}" />
                 <Grid Margin="4,0,0,0" Width="24" Height="24">
@@ -41,7 +41,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DropTabItemTemplate" x:DataType="local:IOpenFileVM">
-            <Grid ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}" Unloaded="OnDataTemplateUnloaded">
+            <Grid ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource TabTextStyle}" MaxWidth="256" TextTrimming="CharacterEllipsis" />
             </Grid>
         </DataTemplate>
@@ -74,13 +74,13 @@
         </Style>
 
         <DataTemplate x:Key="ImageUiTemplate" x:DataType="local:OpenImageVM">
-            <Grid Unloaded="OnDataTemplateUnloaded">
+            <Grid>
                 <ContentControl Content="{x:Bind UserInterface, Mode=OneWay}" Style="{StaticResource SimpleContentControlStyle}" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="UnknownUiTemplate" x:DataType="local:IOpenFileVM">
-            <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
+            <Grid BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8">
                     <Run Text="Can't edit this type of file." /><LineBreak />
                     <Run Text="Path: " /><Run Text="{x:Bind Path}" />
@@ -89,7 +89,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="NullUiTemplate" x:DataType="local:OpenNullFileVM">
-            <Grid Unloaded="OnDataTemplateUnloaded" BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
+            <Grid BorderThickness="0,4,0,0" BorderBrush="{StaticResource PaneBorderBrush}">
                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" TextWrapping="Wrap">
                     <Hyperlink Click="OnClickOpenFile"><Run Text="Click here" /></Hyperlink><Run Text=" to open an image file. Or use the Explorer pane." />
                 </TextBlock>

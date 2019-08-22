@@ -31,12 +31,6 @@ void anim::FilesPane::OnClickAddFolderLink(Windows::UI::Xaml::Documents::Hyperli
 	this->state->AddFolderCommand->Execute(nullptr);
 }
 
-
-void anim::FilesPane::OnDataTemplateUnloaded(Platform::Object ^sender, Windows::UI::Xaml::RoutedEventArgs ^args)
-{
-	anim::DisconnectDataTemplateBindings(sender);
-}
-
 void anim::FilesPane::OnProjectItemContextMenuOpened(Platform::Object ^sender, Platform::Object ^args)
 {
 	Windows::UI::Xaml::Controls::MenuFlyout ^flyout = dynamic_cast<Windows::UI::Xaml::Controls::MenuFlyout ^>(sender);

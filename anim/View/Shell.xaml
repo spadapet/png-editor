@@ -62,8 +62,7 @@
                 ToolTipService.ToolTip="{x:Bind Name}"
                 Background="{x:Bind IsActive, Converter={StaticResource ActiveToPaneButtonBackground}, Mode=OneWay}"
                 BorderBrush="{x:Bind IsActive, Converter={StaticResource ActiveToPaneBorder}, Mode=OneWay}"
-                Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}, Mode=OneWay}"
-                Unloaded="OnDataTemplateUnloaded">
+                Visibility="{x:Bind IsVisible, Converter={StaticResource BoolToVisible}, Mode=OneWay}">
                 <Image Source="{x:Bind Icon}" Stretch="None" />
             </Button>
         </DataTemplate>
